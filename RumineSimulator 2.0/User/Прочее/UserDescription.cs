@@ -161,36 +161,34 @@ namespace RumineSimulator_2._0
             switch (random.Next(2))
             {
                 case 0:
-                    descr = descr + adeq_Begin[user.character.adeq];
+                    descr = descr + adeq_Begin[user.character.adeq.Param_value];
                     descr_available["Адекватность"] = false;
                     break;
                 case 1:
-                    descr = descr + rakness_Begin[user.character.rakness];
+                    descr = descr + rakness_Begin[user.character.rakness.Param_value];
                     descr_available["Рак"] = false;
                     break;
             }
             //добавляем консервированность юзера
-            descr = descr + cons_Middle[user.character.conservative];
+            descr = descr + cons_Middle[user.character.conservative.Param_value];
             //Название юзера
             descr = descr + Oldness(Date.current_date.Year-user.registration.Year+1);
 
             //второй этап выбора
             if (descr_available["Рак"])
             {
-                descr = descr + rakness_Middle[user.character.rakness];
+                descr = descr + rakness_Middle[user.character.rakness.Param_value];
                 descr_available["Рак"] = false;
             }
             else if (descr_available["Адекватность"])
             {
-                descr = descr + adeq_Middle[user.character.adeq];
+                descr = descr + adeq_Middle[user.character.adeq.Param_value];
                 descr_available["Адекватность"] = false;
             }
             //Добавляем про шанс ухода
             descr = descr + ". ";
-            descr = descr + leave_Middle[user.character.leaveChanse];
+            descr = descr + leave_Middle[user.character.leaveChanse.Param_value];
             //Количество друзей и так далее
-            descr = descr + ".\n\n";
-            descr = descr + ($"Имеет:\n{user.relations.friends.Count} друзей \n{user.relations.comrades.Count} товарищей \n{user.relations.unfriends.Count} неприятелей \n{user.relations.enemies.Count} врагов \n{user.relations.rivals.Count} соперников.\nОстальные {user.relations.All.Count- user.relations.friends.Count- user.relations.enemies.Count-user.relations.comrades.Count-user.relations.unfriends.Count} юзеров нейтральны");
             descr_available.Clear();
             return descr;
         }

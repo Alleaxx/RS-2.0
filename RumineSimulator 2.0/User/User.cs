@@ -14,37 +14,73 @@ namespace RumineSimulator_2._0
         public DateTime registration { get; private set; }
         public DateTime last_activity { get; set; }
 
-        public int curr_timeForTime { get;set; }
+        private int curr_timeForTime { get; set; }
+        public int Curr_timeForRumine
+        {
+            get
+            {
+                return curr_timeForTime;
+            }
+            set
+            {
+                curr_timeForTime = value;
+                if(this == Player.user && Player.enter_rumine)
+                {
+                    curr_timeForTime = 1000;
+                }
+                else if(this == Player.user && !Player.enter_rumine)
+                {
+                    curr_timeForTime = 0;
+                }
+            }
+        }
         public int total_DayActivity { get; set; }
         public int activity_chanse { get; set; }
         public int activity_times { get; set; }
         public int cooldawn { get; set; }
         public int rnd_num { get; set; }
+        public int moder_chanse { get; set; }
 
         public int m_oldness { get; private set; }
 
         public int news { get; set; }
+        public int news_quality { get; private set; }
         public int comments { get; set; }
         public int comments_rate { get; set; }
 
-        public UserGroup group { get; private set; }
-        public UserStereoType stereotype { get; private set; }
-        public UserCharacter character { get; private set; }
-        public UserRelationList relations { get; private set; }
+        public Group group { get; set; }
+        public Character character { get; private set; }
+        public RelationList relations { get; private set; }
         public Reputation reputation { get; }
         public Karma karma { get; }
-        public List<UserTrait> traits = new List<UserTrait>();
+        public Fraction main_fraction { get; set; }
+        public List<Fraction> other_fractions = new List<Fraction>();
+        public List<Trait> traits = new List<Trait>();
+        public List<Ban> bans = new List<Ban>();
+        public Ban LastBan
+        {
+            get
+            {
+                return bans[bans.Count - 1];
+            }
+            set
+            {
+                bans[bans.Count - 1] = value;
+            }
+        }
+        public int forum_influence;
 
 
-        public int messages { get;set; }
+        public int messages { get; set; }
         public int likes { get; set; }
 
-        public bool ban { get; private set; }
-        public bool mod { get; private set; }
+        public bool mod { get;set; }
         public bool admin { get; private set; }
         public bool activity { get; set; }
 
         public string description { get; private set; }
+
+        public bool already_known { get; set; }
 
         public UserDayLog daylog { get; private set; }
         public List<UserDayLog> last_thirty_Days = new List<UserDayLog>();
@@ -58,10 +94,11 @@ namespace RumineSimulator_2._0
         {
             random = new Random();
             //Ник получаем из списка свободных ников
-            nick = UserNicks.SelectFreeNick();
+            nick = Nicks.SelectFreeNick();
 
             //Устанавливаем рандомную дату регистрации(2011 - 30%, 2012 - 30%, 2013 - 40%), на ее основе комменты и новости
             SetRegistration();
+
             SetNewsComments();
             SetMessages();
             reputation = new Reputation(this);
@@ -70,22 +107,24 @@ namespace RumineSimulator_2._0
             activity = false;
 
             //Генерируем характер
-            character = new UserCharacter(this);
-            traits = UserTraitsList.ReturnTraits(this);
+            character = new Character(this);
+            traits = TraitsList.ReturnTraits(this);
 
             //На основе характера получаем стереотип и доступные группы
-            stereotype = UserStereoTypeControl.UserChooseStereType(this);
-
-            //Группу получаем рандомом из списка доступных
-            group = UserGroupsControler.ReturnUserGroup(this);
-            
-
-            //Устанавливаем симпатии юзера
+            group = GroupsList.ReturnRandomGroup();
             SetLikesRatings();
 
             //Инициализируем отношения                                             
-            relations = new UserRelationList();
+            relations = new RelationList();
+            CharacterMod();
+            TraitMod();
             SetActivities();
+            bans.Add(new Ban(this));
+
+            if (AdvRandom.PersentChanseBool(25))
+            {
+                already_known = true;
+            }
 
         }
 
@@ -100,12 +139,12 @@ namespace RumineSimulator_2._0
             }
             else if (AdvRandom.PersentChanseBool(50))
             {
-                registration = new DateTime(random.Next(Date.found_date.Year+1, Date.current_date.Year + 1), random.Next(1, 13), random.Next(1, 29));
+                registration = new DateTime(random.Next(Date.found_date.Year + 1, Date.current_date.Year + 1), random.Next(1, 13), random.Next(1, 29));
 
             }
             else
             {
-                registration = new DateTime(random.Next(Date.found_date.Year+2, Date.current_date.Year + 1), random.Next(1, 13), random.Next(1, 29));
+                registration = new DateTime(random.Next(Date.found_date.Year + 2, Date.current_date.Year + 1), random.Next(1, 13), random.Next(1, 29));
             }
             if (registration.Month <= Date.found_date.Month && registration.Year == Date.found_date.Year)
                 registration = new DateTime(registration.Year, random.Next(Date.found_date.Month + 1, 13), registration.Day);
@@ -114,17 +153,43 @@ namespace RumineSimulator_2._0
             SetOldness();
 
         }
-     
-        private void GroupModifier()
+
+        private void CharacterMod()
         {
-            if (group == UserGroupsControler.Groups[GroupsList.Moderator])
-                mod = true;
-            if (group.journ)
+            news_quality = random.Next(0,10) + character.creativity.Param_value * 5 + character.sciense.Param_value * 5;
+            if(news == 0)
             {
-                news *= random.Next(2, 5) + 5;
-                comments *= random.Next(1, 4) + 10;
+                news_quality = 0;
             }
         }
+
+        private void TraitMod()
+        {
+            if (traits.Contains(TraitsList.AllTraits[Traits.newslover]))
+            {
+                news *= random.Next(1, 3) + 3;
+                comments = comments * random.Next(1, 3) + 5;
+            }
+            if (traits.Contains(TraitsList.AllTraits[Traits.vilka]))
+            {
+                comments = comments * random.Next(1, 4);
+            }
+            if (traits.Contains(TraitsList.AllTraits[Traits.accurateguy]))
+            {
+                news_quality += 10;
+            }
+            if (traits.Contains(TraitsList.AllTraits[Traits.leader]))
+            {
+                forum_influence *= 2;
+            }
+        }
+
+        private void GroupMod()
+        {
+            if (group.mod)
+                mod = true;
+        }
+
         private void SetOldness()
         {
             if (Date.current_date.Year - registration.Year > 1)
@@ -139,7 +204,7 @@ namespace RumineSimulator_2._0
             {
                 m_oldness = Date.current_date.Month - registration.Month + 1;
             }
-            
+
         }
 
         //Установка кол-ва сообщений, комментариев и новостей в зависимости от реги
@@ -162,7 +227,7 @@ namespace RumineSimulator_2._0
         {
             //Изначальное количество новостей - время на сайте * рандомное число
 
-            switch (Date.current_date.Year-registration.Year+1)
+            switch (Date.current_date.Year - registration.Year + 1)
             {
                 case 1:
                     news = random.Next(20);
@@ -177,7 +242,42 @@ namespace RumineSimulator_2._0
                     comments = 8 * random.Next(1, 50) + 75;
                     break;
             }
-            
+        }
+        public void SetModerChanse()
+        {
+            moder_chanse = 0;
+
+            if (traits.Contains(TraitsList.AllTraits[Traits.ded]))
+            {
+                moder_chanse += 10;
+            }
+            else if (traits.Contains(TraitsList.AllTraits[Traits.newfag]))
+            {
+                moder_chanse -= 10;
+            }
+            if (traits.Contains(TraitsList.AllTraits[Traits.accurateguy]))
+            {
+                moder_chanse += 5;
+            }
+            if (traits.Contains(TraitsList.AllTraits[Traits.rak]))
+            {
+                moder_chanse -= 30;
+            }
+            if (traits.Contains(TraitsList.AllTraits[Traits.madguy]))
+            {
+                moder_chanse -= 15;
+            }
+            if (traits.Contains(TraitsList.AllTraits[Traits.Wpower]))
+            {
+                if (random.Next(2) == 0)
+                    moder_chanse += 10;
+            }
+            if (traits.Contains(TraitsList.AllTraits[Traits.leader]))
+            {
+                moder_chanse += 5;
+            }
+            moder_chanse += relations.friends.Count + relations.comrades.Count - relations.enemies.Count - relations.unfriends.Count;
+            moder_chanse *= 2;
 
         }
 
@@ -185,54 +285,11 @@ namespace RumineSimulator_2._0
         private void SetLikesRatings()
         {
             //Первые 2 числа - границы процентов симпатий, вторые два - границы рейтинга комментариев
-            switch (stereotype.type)
-            {
-                case StereoTypesEnum.NewfagUsual:
-                    LikesRateCounting(10, 70, 0, 2);
-                    break;
-                case StereoTypesEnum.NewfagCalm:
-                    LikesRateCounting(20, 80, 0, 3);
-                    break;
-                case StereoTypesEnum.NewfagRak:
-                    LikesRateCounting(10, 50, 0, 1);
-                    break;
-                case StereoTypesEnum.NewfagTroll:
-                    LikesRateCounting(5, 30, 0, 1);
-                    break;
-                case StereoTypesEnum.NewfagSchool:
-                    LikesRateCounting(5, 60, 0, 3);
-                    break;
-                case StereoTypesEnum.UserUsual:
-                    LikesRateCounting(20, 90, 0, 3);
-                    break;
-                case StereoTypesEnum.UserAdvanced:
-                    LikesRateCounting(40, 130, 0, 4);
-                    break;
-                case StereoTypesEnum.UserRak:
-                    LikesRateCounting(10, 60, 0, 2);
-                    break;
-                case StereoTypesEnum.UserRakAdvanced:
-                    LikesRateCounting(10, 30, 0, 2);
-                    break;
-                case StereoTypesEnum.UserSchoolAdv:
-                    LikesRateCounting(10, 70, 0, 3);
-                    break;
-                case StereoTypesEnum.OldfagUsual:
-                    LikesRateCounting(50, 175, 0, 4);
-                    break;
-                case StereoTypesEnum.OldfagMad:
-                    LikesRateCounting(1, 220, 0, 3);
-                    break;
-                case StereoTypesEnum.OldfagRak:
-                    LikesRateCounting(5, 30, 0, 2);
-                    break;
-                case StereoTypesEnum.OldfagBad:
-                    LikesRateCounting(30, 80, 0, 3);
-                    break;
-                case StereoTypesEnum.Something:
-                    LikesRateCounting(1, 100, 0, 2);
-                    break;
-            }
+            int min_like = (10 - character.rakness.Param_value) * 7;
+            int max_like = min_like + (10 - character.adeq.Param_value) * 10;
+            int min_coment = 1;
+            int max_coment = character.adeq.Param_value / 2 + 1;
+            LikesRateCounting(min_like,max_like,min_coment,max_coment);
         }
         private void LikesRateCounting(int min_pers_likes, int max_pers_likes, int min_rate, int max_rate)
         {
@@ -244,6 +301,15 @@ namespace RumineSimulator_2._0
             //Процент от сообщений
             likes = (int)(Convert.ToDouble(messages) * (Convert.ToDouble(random.Next(min_pers_likes, max_pers_likes))) / 100);
         }
+
+        private void SetForum_influence()
+        {
+            forum_influence = this.relations.friends.Count * 5 +
+                relations.comrades.Count * 2 +
+                group.respect * 10 +
+                (likes / 100) + 
+                (int)reputation.Base_reputation;
+        }
         #endregion
 
         //Генерация отношений
@@ -253,9 +319,30 @@ namespace RumineSimulator_2._0
             description = UserDescription.GetTextDescription(this);
             reputation.ReputationRelations(this);
             karma.KarmaUpdate(this);
-            for (int i = 0; i < UserControl.UserAmount; i++)
+            for (int i = 0; i < UserList.UserAmount; i++)
             {
-                blocked_users_rep.Add(UserControl.Users[i],0);
+                blocked_users_rep.Add(UserList.Users[i], 0);
+            }
+            group = GroupsList.ReturnUserGroup(this);
+            GroupMod();
+            SetModerChanse();
+            SetForum_influence();
+        }
+
+        public void JoinFraction(Fraction Fraction, bool main)
+        {
+            if (main)
+            {
+                if (Fraction.MemberAccept(this))
+                {
+                    main_fraction = Fraction;
+                    Fraction.members.Add(this);
+                }
+            }
+            else
+            {
+                other_fractions.Add(Fraction);
+                Fraction.members.Add(this);
             }
         }
 
@@ -268,47 +355,99 @@ namespace RumineSimulator_2._0
         //Обновление юзера со временем
         public void CheckingForUpdates()
         {
-            if (Date.current_date.Hour == 0 && Date.current_date.Minute < Date.current_date_prev.Minute)
-            {
-                SetActivities();
-                daylog = new UserDayLog(this);
-                for (int i = 0; i < UserControl.UserAmount; i++)
-                {
-                    if (blocked_users_rep[UserControl.Users[i]] > 0)
-                        blocked_users_rep[UserControl.Users[i]]--;
-                }
-            }
-            if(Date.current_date.Hour == 23 && Date.current_date.Minute == 59)
-            {
-                if(daylog != null)
-                {
-                    daylog.Changes(this);
-                    last_thirty_Days.Add(daylog);
-                    if (last_thirty_Days.Count > 30)
-                        last_thirty_Days.RemoveAt(0);
-                }               
-            }
-            if (Date.current_date.Minute < Date.current_date_prev.Minute)
-            {
-                if (cooldawn > 0)
-                    cooldawn--;
-            }
             if (Date.current_date.Day == registration.Day + 1)
             {
                 SetOldness();
                 karma.KarmaUpdate(this);
             }
-
+            if(LastBan.banned && LastBan.ban_end == Date.current_date)
+            {
+                Ban ban = new Ban(this);
+                ban = bans[bans.Count - 1].BanEnd(this);
+                bans.Add(ban);
+            }
+        }
+        public void UpdateHour()
+        {
+            if (cooldawn > 0)
+                cooldawn--;
+        }
+        public void UpdateBeginDay()
+        {
+            SetActivities();
+            daylog = new UserDayLog(this);
+            for (int i = 0; i < UserList.UserAmount; i++)
+            {
+                if (blocked_users_rep[UserList.Users[i]] > 0)
+                    blocked_users_rep[UserList.Users[i]]--;
+            }
+            for (int i = 0; i < relations.All.Count; i++)
+            {
+                daylog.addings = relations.All.ElementAt(i).Value.CheckFriendnessChange();
+                relations.All.ElementAt(i).Value.check_relation_change = false;
+            }
+        }
+        public void UpdateEndDay()
+        {
+            if (daylog != null)
+            {
+                daylog.Changes(this);
+                last_thirty_Days.Add(daylog);
+                if (last_thirty_Days.Count > 30)
+                    last_thirty_Days.RemoveAt(0);
+            }
         }
         public void SetActivities()
         {
-            activity_times = random.Next(0,11-random.Next(character.leaveChanse,character.leaveChanse+2));
-            activity_chanse = (11 - character.leaveChanse) * 3;
+            activity_times = random.Next(0, 6) + character.leaveChanse.Param_value/4;
+            activity_chanse = (11 - character.leaveChanse.Param_value) * 7;
         }
 
-        public void SetRandomNum()
+        public void CheckReputation()
         {
-            rnd_num = random.Next(2);
+            //Dictionary<User, bool> last_changes = new Dictionary<User, bool>();
+            //for (int i = reputation.history.Count-random.Next(1,4); i < reputation.history.Count; i++)
+            //{
+            //    if (i < 0)
+            //        i = 0;
+            //    last_changes.Add(reputation.history[i].author, reputation.history[i].otr);
+            //}
+            //int choise = 0;
+            //for (int i = 0; i < last_changes.Count; i++)
+            //{
+            //    if (relations.friends.ContainsKey(last_changes.ElementAt(i).Key) || relations.comrades.ContainsKey(last_changes.ElementAt(i).Key))
+            //        choise += 50;
+            //    else if (relations.enemies.ContainsKey(last_changes.ElementAt(i).Key) || relations.unfriends.ContainsKey(last_changes.ElementAt(i).Key))
+            //        choise -= 50;
+            //    if (last_changes.ElementAt(i).Value)
+            //        choise -= 25;
+            //    else if (last_changes.ElementAt(i).Value)
+            //        choise += 25;
+
+            //    if(choise > 0)
+            //    {
+            //        if (AdvRandom.PersentChanseBool(choise))
+            //        {
+            //            last_changes.ElementAt(i).Key.reputation.ChangeReputation(this, karma.karma, ReputationReason.ReturnReason(false) + "(Убийца - садовник!)");
+            //        }
+            //    }
+            //    else if(choise == 0)
+            //    {
+            //        if(random.Next(2) == 0)
+            //            last_changes.ElementAt(i).Key.reputation.ChangeReputation(this, karma.karma, ReputationReason.ReturnReason(false) + "(Убийца - садовник!)");
+            //        else
+            //            last_changes.ElementAt(i).Key.reputation.ChangeReputation(this, -karma.karma, ReputationReason.ReturnReason(true) + "(Убийца - садовник!)");
+            //    }
+            //    else
+            //    {
+            //        if (AdvRandom.PersentChanseBool(choise))
+            //        {
+            //            last_changes.ElementAt(i).Key.reputation.ChangeReputation(this, -karma.karma, ReputationReason.ReturnReason(true) + "(Убийца - садовник!)");
+            //        }
+            //    }
+
+            //}
+
         }
     }
 }

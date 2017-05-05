@@ -6,67 +6,103 @@
         xmlns:local="clr-namespace:RumineSimulator_2._0"
         xmlns:Properties="clr-namespace:RumineSimulator_2._0.Properties" xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="MainWindow1" x:Class="RumineSimulator_2._0.MainWindow"
         mc:Ignorable="d"
-        Title="Симулятор Румайна v2.0" Icon="icon2.ico" TextOptions.TextFormattingMode="Display" FontFamily="Nirmala UI" Height="800" Width="1000" Background="White">
+        Title="Симулятор Румайна v2.0" Icon="icon2.ico" TextOptions.TextFormattingMode="Display" FontFamily="Nirmala UI" Height="800" Width="1025" Background="White">
     <Grid x:Name="GridMainWindow" Margin="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ToolBar x:Name="toolBar" Margin="1">
+        <ToolBar x:Name="toolBar" Margin="0" Grid.ColumnSpan="2">
             <ToolBar.Background>
-                <ImageBrush ImageSource="Resources/header-day.png" Stretch="UniformToFill" Opacity="0.25"/>
+                <ImageBrush ImageSource="/RumineSimulator 2.0;component/Resources/header-day.png" Stretch="UniformToFill" Opacity="0.25"/>
             </ToolBar.Background>
-            <TextBlock x:Name="StatusTextData" FontSize="16" Text="Нынешняя дата" Margin="5,1,15,1" FontWeight="Medium"/>
-            <TextBlock x:Name="StatusTextActivness" HorizontalAlignment="Center" Margin="5,1" Padding="0" Text="Активность фч" VerticalAlignment="Center"/>
+            <Button x:Name="button_leftToolHide" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="button_leftToolHide_Click" FontWeight="SemiBold" FontSize="14"/>
+            <TextBlock x:Name="StatusTextData" FontSize="16" Text="Нынешняя дата" Margin="5,1" FontWeight="Medium" Width="135"/>
             <Separator/>
-            <RadioButton x:Name="statusRadButton_cont" Content="Продолжить" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,1" Checked="statusRadButton_cont_Checked" Padding="0" IsEnabled="False"/>
-            <RadioButton x:Name="statusRadButton_pause" Content="Пауза" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,1" Padding="0" IsEnabled="False"/>
-            <TextBlock x:Name="StatusTextSpeed" Text="Скорость х1" Margin="10,2,2,2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14"/>
+            <TextBlock x:Name="StatusTextActivness" HorizontalAlignment="Center" Margin="5,1" Padding="0" Text="Активность фч" VerticalAlignment="Center" Width="135"/>
+            <TextBlock x:Name="StatusTextEvent" Text="Событие" Margin="5,1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100"/>
+            <Separator Margin="10,2,2,2"/>
+            <RadioButton x:Name="statusRadButton_cont" Content="&gt;" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,0" Checked="statusRadButton_cont_Checked" Padding="0" IsEnabled="False" FontSize="17" FontWeight="ExtraBlack" VerticalContentAlignment="Top"/>
+            <RadioButton x:Name="statusRadButton_pause" Content="||" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,0" Padding="0" IsEnabled="False" FontSize="17" FontWeight="ExtraBlack" VerticalContentAlignment="Top"/>
+            <TextBlock x:Name="StatusTextSpeed" Text="х1" Margin="10,2,2,2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="SemiBold"/>
             <Button x:Name="StatusSpeed_x1" BorderThickness="0" Content="&gt;" Margin="5,1,2,1" Padding="0" Click="StatusSpeed_x1_Click" IsEnabled="False"/>
             <Button x:Name="StatusSpeed_x2" BorderThickness="0" Content="&gt;&gt;" Margin="2,1" Padding="0" Click="StatusSpeed_x2_Click" IsEnabled="False"/>
             <Button x:Name="StatusSpeed_x3" BorderThickness="0" Content="&gt;&gt;&gt;" Margin="2,1,5,1" Padding="0" Click="StatusSpeed_x3_Click" IsEnabled="False"/>
             <Button x:Name="StatusSpeed_x4" BorderThickness="0" Content="|&gt;" Margin="0,1" Padding="0" Click="StatusSpeed_x4_Click" IsEnabled="False"/>
             <Separator/>
-            <Button x:Name="button_UpdateAll" Content="Обновить" Margin="5,2,0,2" Click="button_UpdateAll_Click"/>
+            <TextBlock x:Name="text_playerOnline" HorizontalAlignment="Center" Margin="2,1,5,1" Text="оффлайн" VerticalAlignment="Center" Style="{DynamicResource TextParamsStyle}" FontWeight="SemiBold"/>
         </ToolBar>
-        <TabControl x:Name="tabControlMain" Margin="0" Grid.RowSpan="2" Grid.Row="1" Background="White">
-            <TabItem Header="Общее" VerticalAlignment="Top" HorizontalAlignment="Center">
+        <TabControl x:Name="tabControlMain" Margin="0" Background="White" Grid.Column="1" Grid.Row="1">
+            <TabItem x:Name="TabItemMain" Header="Общее" VerticalAlignment="Top" HorizontalAlignment="Center">
                 <TabItem.Background>
                     <ImageBrush/>
                 </TabItem.Background>
-                <Grid>
+                <Grid Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="47*"/>
+                        <ColumnDefinition Width="619*"/>
+                        <ColumnDefinition Width="283*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.Background>
-                        <ImageBrush ImageSource="Resources/fon.gif" Stretch="UniformToFill" Opacity="0.15"/>
+                        <ImageBrush ImageSource="/RumineSimulator 2.0;component/Resources/fon.gif" Stretch="UniformToFill" Opacity="0.15"/>
                     </Grid.Background>
-                    <Image x:Name="image" HorizontalAlignment="Left" Height="200" Margin="10,10,0,0" VerticalAlignment="Top" Width="400" Source="Resources/1459031501.png"/>
-                    <StackPanel HorizontalAlignment="Left" Margin="415,34,0,0" VerticalAlignment="Top" Width="242">
-                        <Button x:Name="button_GenerateUsers" Content="Сгенерировать пользователей" VerticalAlignment="Top" Click="button_UserGenerate_Click" Background="Black" Foreground="White" BorderBrush="White" BorderThickness="2" ToolTip="Кнопка для генерации пользователей"/>
-                        <Button x:Name="button_TimeGo" Content="Запустить ход времени" VerticalAlignment="Top" Click="button_TimeGo_Click" Background="Black" Foreground="White" BorderBrush="White" BorderThickness="2" ToolTip="Кнопка для генерации пользователей"/>
-                        <GroupBox x:Name="gB_UpdateTimes" Header="Обновлять страницу каждые..." HorizontalAlignment="Left" VerticalAlignment="Top">
-                            <TextBox x:Name="value_UpdateTime" Margin="1" TextWrapping="Wrap" Text="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" BorderThickness="1" Background="#FFCFCFCF"/>
-                        </GroupBox>
-                        <GroupBox x:Name="gB_userGenerValue" Header="Кол-во пользователей" HorizontalAlignment="Left" VerticalAlignment="Top" Height="41" Width="145">
-                            <TextBox x:Name="value_GenerateUsers" Margin="1" TextWrapping="Wrap" Text="60" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" BorderThickness="1" Background="#FFCFCFCF"/>
-                        </GroupBox>
-                        <RadioButton x:Name="radio_LightInfoUpdate" Content="Облегченный вариант обновления"/>
-                        <RadioButton x:Name="radio_AllInfoUpdate" Content="Обновлять все" IsChecked="True"/>
+                    <Image x:Name="image" HorizontalAlignment="Left" Height="200" Margin="10,10,0,0" VerticalAlignment="Top" Width="400" Source="/RumineSimulator 2.0;component/Resources/1459031501.png" Grid.ColumnSpan="2"/>
+                    <StackPanel HorizontalAlignment="Left" Margin="368,20,0,0" VerticalAlignment="Top" Grid.Column="1">
+                        <Button x:Name="button_GenerateUsers" Content="Сгенерировать пользователей" VerticalAlignment="Top" Click="button_UserGenerate_Click" ToolTip="Кнопка для генерации пользователей" Margin="2" HorizontalContentAlignment="Left" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14" />
+                        <Button x:Name="button_TimeGo" Content="Запустить ход времени" VerticalAlignment="Top" Click="button_TimeGo_Click" ToolTip="Кнопка для генерации пользователей" Margin="2" HorizontalContentAlignment="Left" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14"/>
+                        <DockPanel x:Name="DP_UpdateTimes" LastChildFill="False" Margin="2" VerticalAlignment="Top" HorizontalAlignment="Left" Background="White">
+                            <TextBlock x:Name="label_UpdateTimes" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Обновлять информацию" Background="#FFE6E6E6"/>
+                            <TextBox x:Name="text_UpdateTimes" TextWrapping="Wrap" Text="5" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0"/>
+                        </DockPanel>
+                        <DockPanel x:Name="DP_GenerateTick" LastChildFill="False" Margin="2" VerticalAlignment="Top" HorizontalAlignment="Left" Background="White">
+                            <TextBlock x:Name="label_GenerateTick" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Время между генерацией(мс)"/>
+                            <TextBox x:Name="text_GenerateTick" TextWrapping="Wrap" Text="5" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0"/>
+                        </DockPanel>
+                        <DockPanel x:Name="DP_maxSpeed" LastChildFill="False" Margin="2" VerticalAlignment="Top" HorizontalAlignment="Left" Background="White">
+                            <TextBlock x:Name="label_MaxSpeed" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Максимальная скорость(мс)"/>
+                            <TextBox x:Name="text_MaxSpeed" TextWrapping="Wrap" Text="15" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0"/>
+                        </DockPanel>
+                        <DockPanel x:Name="DP_GeneratedUsers" LastChildFill="False" Margin="2" VerticalAlignment="Top" HorizontalAlignment="Left" Background="White">
+                            <TextBlock x:Name="label_UsersGenerated" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Пользователей"/>
+                            <TextBox x:Name="text_GeneratedUsers" TextWrapping="Wrap" Text="50" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0"/>
+                        </DockPanel>
+                        <RadioButton x:Name="radio_LightInfoUpdate" Content="Облегченный вариант обновления" BorderBrush="#FF969696"/>
+                        <RadioButton x:Name="radio_AllInfoUpdate" Content="Обновлять все" IsChecked="True" BorderBrush="#FF969696"/>
+                        <CheckBox x:Name="checkBox_DescrHide" Content="Спрятать описание пользоваталей" Click="checkBox_DescrHide_Click" BorderBrush="#FF969696"/>
+                        <CheckBox x:Name="checkBox_Testing" Content="Я нубас" Click="checkBox_Testing_Click" BorderBrush="#FF969696"/>
+                        <CheckBox x:Name="checkBox_GodMode" Content="Режим боженьки" Click="checkBox_GodMode_Click" Background="White" BorderBrush="#FF969696"/>
                     </StackPanel>
-                    <TextBox x:Name="text_log" HorizontalAlignment="Right" Margin="2,10,20,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Center" FontSize="14" Text="Здесь будет располагаться лог событий" Height="150"/>
-                    <Button x:Name="button_clearLog" Content="почистить" HorizontalAlignment="Left" Margin="891,167,0,0" VerticalAlignment="Top" Width="75" Click="button_clearLog_Click"/>
-                    <StackPanel HorizontalAlignment="Left" Margin="10,229,0,256" VerticalAlignment="Center" Width="400" Height="225">
-                        <GroupBox x:Name="gB_online" Header="Онлайн" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="2" BorderBrush="#FFB9C1C5" FontSize="18" Width="400">
+                    <TextBox x:Name="text_log" HorizontalAlignment="Right" Margin="0,10,20,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Center" FontSize="14" Text="Здесь будет располагаться лог событий" Height="150" Grid.Column="2"/>
+                    <Button x:Name="button_clearLog" Content="почистить" HorizontalAlignment="Left" Margin="199,167,0,0" VerticalAlignment="Top" Width="75" Click="button_clearLog_Click" Grid.Column="2"/>
+                    <StackPanel x:Name="SP_online" HorizontalAlignment="Left" Margin="10,263,0,185" VerticalAlignment="Center" Width="400" Height="225" Grid.ColumnSpan="2">
+                        <GroupBox x:Name="gB_online" Header="Онлайн" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="1" BorderBrush="#FF969696" FontSize="18" Width="400" Background="White">
                             <WrapPanel x:Name="wrapPanel_online" Margin="2"/>
                         </GroupBox>
-                        <GroupBox x:Name="gB_messagesDay" Header="Сообщений за день" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="2" BorderBrush="#FFB9C1C5" FontSize="18">
-                            <TextBlock x:Name="text_messagesDay" Margin="1" TextWrapping="Wrap" Text="сообщений за день" FontSize="12"/>
+                        <GroupBox x:Name="gB_messagesDay" Header="Сообщений за день" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="1" BorderBrush="#FF969696" FontSize="18" Background="White">
+                            <StackPanel x:Name="SP_messages" Margin="2" VerticalAlignment="Top">
+                                <TextBlock x:Name="text_messagesDay" Margin="0,0,-7,0" TextWrapping="Wrap" Text="сообщений за день" FontSize="12"/>
+                                <TextBlock x:Name="text_messagesPrevMinute" Margin="0,0,-7,0" TextWrapping="Wrap" Text="За последние 20 минут" FontSize="12"/>
+                            </StackPanel>
                         </GroupBox>
-                        <GroupBox x:Name="gB_foundDate" Header="Основание сайта" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <GroupBox x:Name="gB_foundDate" Header="Основание сайта" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FF969696" Background="White">
                             <TextBlock x:Name="text_foundDate" Margin="2" TextWrapping="Wrap" Text="значение"/>
                         </GroupBox>
                     </StackPanel>
+                    <ListBox x:Name="list_Events" HorizontalAlignment="Left" Margin="368,279,0,0" VerticalAlignment="Top" Grid.Column="1">
+                        <ListBoxItem x:Name="testing" Content="События" Template="{DynamicResource TraitsStyle}" Background="#FFBF6B6B"/>
+                    </ListBox>
+                    <ListBox x:Name="list_eventStat" HorizontalAlignment="Left" Margin="470,279,0,0" VerticalAlignment="Top" Grid.Column="1">
+                        <ListBoxItem x:Name="testingSec" Content="Хар-ка события" Template="{DynamicResource UserChooseStyle}"/>
+                    </ListBox>
+                    <ProgressBar x:Name="progBar_Boredom" Height="10" Margin="2,332,2,331" VerticalAlignment="Center" Grid.Column="2" ToolTip="Binding = &quot;{Value}&quot;"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Просмотр информации о юзере" FontFamily="Nirmala UI" HorizontalAlignment="Center" Margin="0">
+            <TabItem x:Name="TabItemUsers" Header="Просмотр информации о юзере" FontFamily="Nirmala UI" HorizontalAlignment="Center" Margin="0">
                 <TabItem.Background>
                     <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                         <GradientStop Color="#FFF0F0F0" Offset="0"/>
@@ -75,7 +111,7 @@
                 </TabItem.Background>
                 <Grid x:Name="GridUserMoreInformation">
                     <Grid.Background>
-                        <ImageBrush Stretch="UniformToFill" ImageSource="Resources/fon.gif" Opacity="0.15"/>
+                        <ImageBrush Stretch="UniformToFill" ImageSource="/RumineSimulator 2.0;component/Resources/fon.gif" Opacity="0.15"/>
                     </Grid.Background>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -90,48 +126,71 @@
                     <Grid Grid.Column="2" HorizontalAlignment="Left" Height="100" Margin="134,210,-9,0" Grid.Row="1" VerticalAlignment="Top" Width="100"/>
                     <Grid x:Name="GridUserMainInfo" Background="#FFE5E5E5" Grid.Column="2" Margin="5,5,5,4" Grid.Row="1" HorizontalAlignment="Left">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="22*"/>
-                            <RowDefinition Height="111*"/>
+                            <RowDefinition Height="Auto" MinHeight="291"/>
+                            <RowDefinition Height="19*"/>
+                            <RowDefinition Height="162*"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <GroupBox x:Name="gB_Stat" Header="Статистика" BorderBrush="#FF323232" Background="White" Margin="2">
+                        <GroupBox x:Name="gB_Stat" Header="Статистика" BorderBrush="#FF323232" Background="White" Margin="2" FontFamily="Segoe UI" VerticalAlignment="Top" FontSize="16" Style="{DynamicResource HeadersStyle}">
                             <StackPanel x:Name="StackPanelStat" Margin="1">
-                                <GroupBox x:Name="gB_comments" Header="Комментарии" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                    <TextBox x:Name="text_comments" TextWrapping="Wrap" Text="value" Margin="0" BorderBrush="#FF1D2442" FontSize="14" IsReadOnly="True" VerticalAlignment="Top" Width="92" Foreground="#FF1D2442"/>
-                                </GroupBox>
-                                <GroupBox x:Name="gB_commentsRate" Header="Рейтинг комментариев" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" FontSize="9" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                    <TextBox x:Name="text_commentsRate" TextWrapping="Wrap" Text="value" Margin="0" BorderBrush="#FF578BE6" FontSize="14" IsReadOnly="True" VerticalAlignment="Top" Width="92"/>
-                                </GroupBox>
-                                <GroupBox x:Name="gB_news" Header="Новости" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                    <TextBox x:Name="text_news" TextWrapping="Wrap" Text="value" Margin="0" BorderBrush="#FF368F23" FontSize="14" IsReadOnly="True" VerticalAlignment="Top" Foreground="#FF368F23" Width="92"/>
-                                </GroupBox>
-                                <GroupBox x:Name="gB_messages" Header="Сообщения" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                    <TextBox x:Name="text_messages" TextWrapping="Wrap" Text="value" Margin="0" BorderBrush="#FF578BE6" FontSize="14" IsReadOnly="True" VerticalAlignment="Top" Foreground="Black" Width="92"/>
-                                </GroupBox>
-                                <GroupBox x:Name="gB_likes" Header="Симпатии" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                    <TextBox x:Name="text_likes" TextWrapping="Wrap" Text="value" Margin="0" BorderBrush="#FF578BE6" FontSize="14" IsReadOnly="True" VerticalAlignment="Top" Foreground="Black" Width="92"/>
-                                </GroupBox>
-                                <GroupBox x:Name="gB_karma" Header="Карма" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="2" FontWeight="Medium">
+                                <DockPanel x:Name="DP_karmaActivity_Copy" LastChildFill="False" Margin="2">
+                                    <TextBlock x:Name="label_comments" TextWrapping="Wrap" Text="Комментарии:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="#FF176400" FontSize="13" Style="{DynamicResource LabelsNewsStyle}"/>
+                                    <TextBlock x:Name="text_comments" TextWrapping="Wrap" Text="0" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="8,2,2,2" FontSize="12" Style="{DynamicResource TextParamsStyle}"/>
+                                </DockPanel>
+                                <DockPanel x:Name="DP_karmaActivity_Copy1" LastChildFill="False" Margin="2">
+                                    <TextBlock x:Name="label_commentsRate" TextWrapping="Wrap" Text="Рейтинг:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" FontSize="13" Style="{DynamicResource LabelsRatesStyle}"/>
+                                    <TextBlock x:Name="text_commentsRate" TextWrapping="Wrap" Text="0" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="8,2,2,2" FontSize="12" Style="{DynamicResource TextParamsStyle}"/>
+                                </DockPanel>
+                                <DockPanel x:Name="DP_karmaActivity_Copy2" LastChildFill="False" Margin="2">
+                                    <TextBlock x:Name="label_news" TextWrapping="Wrap" Text="Новости:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Style="{DynamicResource LabelsNewsStyle}"/>
+                                    <TextBlock x:Name="text_news" TextWrapping="Wrap" Text="0" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="8,2,2,2" FontSize="12" Style="{DynamicResource TextParamsStyle}"/>
+                                </DockPanel>
+                                <DockPanel x:Name="DP_karmaActivity_Copy3" LastChildFill="False" Margin="2">
+                                    <TextBlock x:Name="label_newsQuality" TextWrapping="Wrap" Text="Качество:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="#FF5680A2" FontSize="13" Style="{DynamicResource LabelsRatesStyle}"/>
+                                    <TextBlock x:Name="text_newsQuality" TextWrapping="Wrap" Text="0" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="8,2,2,2" FontSize="12" Style="{DynamicResource TextParamsStyle}"/>
+                                </DockPanel>
+                                <DockPanel x:Name="DP_karmaActivity_Copy4" LastChildFill="False" Margin="2" FocusVisualStyle="{DynamicResource LabelsStyle}">
+                                    <TextBlock x:Name="label_moderChanse" TextWrapping="Wrap" Text="Шанс модератора" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Style="{DynamicResource LabelsStyle}"/>
+                                    <TextBlock x:Name="text_moderChanse" TextWrapping="Wrap" Text="0" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="8,2,2,2" FontSize="12" Style="{DynamicResource TextParamsStyle}"/>
+                                </DockPanel>
+                                <GroupBox x:Name="gB_forum" Header="Форум" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="2" FontSize="15" Style="{DynamicResource HeadersStyle}">
                                     <StackPanel Margin="2">
-                                        <Label x:Name="label_activitykarma" Content="Активность" FontSize="11" Padding="0" Margin="2"/>
-                                        <TextBox x:Name="text_KarmaActivity" TextWrapping="Wrap" Text="0.0" Padding="0" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0" RenderTransformOrigin="0.714,1.765" Margin="0"/>
-                                        <Label x:Name="label_karmarep" Content="Репутация" Padding="0" Margin="2"/>
-                                        <TextBox x:Name="text_KarmaRep" TextWrapping="Wrap" Text="0.0" Padding="0" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0" RenderTransformOrigin="-0.429,-0.368" Margin="0"/>
-                                        <Label x:Name="label_karmanews" Content="Новости" RenderTransformOrigin="-1.2,0.44" Padding="0" Margin="2"/>
-                                        <TextBox x:Name="text_KarmaNews" TextWrapping="Wrap" Text="0.0" Padding="0" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0" RenderTransformOrigin="-0.429,-0.368"/>
+                                        <DockPanel x:Name="DP_karmaActivity1" LastChildFill="False" Margin="2">
+                                            <TextBlock x:Name="label_messages" TextWrapping="Wrap" Text="Сообщения:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" FontSize="13" Style="{DynamicResource LabelsStyle}"/>
+                                            <TextBlock x:Name="text_messages" TextWrapping="Wrap" Text="0" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="5,2,2,2" FontSize="12" FontWeight="Normal" Style="{DynamicResource TextParamsStyle}"/>
+                                        </DockPanel>
+                                        <DockPanel x:Name="DP_karmaRep1" LastChildFill="False" Margin="2">
+                                            <TextBlock x:Name="label_likes" TextWrapping="Wrap" Text="Симпатии" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" FontSize="13" Style="{DynamicResource LabelsStyle}"/>
+                                            <TextBlock x:Name="text_likes" TextWrapping="Wrap" Text="0" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="5,2,2,2" FontSize="12" FontWeight="Normal" Style="{DynamicResource TextParamsStyle}"/>
+                                        </DockPanel>
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox x:Name="gB_karma" Header="Карма" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="2" Style="{DynamicResource HeadersStyle}">
+                                    <StackPanel Margin="2">
+                                        <DockPanel x:Name="DP_karmaActivity" LastChildFill="False" Margin="2">
+                                            <TextBlock x:Name="label_karmaActivity" TextWrapping="Wrap" Text="Активность:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" FontSize="13" Foreground="#FF8D5300" Style="{DynamicResource LabelsStyle}"/>
+                                            <TextBlock x:Name="text_karmaActivity" TextWrapping="Wrap" Text="0" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="5,2,2,2" FontSize="12" FontWeight="Normal" Style="{DynamicResource TextParamsStyle}"/>
+                                        </DockPanel>
+                                        <DockPanel x:Name="DP_karmaRep" LastChildFill="False" Margin="2">
+                                            <TextBlock x:Name="label_karmaRep" TextWrapping="Wrap" Text="Репутация:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" FontSize="13" Foreground="#FF2552E8" Style="{DynamicResource LabelsStyle}"/>
+                                            <TextBlock x:Name="text_karmaRep" TextWrapping="Wrap" Text="0" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="5,2,2,2" FontSize="12" Style="{DynamicResource TextParamsStyle}"/>
+                                        </DockPanel>
+                                        <DockPanel x:Name="DP_karmaNews" LastChildFill="False" Margin="2">
+                                            <TextBlock x:Name="label_karmaNews" TextWrapping="Wrap" Text="Новости:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" FontSize="13" Foreground="#FF176400" Style="{DynamicResource LabelsNewsStyle}"/>
+                                            <TextBlock x:Name="text_karmaNews" TextWrapping="Wrap" Text="0" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="5,2,2,2" FontSize="12" Style="{DynamicResource TextParamsStyle}"/>
+                                        </DockPanel>
                                     </StackPanel>
                                 </GroupBox>
                             </StackPanel>
                         </GroupBox>
-                        <StackPanel x:Name="StackPanelCharacter" Grid.Column="1" Grid.RowSpan="3">
-                            <GroupBox x:Name="gB_Character" Header="Характер" Background="White" Foreground="Black" BorderBrush="#FF323232" HorizontalAlignment="Left" Margin="2,2,0,2">
+                        <StackPanel x:Name="StackPanelCharacter" Grid.Column="1">
+                            <GroupBox x:Name="gB_Character" Header="Характер" Background="White" Foreground="Black" BorderBrush="#FF323232" HorizontalAlignment="Left" Margin="2,2,0,2" Style="{DynamicResource HeadersStyle}">
                                 <StackPanel x:Name="StackPanelChar" Margin="1">
-                                    <GroupBox x:Name="gB_adeq" Header="Благоразумие" Margin="1" ToolTip="????">
+                                    <GroupBox x:Name="gB_adeq" Header="Благоразумие" Margin="1" ToolTip="????" FontFamily="Verdana" Style="{DynamicResource TextParamsStyle}" BorderThickness="1" MouseDown="gB_adeq_MouseDown">
                                         <Slider x:Name="slider_adeq" Margin="2" BorderBrush="White" Foreground="White" BorderThickness="0" IsEnabled="False" AutoToolTipPlacement="TopLeft" ToolTip="">
                                             <Slider.Background>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -149,7 +208,7 @@
                                             </Slider.Background>
                                         </Slider>
                                     </GroupBox>
-                                    <GroupBox x:Name="gB_rakness" Header="Раковитость" Margin="1">
+                                    <GroupBox x:Name="gB_rakness" Header="Раковитость" Margin="1" Style="{DynamicResource TextParamsStyle}" BorderThickness="1" MouseDown="gB_rakness_MouseDown">
                                         <Slider x:Name="slider_rakness" Margin="2" BorderBrush="White" Foreground="White" BorderThickness="0" IsEnabled="False" AutoToolTipPlacement="TopLeft">
                                             <Slider.Background>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -167,7 +226,7 @@
                                             </Slider.Background>
                                         </Slider>
                                     </GroupBox>
-                                    <GroupBox x:Name="gB_conservative" Header="Консервативность" Margin="1">
+                                    <GroupBox x:Name="gB_conservative" Header="Консервативность" Margin="1" Style="{DynamicResource TextParamsStyle}" BorderThickness="1" MouseDown="gB_conservative_MouseDown">
                                         <Slider x:Name="slider_conservative" Margin="1" BorderBrush="White" Foreground="White" BorderThickness="0" IsEnabled="False" AutoToolTipPlacement="TopLeft">
                                             <Slider.Background>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -185,7 +244,7 @@
                                             </Slider.Background>
                                         </Slider>
                                     </GroupBox>
-                                    <GroupBox x:Name="gB_creative" Header="Креативность" Margin="1">
+                                    <GroupBox x:Name="gB_creative" Header="Креативность" Margin="1" Style="{DynamicResource TextParamsStyle}" BorderThickness="1" MouseDown="gB_creative_MouseDown">
                                         <Slider x:Name="slider_creative" Margin="1" BorderBrush="White" Foreground="White" BorderThickness="0" IsEnabled="False" AutoToolTipPlacement="TopLeft" VerticalAlignment="Center">
                                             <Slider.Background>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -203,7 +262,7 @@
                                             </Slider.Background>
                                         </Slider>
                                     </GroupBox>
-                                    <GroupBox x:Name="gB_sciense" Header="Наука" Margin="1">
+                                    <GroupBox x:Name="gB_sciense" Header="Наука" Margin="1" Style="{DynamicResource TextParamsStyle}" BorderThickness="1" MouseDown="gB_sciense_MouseDown">
                                         <Slider x:Name="slider_sciense" Margin="1" BorderBrush="White" Foreground="White" BorderThickness="0" IsEnabled="False" AutoToolTipPlacement="TopLeft" VerticalAlignment="Center">
                                             <Slider.Background>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -221,7 +280,7 @@
                                             </Slider.Background>
                                         </Slider>
                                     </GroupBox>
-                                    <GroupBox x:Name="gB_tolerance" Header="Толерантность" Margin="1">
+                                    <GroupBox x:Name="gB_tolerance" Header="Толерантность" Margin="1" Style="{DynamicResource TextParamsStyle}" BorderThickness="1" MouseDown="gB_tolerance_MouseDown">
                                         <Slider x:Name="slider_tolerance" Margin="1" BorderBrush="White" Foreground="White" BorderThickness="0" IsEnabled="False" AutoToolTipPlacement="TopLeft" VerticalAlignment="Center">
                                             <Slider.Background>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -242,9 +301,33 @@
                                 </StackPanel>
                             </GroupBox>
                         </StackPanel>
-                        <GroupBox x:Name="groupBox" Grid.Column="2" Header="Сравнение" Grid.RowSpan="3">
+                        <GroupBox x:Name="groupBox" Grid.Column="2" Header="Прочее" Grid.RowSpan="3" Style="{DynamicResource HeadersStyle}">
                             <StackPanel x:Name="StackPanelUserRel" Margin="2">
-                                <Expander x:Name="expanderListUser_rel" Header="Выбор пользователя" Margin="2" ScrollViewer.CanContentScroll="True">
+                                <GroupBox x:Name="groupBox1" Header="Отношения" Margin="2" HorizontalAlignment="Left" Style="{DynamicResource HeadersStyle}">
+                                    <StackPanel x:Name="StackPanelRelAmount" Margin="2">
+                                        <DockPanel x:Name="DockPanel_friendsAmount" Margin="2" HorizontalAlignment="Left" Width="150" Background="LimeGreen">
+                                            <TextBlock x:Name="label_friendsAmount" TextWrapping="Wrap" Text="Друзей:" VerticalAlignment="Top" Margin="2" HorizontalAlignment="Left" FontSize="13" Style="{DynamicResource LabelsStyle}"/>
+                                            <TextBlock x:Name="text_friendsAmount" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Margin="2" DockPanel.Dock="Right" HorizontalAlignment="Right" Style="{DynamicResource TextParamsStyle}"/>
+                                        </DockPanel>
+                                        <DockPanel x:Name="DockPanel_comradesAmount" Margin="2,2,0,2" HorizontalAlignment="Left" Width="150" Background="Lime">
+                                            <TextBlock x:Name="label_comradesAmount" TextWrapping="Wrap" Text="Товарищей:" VerticalAlignment="Top" Margin="2" HorizontalAlignment="Left" FontSize="13" Style="{DynamicResource LabelsStyle}"/>
+                                            <TextBlock x:Name="text_comradesAmount" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Margin="2" DockPanel.Dock="Right" HorizontalAlignment="Right" Style="{DynamicResource TextParamsStyle}"/>
+                                        </DockPanel>
+                                        <DockPanel x:Name="DockPanel_neutralsAmount" Margin="2" HorizontalAlignment="Left" Width="150" Background="LightSlateGray">
+                                            <TextBlock x:Name="label_neutralsAmount" TextWrapping="Wrap" Text="Нейтралов:" VerticalAlignment="Top" Margin="2" HorizontalAlignment="Left" FontSize="13" Style="{DynamicResource LabelsStyle}"/>
+                                            <TextBlock x:Name="text_neutralsAmount" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Margin="2" DockPanel.Dock="Right" HorizontalAlignment="Right" Style="{DynamicResource TextParamsStyle}"/>
+                                        </DockPanel>
+                                        <DockPanel x:Name="DockPanel_unfriendsAmount" Margin="2" HorizontalAlignment="Left" Width="150" Background="IndianRed">
+                                            <TextBlock x:Name="label_unfriendsAmount" TextWrapping="Wrap" Text="Неприятелей:" VerticalAlignment="Top" Margin="2" HorizontalAlignment="Left" FontSize="13" Style="{DynamicResource LabelsStyle}"/>
+                                            <TextBlock x:Name="text_unfriendsAmount" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Margin="2" DockPanel.Dock="Right" HorizontalAlignment="Right" Style="{DynamicResource TextParamsStyle}"/>
+                                        </DockPanel>
+                                        <DockPanel x:Name="DockPanel_eneimrsAmount" Margin="2" HorizontalAlignment="Left" Width="150" Background="Red">
+                                            <TextBlock x:Name="label_enemiesAmount" TextWrapping="Wrap" Text="Врагов:" VerticalAlignment="Top" Margin="2" HorizontalAlignment="Left" FontSize="13" Style="{DynamicResource LabelsStyle}"/>
+                                            <TextBlock x:Name="text_enemiesAmount" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Margin="2" DockPanel.Dock="Right" HorizontalAlignment="Right" Style="{DynamicResource TextParamsStyle}"/>
+                                        </DockPanel>
+                                    </StackPanel>
+                                </GroupBox>
+                                <Expander x:Name="expanderListUser_rel" Header="Выбор пользователя" Margin="2" ScrollViewer.CanContentScroll="True" Style="{DynamicResource LabelsStyle}" Expanded="expanderListUser_rel_Expanded">
                                     <StackPanel x:Name="StackPanelListUser_rel" Margin="2">
                                         <TextBlock x:Name="label_sort" TextWrapping="Wrap" Text="Сортировать по..." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2"/>
                                         <ComboBox x:Name="comboBox_SortRel" Margin="2" SelectedIndex="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="comboBoxUserSort_rel_SelectionChanged">
@@ -254,7 +337,7 @@
                                         <ListBox x:Name="list_Relations" Margin="2" SelectionChanged="list_UserRelation_SelectionChanged_1" Background="White" FontWeight="Medium" FontFamily="Segoe UI" VerticalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="400"/>
                                     </StackPanel>
                                 </Expander>
-                                <GroupBox x:Name="gB_RelationInfo" Header="Информация" VerticalAlignment="Top" Width="281" HorizontalAlignment="Left">
+                                <GroupBox x:Name="gB_RelationInfo" Header="Информация" VerticalAlignment="Top" Width="281" HorizontalAlignment="Left" Style="{DynamicResource LabelsStyle}">
                                     <Expander x:Name="expander_UserDifference" Header="Раскрыть/закрыть" Margin="2" VerticalAlignment="Center" Background="{x:Null}">
                                         <StackPanel x:Name="StackPanelDifference" Margin="2">
                                             <DockPanel x:Name="DockDiffNick" LastChildFill="False" Margin="1,1,1,3">
@@ -287,7 +370,7 @@
                                                 <TextBlock x:Name="text_RegDiff2" TextWrapping="Wrap" Text="Регистрация" VerticalAlignment="Top" DockPanel.Dock="Right"/>
                                             </DockPanel>
                                             <DockPanel x:Name="DockDiffNick_Copy1" LastChildFill="False" Margin="1,1,1,3">
-                                                <TextBlock x:Name="text_GroupDiff1" TextWrapping="Wrap" Text="{Binding Text,ElementName=text_Group}" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="13" FontWeight="Medium"/>
+                                                <TextBlock x:Name="text_GroupDiff1" TextWrapping="Wrap" Text="{Binding Text, ElementName=text_Group}" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="13" FontWeight="Medium"/>
                                                 <TextBlock x:Name="text_GroupDiff2" TextWrapping="Wrap" Text="Группа" VerticalAlignment="Top" DockPanel.Dock="Right" FontSize="13" FontWeight="Medium"/>
                                             </DockPanel>
                                             <TextBlock x:Name="label_diff" TextWrapping="Wrap" Text="Разница в..." Margin="1,3,1,1" HorizontalAlignment="Center" FontSize="14" FontWeight="Medium"/>
@@ -360,84 +443,45 @@
                                                 <TextBlock x:Name="label_RepDiff" TextWrapping="Wrap" Text="Репутация" HorizontalAlignment="Center" FontSize="14" FontWeight="Medium"/>
                                             </DockPanel>
                                             <DockPanel x:Name="DockDiffNick_Copy8" Margin="1">
-                                                <TextBlock x:Name="text_CommentsDiff1" TextWrapping="Wrap" Text="{Binding Text,ElementName=text_comments}" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14"/>
+                                                <TextBlock x:Name="text_CommentsDiff1" TextWrapping="Wrap" Text="{Binding Text, ElementName=text_comments}" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14"/>
                                                 <TextBlock x:Name="text_CommentsDiff2" TextWrapping="Wrap" Text="параметр" VerticalAlignment="Top" DockPanel.Dock="Right" FontSize="14"/>
                                                 <TextBlock x:Name="label_CommentDiff" TextWrapping="Wrap" Text="Комментарии" HorizontalAlignment="Center" FontSize="14" FontWeight="Medium"/>
                                             </DockPanel>
                                             <DockPanel x:Name="DockDiffNick_Copy9" Margin="1">
-                                                <TextBlock x:Name="text_NewsDiff1" TextWrapping="Wrap" Text="{Binding Text,ElementName=text_news}" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14"/>
+                                                <TextBlock x:Name="text_NewsDiff1" TextWrapping="Wrap" Text="{Binding Text, ElementName=text_news}" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14"/>
                                                 <TextBlock x:Name="text_NewsDiff2" TextWrapping="Wrap" Text="параметр" VerticalAlignment="Top" DockPanel.Dock="Right" FontSize="14"/>
                                                 <TextBlock x:Name="label_NewsDiff" TextWrapping="Wrap" Text="Новости" HorizontalAlignment="Center" FontSize="14" FontWeight="Medium"/>
                                             </DockPanel>
                                             <DockPanel x:Name="DockDiffNick_Copy10" Margin="1">
-                                                <TextBlock x:Name="text_MessagesDiff1" TextWrapping="Wrap" Text="{Binding Text,ElementName=text_messages}" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14"/>
+                                                <TextBlock x:Name="text_MessagesDiff1" TextWrapping="Wrap" Text="{Binding Text, ElementName=text_messages}" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14"/>
                                                 <TextBlock x:Name="text_MessagesDiff2" TextWrapping="Wrap" Text="параметр" VerticalAlignment="Top" DockPanel.Dock="Right" FontSize="14"/>
                                                 <TextBlock x:Name="label_MessagesDiff" TextWrapping="Wrap" Text="Сообщения" HorizontalAlignment="Center" FontSize="14" FontWeight="Medium"/>
                                             </DockPanel>
                                             <DockPanel x:Name="DockDiffNick_Copy11" Margin="1">
-                                                <TextBlock x:Name="text_LikesDiff1" TextWrapping="Wrap" Text="{Binding Text,ElementName=text_likes}" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14"/>
+                                                <TextBlock x:Name="text_LikesDiff1" TextWrapping="Wrap" Text="{Binding Text, ElementName=text_likes}" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14"/>
                                                 <TextBlock x:Name="text_LikesDiff2" TextWrapping="Wrap" Text="параметр" VerticalAlignment="Top" DockPanel.Dock="Right" FontSize="14"/>
                                                 <TextBlock x:Name="label_LikesDiff" TextWrapping="Wrap" Text="Симпатии" HorizontalAlignment="Center" FontSize="14" FontWeight="Medium"/>
                                             </DockPanel>
                                         </StackPanel>
                                     </Expander>
                                 </GroupBox>
-                                <GroupBox x:Name="gB_UserLog2" Header="Лог пользователя" VerticalAlignment="Top" Width="281" HorizontalAlignment="Left">
+                                <GroupBox x:Name="gB_UserLog2" Header="Лог пользователя" VerticalAlignment="Top" Width="281" HorizontalAlignment="Left" Style="{DynamicResource LabelsStyle}">
                                     <Expander x:Name="expanderUserRel_difference1" Header="Раскрыть/закрыть" Margin="2" VerticalAlignment="Center" Background="{x:Null}">
                                         <GroupBox x:Name="gB_UserLog" Header="Изменения пользователя" Background="White" Foreground="Black" BorderBrush="#FF323232">
                                             <TextBox x:Name="valueUser_log" Margin="2" TextWrapping="Wrap" Text="TextBox" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="230" HorizontalScrollBarVisibility="Auto" Height="450" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto"/>
                                         </GroupBox>
                                     </Expander>
                                 </GroupBox>
-                                <GroupBox x:Name="gB_RepHistory" Header="История репутации" VerticalAlignment="Top">
-                                    <Expander x:Name="expanderUser_histortRep" Header="Раскрыть/закрыть" Margin="2" VerticalAlignment="Center" Background="{x:Null}">
-                                        <GroupBox x:Name="gB_UserLog1" Header="История репутации" Background="White" Foreground="Black" BorderBrush="#FF323232">
-                                            <ListBox x:Name="list_reputationHistory" HorizontalAlignment="Left" Height="400" Margin="2"/>
-                                        </GroupBox>
-                                    </Expander>
-                                </GroupBox>
                             </StackPanel>
                         </GroupBox>
-                        <ListBox x:Name="list_Traits" Margin="2" SelectionChanged="list_Users_SelectionChanged" FontWeight="SemiBold" HorizontalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled" FontFamily="Segoe UI" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Top"/>
+                        <GroupBox x:Name="gB_Description" Header="Описание пользователя" Margin="2" Background="White" Foreground="Black" BorderBrush="#FF323232" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Top" Style="{DynamicResource LabelsStyle}">
+                            <TextBox x:Name="text_UserDescription" Margin="2" TextWrapping="Wrap" Text="TextBox" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" Width="130" Style="{DynamicResource TextParamsStyle}"/>
+                        </GroupBox>
                     </Grid>
-                    <StackPanel Grid.Column="1" Margin="2" Grid.Row="1">
-                        <Image x:Name="image_Ava" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Source="Resources/No_ava.png"/>
-                        <GroupBox x:Name="gB_MainInfo" Header="Ник" Margin="0" BorderBrush="#FF323232" Background="White" FontSize="16" FontFamily="Nirmala UI">
-                            <StackPanel Margin="1">
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <TextBox x:Name="text_Group" TextWrapping="Wrap" Text="value" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" FontSize="12" IsReadOnly="True" FontWeight="Bold" Margin="5,3,-49,3" BorderThickness="0"/>
-                                    <Image x:Name="image_online" Width="10" RenderTransformOrigin="6.5,-4.767" Height="10" Source="Resources/offline.png.gif" Margin="50,2,2,2" HorizontalAlignment="Right"/>
-                                </StackPanel>
-                                <TextBox x:Name="text_Stereotype" TextWrapping="Wrap" Text="value" VerticalAlignment="Top" FontSize="12" IsReadOnly="True" Margin="5,3"/>
-                                <StackPanel Width="140">
-                                    <GroupBox x:Name="gB_reg" Header="Дата регистрации" FontSize="12" HorizontalAlignment="Left" Margin="1">
-                                        <TextBlock x:Name="text_Registration" Margin="2,2,-10,2" TextWrapping="Wrap" Text="значение" Height="14" FontSize="12"/>
-                                    </GroupBox>
-                                    <GroupBox x:Name="gB_LastActivity" Header="Последний заход" Margin="1" HorizontalAlignment="Left" FontSize="12">
-                                        <TextBlock x:Name="text_LastActivity" TextWrapping="Wrap" Text="знечение"/>
-                                    </GroupBox>
-                                    <GroupBox x:Name="gB_oldness" Header="Олдфажность" Margin="1" HorizontalAlignment="Left" FontSize="12">
-                                        <TextBlock x:Name="text_oldness" Margin="1" TextWrapping="Wrap" Text="значение" HorizontalAlignment="Left"/>
-                                    </GroupBox>
-                                </StackPanel>
-                                <CheckBox x:Name="checkBox_Mod" Content="Модераторские права" Margin="5,3" FontSize="12" VerticalContentAlignment="Center"/>
-                                <CheckBox x:Name="checkBox_wantsMod" Content="Желание их получить" Margin="5,3" FontSize="12" VerticalContentAlignment="Center"/>
-                                <GroupBox x:Name="gB_reputation" Header="Репутация" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Center" FontSize="12" Margin="0,3">
-                                    <WrapPanel Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <TextBox x:Name="text_PosRep" Height="23" TextWrapping="Wrap" Text="+0.0" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0" Foreground="#FF30CF0D" Padding="2" FontWeight="Bold"/>
-                                        <TextBox x:Name="text_BaseRep" TextWrapping="Wrap" Text="| -0.0 |" Padding="1" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0" Foreground="#FF2552E8" FontWeight="Bold"/>
-                                        <TextBox x:Name="text_OtrRep" TextWrapping="Wrap" Text="-0.0" Padding="2" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True" BorderThickness="0" Foreground="#FFD8131C" FontWeight="Bold"/>
-                                    </WrapPanel>
-                                </GroupBox>
-                            </StackPanel>
-                        </GroupBox>
-                        <GroupBox x:Name="gB_Description" Header="Описание пользователя" Margin="2" Background="White" Foreground="Black" BorderBrush="#FF323232" Width="150">
-                            <TextBox x:Name="text_UserDescription" Margin="5" TextWrapping="Wrap" Text="TextBox" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="130" HorizontalScrollBarVisibility="Auto"/>
-                        </GroupBox>
-                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="2" Grid.Row="1"/>
                     <StackPanel Margin="2">
-                        <TextBlock x:Name="tb_sort" TextWrapping="Wrap" Text="Сортировать по..." Margin="2" HorizontalAlignment="Center"/>
-                        <ComboBox x:Name="comboBox_userSort" Margin="2" SelectedIndex="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="comboBoxUserSort_all_SelectionChanged">
+                        <TextBlock x:Name="tb_sort" TextWrapping="Wrap" Text="Сортировать по..." Margin="2" HorizontalAlignment="Center" Style="{DynamicResource LabelsStyle}"/>
+                        <ComboBox x:Name="comboBox_userSort" Margin="2" SelectedIndex="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="comboBoxUserSort_all_SelectionChanged" Style="{DynamicResource TextParamsStyle}">
                             <ComboBoxItem Content="Нет сортировки"/>
                             <ComboBoxItem Content="Ценности группы"/>
                             <ComboBoxItem Content="Дате регистрации"/>
@@ -450,6 +494,41 @@
                             <ComboBoxItem Content="Науке"/>
                         </ComboBox>
                     </StackPanel>
+                    <StackPanel x:Name="StackPanelMainInfo" Grid.Column="1" Margin="2" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Top">
+                        <Image x:Name="image_Ava" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Source="/RumineSimulator 2.0;component/Resources/No_ava.png"/>
+                        <GroupBox x:Name="gB_MainInfo" Header="Ник" Margin="2,-2,2,2" BorderBrush="#FF323232" Background="White" FontSize="16" FontFamily="Nirmala UI" Style="{DynamicResource HeadersStyle}">
+                            <StackPanel Margin="1">
+                                <StackPanel Orientation="Horizontal" Margin="2">
+                                    <TextBox x:Name="text_Group" TextWrapping="Wrap" Text="value" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" FontSize="12" IsReadOnly="True" FontWeight="Bold" Margin="5,3,-49,3" BorderThickness="0" Style="{DynamicResource LabelsStyle}"/>
+                                    <Image x:Name="image_online" Width="10" RenderTransformOrigin="6.5,-4.767" Height="10" Source="/RumineSimulator 2.0;component/Resources/offline.png.gif" Margin="50,2,2,2" HorizontalAlignment="Right"/>
+                                </StackPanel>
+                                <TextBlock x:Name="text_RelationPlayer" TextWrapping="Wrap" Text="Отношения 2.0" FontWeight="Medium" Margin="2" FontSize="13"/>
+                                <StackPanel Width="140">
+                                    <GroupBox x:Name="gB_reg" Header="Дата регистрации" Margin="1" VerticalAlignment="Top" Style="{DynamicResource LabelsStyle}">
+                                        <TextBlock x:Name="text_Registration" Margin="2,2,-10,2" TextWrapping="Wrap" Text="значение" Height="14" FontSize="12" Style="{DynamicResource TextParamsStyle}" HorizontalAlignment="Left"/>
+                                    </GroupBox>
+                                    <GroupBox x:Name="gB_LastActivity" Header="Дата посещения" Margin="2" HorizontalAlignment="Left" Style="{DynamicResource LabelsStyle}" VerticalAlignment="Top">
+                                        <TextBlock x:Name="text_LastActivity" TextWrapping="Wrap" Text="значение" Style="{DynamicResource TextParamsStyle}" HorizontalAlignment="Left"/>
+                                    </GroupBox>
+                                </StackPanel>
+                                <CheckBox x:Name="checkBox_Mod" Content="Модераторские права" Margin="5,3" FontSize="12" VerticalContentAlignment="Center" Style="{DynamicResource TextParamsStyle}"/>
+                                <GroupBox x:Name="gB_reputation" Header="Репутация" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Center" Margin="0,3" Style="{DynamicResource LabelsStyle}">
+                                    <WrapPanel x:Name="WrapPanelRep" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <TextBox x:Name="text_PosRep" Height="23" TextWrapping="Wrap" Text="+0.0" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0" Foreground="#FF30CF0D" Padding="2" FontWeight="Bold" Style="{DynamicResource TextParamsStyle}" MouseDoubleClick="text_PosRep_MouseDoubleClick" Cursor="Hand" ToolTip="Повысить репутацию этому пользователю..." Focusable="False"/>
+                                        <TextBox x:Name="text_BaseRep" TextWrapping="Wrap" Text="| -0.0 |" Padding="1" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0" Foreground="#FF2552E8" FontWeight="Bold" Style="{DynamicResource LabelsClickStyle}" MouseDoubleClick="text_BaseRep_MouseDoubleClick" Focusable="False"/>
+                                        <TextBox x:Name="text_OtrRep" TextWrapping="Wrap" Text="-0.0" Padding="2" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True" BorderThickness="0" Foreground="#FFD8131C" FontWeight="Bold" Style="{DynamicResource TextParamsStyle}" MouseDoubleClick="text_OtrRep_MouseDoubleClick" Cursor="Hand" ToolTip="Понизить репутацию этому пользователю..." Focusable="False"/>
+                                    </WrapPanel>
+                                </GroupBox>
+                                <DockPanel x:Name="DP_warningsLevel" LastChildFill="False" Margin="0,2" Width="150">
+                                    <TextBlock x:Name="label_warningsLevel" TextWrapping="Wrap" Text="Предупреждения" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" FontSize="13" Style="{DynamicResource LabelsStyle}"/>
+                                    <TextBlock x:Name="text_warningsLevel" TextWrapping="Wrap" Text="0" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="5,2,2,2" FontSize="12" Style="{DynamicResource LabelsClickStyle}" MouseDown="text_warningsLevel_MouseDown" ToolTip="Журнал предупреждений пользователя"/>
+                                </DockPanel>
+                                <Button x:Name="button_privateCab" Content="Личный кабинет" Margin="2" Click="button_privateCab_Click" FocusVisualStyle="{DynamicResource LabelsStyle}" Template="{DynamicResource ButtonsRumineGrayStyle}" VerticalContentAlignment="Center"/>
+                                <Button x:Name="button_AdminPanel" Content="Админпанель" Margin="2" FocusVisualStyle="{DynamicResource LabelsStyle}" Template="{DynamicResource ButtonsRumineGrayStyle}"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <ListBox x:Name="list_Traits" Margin="2" FontWeight="Medium" HorizontalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled" FontFamily="Segoe UI" VerticalAlignment="Top" SelectionChanged="list_Traits_SelectionChanged" FontSize="14"/>
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabItemUsersList" Header="Список пользователей">
@@ -461,16 +540,15 @@
                 </TabItem.Background>
                 <Grid x:Name="GridListView" Margin="0" >
                     <Grid.Background>
-                        <ImageBrush ImageSource="Resources/fon.gif" Stretch="UniformToFill" Opacity="0.15"/>
+                        <ImageBrush Stretch="UniformToFill" Opacity="0.15"/>
                     </Grid.Background>
-                    <ListView x:Name="listView_Users" Margin="2" FontSize="14" HorizontalContentAlignment="Center">
+                    <ListView x:Name="listView_Users" Margin="2" FontSize="14" HorizontalContentAlignment="Center" Background="White">
                         <ListView.View>
                             <GridView>
                                 <GridView.Columns>
                                     <GridViewColumn Header="Ник" DisplayMemberBinding="{Binding Nick}"></GridViewColumn>
                                     <GridViewColumn Header="Регистрация" DisplayMemberBinding="{Binding Registration}"></GridViewColumn>
                                     <GridViewColumn Header="Группа" DisplayMemberBinding="{Binding Group, StringFormat=\{0:C\}}"></GridViewColumn>
-                                    <GridViewColumn Header="Стереотип" DisplayMemberBinding="{Binding Stereotype}"></GridViewColumn>
                                     <GridViewColumn Header="Посещение" DisplayMemberBinding="{Binding Activity}"></GridViewColumn>
                                     <GridViewColumn Header="Комментарии" DisplayMemberBinding="{Binding Comments}"></GridViewColumn>
                                     <GridViewColumn Header="Рейтинг комментариев" DisplayMemberBinding="{Binding CommentsRate}"></GridViewColumn>
@@ -487,13 +565,300 @@
 
 
             </TabItem>
-            <TabItem Header="Техническое">
+            <TabItem Header="События">
+                <Grid Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox x:Name="list_passedEvents" VerticalAlignment="Top" SelectionChanged="list_passedEvents_SelectionChanged" Margin="2">
+                        <ListBoxItem Content="Все события"/>
+                    </ListBox>
+                    <ListBox x:Name="list_EventChar" Margin="2" Grid.Column="1" VerticalAlignment="Top">
+                        <ListBoxItem Content="Характеристики"/>
+                    </ListBox>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="TabItemTech" Header="Техническое">
                 <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="Auto" MinWidth="160"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox x:Name="list_AllTraits" Margin="2,2,1,1"/>
+                    <TextBox x:Name="text_logAll" HorizontalAlignment="Left" Margin="2" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="5"/>
+                    <ListBox x:Name="list_AverageTemperature" Margin="2" VerticalAlignment="Top" Grid.Column="3" Grid.ColumnSpan="2">
+                        <ListBoxItem Content="Средняя температура" Margin="2"/>
+                    </ListBox>
+                    <ListBox x:Name="list_messagesMonth" Grid.Column="7" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,2,0,0" Height="23" Width="200">
+                        <ListBoxItem Content="Среднее кол-во страниц за месяц" HorizontalAlignment="Left"/>
+                    </ListBox>
+                    <ListBox x:Name="list_messagesYear" Grid.Column="6" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,2,0,0">
+                        <ListBoxItem Content="Среднее кол-во страниц за год"/>
+                    </ListBox>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Пользователи">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Expander x:Name="exp_choose" Header="Выбор пользователя" Margin="2" IsExpanded="True" Collapsed="exp_choose_Collapsed" ScrollViewer.CanContentScroll="True" UseLayoutRounding="True" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left">
+                        <WrapPanel x:Name="WrapListUsers" Margin="2" UseLayoutRounding="False"/>
+                    </Expander>
+                    <Expander x:Name="exp_info" Header="Профиль пользователя" Margin="2" Grid.Row="1" IsExpanded="True" Collapsed="exp_info_Collapsed">
+                        <Expander.Background>
+                            <ImageBrush ImageSource="Resources/fon.gif" Stretch="UniformToFill" Opacity="0.1"/>
+                        </Expander.Background>
+                        <Grid x:Name="GridExpanderInfo" Margin="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto" MinHeight="85"/>
+                                <RowDefinition Height="Auto" MinHeight="81"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <StackPanel x:Name="SPAvaPlace" Margin="0" VerticalAlignment="Top" Orientation="Horizontal" Grid.ColumnSpan="4" Height="100">
+                                <Image x:Name="image_Ava1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Source="Resources/No_ava.png"/>
+                                <StackPanel x:Name="SPNickPlace" Height="100" Width="200" Margin="15,0,0,0">
+                                    <StackPanel x:Name="SPNick" Orientation="Horizontal" Background="White">
+                                        <TextBlock x:Name="text_Nick" TextWrapping="Wrap" Text="Ник" Margin="0,0,10,0" FontSize="20" FontWeight="Medium"/>
+                                        <Button x:Name="bt_NickEdit" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,4,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
+                                            <Button.Background>
+                                                <ImageBrush ImageSource="Resources/pen.png" Stretch="Uniform" />
+                                            </Button.Background>
+                                        </Button>
+                                    </StackPanel>
+                                    <StackPanel x:Name="SPGroup" Orientation="Horizontal" Background="White">
+                                        <TextBlock x:Name="text_Group1" TextWrapping="Wrap" Text="Группа" Margin="0,0,10,0" FontSize="16" FontWeight="Medium"/>
+                                        <Button x:Name="bt_GroupEdit" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,4,5,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
+                                            <Button.Background>
+                                                <ImageBrush ImageSource="Resources/pencil.jpg" Stretch="Uniform" />
+                                            </Button.Background>
+                                        </Button>
+                                        <Button x:Name="bt_GroupQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,4,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
+                                            <Button.Background>
+                                                <ImageBrush ImageSource="Resources/quest.jpg" />
+                                            </Button.Background>
+                                        </Button>
+                                    </StackPanel>
+                                    <StackPanel x:Name="SPOldness" Orientation="Horizontal" Background="White">
+                                        <TextBlock x:Name="text_Dates" TextWrapping="Wrap" Text="26.09.16 - 21.05.18" Margin="0,0,10,0" FontSize="16" FontWeight="Medium"/>
+                                        <Button x:Name="bt_DatesQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
+                                            <Button.Background>
+                                                <ImageBrush ImageSource="Resources/quest.jpg" />
+                                            </Button.Background>
+                                        </Button>
+                                    </StackPanel>
+                                    <StackPanel x:Name="SPRelation" Orientation="Horizontal" Background="White">
+                                        <TextBlock x:Name="text_Relation1" TextWrapping="Wrap" Text="Друг" Margin="0,0,10,0" FontSize="16" FontWeight="Medium"/>
+                                        <Button x:Name="bt_RelationQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,4,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
+                                            <Button.Background>
+                                                <ImageBrush ImageSource="Resources/quest.jpg" />
+                                            </Button.Background>
+                                        </Button>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel x:Name="SPReputationKarma" Margin="0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="85">
+                                <StackPanel x:Name="SPReputationControl" Orientation="Horizontal" Margin="2" HorizontalAlignment="Center" Background="White">
+                                    <Button x:Name="button_ReputationPlus" Content="(+0.00)" Margin="2" Height="25" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" BorderBrush="#FF6A6262" Background="White" Foreground="#FF30CF0D" FontSize="14" FontWeight="Bold" BorderThickness="0"/>
+                                    <Button x:Name="button_ReputationBase1" Content="(0.00)" Margin="2" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" BorderBrush="#FF6A6262" Background="White" Foreground="#FF2552E8" FontSize="14" FontWeight="Bold" BorderThickness="0"/>
+                                    <Button x:Name="button_ReputationMinus" Content="(-0.00)" Margin="2" Height="25" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" BorderBrush="#FF6A6262" Foreground="#FFD8131C" Background="White" FontSize="14" FontWeight="Bold" BorderThickness="0"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SPKarma" Orientation="Horizontal" Margin="2" HorizontalAlignment="Center" Background="White">
+                                    <TextBlock x:Name="text_KarmaBase" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Карма: 1.5 (1Н + 1Р + 1А)" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
+                                    <Button x:Name="bt_RepKarmaQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="Resources/quest.jpg" />
+                                        </Button.Background>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel x:Name="SPStatSite" Margin="5,5,0,5" Grid.Row="3">
+                                <TextBox x:Name="label_StatSite" TextWrapping="Wrap" Text="Сайт" Style="{DynamicResource TextHeaderStyle}" HorizontalContentAlignment="Center" Margin="0,0,0,5" BorderThickness="1,1,0,1"/>
+                                <StackPanel x:Name="SPComments" Orientation="Horizontal" Margin="2" HorizontalAlignment="Left" Background="#FFD4ECC6">
+                                    <TextBlock x:Name="text_Comments" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Комментарии: 120" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
+                                    <Button x:Name="bt_CommentsQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="Resources/quest.jpg" />
+                                        </Button.Background>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel x:Name="SPCommentsRate" Orientation="Horizontal" Margin="2,2,0,2" HorizontalAlignment="Left" Background="#FFD4ECC6">
+                                    <TextBlock x:Name="text_CommentsRate" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Рейтинг К.: +200" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SPNews" Orientation="Horizontal" Margin="2,2,0,2" HorizontalAlignment="Left" Background="#FFD4ECC6">
+                                    <TextBlock x:Name="text_News" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Новостей: 15 (30%)" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
+                                    <Button x:Name="bt_NewsQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="Resources/quest.jpg" />
+                                        </Button.Background>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel x:Name="SPInfluence" Orientation="Horizontal" Margin="2,2,0,2" HorizontalAlignment="Left" Background="#FFDBE2F7">
+                                    <TextBlock x:Name="text_Influence" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Влияние: 100" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
+                                    <Button x:Name="bt_InfluenceQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="Resources/quest.jpg" />
+                                        </Button.Background>
+                                    </Button>
+                                </StackPanel>
+                                <TextBox x:Name="label_StatSite_Copy" TextWrapping="Wrap" Style="{DynamicResource TextHeaderStyle}" HorizontalContentAlignment="Center" Margin="0,0,0,5" BorderThickness="1,1,0,1"/>
+                                <StackPanel x:Name="SPLeaveChanse" Orientation="Horizontal" Margin="2,2,0,2" HorizontalAlignment="Left" Background="White">
+                                    <TextBlock x:Name="text_LeaveChanse" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Шанс ухода: высокий" VerticalAlignment="Top" Foreground="Black" FontSize="15" Margin="5,2"/>
+                                    <Button x:Name="bt_LeaveChanseQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="Resources/quest.jpg" />
+                                        </Button.Background>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel x:Name="SPStatForum" Grid.Column="1" Margin="0,5,5,5" Grid.Row="3">
+                                <TextBox x:Name="label_StatForum" TextWrapping="Wrap" Text="Форум" Style="{DynamicResource TextHeaderStyle}" HorizontalContentAlignment="Center" Margin="0,0,0,5" BorderThickness="0,1,1,1"/>
+                                <StackPanel x:Name="SPMessages" Orientation="Horizontal" Margin="2,2,0,2" HorizontalAlignment="Left" Background="#FFEEEEC2">
+                                    <TextBlock x:Name="text_Messages" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Сообщений: 500" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
+                                    <Button x:Name="bt_messagesQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="Resources/quest.jpg" />
+                                        </Button.Background>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel x:Name="SPLikes" Orientation="Horizontal" Margin="2,2,0,2" HorizontalAlignment="Left" Background="#FFEEEEC2">
+                                    <TextBlock x:Name="text_Likes" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Симпатий: 300" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
+                                    <Button x:Name="bt_LikesQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="Resources/quest.jpg" />
+                                        </Button.Background>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel x:Name="SPWarns" Orientation="Horizontal" Margin="2,2,0,2" HorizontalAlignment="Left" Background="#FFFFDBE1">
+                                    <TextBlock x:Name="text_Warnings" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Предупреждений: 0" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
+                                    <Button x:Name="bt_WarnsQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="Resources/quest.jpg" />
+                                        </Button.Background>
+                                    </Button>
+                                </StackPanel>
+                                <TextBox x:Name="label_StatForum_Copy" TextWrapping="Wrap" Style="{DynamicResource TextHeaderStyle}" HorizontalContentAlignment="Center" Margin="0,0,0,5" BorderThickness="0,1,1,1"/>
+                                <StackPanel x:Name="SPModerChanse" Orientation="Horizontal" Margin="2,2,0,2" HorizontalAlignment="Left" Background="White">
+                                    <TextBlock x:Name="text_ModerChanse" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Шанс модератора: высокий" VerticalAlignment="Top" Foreground="Black" FontSize="15" Margin="5,2"/>
+                                    <Button x:Name="bt_ModerChanseQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="Resources/quest.jpg" />
+                                        </Button.Background>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel x:Name="SPTraits" Grid.Column="2" Margin="5" Grid.Row="1" Grid.RowSpan="3">
+                                <TextBox x:Name="label_TraitStat" TextWrapping="Wrap" Text="Фактические черты" Style="{DynamicResource TextHeaderStyle}" HorizontalContentAlignment="Center" Margin="0"/>
+                                <ListBox x:Name="list_TraitsStat" FontWeight="Medium" FontSize="14"/>
+                                <TextBox x:Name="label_TraitChar" TextWrapping="Wrap" Text="Персональные черты" Style="{DynamicResource TextHeaderStyle}" HorizontalContentAlignment="Center" Margin="0"/>
+                                <ListBox x:Name="list_TraitsChar" FontSize="14" FontWeight="Medium"/>
+                            </StackPanel>
+                            <StackPanel x:Name="SPChar" Grid.Column="3" Margin="5" Grid.Row="1" Grid.RowSpan="3">
+                                <TextBox x:Name="label_CharChar" TextWrapping="Wrap" Text="Характер" Style="{DynamicResource TextHeaderStyle}" HorizontalContentAlignment="Center" Margin="0"/>
+                                <TextBlock x:Name="label_Adeq" TextWrapping="Wrap" Text="Адекватность" FontSize="14" Margin="10,2,2,0" FontWeight="Medium"/>
+                                <DockPanel x:Name="DPAdeq" Margin="2,0,2,2">
+                                    <Button x:Name="btn_Adeq2" Content="Интеллигент" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" Padding="0" FontSize="14" Width="110"/>
+                                    <ProgressBar x:Name="PB_adeq" VerticalAlignment="Center" DockPanel.Dock="Right" Height="10" Maximum="10" Value="5" Foreground="#FF4B85FF" Margin="15,0,0,0"/>
+                                </DockPanel>
+                                <TextBlock x:Name="label_rakness" TextWrapping="Wrap" Text="Раковитость" FontSize="14" Margin="10,2,2,0" FontWeight="Medium"/>
+                                <DockPanel x:Name="DPRakness" Margin="2,0,2,2">
+                                    <Button x:Name="btn_Rakness" Content="Рак" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" Padding="0" FontSize="14" Width="110"/>
+                                    <ProgressBar x:Name="PB_rakness" VerticalAlignment="Center" DockPanel.Dock="Right" Height="10" Maximum="10" Value="5" Foreground="#FFFF1919" Margin="15,0,0,0"/>
+                                </DockPanel>
+                                <TextBlock x:Name="label_Cons" TextWrapping="Wrap" Text="Консервативность" FontSize="14" Margin="10,2,2,0" FontWeight="Medium"/>
+                                <DockPanel x:Name="DPCons" Margin="2,0,2,2">
+                                    <Button x:Name="btn_Cons" Content="Старый дед" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" Padding="0" FontSize="14" Width="110"/>
+                                    <ProgressBar x:Name="PB_Cons" VerticalAlignment="Center" DockPanel.Dock="Right" Height="10" Maximum="10" Value="5" Foreground="#FFB98F1D" Margin="15,0,0,0"/>
+                                </DockPanel>
+                                <TextBlock x:Name="label_Tolerance" TextWrapping="Wrap" Text="Толерантность" FontSize="14" Margin="10,2,2,0" FontWeight="Medium"/>
+                                <DockPanel x:Name="DPTolerance" Margin="2,0,2,2">
+                                    <Button x:Name="btn_Tolerance" Content="Добряк" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" Padding="0" FontSize="14" Width="110"/>
+                                    <ProgressBar x:Name="PB_Tolerance" VerticalAlignment="Center" DockPanel.Dock="Right" Height="10" Maximum="10" Value="5" Foreground="#FF27DC15" Margin="15,0,0,0"/>
+                                </DockPanel>
+                                <TextBox x:Name="label_CharSkills" TextWrapping="Wrap" Text="Умения" Style="{DynamicResource TextHeaderStyle}" HorizontalContentAlignment="Center" Margin="0"/>
+                                <TextBlock x:Name="label_Creative" TextWrapping="Wrap" Text="Креативность" FontSize="14" Margin="10,2,2,0" FontWeight="Medium"/>
+                                <DockPanel x:Name="DPCreative" Margin="2,0,2,2">
+                                    <Button x:Name="btn_Creative" Content="Креативщик" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" Padding="0" FontSize="14" Width="110"/>
+                                    <ProgressBar x:Name="PB_Creative" VerticalAlignment="Center" DockPanel.Dock="Right" Height="10" Maximum="10" Value="5" Foreground="#FF723EFF" Margin="15,0,0,0"/>
+                                </DockPanel>
+                                <TextBlock x:Name="label_Sciense" TextWrapping="Wrap" Text="Науки" FontSize="14" Margin="10,2,2,0" FontWeight="Medium"/>
+                                <DockPanel x:Name="DPSciense" Margin="2,0,2,2">
+                                    <Button x:Name="btn_Sciense" Content="Технарь" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" Padding="0" FontSize="14" Width="110"/>
+                                    <ProgressBar x:Name="PB_sciense" VerticalAlignment="Center" DockPanel.Dock="Right" Height="10" Maximum="10" Value="5" Foreground="#FF3232F9" Margin="15,0,0,0"/>
+                                </DockPanel>
+                                <DockPanel x:Name="DPHumanist" Margin="2,0,2,2">
+                                    <Button x:Name="btn_Humanist" Content="Гуманитарий" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" Padding="0" FontSize="14" Width="110"/>
+                                    <ProgressBar x:Name="PB_Humanist" VerticalAlignment="Center" DockPanel.Dock="Right" Height="10" Maximum="10" Value="5" Foreground="#FFF9AA38" Margin="15,0,0,0" Background="White"/>
+                                </DockPanel>
+                                <TextBlock x:Name="label_Historic" TextWrapping="Wrap" Text="История" FontSize="14" Margin="10,2,2,0" FontWeight="Medium"/>
+                                <DockPanel x:Name="DPHistoric" Margin="2,0,2,2">
+                                    <Button x:Name="btn_Historic" Content="Знаток" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" Padding="0" FontSize="14" Width="110"/>
+                                    <ProgressBar x:Name="PB_Historic" VerticalAlignment="Center" DockPanel.Dock="Right" Height="10" Maximum="10" Value="5" Foreground="#FFFFE64B" Margin="15,0,0,0"/>
+                                </DockPanel>
+                            </StackPanel>
+                            <TextBlock x:Name="text_UserDescr" Grid.Column="3" HorizontalAlignment="Center" Margin="94,5,260,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" FontSize="14" Height="19" Width="56"/>
+                            <StackPanel x:Name="SPFraction1" Margin="0" Grid.Row="2" Grid.ColumnSpan="2">
+                                <StackPanel x:Name="SPMainFraction" Orientation="Horizontal" Margin="2" HorizontalAlignment="Center" Background="White">
+                                    <TextBlock x:Name="text_MainFraction" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Верующие коммунисты" VerticalAlignment="Top" Foreground="#FF3E3E3E" FontSize="16" FontWeight="Medium" Margin="5,2"/>
+                                    <Button x:Name="bt_RepKarmaQuest1" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="Resources/quest.jpg" />
+                                        </Button.Background>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel x:Name="SPMainFraction_member" Orientation="Horizontal" Margin="94.5,2" HorizontalAlignment="Center" Background="White">
+                                    <TextBlock x:Name="text_MainFractionMember" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Лидер" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
+                                    <Button x:Name="bt_RepKarmaQuest2" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="Resources/quest.jpg" />
+                                        </Button.Background>
+                                    </Button>
+                                </StackPanel>
+                                <Expander x:Name="expander" Header="Остальные фракции" HorizontalAlignment="Center">
+                                    <ListBox x:Name="list_Fractions" FontSize="14" FontWeight="Medium"/>
+                                </Expander>
+                            </StackPanel>
+                        </Grid>
+                    </Expander>
 
                 </Grid>
             </TabItem>
 
         </TabControl>
+        <StatusBar Margin="2,2,47,2" Grid.Row="2" Grid.Column="1">
+            <StackPanel Margin="0,0,2,0">
+                <TextBox x:Name="text_statusLog" TextWrapping="Wrap" Margin="2" TextChanged="text_statusLog_TextChanged" Text="Лог" FontSize="16"/>
+            </StackPanel>
+        </StatusBar>
+        <ToolBarTray x:Name="toolbarTrayLeft" HorizontalAlignment="Left" Margin="0" Orientation="Vertical" Grid.Row="1" Grid.RowSpan="2">
+            <ToolBar x:Name="toolBarLeft" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Button x:Name="status_playerOnline" Content="Вы" FontWeight="SemiBold" Foreground="#FF176093" BorderBrush="#FF707070" Template="{DynamicResource ButtonsRumineGrayStyle}" Margin="0,2" Click="status_playerOnline_Click"/>
+                <Button x:Name="status_UpdateAll" Content="F5" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2" Click="button_UpdateAll_Click"/>
+                <Button x:Name="status_FastPrivateCab" Content="Кб" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2" Click="button_privateCab_Click"/>
+            </ToolBar>
+        </ToolBarTray>
 
     </Grid>
 </Window>

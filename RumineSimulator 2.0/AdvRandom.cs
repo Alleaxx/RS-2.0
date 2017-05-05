@@ -10,9 +10,9 @@ namespace RumineSimulator_2._0
     {
         static public Random random = new Random();
 
-        static public bool PersentChanseBool(int persent)
+        static public bool PersentChanseBool(int persent,int gran = 100)
         {
-            if (random.Next(0, 100) <= persent)
+            if (random.Next(0, gran) <= persent)
                 return true;
             else
                 return false;

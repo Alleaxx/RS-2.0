@@ -9,9 +9,43 @@ namespace RumineSimulator_2._0
     class Reputation
     {
         public User owner { get; private set; }
-        public float pos_reputation { get; private set; }
-        public float base_reputation { get; private set; }
-        public float otr_reputation { get; private set; }
+        private double pos_reputation;
+        public double Pos_reputation
+        {
+            get
+            {
+                return Math.Round(pos_reputation, 1);
+            }
+            set
+            {
+                pos_reputation = value;
+            }
+        }
+        private double base_reputation;
+        public double Base_reputation
+        {
+            get
+            {
+                return Math.Round(base_reputation, 1);
+            }
+            set
+            {
+                base_reputation = value;
+            }
+        }
+        private double otr_reputation;
+        public double Otr_reputation
+        {
+            get
+            {
+                return Math.Round(otr_reputation, 1);
+            }
+            set
+            {
+                otr_reputation = value;
+            }
+        }
+
         public List<ReputationHistory> history = new List<ReputationHistory>();
         Random random = new Random();
 
@@ -71,12 +105,12 @@ namespace RumineSimulator_2._0
                     wish_modif_pos += 15;
                     wish_modif_otr += 10;
                 }
-                if(user.character.rakness > 5)
+                if(user.character.rakness.Param_value > 5)
                 {
                     wish_modif_pos += -30;
                     wish_modif_otr += 46;
                 }
-                if (user.character.Creativity > 5 || user.character.Sciense > 5)
+                if (user.character.creativity.Param_value > 5 || user.character.sciense.Param_value > 5)
                 {
                     wish_modif_pos += 15;
                 }
@@ -118,23 +152,44 @@ namespace RumineSimulator_2._0
 
         }
 
-        public void ChangeReputation(User author, float Value, string reason)
+        public bool ChangeReputation(User author, float Value, string reason)
         {
-            ReputationHistory log;
-            if (Value > 0)
+            if (author.blocked_users_rep[owner] == 0 || (author == Player.user && GlobalParams.GodMode))
             {
-                log = new ReputationHistory(author, Value, reason, false);
-                pos_reputation += Value;
+                ReputationHistory log;
+                if (Value > 0)
+                {
+                    log = new ReputationHistory(author, Value, reason, false);
+                    pos_reputation += Value;
+                    owner.relations.All[author].Chanse_friendness_up += 10;
+                }
+                else
+                {
+                    log = new ReputationHistory(author, Value, reason, true);
+                    otr_reputation -= Value;
+                    owner.relations.All[author].Chanse_friendness_down += 10;
+                }
+                base_reputation = pos_reputation - otr_reputation;
+                author.blocked_users_rep[owner] = 14;
+                history.Add(log);
+                return true;
             }
             else
             {
-                log = new ReputationHistory(author, Value, reason, true);
-                otr_reputation -= Value;
+                return false;
             }
-            base_reputation = pos_reputation - otr_reputation;
-            author.blocked_users_rep[owner] = 14;
-            history.Add(log);
+
         }
+
+        public List<ReputationHistory> ReturnRepHistorySort()
+        {
+            var sortedGr = from i in history
+                           orderby i.date descending
+                           select i;
+            return sortedGr.ToList();
+        }
+
+
 
 
     }

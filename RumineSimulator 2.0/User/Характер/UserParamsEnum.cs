@@ -8,8 +8,14 @@ namespace RumineSimulator_2._0
 {
     enum UserParamsEnum
     {
+        nothing,
         creativity,
         sciense,
-        rakness
+        rakness,
+        adeq,
+        tolerance,
+        conserv,
+        m_oldness,
+
     }
 }

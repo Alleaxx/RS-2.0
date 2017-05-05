@@ -1,0 +1,142 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:RumineSimulator_2._0">
+
+
+
+    <Style x:Key="LabelsNewsStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="#FF176400"/>
+        <Setter Property="FontSize" Value="13"/>
+    </Style>
+    <Style x:Key="LabelsRatesStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="#FF5680A2"/>
+        <Setter Property="FontSize" Value="13"/>
+    </Style>
+    <Style x:Key="ButtonsRumineStyle" TargetType="{x:Type Button}">
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Foreground" Value="#FF2E6E9E"/>
+        <Setter Property="Background" Value="#FFDFEFFC"/>
+        <Setter Property="BorderBrush" Value="#FFC5DBEC"/>
+        <Setter Property="Padding" Value="4,4,4,4"/>
+        <Setter Property="FontSize" Value="13"/>
+    </Style>
+    <ControlTemplate x:Key="TraitsStyle" TargetType="ListBoxItem">
+        <Border
+            Name="border"
+            BorderBrush ="#FF969696"
+            Background="{TemplateBinding Background}"
+                BorderThickness="1"
+                CornerRadius="0"
+                Padding="2,2,2,2">
+            <ContentPresenter RecognizesAccessKey="True" Margin="{TemplateBinding Padding}"></ContentPresenter>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger  Property="IsMouseOver" Value="True">
+                <Setter TargetName="border" Property="BorderBrush" Value="#FF1E1E1E"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="UserChooseStyle" TargetType="ListBoxItem">
+        <Border
+            Name="border"
+            BorderBrush ="#FF969696"
+            Background="{TemplateBinding Background}"
+                BorderThickness="1"
+                CornerRadius="0"
+                Padding="2,2,2,2">
+            <ContentPresenter RecognizesAccessKey="True" Margin="{TemplateBinding Padding}"></ContentPresenter>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger  Property="IsMouseOver" Value="True">
+                <Setter TargetName="border" Property="BorderBrush" Value="#FF1E1E1E"></Setter>
+                <Setter TargetName="border" Property="Background" Value="#FFE6E6E6"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="ButtonsRumineGrayStyleBorderSel" TargetType="Button">
+        <Border
+            Name="border"
+                CornerRadius="0"
+                TextBlock.Foreground="{TemplateBinding Foreground}"
+                TextBlock.FontSize="{TemplateBinding FontSize}"
+                Padding="{TemplateBinding Padding}"
+            BorderBrush ="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+                Background= "{TemplateBinding Background}">
+            <ContentPresenter
+                RecognizesAccessKey="True"
+                              Margin="{TemplateBinding Padding}"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+
+            </ContentPresenter>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger  Property="IsMouseOver" Value="True">
+                <Setter TargetName="border" Property="BorderBrush" Value="#FF1E1E1E"></Setter>
+                <Setter TargetName="border" Property="BorderThickness" Value="1"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="border" Property="Background" Value="#FF7D7D7D"></Setter>
+                <Setter TargetName="border" Property="BorderBrush" Value="Black"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="ButtonsRumineGrayStyle" TargetType="Button">
+        <Border
+            Name="border"
+            BorderBrush="#FF969696"
+                BorderThickness="1"
+                CornerRadius="0"
+                TextBlock.Foreground="#FF282828"
+                TextBlock.FontWeight="Medium"
+                TextBlock.FontSize="13"
+                Padding="2,2,2,2"
+                Background="#FFC8C8C8">
+            <ContentPresenter
+                RecognizesAccessKey="True"
+                              Margin="{TemplateBinding Padding}"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                
+            </ContentPresenter>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger  Property="IsMouseOver" Value="True">
+                <Setter TargetName="border" Property="Background" Value="#FFAAAAAA"></Setter>
+                <Setter TargetName="border" Property="BorderBrush" Value="#FF1E1E1E"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="border" Property="Background" Value="#FF7D7D7D"></Setter>
+                <Setter TargetName="border" Property="BorderBrush" Value="Black"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <Style x:Key="LabelsClickStyle">
+        <Setter Property= "Control.FontWeight" Value="Bold"/>
+        <Setter Property= "Control.Cursor" Value="Hand"/>
+        <Setter Property= "Control.Foreground" Value="#FF176093"/>
+        <Setter Property= "Control.FontSize" Value="13"/>
+    </Style>
+    <Style x:Key="LabelsStyle">
+        <Setter Property="Control.FontWeight" Value="Normal"/>
+        <Setter Property="Control.FontSize" Value="13"/>
+    </Style>
+    <Style x:Key="HeadersStyle">
+        <Setter Property="Control.FontWeight" Value="Medium"/>
+        <Setter Property="Control.FontSize" Value="15"/>
+    </Style>
+    <Style x:Key="TextParamsStyle">
+        <Setter Property="Control.FontWeight" Value="Normal"/>
+        <Setter Property="Control.FontSize" Value="12"/>
+    </Style>
+    <Style x:Key="TextHeaderStyle">
+        <Setter Property="Control.FontWeight" Value="Medium"/>
+        <Setter Property="Control.FontSize" Value="15"/>
+        <Setter Property="Control.BorderThickness" Value="0,1,0,1"/>
+        <Setter Property="Control.Background" Value="#FFC9C9C9"/>
+    </Style>
+</ResourceDictionary>
