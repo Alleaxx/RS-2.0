@@ -59,6 +59,7 @@ namespace RumineSimulator_2._0
         public UserDayLog daylog { get; private set; }
         public List<UserDayLog> last_thirty_Days = new List<UserDayLog>();
         public Dictionary<User, int> blocked_users_rep = new Dictionary<User, int>();
+        public InterfaceView_User InterfaceInfo;
 
         Random random;
 
@@ -94,6 +95,7 @@ namespace RumineSimulator_2._0
             TraitMod();
             SetActivities();
             bans.Add(new Ban(this));
+            InterfaceInfo = new InterfaceView_User(this);
 
         }
 

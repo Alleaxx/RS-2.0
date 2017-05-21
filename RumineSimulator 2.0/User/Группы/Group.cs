@@ -19,6 +19,7 @@ namespace RumineSimulator_2._0
 
         //Цвет группы
         System.Drawing.Color dra_color = new System.Drawing.Color();
+        public string ColorHTML;
         public SolidColorBrush need_brush = new SolidColorBrush();
         public GroupCondition condition;
 
@@ -38,6 +39,7 @@ namespace RumineSimulator_2._0
             this.Mod = Mod;
             this.Journ = Journ;
             this.Mod_bezdn = Mod_bezdn;
+            this.ColorHTML = ColorHTTML;
             aC = AC;
             admin = Admin;
             condition = Condition;

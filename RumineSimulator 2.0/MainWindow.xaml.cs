@@ -34,8 +34,6 @@ namespace RumineSimulator_2._0
 
         private short speed = 1;
         private short update_time = 5;
-        private short updates = 0;
-        string log_text;
         //Информация для таймера - сколько юзеров генерировать и сколько он уже создал
         int timer_generated_users;
         int timer_total_users;
@@ -47,7 +45,6 @@ namespace RumineSimulator_2._0
         User selected_user;
         User selected_user_beta;
         int selected_index_user;
-        int player_index;
         User selected_userRelation;
 
         public MainWindow()
@@ -107,8 +104,9 @@ namespace RumineSimulator_2._0
                 {
                     if (user.nick == nick)
                         selected_user = user;
+                    selected_user_beta = selected_user;
+                    UserBetaUpdate();
                 }
-                InterfaceAccesUpdate();
 
             }
             if (list_Relations.SelectedItem != null)
@@ -123,8 +121,10 @@ namespace RumineSimulator_2._0
                         selected_userRelation = user;
                 }
             }
-
-
+            for (int i = 0; i < UserList.Users.Count; i++)
+            {
+                list_Testing1.Items.Add(Interface_Value_Return(UserList.Users[i].InterfaceInfo.interface_basic));
+            }
         }
         //Выбор пользователя(бета-версия)
         private void WrapUser_Click(object sender, RoutedEventArgs e)
@@ -218,7 +218,7 @@ namespace RumineSimulator_2._0
             }
             #endregion
 
-            text_UserDescr.Text = UserDescription.GetTextDescription(selected_user_beta);
+            Text_UsersBeta_UserDescription.Text = UserDescription.GetTextDescription(selected_user_beta);
 
             //Характер
             PB_adeq.Value = selected_user_beta.character.adeq.Param_value;
@@ -232,18 +232,9 @@ namespace RumineSimulator_2._0
             PB_Historic.Value = 0;
 
         }
-        private void InterfaceAccesUpdate()
-        {
 
-            DP_warningsLevel.Visibility = Visibility.Visible;
-            DP_warningsLevel.Height = 21;
 
-            button_AdminPanel.Visibility = Visibility.Visible;
-            button_AdminPanel.Height = 27;
-
-        }
-
-        //Галочки
+        //Спрятать описание пользователей
         private void CheckBox_DescrHide_Click(object sender, RoutedEventArgs e)
         {
             if ((bool)checkBox_DescrHide.IsChecked)
@@ -255,6 +246,7 @@ namespace RumineSimulator_2._0
                 gB_Description.Visibility = Visibility.Visible;
             }
         }
+
         private void CheckBox_Testing_Click(object sender, RoutedEventArgs e)
         {
 
@@ -264,13 +256,6 @@ namespace RumineSimulator_2._0
             button_AdminPanel.Visibility = Visibility.Visible;
             button_AdminPanel.Height = 27;
         }
-
-        private void CheckBox_GodMode_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-
 
         #endregion
 
@@ -313,20 +298,11 @@ namespace RumineSimulator_2._0
         }
         private void Button_UpdateAll_Click(object sender, RoutedEventArgs e)
         {
-            if (tabControlMain.SelectedIndex == 2)
-            {
-                ListView_UsersUpdate();
-            }
-            else if (tabControlMain.SelectedIndex == 1)
+            if (tabControlMain.SelectedIndex == 1)
             {
                 UserListAllUpdate();
                 InfoUserUpdate();
             }
-            EventtPassedListUpdate();
-        }
-        private void List_Traits_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
         private void ExpanderListUser_rel_Expanded(object sender, RoutedEventArgs e)
         {
@@ -343,8 +319,7 @@ namespace RumineSimulator_2._0
         }
 
 
-        //Обновление
-        //списки
+        //Обновление списки
         private void UserListAllUpdate()
         {
             list_UserDetail.Items.Clear();
@@ -444,10 +419,6 @@ namespace RumineSimulator_2._0
                 }
             }
         }
-        private void EventtPassedListUpdate()
-        {
-
-        }
         //Информация
         private void InfoUserUpdate()
         {
@@ -503,15 +474,6 @@ namespace RumineSimulator_2._0
 
 
                 //Логические переменные
-                if (selected_user.activity)
-                {
-                    image_online.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/online.png"));
-                }
-
-                else
-                {
-                    image_online.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/offline.png.gif"));
-                }
 
                 checkBox_Mod.IsChecked = selected_user.mod;
 
@@ -775,46 +737,10 @@ namespace RumineSimulator_2._0
             }
             #endregion
         }
-        private void ListView_UsersUpdate()
-        {
-            listView_Users.Items.Clear();
-            foreach (User user in UserList.Users)
-            {
-                string group = user.group.Name;
-                if (user.bans[user.bans.Count - 1].Banned)
-                    group = group + "(забанен)";
-                listView_Users.Items.Add(new
-                {
-                    Nick = user.nick,
-                    Registration = user.registration.ToShortDateString(),
-                    Group = group,
-                    Activity = user.last_activity.ToShortDateString() + " " + user.last_activity.ToShortTimeString(),
-                    Comments = user.comments,
-                    CommentsRate = user.comments_rate,
-                    News = user.news,
-                    Messages = user.messages,
-                    Likes = user.likes,
-                    Karma = user.karma.karma,
-                    Reputation = Math.Round(user.reputation.Base_reputation, 1)
-                });
-            }
-        }
         //Характеристики выбранного события
         private void List_passedEvents_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-        }
-
-        //Все остальное
-        private void Button_clearLog_Click(object sender, RoutedEventArgs e)
-        {
-            text_log.Text = "";
-        }
-        //Ссылка на пользователя игрока
-        private void Status_playerOnline_Click(object sender, RoutedEventArgs e)
-        {
-            tabControlMain.SelectedIndex = 1;
-            list_UserDetail.SelectedIndex = player_index;
         }
         //Логика экспандеров
         private void exp_choose_Collapsed(object sender, RoutedEventArgs e)
@@ -824,23 +750,6 @@ namespace RumineSimulator_2._0
         private void exp_info_Collapsed(object sender, RoutedEventArgs e)
         {
             exp_choose.IsExpanded = true;
-        }
-        //Быстрое изменение репутации
-        private void Text_OtrRep_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-        private void Text_PosRep_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
-
-        }
-
-
-        //Личный кабинет, предупреждения, репутация
-        private void Button_privateCab_Click(object sender, RoutedEventArgs e)
-        {
-
         }
         private void Text_warningsLevel_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -947,7 +856,6 @@ namespace RumineSimulator_2._0
         private void MinuteInterfaceUpdate()
         {
             StatusUpdate();
-            updates = 0;
         }
 
 
@@ -1046,7 +954,6 @@ namespace RumineSimulator_2._0
                 users_generated = true;
                 UserList.FractionChoose();
                 UserListAllUpdate();
-                ListView_UsersUpdate();
                 list_AverageTemperature.Items.Add($"Раковитость: {UserList.aver_rakness}");
                 list_AverageTemperature.Items.Add($"Адекватность: {UserList.aver_adeq}");
                 list_AverageTemperature.Items.Add($"Консервативность: {UserList.aver_conservative}");
@@ -1075,6 +982,50 @@ namespace RumineSimulator_2._0
         #region Вспомогательные методы
 
 
+        //Базовое представление интерфейса - строка
+        private ListBoxItem Interface_Value_Return(Interface_Value interface_info)
+        {
+            ListBoxItem item = new ListBoxItem();
+            StackPanel stackpanel = new StackPanel()
+            {
+                Orientation = Orientation.Horizontal
+            };
+            TextBlock text_value = new TextBlock()
+            {
+                Margin = new Thickness(2, 2, 2, 1),
+                TextAlignment = TextAlignment.Justify,
+                Text = interface_info.Text_value,
+                FontSize = interface_info.Text_size,
+            };
+            TextBlock text_value_value = new TextBlock()
+            {
+                Margin = new Thickness(2, 0, 2, 2),
+                TextAlignment = TextAlignment.Justify,
+                Text = interface_info.Value,
+                FontSize = interface_info.Value_size,
+
+            };
+            //Расшифровка изображения
+            if (interface_info.Image_path != "")
+            {
+                Image image = new Image()
+                {
+                    Width = 15,
+                    Height = 15,
+                    Source = new BitmapImage(new Uri(interface_info.Image_path))
+                };
+                stackpanel.Children.Add(image);
+            }
+            stackpanel.Children.Add(text_value);
+            stackpanel.Children.Add(text_value_value);
+
+            item.Content = stackpanel;
+            item.IsHitTestVisible = interface_info.IsHited;
+            item.Foreground = interface_info.foreground_brush;
+            item.Background = interface_info.background_brush;
+            item.ToolTip = interface_info.Tooltip;
+            return item;
+        }
 
 
         //Генерация стакпанелей

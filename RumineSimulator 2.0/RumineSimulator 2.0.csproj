@@ -88,6 +88,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Активность\Event_Creator.cs" />
+    <Compile Include="Активность\SmallEvent.cs" />
+    <Compile Include="Активность\SmallEvents_List.cs" />
+    <Compile Include="Активность\События\Event.cs" />
+    <Compile Include="Представления интерфейса\InterfaceView.cs" />
+    <Compile Include="Представления интерфейса\InterfaceView_Event.cs" />
+    <Compile Include="Представления интерфейса\InterfaceView_User.cs" />
+    <Compile Include="Представления интерфейса\Interface_Value.cs" />
     <Compile Include="Фракции\Fraction.cs" />
     <Compile Include="Фракции\FractionList.cs" />
     <Compile Include="User\Характер\ChanseParam.cs" />
