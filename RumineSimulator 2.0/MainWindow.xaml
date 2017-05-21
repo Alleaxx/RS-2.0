@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RumineSimulator_2._0"
         xmlns:Properties="clr-namespace:RumineSimulator_2._0.Properties" xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="MainWindow1" x:Class="RumineSimulator_2._0.MainWindow"
         mc:Ignorable="d"
-        Title="Симулятор Румайна v2.0" Icon="icon2.ico" TextOptions.TextFormattingMode="Display" FontFamily="Nirmala UI" Height="800" Width="1025" Background="White">
+        Title="Симулятор Румайна v2.0" Icon="icon2.ico" TextOptions.TextFormattingMode="Display" FontFamily="Nirmala UI" Height="720" Width="1280" Background="White">
     <Grid x:Name="GridMainWindow" Margin="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -515,7 +515,7 @@
                                 <Button x:Name="button_AdminPanel" Content="Админпанель" Margin="2" FocusVisualStyle="{DynamicResource LabelsStyle}" Template="{DynamicResource ButtonsRumineGrayStyle}"/>
                             </StackPanel>
                         </GroupBox>
-                        <ListBox x:Name="list_Traits" Margin="2" FontWeight="Medium" HorizontalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled" FontFamily="Segoe UI" VerticalAlignment="Top" SelectionChanged="List_Traits_SelectionChanged" FontSize="14"/>
+                        <ListBox x:Name="list_Traits" Margin="2" FontWeight="Medium" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" FontFamily="Segoe UI" SelectionChanged="List_Traits_SelectionChanged" FontSize="14" VerticalContentAlignment="Stretch"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -605,7 +605,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Expander x:Name="exp_choose" Header="Выбор пользователя" Margin="2" IsExpanded="True" Collapsed="exp_choose_Collapsed" ScrollViewer.CanContentScroll="True" UseLayoutRounding="True" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left">
+                    <Expander x:Name="exp_choose" Header="Выбор пользователя&#xD;&#xA;" Margin="2" IsExpanded="True" Collapsed="exp_choose_Collapsed" ScrollViewer.CanContentScroll="True" UseLayoutRounding="True" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left">
                         <WrapPanel x:Name="WrapListUsers" Margin="2" UseLayoutRounding="False"/>
                     </Expander>
                     <Expander x:Name="exp_info" Header="Профиль пользователя" Margin="2" Grid.Row="1" IsExpanded="True" Collapsed="exp_info_Collapsed">
@@ -630,40 +630,15 @@
                                 <StackPanel x:Name="SPNickPlace" Height="100" Width="200" Margin="15,0,0,0">
                                     <StackPanel x:Name="SPNick" Orientation="Horizontal" Background="White">
                                         <TextBlock x:Name="text_Nick" TextWrapping="Wrap" Text="Ник" Margin="0,0,10,0" FontSize="20" FontWeight="Medium"/>
-                                        <Button x:Name="bt_NickEdit" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,4,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
-                                            <Button.Background>
-                                                <ImageBrush ImageSource="Resources/pen.png" Stretch="Uniform" />
-                                            </Button.Background>
-                                        </Button>
                                     </StackPanel>
                                     <StackPanel x:Name="SPGroup" Orientation="Horizontal" Background="White">
                                         <TextBlock x:Name="text_Group1" TextWrapping="Wrap" Text="Группа" Margin="0,0,10,0" FontSize="16" FontWeight="Medium"/>
-                                        <Button x:Name="bt_GroupEdit" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,4,5,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
-                                            <Button.Background>
-                                                <ImageBrush ImageSource="Resources/pencil.jpg" Stretch="Uniform" />
-                                            </Button.Background>
-                                        </Button>
-                                        <Button x:Name="bt_GroupQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,4,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
-                                            <Button.Background>
-                                                <ImageBrush ImageSource="Resources/quest.jpg" />
-                                            </Button.Background>
-                                        </Button>
                                     </StackPanel>
                                     <StackPanel x:Name="SPOldness" Orientation="Horizontal" Background="White">
                                         <TextBlock x:Name="text_Dates" TextWrapping="Wrap" Text="26.09.16 - 21.05.18" Margin="0,0,10,0" FontSize="16" FontWeight="Medium"/>
-                                        <Button x:Name="bt_DatesQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
-                                            <Button.Background>
-                                                <ImageBrush ImageSource="Resources/quest.jpg" />
-                                            </Button.Background>
-                                        </Button>
                                     </StackPanel>
                                     <StackPanel x:Name="SPRelation" Orientation="Horizontal" Background="White">
                                         <TextBlock x:Name="text_Relation1" TextWrapping="Wrap" Text="Друг" Margin="0,0,10,0" FontSize="16" FontWeight="Medium"/>
-                                        <Button x:Name="bt_RelationQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,4,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
-                                            <Button.Background>
-                                                <ImageBrush ImageSource="Resources/quest.jpg" />
-                                            </Button.Background>
-                                        </Button>
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>
@@ -675,33 +650,18 @@
                                 </StackPanel>
                                 <StackPanel x:Name="SPKarma" Orientation="Horizontal" Margin="2" HorizontalAlignment="Center" Background="White">
                                     <TextBlock x:Name="text_KarmaBase" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Карма: 1.5 (1Н + 1Р + 1А)" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
-                                    <Button x:Name="bt_RepKarmaQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
-                                        <Button.Background>
-                                            <ImageBrush ImageSource="Resources/quest.jpg" />
-                                        </Button.Background>
-                                    </Button>
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel x:Name="SPStatSite" Margin="5,5,0,5" Grid.Row="3">
                                 <TextBox x:Name="label_StatSite" TextWrapping="Wrap" Text="Сайт" Style="{DynamicResource TextHeaderStyle}" HorizontalContentAlignment="Center" Margin="0,0,0,5" BorderThickness="1,1,0,1"/>
                                 <StackPanel x:Name="SPComments" Orientation="Horizontal" Margin="2" HorizontalAlignment="Left" Background="#FFD4ECC6">
                                     <TextBlock x:Name="text_Comments" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Комментарии: 120" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
-                                    <Button x:Name="bt_CommentsQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
-                                        <Button.Background>
-                                            <ImageBrush ImageSource="Resources/quest.jpg" />
-                                        </Button.Background>
-                                    </Button>
                                 </StackPanel>
                                 <StackPanel x:Name="SPCommentsRate" Orientation="Horizontal" Margin="2,2,0,2" HorizontalAlignment="Left" Background="#FFD4ECC6">
                                     <TextBlock x:Name="text_CommentsRate" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Рейтинг К.: +200" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
                                 </StackPanel>
                                 <StackPanel x:Name="SPNews" Orientation="Horizontal" Margin="2,2,0,2" HorizontalAlignment="Left" Background="#FFD4ECC6">
                                     <TextBlock x:Name="text_News" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Новостей: 15 (30%)" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
-                                    <Button x:Name="bt_NewsQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
-                                        <Button.Background>
-                                            <ImageBrush ImageSource="Resources/quest.jpg" />
-                                        </Button.Background>
-                                    </Button>
                                 </StackPanel>
                                 <StackPanel x:Name="SPInfluence" Orientation="Horizontal" Margin="2,2,0,2" HorizontalAlignment="Left" Background="#FFDBE2F7">
                                     <TextBlock x:Name="text_Influence" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Влияние: 100" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
@@ -714,47 +674,22 @@
                                 <TextBox x:Name="label_StatSite_Copy" TextWrapping="Wrap" Style="{DynamicResource TextHeaderStyle}" HorizontalContentAlignment="Center" Margin="0,0,0,5" BorderThickness="1,1,0,1"/>
                                 <StackPanel x:Name="SPLeaveChanse" Orientation="Horizontal" Margin="2,2,0,2" HorizontalAlignment="Left" Background="White">
                                     <TextBlock x:Name="text_LeaveChanse" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Шанс ухода: высокий" VerticalAlignment="Top" Foreground="Black" FontSize="15" Margin="5,2"/>
-                                    <Button x:Name="bt_LeaveChanseQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
-                                        <Button.Background>
-                                            <ImageBrush ImageSource="Resources/quest.jpg" />
-                                        </Button.Background>
-                                    </Button>
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel x:Name="SPStatForum" Grid.Column="1" Margin="0,5,5,5" Grid.Row="3">
                                 <TextBox x:Name="label_StatForum" TextWrapping="Wrap" Text="Форум" Style="{DynamicResource TextHeaderStyle}" HorizontalContentAlignment="Center" Margin="0,0,0,5" BorderThickness="0,1,1,1"/>
                                 <StackPanel x:Name="SPMessages" Orientation="Horizontal" Margin="2,2,0,2" HorizontalAlignment="Left" Background="#FFEEEEC2">
                                     <TextBlock x:Name="text_Messages" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Сообщений: 500" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
-                                    <Button x:Name="bt_messagesQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
-                                        <Button.Background>
-                                            <ImageBrush ImageSource="Resources/quest.jpg" />
-                                        </Button.Background>
-                                    </Button>
                                 </StackPanel>
                                 <StackPanel x:Name="SPLikes" Orientation="Horizontal" Margin="2,2,0,2" HorizontalAlignment="Left" Background="#FFEEEEC2">
                                     <TextBlock x:Name="text_Likes" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Симпатий: 300" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
-                                    <Button x:Name="bt_LikesQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
-                                        <Button.Background>
-                                            <ImageBrush ImageSource="Resources/quest.jpg" />
-                                        </Button.Background>
-                                    </Button>
                                 </StackPanel>
                                 <StackPanel x:Name="SPWarns" Orientation="Horizontal" Margin="2,2,0,2" HorizontalAlignment="Left" Background="#FFFFDBE1">
                                     <TextBlock x:Name="text_Warnings" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Предупреждений: 0" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>
-                                    <Button x:Name="bt_WarnsQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
-                                        <Button.Background>
-                                            <ImageBrush ImageSource="Resources/quest.jpg" />
-                                        </Button.Background>
-                                    </Button>
                                 </StackPanel>
                                 <TextBox x:Name="label_StatForum_Copy" TextWrapping="Wrap" Style="{DynamicResource TextHeaderStyle}" HorizontalContentAlignment="Center" Margin="0,0,0,5" BorderThickness="0,1,1,1"/>
                                 <StackPanel x:Name="SPModerChanse" Orientation="Horizontal" Margin="2,2,0,2" HorizontalAlignment="Left" Background="White">
                                     <TextBlock x:Name="text_ModerChanse" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Шанс модератора: высокий" VerticalAlignment="Top" Foreground="Black" FontSize="15" Margin="5,2"/>
-                                    <Button x:Name="bt_ModerChanseQuest" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
-                                        <Button.Background>
-                                            <ImageBrush ImageSource="Resources/quest.jpg" />
-                                        </Button.Background>
-                                    </Button>
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel x:Name="SPTraits" Grid.Column="2" Margin="5" Grid.Row="1" Grid.RowSpan="3">
@@ -810,11 +745,6 @@
                             <StackPanel x:Name="SPFraction1" Margin="0" Grid.Row="2" Grid.ColumnSpan="2">
                                 <StackPanel x:Name="SPMainFraction" Orientation="Horizontal" Margin="2" HorizontalAlignment="Center" Background="White">
                                     <TextBlock x:Name="text_MainFraction" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Верующие коммунисты" VerticalAlignment="Top" Foreground="#FF3E3E3E" FontSize="16" FontWeight="Medium" Margin="5,2"/>
-                                    <Button x:Name="bt_RepKarmaQuest1" HorizontalAlignment="Left" Content="" Width="10" Height="10" VerticalAlignment="Center" Margin="0,2,0,0" BorderThickness="0" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}">
-                                        <Button.Background>
-                                            <ImageBrush ImageSource="Resources/quest.jpg" />
-                                        </Button.Background>
-                                    </Button>
                                 </StackPanel>
                                 <StackPanel x:Name="SPMainFraction_member" Orientation="Horizontal" Margin="94.5,2" HorizontalAlignment="Center" Background="White">
                                     <TextBlock x:Name="text_MainFractionMember" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Лидер" VerticalAlignment="Top" Foreground="Black" FontSize="16" FontWeight="Medium" Margin="5,2"/>

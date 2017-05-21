@@ -88,9 +88,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Активность\События\Исторические\HistoricEvent.cs" />
-    <Compile Include="Активность\События\Исторические\HistoricEventsControl.cs" />
-    <Compile Include="Активность\События\Исторические\WikiCreation.cs" />
     <Compile Include="Фракции\Fraction.cs" />
     <Compile Include="Фракции\FractionList.cs" />
     <Compile Include="User\Характер\ChanseParam.cs" />
@@ -112,7 +109,6 @@
     <Compile Include="WindowReputation.xaml.cs">
       <DependentUpon>WindowReputation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Активность\Activity.cs" />
     <Compile Include="AdvRandom.cs" />
     <Compile Include="Date.cs" />
     <Compile Include="User\UserChangeLog.cs" />
@@ -131,15 +127,6 @@
     <Compile Include="User\Отношения\RelationList.cs" />
     <Compile Include="User\Прочее\Nicks.cs" />
     <Compile Include="Активность\События\AnounceType.cs" />
-    <Compile Include="Активность\События\Event.cs" />
-    <Compile Include="Активность\События\EventAnounce.cs" />
-    <Compile Include="Активность\События\EventDusskussion.cs" />
-    <Compile Include="Активность\События\EventsEnum.cs" />
-    <Compile Include="Активность\События\EventSrach.cs" />
-    <Compile Include="Активность\События\EventsStorage.cs" />
-    <Compile Include="Активность\Reason.cs" />
-    <Compile Include="Активность\ReasonsEnum.cs" />
-    <Compile Include="Активность\События\SrachDiskussions.cs" />
     <Compile Include="Фракции\Squad.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -503,6 +490,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\quest.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Активность\События\Исторические\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

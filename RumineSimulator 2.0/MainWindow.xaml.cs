@@ -50,9 +50,6 @@ namespace RumineSimulator_2._0
         int player_index;
         User selected_userRelation;
 
-        ControlTemplate template;
-        ControlTemplate templateSec;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -86,8 +83,6 @@ namespace RumineSimulator_2._0
                 list_AllTraits.Items.Add(item);
             }
             exp_info.IsExpanded = false;
-            template = testing.Template;
-            templateSec = testingSec.Template;
         }
 
 
@@ -188,7 +183,7 @@ namespace RumineSimulator_2._0
             //Фракции
             text_MainFraction.Text = selected_user_beta.main_fraction.name;
             text_MainFractionMember.Text = "Участник";
-            if(selected_user_beta.main_fraction.leader == selected_user_beta)
+            if (selected_user_beta.main_fraction.leader == selected_user_beta)
                 text_MainFractionMember.Text = "Лидер";
 
             //Трейты
@@ -205,7 +200,6 @@ namespace RumineSimulator_2._0
             {
                 ListBoxItem item = new ListBoxItem()
                 {
-                    Template = template,
                     Content = trait.short_name,
                     ToolTip = trait.full_description,
                     Margin = new Thickness(1, 1, 1, 1),
@@ -213,7 +207,7 @@ namespace RumineSimulator_2._0
                     Foreground = trait.foreground_brush,
                     Cursor = Cursors.Help
                 };
-                if (trait.type == TraitType.character )
+                if (trait.type == TraitType.character)
                 {
                     list_TraitsChar.Items.Add(item);
                 }
@@ -241,11 +235,11 @@ namespace RumineSimulator_2._0
         private void InterfaceAccesUpdate()
         {
 
-                            DP_warningsLevel.Visibility = Visibility.Visible;
-                            DP_warningsLevel.Height = 21;
+            DP_warningsLevel.Visibility = Visibility.Visible;
+            DP_warningsLevel.Height = 21;
 
-                        button_AdminPanel.Visibility = Visibility.Visible;
-                        button_AdminPanel.Height = 27;
+            button_AdminPanel.Visibility = Visibility.Visible;
+            button_AdminPanel.Height = 27;
 
         }
 
@@ -264,13 +258,11 @@ namespace RumineSimulator_2._0
         private void CheckBox_Testing_Click(object sender, RoutedEventArgs e)
         {
 
-                DP_warningsLevel.Visibility = Visibility.Visible;
-                DP_warningsLevel.Height = 21;
-                gB_Description.Visibility = Visibility.Visible;
-                button_AdminPanel.Visibility = Visibility.Visible;
-                button_AdminPanel.Height = 27;
-                button_privateCab.Visibility = Visibility.Visible;
-                button_privateCab.Height = 27;
+            DP_warningsLevel.Visibility = Visibility.Visible;
+            DP_warningsLevel.Height = 21;
+            gB_Description.Visibility = Visibility.Visible;
+            button_AdminPanel.Visibility = Visibility.Visible;
+            button_AdminPanel.Height = 27;
         }
 
         private void CheckBox_GodMode_Click(object sender, RoutedEventArgs e)
@@ -454,19 +446,6 @@ namespace RumineSimulator_2._0
         }
         private void EventtPassedListUpdate()
         {
-            list_passedEvents.Items.Clear();
-            if (EventsStorage.passed_events.Count == 0)
-            {
-                list_passedEvents.Items.Add("Пока никаких событий не произошло");
-            }
-            else
-            {
-                foreach (Event eventt in EventsStorage.passed_events)
-                {
-                    list_passedEvents.Items.Add(StackPanEventLists(eventt));
-                }
-            }
-
 
         }
         //Информация
@@ -538,130 +517,63 @@ namespace RumineSimulator_2._0
 
                 //Слайдера
                 #region Благоразумие
-                if (selected_user.character.adeq.unknown && !GlobalParams.Testing)
-                {
-                    gB_adeq.Header = "Благоразумие(???)";
-                    slider_adeq.Value = 0;
-                    gB_adeq.ToolTip = "Неизвестно";
-                    gB_adeq.Cursor = Cursors.Hand;
-                    gB_adeq.Foreground = new SolidColorBrush(Colors.Gray);
-                    gB_adeq.BorderBrush = new SolidColorBrush(Colors.Black);
-                }
-                else
-                {
-                    gB_adeq.Header = "Благоразумие";
-                    slider_adeq.Value = selected_user.character.adeq.Param_value;
-                    gB_adeq.ToolTip = selected_user.character.adeq.Param_value;
-                    gB_adeq.Cursor = Cursors.Arrow;
-                    gB_adeq.Foreground = new SolidColorBrush(Colors.Black);
-                    gB_adeq.BorderBrush = new SolidColorBrush(Colors.LightGray);
-                }
+
+                gB_adeq.Header = "Благоразумие";
+                slider_adeq.Value = selected_user.character.adeq.Param_value;
+                gB_adeq.ToolTip = selected_user.character.adeq.Param_value;
+                gB_adeq.Cursor = Cursors.Arrow;
+                gB_adeq.Foreground = new SolidColorBrush(Colors.Black);
+                gB_adeq.BorderBrush = new SolidColorBrush(Colors.LightGray);
                 #endregion
                 #region Раковитость
-                if (selected_user.character.rakness.unknown && !GlobalParams.Testing)
-                {
-                    gB_rakness.Header = "Раковитость(???)";
-                    slider_rakness.Value = 0;
-                    gB_rakness.ToolTip = "Неизвестно";
-                    gB_rakness.Cursor = Cursors.Hand;
-                    gB_rakness.Foreground = new SolidColorBrush(Colors.Gray);
-                    gB_rakness.BorderBrush = new SolidColorBrush(Colors.Black);
+                gB_rakness.Header = "Раковитость";
+                slider_rakness.Value = selected_user.character.rakness.Param_value;
+                gB_rakness.ToolTip = selected_user.character.rakness.Param_value;
+                gB_rakness.Cursor = Cursors.Arrow;
+                gB_rakness.Foreground = new SolidColorBrush(Colors.Black);
+                gB_rakness.BorderBrush = new SolidColorBrush(Colors.LightGray);
 
-                }
-                else
-                {
-                    gB_rakness.Header = "Раковитость";
-                    slider_rakness.Value = selected_user.character.rakness.Param_value;
-                    gB_rakness.ToolTip = selected_user.character.rakness.Param_value;
-                    gB_rakness.Cursor = Cursors.Arrow;
-                    gB_rakness.Foreground = new SolidColorBrush(Colors.Black);
-                    gB_rakness.BorderBrush = new SolidColorBrush(Colors.LightGray);
-                }
                 #endregion
 
                 #region Консервативность
-                if (selected_user.character.conservative.unknown && !GlobalParams.Testing)
-                {
-                    gB_conservative.Header = "Консервативность(???)";
-                    slider_conservative.Value = 0;
-                    gB_conservative.ToolTip = "Неизвестно";
-                    gB_conservative.Cursor = Cursors.Hand;
-                    gB_conservative.Foreground = new SolidColorBrush(Colors.Gray);
-                    gB_conservative.BorderBrush = new SolidColorBrush(Colors.Black);
 
-                }
-                else
-                {
-                    gB_conservative.Header = "Консервативность";
-                    slider_conservative.Value = selected_user.character.conservative.Param_value;
-                    gB_conservative.ToolTip = selected_user.character.conservative.Param_value;
-                    gB_conservative.Cursor = Cursors.Arrow;
-                    gB_conservative.Foreground = new SolidColorBrush(Colors.Black);
-                    gB_conservative.BorderBrush = new SolidColorBrush(Colors.LightGray);
-                }
+                gB_conservative.Header = "Консервативность";
+                slider_conservative.Value = selected_user.character.conservative.Param_value;
+                gB_conservative.ToolTip = selected_user.character.conservative.Param_value;
+                gB_conservative.Cursor = Cursors.Arrow;
+                gB_conservative.Foreground = new SolidColorBrush(Colors.Black);
+                gB_conservative.BorderBrush = new SolidColorBrush(Colors.LightGray);
+
                 #endregion
                 #region Толерантность
 
-                if (selected_user.character.tolerance.unknown && !GlobalParams.Testing)
-                {
-                    gB_tolerance.Header = "Толерантность(???)";
-                    slider_tolerance.Value = 0;
-                    gB_tolerance.ToolTip = "Неизвестно";
-                    gB_tolerance.Cursor = Cursors.Hand;
-                    gB_tolerance.Foreground = new SolidColorBrush(Colors.Gray);
-                    gB_tolerance.BorderBrush = new SolidColorBrush(Colors.Black);
-
-                }
-                else
-                {
-                    gB_tolerance.Header = "Толерантность";
-                    slider_tolerance.Value = selected_user.character.tolerance.Param_value;
-                    gB_tolerance.ToolTip = selected_user.character.tolerance.Param_value;
-                    gB_tolerance.Cursor = Cursors.Arrow;
-                    gB_tolerance.Foreground = new SolidColorBrush(Colors.Black);
-                    gB_tolerance.BorderBrush = new SolidColorBrush(Colors.LightGray);
-                }
+                gB_tolerance.Header = "Толерантность";
+                slider_tolerance.Value = selected_user.character.tolerance.Param_value;
+                gB_tolerance.ToolTip = selected_user.character.tolerance.Param_value;
+                gB_tolerance.Cursor = Cursors.Arrow;
+                gB_tolerance.Foreground = new SolidColorBrush(Colors.Black);
+                gB_tolerance.BorderBrush = new SolidColorBrush(Colors.LightGray);
                 #endregion
                 #region Наука
-                if (selected_user.character.sciense.unknown && !GlobalParams.Testing)
-                {
-                    gB_sciense.Header = "Наука(???)";
-                    slider_sciense.Value = 0;
-                    gB_sciense.ToolTip = "Неизвестно";
-                    gB_sciense.Cursor = Cursors.Hand;
-                    gB_sciense.Foreground = new SolidColorBrush(Colors.Gray);
-                    gB_sciense.BorderBrush = new SolidColorBrush(Colors.Black);
-                }
-                else
-                {
-                    gB_sciense.Header = "Наука";
-                    slider_sciense.Value = selected_user.character.sciense.Param_value;
-                    gB_sciense.ToolTip = selected_user.character.sciense.Param_value;
-                    gB_sciense.Cursor = Cursors.Arrow;
-                    gB_sciense.Foreground = new SolidColorBrush(Colors.Black);
-                    gB_sciense.BorderBrush = new SolidColorBrush(Colors.LightGray);
 
-                }
+                gB_sciense.Header = "Наука";
+                slider_sciense.Value = selected_user.character.sciense.Param_value;
+                gB_sciense.ToolTip = selected_user.character.sciense.Param_value;
+                gB_sciense.Cursor = Cursors.Arrow;
+                gB_sciense.Foreground = new SolidColorBrush(Colors.Black);
+                gB_sciense.BorderBrush = new SolidColorBrush(Colors.LightGray);
+
+
                 #endregion
                 #region Креативность
-                if (selected_user.character.creativity.unknown && !GlobalParams.Testing)
-                {
-                    gB_creative.Header = "Креативность(???)";
-                    slider_creative.Value = 0;
-                    gB_creative.ToolTip = "Неизвестно";
-                    gB_creative.Cursor = Cursors.Hand;
-                    gB_creative.Foreground = new SolidColorBrush(Colors.Gray);
-                    gB_creative.BorderBrush = new SolidColorBrush(Colors.Black);
-                }
-                else
-                {
-                    gB_creative.Header = "Креативность";
-                    slider_creative.Value = selected_user.character.creativity.Param_value;
-                    gB_creative.ToolTip = selected_user.character.creativity.Param_value;
-                    gB_creative.Cursor = Cursors.Arrow;
-                    gB_creative.Foreground = new SolidColorBrush(Colors.Black);
-                    gB_creative.BorderBrush = new SolidColorBrush(Colors.LightGray);
-                }
+
+                gB_creative.Header = "Креативность";
+                slider_creative.Value = selected_user.character.creativity.Param_value;
+                gB_creative.ToolTip = selected_user.character.creativity.Param_value;
+                gB_creative.Cursor = Cursors.Arrow;
+                gB_creative.Foreground = new SolidColorBrush(Colors.Black);
+                gB_creative.BorderBrush = new SolidColorBrush(Colors.LightGray);
+
                 #endregion
 
 
@@ -682,16 +594,18 @@ namespace RumineSimulator_2._0
                 //Трейты
                 foreach (Trait trait in selected_user.traits)
                 {
-                    ListBoxItem item = new ListBoxItem()
-                    {
-                        Template = template,
-                        Content = trait.short_name,
-                        ToolTip = trait.full_description,
-                        Margin = new Thickness(1, 1, 1, 1),
-                        Background = trait.background_brush,
-                        Foreground = trait.foreground_brush,
-                        Cursor = Cursors.Help
-                    };
+                    ListBoxItem item = new ListBoxItem();
+
+
+                    TextBlock txt = new TextBlock();
+                    txt.Text = trait.short_name;
+                    item.Content = txt;
+                    item.IsHitTestVisible = false;
+                    item.ToolTip = trait.full_description;
+                    item.Margin = new Thickness(1, 1, 1, 1);
+                    item.Background = trait.background_brush;
+                    item.Foreground = trait.foreground_brush;
+                    item.Cursor = Cursors.Help;
                     list_Traits.Items.Add(item);
                 }
 
@@ -888,22 +802,6 @@ namespace RumineSimulator_2._0
         //Характеристики выбранного события
         private void List_passedEvents_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            list_EventChar.Items.Clear();
-            if (list_passedEvents.SelectedIndex != -1)
-            {
-                Event selected_event = EventsStorage.passed_events[list_passedEvents.SelectedIndex];
-
-                foreach (string eventParam in selected_event.text_parametres)
-                {
-                    ListBoxItem item = new ListBoxItem()
-                    {
-                        Template = templateSec,
-                        Content = eventParam,
-                        Margin = new Thickness(1, 1, 1, 1)
-                    };
-                    list_EventChar.Items.Add(item);
-                }
-            }
 
         }
 
@@ -1004,9 +902,6 @@ namespace RumineSimulator_2._0
             StatusSpeed_x4.IsEnabled = true;
             statusRadButton_cont.IsEnabled = true;
             statusRadButton_pause.IsEnabled = true;
-            Activity.curr_event = new Event("Ничего особенного", EventsEnum.nothing, null);
-            Activity.SetOnlineModifier();
-            Activity.SetTimeForUsersForHour();
         }
 
         //Главный тик таймера
@@ -1028,16 +923,10 @@ namespace RumineSimulator_2._0
 
             if (Date.current_date.Hour < Date.current_date_prev.Hour)
             {
-                Activity.NewDayUpdate();
-                HistoricEvent poss_hist_event = HistoricEventsControl.HistoricEventCheck();
-                if (poss_hist_event!= null)
-                {
-                    Activity.curr_hist_event = poss_hist_event;
-                }
             }
             if (Date.current_date.Minute % 10 == 0)
             {
-                Activity.ActivityDimishing();
+
             }
             else if (Date.current_date.Minute % 4 == 0)
             {
@@ -1046,102 +935,19 @@ namespace RumineSimulator_2._0
 
             if (Date.current_date.Minute < Date.current_date_prev.Minute)
             {
-                Activity.SetTimeForUsersForHour();
+
             }
             if (Date.current_date.Minute < Date.current_date_prev.Minute && Date.current_date.Month != Date.current_date_prev.Month)
             {
-                Activity.NewMonthUpdate();
+
             }
-            Activity.TimeMinutePassing();
             UserList.CheckingAllUserForUpdates();
         }
 
         private void MinuteInterfaceUpdate()
         {
-            if (log_text != null && log_text != "")
-            {
-                text_statusLog.Text = Date.current_date.ToShortTimeString() + ": " + log_text;
-            }
-            if (Date.current_date.Day != Date.current_date_prev.Day && Date.current_date.Minute < Date.current_date_prev.Minute)
-            {
-                list_messagesMonth.Items.Clear();
-                foreach (int num in Activity.messages_Per_month)
-                {
-                    list_messagesMonth.Items.Add(num);
-                }
-            }
-            if (Date.current_date.Minute < Date.current_date_prev.Minute && Date.current_date.Month != Date.current_date_prev.Month)
-            {
-                list_messagesYear.Items.Clear();
-                foreach (int num in Activity.messages_Per_month)
-                {
-                    list_messagesYear.Items.Add(num);
-                }
-            }
-            updates += (short)Date.max_minutes_pass;
             StatusUpdate();
-            if ((updates >= Convert.ToInt16(text_UpdateTimes.Text) && GlobalParams.Testing))
-            {
-                SELECTIONUsersUpdate();
-                InfoUserUpdate();
-                wrapPanel_online.Children.Clear();
-                //Заполнение онлайна
-                List<User> online = Activity.GetOnline();
-                gB_online.Header = "Сейчас онлайн: " + Activity.all_online + $"({Activity.online.Count})";
-                try
-                {
-                    TextBlock text = new TextBlock()
-                    {
-                        Text = online[0].nick,
-                        FontWeight = text_Group.FontWeight,
-                        FontSize = 12,
-                        Foreground = online[0].group.need_brush
-                    };
-                    wrapPanel_online.Children.Add(text);
-                }
-                catch
-                {
-
-                }
-                for (int i = 1; i < online.Count; i++)
-                {
-                    TextBlock text = new TextBlock()
-                    {
-                        Text = ", " + online[i].nick,
-                        FontSize = 12,
-                        FontWeight = text_Group.FontWeight,
-                        Foreground = online[i].group.need_brush
-                    };
-                    wrapPanel_online.Children.Add(text);
-
-                }
-
-                //Запись в лог
-                text_log.Text = "";
-                text_log.Text = text_log.Text + (Activity.log);
-                text_log.ScrollToEnd();
-
-                if (Activity.curr_event.type != EventsEnum.nothing)
-                {
-                    StatusTextEvent.Text = $"{Activity.curr_event.name}!";
-                }
-                else
-                {
-                    StatusTextEvent.Text = "Ничего";
-                }
-
-                StatusTextActivness.Text = Activity.activness;
-                text_messagesDay.Text = Activity.messages_per_day.ToString();
-                text_messagesPrevMinute.Text = Activity.last_messages.Sum().ToString();
-
-                updates = 0;
-            }
-            else
-            {
-                gB_online.Header = $"Сейчас онлайн: {Activity.all_online}, вы оффлайн";
-                text_messagesDay.Text = Activity.messages_per_day.ToString();
-                text_messagesPrevMinute.Text = Activity.last_messages.Sum().ToString();
-            }
+            updates = 0;
         }
 
 
@@ -1265,32 +1071,6 @@ namespace RumineSimulator_2._0
 
         #endregion
 
-        #region Изучение параметров
-        private void GB_adeq_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-        private void GB_rakness_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-        private void GB_conservative_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-        private void GB_creative_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-        private void GB_sciense_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-        private void GB_tolerance_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-        #endregion
 
         #region Вспомогательные методы
 
@@ -1366,43 +1146,11 @@ namespace RumineSimulator_2._0
             }
             #endregion
         }
-        private ListBoxItem StackPanEventLists(Event eventt)
-        {
-            ListBoxItem item = new ListBoxItem()
-            {
-                Template = templateSec
-            };
-            StackPanel stackpanel = new StackPanel()
-            {
-                Orientation = Orientation.Horizontal
-            };
-            TextBlock name = new TextBlock()
-            {
-                Margin = new Thickness(5, 5, 5, 5),
-                TextAlignment = TextAlignment.Justify,
-                Text = eventt.name
-            };
-            Image icon = new Image()
-            {
-                Width = 20,
-                Height = 20,
-                Margin = new Thickness(0, 5, 5, 5)
-            };
-            if (eventt.icon != null)
-            {
-                icon.Source = eventt.icon;
-            }
-            stackpanel.Children.Add(icon);
-            stackpanel.Children.Add(name);
-            item.Content = stackpanel;
-            item.Margin = new Thickness(1, 1, 1, 1);
-            return item;
-        }
         private ListBoxItem StackPanUser(User user)
         {
             ListBoxItem item = new ListBoxItem()
             {
-                Template = templateSec
+
             };
             StackPanel SPMain = new StackPanel()
             {
