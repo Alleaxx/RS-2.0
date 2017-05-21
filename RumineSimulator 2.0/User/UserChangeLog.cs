@@ -64,7 +64,7 @@ namespace RumineSimulator_2._0
             text_descr = text_descr + "\nИзменения юзера " + $"{user.nick} за {create_date.ToShortDateString()}" ;
             if(old_group != new_group)
             {
-                text_descr = text_descr + "\n" + $"Группа: {old_group.name} --> {new_group.name}";
+                text_descr = text_descr + "\n" + $"Группа: {old_group.Name} --> {new_group.Name}";
             }
             if (old_reputation != new_reputation)
             {

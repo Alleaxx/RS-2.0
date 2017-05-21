@@ -175,68 +175,18 @@ namespace RumineSimulator_2._0
 
         private static void HourSetFullOnline()
         {
-            List<User> rnd_users = TechFullOnlineCreation();
-            TechInactiveOnlineUpdate();
-            //Выходим на нужную активность путем очистки юзеров с низким шансом активности
-            int difference;
-            if (rnd_users.Count > recomend_online)
-            {
-                difference = rnd_users.Count - recomend_online;
-                var sortedGr = from i in rnd_users
-                               orderby i.activity_chanse descending
-                               select i;
-                rnd_users = sortedGr.ToList();
-                int c = 0;
-                do
-                {
-                    if (AdvRandom.PersentChanseBool(rnd_users[c].activity_chanse) && !online.Contains(rnd_users[c]))
-                        online.Add(rnd_users[c]);
-                    c++;
-                    if (c > rnd_users.Count)
-                        c = 0;
-                }
-                while (online.Count < recomend_online);
-                for (int a = 0; a < online.Count; a++)
-                {
-                    online[a].activity_times--;
-                    online[a].Curr_timeForRumine = random.Next(31, 81);
-                }
-                TechInactiveOnlineUpdate();
-
-
-            }
+            
         }
 
         //Проверяем онлайн самого игрока
         private static void PlayerOnline()
         {
-            if (Player.enter_rumine)
-            {
-                bool found = false;
-                foreach (User userr in online)
-                {
-                    if (userr == Player.user)
-                        found = true;
-                }
-                if (!found)
-                {
-                    Player.user.activity = true;
-                    online.Add(Player.user);
-                }
-            }
         }
 
         //Полный онлайн - ВСЕ юзеры, у которых еще не кончилось время на румайн
         private static List<User> TechFullOnlineCreation()
         {
-            full_online.Clear();
-            var sortedGr = from i in UserList.Users
-                           where i.activity_times > 0 && Player.user != i
-                           orderby random.Next(100)
-                           select i;
-            List<User> rnd_users = sortedGr.ToList();
-            full_online = rnd_users.GetRange(0, rnd_users.Count);
-            return rnd_users;
+            return new List<User>();
         }
         //Обновление пользователей у которых есть время заходить на румайн, но которые в данный момент не активны
         private static void TechInactiveOnlineUpdate()
@@ -304,24 +254,15 @@ namespace RumineSimulator_2._0
                 int passed_minutes;
                 passed_minutes = Date.max_minutes_pass;
                 //Вычитание прошедших минут
-                online[i].Curr_timeForRumine -= 1;
-
-                if (online[i].Curr_timeForRumine < 1)
+                if (2 < 1)
                 {
                     log = log + "\n" + $"Время для {online[i].nick} на румине закончилось";
-                    if (online[i].activity_times == 0)
-                    {
-                        online[i].cooldawn = random.Next(8, 12);
-                    }
-                    else
-                    {
-                        online[i].cooldawn = random.Next(0, 4);
-                    }
+
+
                     online.RemoveAt(i);
                     if (inactive_online.Count != 0)
                     {
                         int id_inactive_replace = random.Next(inactive_online.Count);
-                        inactive_online[id_inactive_replace].Curr_timeForRumine = random.Next(10, 30);
                         log = log + "\n" + $"Зато взамен пришел {inactive_online[id_inactive_replace].nick}";
                         online.Add(inactive_online[id_inactive_replace]);
                         inactive_online.RemoveAt(id_inactive_replace);
@@ -338,26 +279,15 @@ namespace RumineSimulator_2._0
             //Приход
             #region Рандомный приход и уход пользователей
             int id_in = random.Next(inactive_online.Count);
-            if (inactive_online.Count != 0 && AdvRandom.PersentChanseBool(inactive_online[id_in].activity_chanse)
-                && inactive_online[id_in].cooldawn == 0 && online.Count <= recomend_online + recomend_online / 4)
             {
                 log = log + "\n" + $"{inactive_online[id_in].nick} зашел на румине поглядеть чекак";
-                inactive_online[id_in].Curr_timeForRumine = random.Next(10, 30);
                 online.Add(inactive_online[id_in]);
                 inactive_online.RemoveAt(id_in);
             }
 
             //Уход
             int id_on = random.Next(online.Count);
-            if (online.Count != 0 && AdvRandom.PersentChanseBool(90 - online[id_on].activity_chanse)
-                && (online[id_on].activity_times > 1) && online.Count >= recomend_online - recomend_online / 4 && online[id_on] != Player.user)
-            {
-                online[id_on].cooldawn = random.Next(0, 4);
-                online[id_on].Curr_timeForRumine = 0;
-                log = log + "\n" + $"{online[id_on].nick} решил пойти по своим делам";
-                inactive_online.Add(online[id_on]);
-                online.RemoveAt(id_on);
-            }
+
             #endregion
 
             //Расставляем флажки активности и последнюю дату посещения
@@ -418,7 +348,7 @@ namespace RumineSimulator_2._0
         {
             if (AdvRandom.PersentChanseBool(((int)(real_online_modifier * 10) + online.Count / 5) + curr_event.message_mod))
             {
-                if(last_author != UserList.Users[i] && (UserList.Users[i] != Player.user  || (UserList.Users[i] == Player.user && Player.Boredom < 100)))
+                if(last_author != UserList.Users[i])
                 {
                     messages_log[messages_log.Count - 1]++;
                     messages_per_day++;
@@ -541,7 +471,7 @@ namespace RumineSimulator_2._0
                 foreach (User user in mod_goals)
                 {
                     int rnd_id = random.Next(mod_goals.Count);
-                    if (AdvRandom.PersentChanseBool(2, 1000) && !mod_goals[rnd_id].LastBan.banned)
+                    if (AdvRandom.PersentChanseBool(2, 1000) && !mod_goals[rnd_id].LastBan.Banned)
                     {
                         mod_goals[rnd_id].LastBan.AddWarnings(mods[rnd_mod], random.Next(1, 101), "Предупрежденьки!", mod_goals[rnd_id]);
                     }
@@ -607,10 +537,7 @@ namespace RumineSimulator_2._0
             recomend_online = full_online.Count * (int)(online_modifier * 10) / 10;
 
             //Прибавляем к шансу активности модификатор часа
-            for (int i = 0; i < UserList.Users.Count; i++)
-            {
-                UserList.Users[i].activity_chanse += UserList.Users[i].activity_chanse * (int)(online_modifier * 100) / 100;
-            }
+
 
             //Изменение онлайна
             HourSetFullOnline();
@@ -623,7 +550,6 @@ namespace RumineSimulator_2._0
             messages_per_day = 0;
             for (int i = 0; i < UserList.Users.Count; i++)
             {
-                UserList.Users[i].cooldawn = UserList.Users[i].cooldawn + random.Next(0, 6);
             }
             Event nothing = new Event("Ничего особенного", EventsEnum.nothing, null);
             curr_event = nothing;
@@ -649,17 +575,11 @@ namespace RumineSimulator_2._0
         }
         public static List<User> GetFullOnline()
         {
-            var sortedGr = from i in full_online
-                           orderby i.activity_times descending
-                           select i;
-            return sortedGr.ToList();
+            return new List<User>();
         }
         public static List<User> GetInActiveOnline()
         {
-            var sortedGr = from i in inactive_online
-                           orderby i.cooldawn descending
-                           select i;
-            return sortedGr.ToList();
+            return new List<User>();
         }
         #endregion
     }

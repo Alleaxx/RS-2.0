@@ -8,20 +8,21 @@ namespace RumineSimulator_2._0
 {
     class GroupCondition
     {
-        public float karma { get; private set; }
-        public int m_oldness { get;private set; }
-        public int news { get;private set; }
-        public int news_quality { get; private set; }
-        public int reputation { get; private set; }
-        public bool mod { get; private set; }
+        public float Karma { get; private set; }
+        public int M_oldness { get;private set; }
+        public int News { get;private set; }
+        public int News_quality { get; private set; }
+        public int Reputation { get; private set; }
+        public bool Mod { get; private set; }
+
         public GroupCondition(float Karma, int M_oldness, int News, int News_quality,int Reputation, bool Mod = false)
         {
-            karma = Karma;
-            m_oldness = M_oldness;
-            news = News;
-            news_quality = News_quality;
-            reputation = Reputation;
-            mod = Mod;
+            this.Karma = Karma;
+            this.M_oldness = M_oldness;
+            this.News = News;
+            this.News_quality = News_quality;
+            this.Reputation = Reputation;
+            this.Mod = Mod;
         }
     }
 }

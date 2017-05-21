@@ -8,14 +8,14 @@ namespace RumineSimulator_2._0
 {
     class Ban
     {
-        public User owner { get; set; }
+        public User Owner { get; set; }
 
-        public bool banned { get; private set; }
+        public bool Banned { get; private set; }
 
         public List<Warning> warnings = new List<Warning>();
-        public int warn_sum { get; private set; }
+        public int Warn_sum { get; private set; }
 
-        public bool ac { get; set; }
+        public bool Ac { get; set; }
 
         public DateTime ban_start = new DateTime();
 
@@ -23,11 +23,11 @@ namespace RumineSimulator_2._0
 
         public Ban(User Owner,bool AC = false,int days = 0)
         {
-            owner = Owner;
-            ac = AC;
+            this.Owner = Owner;
+            Ac = AC;
             if (AC)
             {
-                banned = true;
+                Banned = true;
                 ban_start = Date.current_date;
                 ban_end = ban_start.AddDays(days);
             }
@@ -36,30 +36,29 @@ namespace RumineSimulator_2._0
 
         private void WarnsCount()
         {
-            warn_sum = 0;
+            Warn_sum = 0;
             foreach (Warning warn in warnings)
             {
-                warn_sum += warn.amount;
+                Warn_sum += warn.amount;
             }
         }
 
         public bool AddWarnings(User author,int amount, string reason,User goal)
         {
-            if ((!goal.mod && author.mod) | (author == Player.user && GlobalParams.GodMode))
+            if ((!goal.mod && author.mod))
             {
                 warnings.Add(new Warning(author, amount, reason, goal));
                 WarnsCount();
-                if (warn_sum > 99)
+                if (Warn_sum > 99)
                 {
-                    banned = true;
+                    Banned = true;
                     ban_start = Date.current_date;
                     ban_end = ban_start.AddDays(BanCenter.warning_durings);
-                    if (warn_sum > 100)
+                    if (Warn_sum > 100)
                     {
-                        warnings[warnings.Count - 1].amount -= warn_sum - 100;
+                        warnings[warnings.Count - 1].amount -= Warn_sum - 100;
                         WarnsCount();
-                    }
-                    owner.relations.All[author].Chanse_friendness_down += 50;    
+                    } 
                 }
                 return true;
             }
@@ -71,14 +70,14 @@ namespace RumineSimulator_2._0
         }
         public Ban BanEnd(User user)
         {
-            if(warn_sum == 100)
+            if(Warn_sum == 100)
             {
-                banned = false;
+                Banned = false;
                 warnings.Add(new Warning(UserList.Users[0],-10, "Автоматическое снижение уровня предупреждений после блокировки",user));
             }
             else
             {
-                banned = false;
+                Banned = false;
             }
             return this;
         }

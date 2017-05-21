@@ -70,7 +70,6 @@ namespace RumineSimulator_2._0
             {
                 if (Date.current_date_prev.Minute > Date.current_date.Minute)
                 {
-                    Users[i].UpdateHour();
                 }
                 if (Date.current_date.Hour == 0 && Date.current_date.Minute < Date.current_date_prev.Minute)
                 {
@@ -177,7 +176,7 @@ namespace RumineSimulator_2._0
         static public List<User> ReturnUsersGroupRarenesSortDesc()
         {
             var sortedGr = from i in Users
-                           orderby i.@group.respect descending
+                           orderby i.@group.Respect descending
                            select i;
             return sortedGr.ToList();
 

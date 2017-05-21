@@ -21,13 +21,13 @@
             <ToolBar.Background>
                 <ImageBrush ImageSource="/RumineSimulator 2.0;component/Resources/header-day.png" Stretch="UniformToFill" Opacity="0.25"/>
             </ToolBar.Background>
-            <Button x:Name="button_leftToolHide" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="button_leftToolHide_Click" FontWeight="SemiBold" FontSize="14"/>
+            <Button x:Name="button_leftToolHide" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="Button_leftToolHide_Click" FontWeight="SemiBold" FontSize="14"/>
             <TextBlock x:Name="StatusTextData" FontSize="16" Text="Нынешняя дата" Margin="5,1" FontWeight="Medium" Width="135"/>
             <Separator/>
             <TextBlock x:Name="StatusTextActivness" HorizontalAlignment="Center" Margin="5,1" Padding="0" Text="Активность фч" VerticalAlignment="Center" Width="135"/>
             <TextBlock x:Name="StatusTextEvent" Text="Событие" Margin="5,1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100"/>
             <Separator Margin="10,2,2,2"/>
-            <RadioButton x:Name="statusRadButton_cont" Content="&gt;" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,0" Checked="statusRadButton_cont_Checked" Padding="0" IsEnabled="False" FontSize="17" FontWeight="ExtraBlack" VerticalContentAlignment="Top"/>
+            <RadioButton x:Name="statusRadButton_cont" Content="&gt;" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,0" Checked="StatusRadButton_cont_Checked" Padding="0" IsEnabled="False" FontSize="17" FontWeight="ExtraBlack" VerticalContentAlignment="Top"/>
             <RadioButton x:Name="statusRadButton_pause" Content="||" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,0" Padding="0" IsEnabled="False" FontSize="17" FontWeight="ExtraBlack" VerticalContentAlignment="Top"/>
             <TextBlock x:Name="StatusTextSpeed" Text="х1" Margin="10,2,2,2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="SemiBold"/>
             <Button x:Name="StatusSpeed_x1" BorderThickness="0" Content="&gt;" Margin="5,1,2,1" Padding="0" Click="StatusSpeed_x1_Click" IsEnabled="False"/>
@@ -53,8 +53,8 @@
                     </Grid.Background>
                     <Image x:Name="image" HorizontalAlignment="Left" Height="200" Margin="10,10,0,0" VerticalAlignment="Top" Width="400" Source="/RumineSimulator 2.0;component/Resources/1459031501.png" Grid.ColumnSpan="2"/>
                     <StackPanel HorizontalAlignment="Left" Margin="368,20,0,0" VerticalAlignment="Top" Grid.Column="1">
-                        <Button x:Name="button_GenerateUsers" Content="Сгенерировать пользователей" VerticalAlignment="Top" Click="button_UserGenerate_Click" ToolTip="Кнопка для генерации пользователей" Margin="2" HorizontalContentAlignment="Left" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14" />
-                        <Button x:Name="button_TimeGo" Content="Запустить ход времени" VerticalAlignment="Top" Click="button_TimeGo_Click" ToolTip="Кнопка для генерации пользователей" Margin="2" HorizontalContentAlignment="Left" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14"/>
+                        <Button x:Name="button_GenerateUsers" Content="Сгенерировать пользователей" VerticalAlignment="Top" Click="Button_UserGenerate_Click" ToolTip="Кнопка для генерации пользователей" Margin="2" HorizontalContentAlignment="Left" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14" />
+                        <Button x:Name="button_TimeGo" Content="Запустить ход времени" VerticalAlignment="Top" Click="Button_TimeGo_Click" ToolTip="Кнопка для генерации пользователей" Margin="2" HorizontalContentAlignment="Left" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14"/>
                         <DockPanel x:Name="DP_UpdateTimes" LastChildFill="False" Margin="2" VerticalAlignment="Top" HorizontalAlignment="Left" Background="White">
                             <TextBlock x:Name="label_UpdateTimes" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Обновлять информацию" Background="#FFE6E6E6"/>
                             <TextBox x:Name="text_UpdateTimes" TextWrapping="Wrap" Text="5" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0"/>
@@ -73,16 +73,11 @@
                         </DockPanel>
                         <RadioButton x:Name="radio_LightInfoUpdate" Content="Облегченный вариант обновления" BorderBrush="#FF969696"/>
                         <RadioButton x:Name="radio_AllInfoUpdate" Content="Обновлять все" IsChecked="True" BorderBrush="#FF969696"/>
-                        <CheckBox x:Name="checkBox_DescrHide" Content="Спрятать описание пользоваталей" Click="checkBox_DescrHide_Click" BorderBrush="#FF969696"/>
-                        <CheckBox x:Name="checkBox_Testing" Content="Я нубас" Click="checkBox_Testing_Click" BorderBrush="#FF969696"/>
-                        <CheckBox x:Name="checkBox_GodMode" Content="Режим боженьки" Click="checkBox_GodMode_Click" Background="White" BorderBrush="#FF969696"/>
+                        <CheckBox x:Name="checkBox_DescrHide" Content="Спрятать описание пользоваталей" Click="CheckBox_DescrHide_Click" BorderBrush="#FF969696"/>
                     </StackPanel>
                     <TextBox x:Name="text_log" HorizontalAlignment="Right" Margin="0,10,20,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Center" FontSize="14" Text="Здесь будет располагаться лог событий" Height="150" Grid.Column="2"/>
-                    <Button x:Name="button_clearLog" Content="почистить" HorizontalAlignment="Left" Margin="199,167,0,0" VerticalAlignment="Top" Width="75" Click="button_clearLog_Click" Grid.Column="2"/>
+                    <Button x:Name="button_clearLog" Content="почистить" HorizontalAlignment="Left" Margin="199,167,0,0" VerticalAlignment="Top" Width="75" Click="Button_clearLog_Click" Grid.Column="2"/>
                     <StackPanel x:Name="SP_online" HorizontalAlignment="Left" Margin="10,263,0,185" VerticalAlignment="Center" Width="400" Height="225" Grid.ColumnSpan="2">
-                        <GroupBox x:Name="gB_online" Header="Онлайн" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="1" BorderBrush="#FF969696" FontSize="18" Width="400" Background="White">
-                            <WrapPanel x:Name="wrapPanel_online" Margin="2"/>
-                        </GroupBox>
                         <GroupBox x:Name="gB_messagesDay" Header="Сообщений за день" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="1" BorderBrush="#FF969696" FontSize="18" Background="White">
                             <StackPanel x:Name="SP_messages" Margin="2" VerticalAlignment="Top">
                                 <TextBlock x:Name="text_messagesDay" Margin="0,0,-7,0" TextWrapping="Wrap" Text="сообщений за день" FontSize="12"/>
@@ -93,12 +88,6 @@
                             <TextBlock x:Name="text_foundDate" Margin="2" TextWrapping="Wrap" Text="значение"/>
                         </GroupBox>
                     </StackPanel>
-                    <ListBox x:Name="list_Events" HorizontalAlignment="Left" Margin="368,279,0,0" VerticalAlignment="Top" Grid.Column="1">
-                        <ListBoxItem x:Name="testing" Content="События" Template="{DynamicResource TraitsStyle}" Background="#FFBF6B6B"/>
-                    </ListBox>
-                    <ListBox x:Name="list_eventStat" HorizontalAlignment="Left" Margin="470,279,0,0" VerticalAlignment="Top" Grid.Column="1">
-                        <ListBoxItem x:Name="testingSec" Content="Хар-ка события" Template="{DynamicResource UserChooseStyle}"/>
-                    </ListBox>
                     <ProgressBar x:Name="progBar_Boredom" Height="10" Margin="2,332,2,331" VerticalAlignment="Center" Grid.Column="2" ToolTip="Binding = &quot;{Value}&quot;"/>
                 </Grid>
             </TabItem>
@@ -122,7 +111,7 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <ListBox x:Name="list_UserDetail" Margin="10,5" SelectionChanged="list_Users_SelectionChanged" FontWeight="SemiBold" HorizontalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" FontFamily="Segoe UI"/>
+                    <ListBox x:Name="list_UserDetail" Margin="10,5" SelectionChanged="List_Users_SelectionChanged" FontWeight="SemiBold" HorizontalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" FontFamily="Segoe UI"/>
                     <Grid Grid.Column="2" HorizontalAlignment="Left" Height="100" Margin="134,210,-9,0" Grid.Row="1" VerticalAlignment="Top" Width="100"/>
                     <Grid x:Name="GridUserMainInfo" Background="#FFE5E5E5" Grid.Column="2" Margin="5,5,5,4" Grid.Row="1" HorizontalAlignment="Left">
                         <Grid.RowDefinitions>
@@ -190,7 +179,7 @@
                         <StackPanel x:Name="StackPanelCharacter" Grid.Column="1">
                             <GroupBox x:Name="gB_Character" Header="Характер" Background="White" Foreground="Black" BorderBrush="#FF323232" HorizontalAlignment="Left" Margin="2,2,0,2" Style="{DynamicResource HeadersStyle}">
                                 <StackPanel x:Name="StackPanelChar" Margin="1">
-                                    <GroupBox x:Name="gB_adeq" Header="Благоразумие" Margin="1" ToolTip="????" FontFamily="Verdana" Style="{DynamicResource TextParamsStyle}" BorderThickness="1" MouseDown="gB_adeq_MouseDown">
+                                    <GroupBox x:Name="gB_adeq" Header="Благоразумие" Margin="1" ToolTip="????" FontFamily="Verdana" Style="{DynamicResource TextParamsStyle}" BorderThickness="1">
                                         <Slider x:Name="slider_adeq" Margin="2" BorderBrush="White" Foreground="White" BorderThickness="0" IsEnabled="False" AutoToolTipPlacement="TopLeft" ToolTip="">
                                             <Slider.Background>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -208,7 +197,7 @@
                                             </Slider.Background>
                                         </Slider>
                                     </GroupBox>
-                                    <GroupBox x:Name="gB_rakness" Header="Раковитость" Margin="1" Style="{DynamicResource TextParamsStyle}" BorderThickness="1" MouseDown="gB_rakness_MouseDown">
+                                    <GroupBox x:Name="gB_rakness" Header="Раковитость" Margin="1" Style="{DynamicResource TextParamsStyle}" BorderThickness="1">
                                         <Slider x:Name="slider_rakness" Margin="2" BorderBrush="White" Foreground="White" BorderThickness="0" IsEnabled="False" AutoToolTipPlacement="TopLeft">
                                             <Slider.Background>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -226,7 +215,7 @@
                                             </Slider.Background>
                                         </Slider>
                                     </GroupBox>
-                                    <GroupBox x:Name="gB_conservative" Header="Консервативность" Margin="1" Style="{DynamicResource TextParamsStyle}" BorderThickness="1" MouseDown="gB_conservative_MouseDown">
+                                    <GroupBox x:Name="gB_conservative" Header="Консервативность" Margin="1" Style="{DynamicResource TextParamsStyle}" BorderThickness="1">
                                         <Slider x:Name="slider_conservative" Margin="1" BorderBrush="White" Foreground="White" BorderThickness="0" IsEnabled="False" AutoToolTipPlacement="TopLeft">
                                             <Slider.Background>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -244,7 +233,7 @@
                                             </Slider.Background>
                                         </Slider>
                                     </GroupBox>
-                                    <GroupBox x:Name="gB_creative" Header="Креативность" Margin="1" Style="{DynamicResource TextParamsStyle}" BorderThickness="1" MouseDown="gB_creative_MouseDown">
+                                    <GroupBox x:Name="gB_creative" Header="Креативность" Margin="1" Style="{DynamicResource TextParamsStyle}" BorderThickness="1">
                                         <Slider x:Name="slider_creative" Margin="1" BorderBrush="White" Foreground="White" BorderThickness="0" IsEnabled="False" AutoToolTipPlacement="TopLeft" VerticalAlignment="Center">
                                             <Slider.Background>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -262,7 +251,7 @@
                                             </Slider.Background>
                                         </Slider>
                                     </GroupBox>
-                                    <GroupBox x:Name="gB_sciense" Header="Наука" Margin="1" Style="{DynamicResource TextParamsStyle}" BorderThickness="1" MouseDown="gB_sciense_MouseDown">
+                                    <GroupBox x:Name="gB_sciense" Header="Наука" Margin="1" Style="{DynamicResource TextParamsStyle}" BorderThickness="1">
                                         <Slider x:Name="slider_sciense" Margin="1" BorderBrush="White" Foreground="White" BorderThickness="0" IsEnabled="False" AutoToolTipPlacement="TopLeft" VerticalAlignment="Center">
                                             <Slider.Background>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -280,7 +269,7 @@
                                             </Slider.Background>
                                         </Slider>
                                     </GroupBox>
-                                    <GroupBox x:Name="gB_tolerance" Header="Толерантность" Margin="1" Style="{DynamicResource TextParamsStyle}" BorderThickness="1" MouseDown="gB_tolerance_MouseDown">
+                                    <GroupBox x:Name="gB_tolerance" Header="Толерантность" Margin="1" Style="{DynamicResource TextParamsStyle}" BorderThickness="1">
                                         <Slider x:Name="slider_tolerance" Margin="1" BorderBrush="White" Foreground="White" BorderThickness="0" IsEnabled="False" AutoToolTipPlacement="TopLeft" VerticalAlignment="Center">
                                             <Slider.Background>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -327,7 +316,7 @@
                                         </DockPanel>
                                     </StackPanel>
                                 </GroupBox>
-                                <Expander x:Name="expanderListUser_rel" Header="Выбор пользователя" Margin="2" ScrollViewer.CanContentScroll="True" Style="{DynamicResource LabelsStyle}" Expanded="expanderListUser_rel_Expanded">
+                                <Expander x:Name="expanderListUser_rel" Header="Выбор пользователя" Margin="2" ScrollViewer.CanContentScroll="True" Style="{DynamicResource LabelsStyle}" Expanded="ExpanderListUser_rel_Expanded">
                                     <StackPanel x:Name="StackPanelListUser_rel" Margin="2">
                                         <TextBlock x:Name="label_sort" TextWrapping="Wrap" Text="Сортировать по..." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2"/>
                                         <ComboBox x:Name="comboBox_SortRel" Margin="2" SelectedIndex="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="comboBoxUserSort_rel_SelectionChanged">
@@ -481,7 +470,7 @@
                     <StackPanel Grid.Column="1" Margin="2" Grid.Row="1"/>
                     <StackPanel Margin="2">
                         <TextBlock x:Name="tb_sort" TextWrapping="Wrap" Text="Сортировать по..." Margin="2" HorizontalAlignment="Center" Style="{DynamicResource LabelsStyle}"/>
-                        <ComboBox x:Name="comboBox_userSort" Margin="2" SelectedIndex="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="comboBoxUserSort_all_SelectionChanged" Style="{DynamicResource TextParamsStyle}">
+                        <ComboBox x:Name="comboBox_userSort" Margin="2" SelectedIndex="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="ComboBoxUserSort_all_SelectionChanged" Style="{DynamicResource TextParamsStyle}">
                             <ComboBoxItem Content="Нет сортировки"/>
                             <ComboBoxItem Content="Ценности группы"/>
                             <ComboBoxItem Content="Дате регистрации"/>
@@ -514,20 +503,19 @@
                                 <CheckBox x:Name="checkBox_Mod" Content="Модераторские права" Margin="5,3" FontSize="12" VerticalContentAlignment="Center" Style="{DynamicResource TextParamsStyle}"/>
                                 <GroupBox x:Name="gB_reputation" Header="Репутация" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Center" Margin="0,3" Style="{DynamicResource LabelsStyle}">
                                     <WrapPanel x:Name="WrapPanelRep" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <TextBox x:Name="text_PosRep" Height="23" TextWrapping="Wrap" Text="+0.0" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0" Foreground="#FF30CF0D" Padding="2" FontWeight="Bold" Style="{DynamicResource TextParamsStyle}" MouseDoubleClick="text_PosRep_MouseDoubleClick" Cursor="Hand" ToolTip="Повысить репутацию этому пользователю..." Focusable="False"/>
-                                        <TextBox x:Name="text_BaseRep" TextWrapping="Wrap" Text="| -0.0 |" Padding="1" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0" Foreground="#FF2552E8" FontWeight="Bold" Style="{DynamicResource LabelsClickStyle}" MouseDoubleClick="text_BaseRep_MouseDoubleClick" Focusable="False"/>
-                                        <TextBox x:Name="text_OtrRep" TextWrapping="Wrap" Text="-0.0" Padding="2" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True" BorderThickness="0" Foreground="#FFD8131C" FontWeight="Bold" Style="{DynamicResource TextParamsStyle}" MouseDoubleClick="text_OtrRep_MouseDoubleClick" Cursor="Hand" ToolTip="Понизить репутацию этому пользователю..." Focusable="False"/>
+                                        <TextBox x:Name="text_PosRep" Height="23" TextWrapping="Wrap" Text="+0.0" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0" Foreground="#FF30CF0D" Padding="2" FontWeight="Bold" Style="{DynamicResource TextParamsStyle}" MouseDoubleClick="Text_PosRep_MouseDoubleClick" Cursor="Hand" ToolTip="Повысить репутацию этому пользователю..." Focusable="False"/>
+                                        <TextBox x:Name="text_BaseRep" TextWrapping="Wrap" Text="| -0.0 |" Padding="1" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0" Foreground="#FF2552E8" FontWeight="Bold" Style="{DynamicResource LabelsClickStyle}" MouseDoubleClick="Text_BaseRep_MouseDoubleClick" Focusable="False"/>
+                                        <TextBox x:Name="text_OtrRep" TextWrapping="Wrap" Text="-0.0" Padding="2" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True" BorderThickness="0" Foreground="#FFD8131C" FontWeight="Bold" Style="{DynamicResource TextParamsStyle}" MouseDoubleClick="Text_OtrRep_MouseDoubleClick" Cursor="Hand" ToolTip="Понизить репутацию этому пользователю..." Focusable="False"/>
                                     </WrapPanel>
                                 </GroupBox>
                                 <DockPanel x:Name="DP_warningsLevel" LastChildFill="False" Margin="0,2" Width="150">
                                     <TextBlock x:Name="label_warningsLevel" TextWrapping="Wrap" Text="Предупреждения" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" FontSize="13" Style="{DynamicResource LabelsStyle}"/>
-                                    <TextBlock x:Name="text_warningsLevel" TextWrapping="Wrap" Text="0" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="5,2,2,2" FontSize="12" Style="{DynamicResource LabelsClickStyle}" MouseDown="text_warningsLevel_MouseDown" ToolTip="Журнал предупреждений пользователя"/>
+                                    <TextBlock x:Name="text_warningsLevel" TextWrapping="Wrap" Text="0" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="5,2,2,2" FontSize="12" Style="{DynamicResource LabelsClickStyle}" MouseDown="Text_warningsLevel_MouseDown" ToolTip="Журнал предупреждений пользователя"/>
                                 </DockPanel>
-                                <Button x:Name="button_privateCab" Content="Личный кабинет" Margin="2" Click="button_privateCab_Click" FocusVisualStyle="{DynamicResource LabelsStyle}" Template="{DynamicResource ButtonsRumineGrayStyle}" VerticalContentAlignment="Center"/>
                                 <Button x:Name="button_AdminPanel" Content="Админпанель" Margin="2" FocusVisualStyle="{DynamicResource LabelsStyle}" Template="{DynamicResource ButtonsRumineGrayStyle}"/>
                             </StackPanel>
                         </GroupBox>
-                        <ListBox x:Name="list_Traits" Margin="2" FontWeight="Medium" HorizontalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled" FontFamily="Segoe UI" VerticalAlignment="Top" SelectionChanged="list_Traits_SelectionChanged" FontSize="14"/>
+                        <ListBox x:Name="list_Traits" Margin="2" FontWeight="Medium" HorizontalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled" FontFamily="Segoe UI" VerticalAlignment="Top" SelectionChanged="List_Traits_SelectionChanged" FontSize="14"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -572,7 +560,7 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <ListBox x:Name="list_passedEvents" VerticalAlignment="Top" SelectionChanged="list_passedEvents_SelectionChanged" Margin="2">
+                    <ListBox x:Name="list_passedEvents" VerticalAlignment="Top" SelectionChanged="List_passedEvents_SelectionChanged" Margin="2">
                         <ListBoxItem Content="Все события"/>
                     </ListBox>
                     <ListBox x:Name="list_EventChar" Margin="2" Grid.Column="1" VerticalAlignment="Top">
@@ -849,14 +837,14 @@
         </TabControl>
         <StatusBar Margin="2,2,47,2" Grid.Row="2" Grid.Column="1">
             <StackPanel Margin="0,0,2,0">
-                <TextBox x:Name="text_statusLog" TextWrapping="Wrap" Margin="2" TextChanged="text_statusLog_TextChanged" Text="Лог" FontSize="16"/>
+                <TextBox x:Name="text_statusLog" TextWrapping="Wrap" Margin="2" TextChanged="Text_statusLog_TextChanged" Text="Лог" FontSize="16"/>
             </StackPanel>
         </StatusBar>
         <ToolBarTray x:Name="toolbarTrayLeft" HorizontalAlignment="Left" Margin="0" Orientation="Vertical" Grid.Row="1" Grid.RowSpan="2">
             <ToolBar x:Name="toolBarLeft" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Button x:Name="status_playerOnline" Content="Вы" FontWeight="SemiBold" Foreground="#FF176093" BorderBrush="#FF707070" Template="{DynamicResource ButtonsRumineGrayStyle}" Margin="0,2" Click="status_playerOnline_Click"/>
-                <Button x:Name="status_UpdateAll" Content="F5" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2" Click="button_UpdateAll_Click"/>
-                <Button x:Name="status_FastPrivateCab" Content="Кб" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2" Click="button_privateCab_Click"/>
+                <Button x:Name="status_playerOnline" Content="Вы" FontWeight="SemiBold" Foreground="#FF176093" BorderBrush="#FF707070" Template="{DynamicResource ButtonsRumineGrayStyle}" Margin="0,2"/>
+                <Button x:Name="status_UpdateAll" Content="F5" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2"/>
+                <Button x:Name="status_FastPrivateCab" Content="Кб" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2"/>
             </ToolBar>
         </ToolBarTray>
 

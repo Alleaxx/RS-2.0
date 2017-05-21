@@ -89,7 +89,7 @@ namespace RumineSimulator_2._0
             {
                 foreach (Group group in available_groups)
                 {
-                    if (group.journ)
+                    if (group.Journ)
                         return group;
                 }
             }
@@ -97,7 +97,7 @@ namespace RumineSimulator_2._0
             {
                 foreach (Group group in available_groups)
                 {
-                    if (group.mod_bezdn)
+                    if (group.Mod_bezdn)
                         return group;
                 }
             }
@@ -116,19 +116,19 @@ namespace RumineSimulator_2._0
 
         static private bool CheckGroupConditionFailed(User user,Group group)
         {
-            if (group.condition.mod)
+            if (group.condition.Mod)
                 return true;
             else
             {
-                if (user.karma.karma < group.condition.karma)
+                if (user.karma.karma < group.condition.Karma)
                     return true;
-                if (user.m_oldness < group.condition.m_oldness)
+                if (user.m_oldness < group.condition.M_oldness)
                     return true;
-                if (user.news < group.condition.news)
+                if (user.news < group.condition.News)
                     return true;
-                if (user.news_quality < group.condition.news_quality)
+                if (user.news_quality < group.condition.News_quality)
                     return true;
-                if (user.reputation.Base_reputation < group.condition.reputation)
+                if (user.reputation.Base_reputation < group.condition.Reputation)
                     return true;
             }
             return false;
@@ -137,7 +137,7 @@ namespace RumineSimulator_2._0
         static private List<Group> SortByRareness(List<Group> list)
         {
             var sortedGr = from i in list
-                           orderby i.respect descending
+                           orderby i.Respect descending
                            select i;
             return sortedGr.ToList();
         }

@@ -31,8 +31,6 @@ namespace RumineSimulator_2._0
         private DispatcherTimer timer_TimeGo = null;
         WindowWarn WindowWarnings;
         WindowReputation WindowReputation;
-        WindowCabinet WindowCabinet;
-        WindowAboutYou WindowAboutYou;
 
         private short speed = 1;
         private short update_time = 5;
@@ -79,16 +77,17 @@ namespace RumineSimulator_2._0
             for (int i = 0; i < TraitsList.AllTraits.Count; i++)
             {
                 Trait trait = TraitsList.AllTraits.ElementAt(i).Value;
-                ListBoxItem item = new ListBoxItem();
-                item.Content = trait.short_name;
-                item.Background = trait.background_brush;
-                item.Foreground = trait.foreground_brush;
+                ListBoxItem item = new ListBoxItem()
+                {
+                    Content = trait.short_name,
+                    Background = trait.background_brush,
+                    Foreground = trait.foreground_brush
+                };
                 list_AllTraits.Items.Add(item);
             }
             exp_info.IsExpanded = false;
             template = testing.Template;
             templateSec = testingSec.Template;
-            PlayerActivity.ActivityInit();
         }
 
 
@@ -133,7 +132,7 @@ namespace RumineSimulator_2._0
 
         }
         //Выбор пользователя(бета-версия)
-        private void wrapUser_Click(object sender, RoutedEventArgs e)
+        private void WrapUser_Click(object sender, RoutedEventArgs e)
         {
             exp_choose.IsExpanded = false;
             exp_info.IsExpanded = true;
@@ -154,7 +153,7 @@ namespace RumineSimulator_2._0
         {
             //Ник, группа, аватарка, отношение, посещение
             text_Nick.Text = selected_user_beta.nick;
-            text_Group1.Text = selected_user_beta.group.name;
+            text_Group1.Text = selected_user_beta.group.Name;
             text_Group1.Foreground = selected_user_beta.group.need_brush;
             if (Nicks.AvaPath.ContainsKey(selected_user_beta.nick))
             {
@@ -166,8 +165,8 @@ namespace RumineSimulator_2._0
                 image_Ava1.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/No_ava.png"));
             }
             text_Dates.Text = selected_user_beta.registration.ToShortDateString() + " - " + selected_user_beta.last_activity.ToShortDateString();
-            text_Relation1.Foreground = new SolidColorBrush(selected_user_beta.relations.All[Player.user].color);
-            text_Relation1.Text = selected_user_beta.relations.All[Player.user].ReturnTextRelation();
+            //text_Relation1.Foreground = new SolidColorBrush(selected_user_beta.relations.All[Player.user].color);
+            //text_Relation1.Text = selected_user_beta.relations.All[Player.user].ReturnTextRelation();
 
 
             //Репутация-карма
@@ -179,7 +178,7 @@ namespace RumineSimulator_2._0
             //Сайто-форумная информация
             text_Messages.Text = "Сообщений: " + selected_user_beta.messages;
             text_Likes.Text = "Симпатий: " + selected_user_beta.likes;
-            text_Warnings.Text = "Предупреждений: " + selected_user_beta.LastBan.warn_sum;
+            text_Warnings.Text = "Предупреждений: " + selected_user_beta.LastBan.Warn_sum;
 
             text_Comments.Text = "Комментариев: " + selected_user_beta.comments;
             text_CommentsRate.Text = "Рейтинг К.: +" + selected_user_beta.comments_rate;
@@ -204,15 +203,17 @@ namespace RumineSimulator_2._0
             list_TraitsChar.Items.Clear();
             foreach (Trait trait in selected_user_beta.traits)
             {
-                ListBoxItem item = new ListBoxItem();
-                item.Template = template;
-                item.Content = trait.short_name;
-                item.ToolTip = trait.full_description;
-                item.Margin = new Thickness(1, 1, 1, 1);
-                item.Background = trait.background_brush;
-                item.Foreground = trait.foreground_brush;
-                item.Cursor = Cursors.Help;
-                if(trait.type == TraitType.character )
+                ListBoxItem item = new ListBoxItem()
+                {
+                    Template = template,
+                    Content = trait.short_name,
+                    ToolTip = trait.full_description,
+                    Margin = new Thickness(1, 1, 1, 1),
+                    Background = trait.background_brush,
+                    Foreground = trait.foreground_brush,
+                    Cursor = Cursors.Help
+                };
+                if (trait.type == TraitType.character )
                 {
                     list_TraitsChar.Items.Add(item);
                 }
@@ -239,57 +240,17 @@ namespace RumineSimulator_2._0
         }
         private void InterfaceAccesUpdate()
         {
-            if (!GlobalParams.Testing && Player.user != null)
-            {
-                #region Обычные пользователи
-                if (Player.access_level >= 0)
-                {
-                    if (player_index == list_UserDetail.SelectedIndex)
-                    {
-                        if (Player.user.LastBan.warn_sum > 0)
-                        {
+
                             DP_warningsLevel.Visibility = Visibility.Visible;
                             DP_warningsLevel.Height = 21;
-                        }
-                        button_privateCab.Visibility = Visibility.Visible;
-                        button_privateCab.Height = 27;
-                    }
-                    else
-                    {
-                        DP_warningsLevel.Visibility = Visibility.Hidden;
-                        DP_warningsLevel.Height = 0;
-                        button_privateCab.Visibility = Visibility.Visible;
-                        button_privateCab.Height = 0;
-                    }
-                    button_AdminPanel.Visibility = Visibility.Hidden;
-                    button_AdminPanel.Height = 0;
 
-                }
-                #endregion
-
-                #region Пользователи с админпанелью
-                if (Player.access_level > 1)
-                {
-                    if (player_index == list_UserDetail.SelectedIndex)
-                    {
                         button_AdminPanel.Visibility = Visibility.Visible;
                         button_AdminPanel.Height = 27;
-                    }
-                }
-                #endregion
 
-                #region Модераторы
-                if (Player.access_level > 2)
-                {
-                    DP_warningsLevel.Visibility = Visibility.Visible;
-                    DP_warningsLevel.Height = 21;
-                }
-                #endregion
-            }
         }
 
         //Галочки
-        private void checkBox_DescrHide_Click(object sender, RoutedEventArgs e)
+        private void CheckBox_DescrHide_Click(object sender, RoutedEventArgs e)
         {
             if ((bool)checkBox_DescrHide.IsChecked)
             {
@@ -300,11 +261,9 @@ namespace RumineSimulator_2._0
                 gB_Description.Visibility = Visibility.Visible;
             }
         }
-        private void checkBox_Testing_Click(object sender, RoutedEventArgs e)
+        private void CheckBox_Testing_Click(object sender, RoutedEventArgs e)
         {
-            GlobalParams.Testing = (bool)checkBox_Testing.IsChecked;
-            if (GlobalParams.Testing)
-            {
+
                 DP_warningsLevel.Visibility = Visibility.Visible;
                 DP_warningsLevel.Height = 21;
                 gB_Description.Visibility = Visibility.Visible;
@@ -312,12 +271,11 @@ namespace RumineSimulator_2._0
                 button_AdminPanel.Height = 27;
                 button_privateCab.Visibility = Visibility.Visible;
                 button_privateCab.Height = 27;
-            }
         }
 
-        private void checkBox_GodMode_Click(object sender, RoutedEventArgs e)
+        private void CheckBox_GodMode_Click(object sender, RoutedEventArgs e)
         {
-            GlobalParams.GodMode = (bool)checkBox_GodMode.IsChecked;
+
         }
 
 
@@ -341,21 +299,11 @@ namespace RumineSimulator_2._0
                 StatusTextData.Foreground = new SolidColorBrush(Colors.Black);
             if (Date.current_date.Hour == 5 && Date.current_date.Minute == 0)
                 StatusTextData.Foreground = new SolidColorBrush(Colors.DodgerBlue);
-            if (Player.user.activity)
-            {
-                text_playerOnline.Text = $"Онлайн ({PlayerActivity.ReturnActivityText()})";
-                text_playerOnline.Foreground = new SolidColorBrush(Colors.Green);
-            }
-            else
-            {
-                text_playerOnline.Text = $"Оффлайн ({PlayerActivity.ReturnActivityText()})";
-                text_playerOnline.Foreground = new SolidColorBrush(Colors.Gray);
-            }
 
         }
 
         //Управление обновлением
-        private void list_Users_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void List_Users_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SELECTIONUsersUpdate();
             if (expanderListUser_rel.IsExpanded)
@@ -371,7 +319,7 @@ namespace RumineSimulator_2._0
                 UserRelationUpdate();
 
         }
-        private void button_UpdateAll_Click(object sender, RoutedEventArgs e)
+        private void Button_UpdateAll_Click(object sender, RoutedEventArgs e)
         {
             if (tabControlMain.SelectedIndex == 2)
             {
@@ -384,16 +332,16 @@ namespace RumineSimulator_2._0
             }
             EventtPassedListUpdate();
         }
-        private void list_Traits_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void List_Traits_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
-        private void expanderListUser_rel_Expanded(object sender, RoutedEventArgs e)
+        private void ExpanderListUser_rel_Expanded(object sender, RoutedEventArgs e)
         {
             UserListRelUpdate();
         }
         //Перерисовка списков из-за сортировки
-        private void comboBoxUserSort_all_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ComboBoxUserSort_all_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UserListAllUpdate();
         }
@@ -461,18 +409,11 @@ namespace RumineSimulator_2._0
             for (int i = 0; i < list_sort.Count; i++)
             {
                 //Добавляем в список идентификатор юзера
-                ListBoxItem user_item = new ListBoxItem();
-                user_item.Content = StackPanUserLists(list_sort[i]);
-                if (list_sort[i] == Player.user)
+                ListBoxItem user_item = new ListBoxItem()
                 {
-                    user_item.Background = new SolidColorBrush(Colors.LightBlue);
-                    player_index = i;
-                }
+                    Content = StackPanUserLists(list_sort[i])
+                };
                 list_UserDetail.Items.Add(user_item);
-            }
-            for (int i = 0; i < Player.known_users.Count; i++)
-            {
-                WrapListUsers.Children.Add(StackPanUser(Player.known_users[i]));
             }
             list_UserDetail.SelectedIndex = selected_index_user;
             SELECTIONUsersUpdate();
@@ -502,9 +443,11 @@ namespace RumineSimulator_2._0
                 for (int i = 0; i < list_sort.Count; i++)
                 {
                     //Добавляем в список идентификатор юзера
-                    ListBoxItem user_item = new ListBoxItem();
-                    user_item.Content = StackPanUserLists(list_sort[i], true);
-                    user_item.Background = new SolidColorBrush(selected_user.relations.All[list_sort[i]].color);
+                    ListBoxItem user_item = new ListBoxItem()
+                    {
+                        Content = StackPanUserLists(list_sort[i], true),
+                        Background = new SolidColorBrush(selected_user.relations.All[list_sort[i]].color)
+                    };
                     list_Relations.Items.Add(user_item);
                 }
             }
@@ -544,24 +487,18 @@ namespace RumineSimulator_2._0
 
                 //Установка ника на заглавие тексбокса. Если слишком большой - дату удаляем. Все равно большой - удаляем еще и часть ника
                 string header = $"{selected_user.nick}";
-                if (selected_user == Player.user)
-                    header = $"{selected_user.nick}(Вы)";
                 gB_MainInfo.Header = header;
                 text_Registration.Text = selected_user.registration.ToShortDateString() + $"({selected_user.m_oldness}й месяц)";
                 text_LastActivity.Text = selected_user.last_activity.ToShortDateString() + " " + selected_user.last_activity.ToShortTimeString();
 
                 //Цвет группы юзера и сама группа
                 text_Group.Foreground = selected_user.group.need_brush;
-                text_Group.Text = ($"{selected_user.group.name}");
-                if (selected_user.bans[selected_user.bans.Count - 1].banned)
+                text_Group.Text = ($"{selected_user.group.Name}");
+                if (selected_user.bans[selected_user.bans.Count - 1].Banned)
                     text_Group.Text = ($"Забанен");
 
 
-                text_RelationPlayer.Foreground = new SolidColorBrush(selected_user.relations.All[Player.user].color);
-                text_RelationPlayer.Text = selected_user.relations.All[Player.user].ReturnTextRelation();
 
-                if (selected_user == Player.user)
-                    text_RelationPlayer.Text = "Это вы!";
 
                 //Статистика
                 text_comments.Text = selected_user.comments.ToString();
@@ -583,7 +520,7 @@ namespace RumineSimulator_2._0
                 text_OtrRep.Text = "-" + selected_user.reputation.Otr_reputation.ToString();
                 text_PosRep.Text = "+" + selected_user.reputation.Pos_reputation.ToString();
 
-                text_warningsLevel.Text = selected_user.bans[selected_user.bans.Count - 1].warn_sum.ToString();
+                text_warningsLevel.Text = selected_user.bans[selected_user.bans.Count - 1].Warn_sum.ToString();
 
 
                 //Логические переменные
@@ -745,14 +682,16 @@ namespace RumineSimulator_2._0
                 //Трейты
                 foreach (Trait trait in selected_user.traits)
                 {
-                    ListBoxItem item = new ListBoxItem();
-                    item.Template = template;
-                    item.Content = trait.short_name;
-                    item.ToolTip = trait.full_description;
-                    item.Margin = new Thickness(1, 1, 1, 1);
-                    item.Background = trait.background_brush;
-                    item.Foreground = trait.foreground_brush;
-                    item.Cursor = Cursors.Help;
+                    ListBoxItem item = new ListBoxItem()
+                    {
+                        Template = template,
+                        Content = trait.short_name,
+                        ToolTip = trait.full_description,
+                        Margin = new Thickness(1, 1, 1, 1),
+                        Background = trait.background_brush,
+                        Foreground = trait.foreground_brush,
+                        Cursor = Cursors.Help
+                    };
                     list_Traits.Items.Add(item);
                 }
 
@@ -777,7 +716,7 @@ namespace RumineSimulator_2._0
             text_nickDiff2.Text = selected_userRelation.nick;
             text_RegDiff2.Text = selected_userRelation.registration.ToShortDateString();
             text_GroupDiff1.Foreground = selected_user.group.need_brush;
-            text_GroupDiff2.Text = selected_userRelation.group.name;
+            text_GroupDiff2.Text = selected_userRelation.group.Name;
             text_GroupDiff2.Foreground = selected_userRelation.group.need_brush;
             #endregion
 
@@ -927,8 +866,8 @@ namespace RumineSimulator_2._0
             listView_Users.Items.Clear();
             foreach (User user in UserList.Users)
             {
-                string group = user.group.name;
-                if (user.bans[user.bans.Count - 1].banned)
+                string group = user.group.Name;
+                if (user.bans[user.bans.Count - 1].Banned)
                     group = group + "(забанен)";
                 listView_Users.Items.Add(new
                 {
@@ -947,7 +886,7 @@ namespace RumineSimulator_2._0
             }
         }
         //Характеристики выбранного события
-        private void list_passedEvents_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void List_passedEvents_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             list_EventChar.Items.Clear();
             if (list_passedEvents.SelectedIndex != -1)
@@ -956,10 +895,12 @@ namespace RumineSimulator_2._0
 
                 foreach (string eventParam in selected_event.text_parametres)
                 {
-                    ListBoxItem item = new ListBoxItem();
-                    item.Template = templateSec;
-                    item.Content = eventParam;
-                    item.Margin = new Thickness(1, 1, 1, 1);
+                    ListBoxItem item = new ListBoxItem()
+                    {
+                        Template = templateSec,
+                        Content = eventParam,
+                        Margin = new Thickness(1, 1, 1, 1)
+                    };
                     list_EventChar.Items.Add(item);
                 }
             }
@@ -967,12 +908,12 @@ namespace RumineSimulator_2._0
         }
 
         //Все остальное
-        private void button_clearLog_Click(object sender, RoutedEventArgs e)
+        private void Button_clearLog_Click(object sender, RoutedEventArgs e)
         {
             text_log.Text = "";
         }
         //Ссылка на пользователя игрока
-        private void status_playerOnline_Click(object sender, RoutedEventArgs e)
+        private void Status_playerOnline_Click(object sender, RoutedEventArgs e)
         {
             tabControlMain.SelectedIndex = 1;
             list_UserDetail.SelectedIndex = player_index;
@@ -987,33 +928,28 @@ namespace RumineSimulator_2._0
             exp_choose.IsExpanded = true;
         }
         //Быстрое изменение репутации
-        private void text_OtrRep_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void Text_OtrRep_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            PlayerActions.actions_quie.Add(new ActionRepChange($"Понижение репутации {selected_user.nick}", ActionsEnum.ReputationDown, 1,
-                -Player.user.karma.karma, ReputationReason.ReturnReason(true), selected_user));
-            text_statusLog.Text = "Понижение репутации успешно добавлено в очередь действий!";
+
         }
-        private void text_PosRep_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void Text_PosRep_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            PlayerActions.actions_quie.Add(new ActionRepChange($"Повышение репутации {selected_user.nick}", ActionsEnum.ReputationUp, 1,
-                Player.user.karma.karma, ReputationReason.ReturnReason(false), selected_user));
-            text_statusLog.Text = "Повышение репутации успешно добавлено в очередь действий!";
+
 
         }
 
 
         //Личный кабинет, предупреждения, репутация
-        private void button_privateCab_Click(object sender, RoutedEventArgs e)
+        private void Button_privateCab_Click(object sender, RoutedEventArgs e)
         {
-            WindowCabinet = new WindowCabinet();
-            WindowCabinet.Show();
+
         }
-        private void text_warningsLevel_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Text_warningsLevel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             WindowWarnings = new WindowWarn(selected_user.nick);
             WindowWarnings.Show();
         }
-        private void text_BaseRep_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void Text_BaseRep_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             WindowReputation = new WindowReputation(selected_user.nick);
             WindowReputation.Show();
@@ -1021,29 +957,8 @@ namespace RumineSimulator_2._0
 
         //Тулбар
         //Зайти на сайт с тулбара
-        private void text_playerOnline_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (Player.enter_rumine == false)
-            {
-                Activity.online.Add(Player.user);
-                Player.enter_rumine = true;
-            }
-            else
-            {
-                for (int i = 0; i < Activity.online.Count; i++)
-                {
-                    if (Activity.online[i] == Player.user)
-                    {
-                        Activity.online.RemoveAt(i);
-                        break;
-                    }
-                }
-
-                Player.enter_rumine = false;
-            }
-        }
         //Скрыть левый тулбар
-        private void button_leftToolHide_Click(object sender, RoutedEventArgs e)
+        private void Button_leftToolHide_Click(object sender, RoutedEventArgs e)
         {
             if (toolbarTrayLeft.Visibility == Visibility.Hidden)
             {
@@ -1072,7 +987,7 @@ namespace RumineSimulator_2._0
 
 
         //Начало отсчета
-        private void button_TimeGo_Click(object sender, RoutedEventArgs e)
+        private void Button_TimeGo_Click(object sender, RoutedEventArgs e)
         {
             timer_TimeGo = new DispatcherTimer();
             timer_TimeGo.Tick += new EventHandler(TimeGoTick);
@@ -1110,14 +1025,6 @@ namespace RumineSimulator_2._0
         private void MinuteLogicUpdate()
         {
             Date.TimeGo();
-            if (Player.user.activity)
-            {
-                log_text = PlayerActions.ActionsProgress();
-            }
-            else
-            {
-                PlayerActions.ActionsStop();
-            }
 
             if (Date.current_date.Hour < Date.current_date_prev.Hour)
             {
@@ -1132,14 +1039,9 @@ namespace RumineSimulator_2._0
             {
                 Activity.ActivityDimishing();
             }
-
-            if (Player.user.activity && Date.current_date.Minute % 4 == 0)
-            {
-                Player.Boredom += 2;
-            }
             else if (Date.current_date.Minute % 4 == 0)
             {
-                Player.Boredom--;
+
             }
 
             if (Date.current_date.Minute < Date.current_date_prev.Minute)
@@ -1151,7 +1053,6 @@ namespace RumineSimulator_2._0
                 Activity.NewMonthUpdate();
             }
             Activity.TimeMinutePassing();
-            PlayerActivity.UpdateActivity();
             UserList.CheckingAllUserForUpdates();
         }
 
@@ -1179,7 +1080,7 @@ namespace RumineSimulator_2._0
             }
             updates += (short)Date.max_minutes_pass;
             StatusUpdate();
-            if (Player.user.activity || (updates >= Convert.ToInt16(text_UpdateTimes.Text) && GlobalParams.Testing))
+            if ((updates >= Convert.ToInt16(text_UpdateTimes.Text) && GlobalParams.Testing))
             {
                 SELECTIONUsersUpdate();
                 InfoUserUpdate();
@@ -1189,11 +1090,13 @@ namespace RumineSimulator_2._0
                 gB_online.Header = "Сейчас онлайн: " + Activity.all_online + $"({Activity.online.Count})";
                 try
                 {
-                    TextBlock text = new TextBlock();
-                    text.Text = online[0].nick;
-                    text.FontWeight = text_Group.FontWeight;
-                    text.FontSize = 12;
-                    text.Foreground = online[0].group.need_brush;
+                    TextBlock text = new TextBlock()
+                    {
+                        Text = online[0].nick,
+                        FontWeight = text_Group.FontWeight,
+                        FontSize = 12,
+                        Foreground = online[0].group.need_brush
+                    };
                     wrapPanel_online.Children.Add(text);
                 }
                 catch
@@ -1202,11 +1105,13 @@ namespace RumineSimulator_2._0
                 }
                 for (int i = 1; i < online.Count; i++)
                 {
-                    TextBlock text = new TextBlock();
-                    text.Text = ", " + online[i].nick;
-                    text.FontSize = 12;
-                    text.FontWeight = text_Group.FontWeight;
-                    text.Foreground = online[i].group.need_brush;
+                    TextBlock text = new TextBlock()
+                    {
+                        Text = ", " + online[i].nick,
+                        FontSize = 12,
+                        FontWeight = text_Group.FontWeight,
+                        Foreground = online[i].group.need_brush
+                    };
                     wrapPanel_online.Children.Add(text);
 
                 }
@@ -1237,14 +1142,13 @@ namespace RumineSimulator_2._0
                 text_messagesDay.Text = Activity.messages_per_day.ToString();
                 text_messagesPrevMinute.Text = Activity.last_messages.Sum().ToString();
             }
-            progBar_Boredom.Value = Player.Boredom;
         }
 
 
 
 
         //Пауза и "продолжить"
-        private void statusRadButton_cont_Checked(object sender, RoutedEventArgs e)
+        private void StatusRadButton_cont_Checked(object sender, RoutedEventArgs e)
         {
             timer_TimeGo.IsEnabled = true;
         }
@@ -1294,7 +1198,7 @@ namespace RumineSimulator_2._0
 
 
         //Управление
-        private void button_UserGenerate_Click(object sender, RoutedEventArgs e)
+        private void Button_UserGenerate_Click(object sender, RoutedEventArgs e)
         {
             text_log.AppendText("\nГенерируются юзеры...");
             relations_generated = false;
@@ -1312,7 +1216,7 @@ namespace RumineSimulator_2._0
             timer_total_users = GenerateUsersAmount;
             timer_generated_users = 0;
             timer_users = new DispatcherTimer();  // если надо, то в скобках указываем приоритет, например DispatcherPriority.Render
-            timer_users.Tick += new EventHandler(timerTick);
+            timer_users.Tick += new EventHandler(TimerTick);
             timer_users.Interval = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(text_GenerateTick.Text));
             text_GeneratedUsers.Text = UserList.UserAmount.ToString();
             if (users_generated)
@@ -1323,7 +1227,7 @@ namespace RumineSimulator_2._0
             timer_users.Start();
         }
         //Результат
-        private void timerTick(object sender, EventArgs e)
+        private void TimerTick(object sender, EventArgs e)
         {
             if (timer_total_users == timer_generated_users)
             {
@@ -1334,9 +1238,6 @@ namespace RumineSimulator_2._0
                 UserList.ModerChoose();
                 relations_generated = true;
                 users_generated = true;
-                Player.PlayerCreation();
-                text_log.AppendText("\nПользователь выбран! Вы " + $"{Player.user.nick}! Уровень доступа {Player.access_level}");
-                Player.UserRecognise();
                 UserList.FractionChoose();
                 UserListAllUpdate();
                 ListView_UsersUpdate();
@@ -1347,8 +1248,6 @@ namespace RumineSimulator_2._0
                 list_AverageTemperature.Items.Add($"Креативность: {UserList.aver_creativity}");
                 list_AverageTemperature.Items.Add($"Наука: {UserList.aver_sciense}");
                 list_AverageTemperature.Items.Add($"Объекты отношений: {GlobalParams.relation_obj}");
-                WindowAboutYou = new WindowAboutYou();
-                WindowAboutYou.Show();
             }
 
             else
@@ -1367,71 +1266,29 @@ namespace RumineSimulator_2._0
         #endregion
 
         #region Изучение параметров
-        private void gB_adeq_MouseDown(object sender, MouseButtonEventArgs e)
+        private void GB_adeq_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (selected_user.character.adeq.unknown)
-            {
-                PlayerActions.actions_quie.Add(new DoParamResearch("Изучение параметра",
-                    ActionsEnum.DoResearch, 5, selected_user, selected_user.character.adeq));
-                text_statusLog.Text = Date.current_date.ToShortTimeString() + ": изучение адекватности добавлено в очередь действий!";
-                gB_adeq.BorderBrush = new SolidColorBrush(Colors.Gray);
-                gB_adeq.Cursor = Cursors.Arrow;
-            }
+
         }
-        private void gB_rakness_MouseDown(object sender, MouseButtonEventArgs e)
+        private void GB_rakness_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (selected_user.character.rakness.unknown)
-            {
-                PlayerActions.actions_quie.Add(new DoParamResearch("Изучение параметра",
-                    ActionsEnum.DoResearch, 5, selected_user, selected_user.character.rakness));
-                text_statusLog.Text = Date.current_date.ToShortTimeString() + ": изучение раковитости добавлено в очередь действий!";
-                gB_rakness.BorderBrush = new SolidColorBrush(Colors.Gray);
-                gB_rakness.Cursor = Cursors.Arrow;
-            }
+
         }
-        private void gB_conservative_MouseDown(object sender, MouseButtonEventArgs e)
+        private void GB_conservative_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (selected_user.character.conservative.unknown)
-            {
-                PlayerActions.actions_quie.Add(new DoParamResearch("Изучение параметра",
-                    ActionsEnum.DoResearch, 5, selected_user, selected_user.character.conservative));
-                text_statusLog.Text = Date.current_date.ToShortTimeString() + ": изучение консервативности добавлено в очередь действий!";
-                gB_conservative.BorderBrush = new SolidColorBrush(Colors.Gray);
-                gB_conservative.Cursor = Cursors.Arrow;
-            }
+
         }
-        private void gB_creative_MouseDown(object sender, MouseButtonEventArgs e)
+        private void GB_creative_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!selected_user.character.creativity.in_progress && selected_user.character.creativity.unknown)
-            {
-                PlayerActions.actions_quie.Add(new DoParamResearch("Изучение параметра",
-                    ActionsEnum.DoResearch, 5, selected_user, selected_user.character.creativity));
-                text_statusLog.Text = Date.current_date.ToShortTimeString() + ": изучение креативности добавлено в очередь действий!";
-                gB_creative.BorderBrush = new SolidColorBrush(Colors.Gray);
-                gB_creative.Cursor = Cursors.Arrow;
-            }
+
         }
-        private void gB_sciense_MouseDown(object sender, MouseButtonEventArgs e)
+        private void GB_sciense_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (selected_user.character.sciense.unknown)
-            {
-                PlayerActions.actions_quie.Add(new DoParamResearch("Изучение параметра",
-                    ActionsEnum.DoResearch, 5, selected_user, selected_user.character.sciense));
-                text_statusLog.Text = Date.current_date.ToShortTimeString() + ": изучение науки добавлено в очередь действий!";
-                gB_sciense.BorderBrush = new SolidColorBrush(Colors.Gray);
-                gB_sciense.Cursor = Cursors.Arrow;
-            }
+
         }
-        private void gB_tolerance_MouseDown(object sender, MouseButtonEventArgs e)
+        private void GB_tolerance_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (selected_user.character.tolerance.unknown)
-            {
-                PlayerActions.actions_quie.Add(new DoParamResearch("Изучение параметра",
-                    ActionsEnum.DoResearch, 5, selected_user, selected_user.character.tolerance));
-                text_statusLog.Text = Date.current_date.ToShortTimeString() + ": изучение толерантности добавлено в очередь действий!";
-                gB_tolerance.BorderBrush = new SolidColorBrush(Colors.Gray);
-                gB_tolerance.Cursor = Cursors.Arrow;
-            }
+
         }
         #endregion
 
@@ -1446,17 +1303,23 @@ namespace RumineSimulator_2._0
             #region Главный список
             if (!rel)
             {
-                StackPanel stackpanel = new StackPanel();
-                stackpanel.Orientation = Orientation.Horizontal;
-                TextBlock nick = new TextBlock();
-                nick.Margin = new Thickness(5, 5, 5, 5);
-                nick.TextAlignment = TextAlignment.Justify;
-                nick.Text = user.ToString();
-                nick.Foreground = user.group.need_brush;
-                Image ava = new Image();
-                ava.Width = 30;
-                ava.Height = 30;
-                ava.Margin = new Thickness(0, 5, 5, 5);
+                StackPanel stackpanel = new StackPanel()
+                {
+                    Orientation = Orientation.Horizontal
+                };
+                TextBlock nick = new TextBlock()
+                {
+                    Margin = new Thickness(5, 5, 5, 5),
+                    TextAlignment = TextAlignment.Justify,
+                    Text = user.ToString(),
+                    Foreground = user.group.need_brush
+                };
+                Image ava = new Image()
+                {
+                    Width = 30,
+                    Height = 30,
+                    Margin = new Thickness(0, 5, 5, 5)
+                };
                 if (Nicks.AvaPath.ContainsKey(user.nick))
                 {
                     ava.Source = Nicks.AvaPath[user.nick];
@@ -1473,16 +1336,22 @@ namespace RumineSimulator_2._0
             #region Список отношений
             else
             {
-                StackPanel stackpanel = new StackPanel();
-                stackpanel.Orientation = Orientation.Horizontal;
-                TextBlock nick = new TextBlock();
-                nick.Margin = new Thickness(5, 5, 5, 5);
-                nick.TextAlignment = TextAlignment.Justify;
-                nick.Text = user.ToString();
-                Image ava = new Image();
-                ava.Width = 30;
-                ava.Height = 30;
-                ava.Margin = new Thickness(0, 5, 5, 5);
+                StackPanel stackpanel = new StackPanel()
+                {
+                    Orientation = Orientation.Horizontal
+                };
+                TextBlock nick = new TextBlock()
+                {
+                    Margin = new Thickness(5, 5, 5, 5),
+                    TextAlignment = TextAlignment.Justify,
+                    Text = user.ToString()
+                };
+                Image ava = new Image()
+                {
+                    Width = 30,
+                    Height = 30,
+                    Margin = new Thickness(0, 5, 5, 5)
+                };
                 if (Nicks.AvaPath.ContainsKey(user.nick))
                 {
                     ava.Source = Nicks.AvaPath[user.nick];
@@ -1499,18 +1368,26 @@ namespace RumineSimulator_2._0
         }
         private ListBoxItem StackPanEventLists(Event eventt)
         {
-            ListBoxItem item = new ListBoxItem();
-            item.Template = templateSec;
-            StackPanel stackpanel = new StackPanel();
-            stackpanel.Orientation = Orientation.Horizontal;
-            TextBlock name = new TextBlock();
-            name.Margin = new Thickness(5, 5, 5, 5);
-            name.TextAlignment = TextAlignment.Justify;
-            name.Text = eventt.name;
-            Image icon = new Image();
-            icon.Width = 20;
-            icon.Height = 20;
-            icon.Margin = new Thickness(0, 5, 5, 5);
+            ListBoxItem item = new ListBoxItem()
+            {
+                Template = templateSec
+            };
+            StackPanel stackpanel = new StackPanel()
+            {
+                Orientation = Orientation.Horizontal
+            };
+            TextBlock name = new TextBlock()
+            {
+                Margin = new Thickness(5, 5, 5, 5),
+                TextAlignment = TextAlignment.Justify,
+                Text = eventt.name
+            };
+            Image icon = new Image()
+            {
+                Width = 20,
+                Height = 20,
+                Margin = new Thickness(0, 5, 5, 5)
+            };
             if (eventt.icon != null)
             {
                 icon.Source = eventt.icon;
@@ -1523,76 +1400,93 @@ namespace RumineSimulator_2._0
         }
         private ListBoxItem StackPanUser(User user)
         {
-            ListBoxItem item = new ListBoxItem();
-            item.Template = templateSec;
-            StackPanel SPMain = new StackPanel();
-            SPMain.Orientation = Orientation.Horizontal;
-
-            StackPanel SPInfo = new StackPanel();
-            SPInfo.Orientation = Orientation.Vertical;
-            TextBlock nick = new TextBlock();
-            nick.Margin = new Thickness(3, 3, 3, 3);
-            nick.FontWeight = text_Group.FontWeight;
-            nick.TextAlignment = TextAlignment.Justify;
-            nick.FontSize = 12;
-            nick.Text = user.ToString();
+            ListBoxItem item = new ListBoxItem()
+            {
+                Template = templateSec
+            };
+            StackPanel SPMain = new StackPanel()
+            {
+                Orientation = Orientation.Horizontal
+            };
+            StackPanel SPInfo = new StackPanel()
+            {
+                Orientation = Orientation.Vertical
+            };
+            TextBlock nick = new TextBlock()
+            {
+                Margin = new Thickness(3, 3, 3, 3),
+                FontWeight = text_Group.FontWeight,
+                TextAlignment = TextAlignment.Justify,
+                FontSize = 12,
+                Text = user.ToString()
+            };
             SPInfo.Children.Add(nick);
-            TextBlock group = new TextBlock();
-            group.Margin = new Thickness(3, 3, 3, 3);
-            group.TextAlignment = TextAlignment.Justify;
-            group.Text = user.group.name.ToString();
-            group.FontWeight = text_Group.FontWeight;
-            group.Foreground = user.group.need_brush;
+            TextBlock group = new TextBlock()
+            {
+                Margin = new Thickness(3, 3, 3, 3),
+                TextAlignment = TextAlignment.Justify,
+                Text = user.group.Name.ToString(),
+                FontWeight = text_Group.FontWeight,
+                Foreground = user.group.need_brush
+            };
             SPInfo.Children.Add(group);
 
-            TextBlock relation = new TextBlock();
-            relation.Margin = new Thickness(3, 3, 3, 3);
-            relation.TextAlignment = TextAlignment.Justify;
-            relation.FontWeight = text_Group.FontWeight;
-            switch (Player.user.relations.All[user].relation)
+            TextBlock relation = new TextBlock()
             {
-                case RelationsEnum.friend:
-                    relation.Foreground = new SolidColorBrush(Colors.LimeGreen);
-                    relation.Text = "Друг";
-                    break;
-                case RelationsEnum.comrade:
-                    relation.Foreground = new SolidColorBrush(Colors.Lime);
-                    relation.Text = "Товарищ";
-                    break;
-                case RelationsEnum.neutral:
-                    relation.Foreground = new SolidColorBrush(Colors.LightSlateGray);
-                    relation.Text = "Нейтрал";
-                    break;
-                case RelationsEnum.unfriend:
-                    relation.Foreground = new SolidColorBrush(Colors.IndianRed);
-                    relation.Text = "Неприятель";
-                    break;
-                case RelationsEnum.enemy:
-                    relation.Foreground = new SolidColorBrush(Colors.Red);
-                    relation.Text = "Враг";
-                    break;
-                default:
-                    relation.Foreground = new SolidColorBrush(Colors.Black);
-                    relation.Text = "Это вы!";
-                    break;
-            }
+                Margin = new Thickness(3, 3, 3, 3),
+                TextAlignment = TextAlignment.Justify,
+                FontWeight = text_Group.FontWeight
+            };
+            //switch (Player.user.relations.All[user].relation)
+            //{
+            //    case RelationsEnum.friend:
+            //        relation.Foreground = new SolidColorBrush(Colors.LimeGreen);
+            //        relation.Text = "Друг";
+            //        break;
+            //    case RelationsEnum.comrade:
+            //        relation.Foreground = new SolidColorBrush(Colors.Lime);
+            //        relation.Text = "Товарищ";
+            //        break;
+            //    case RelationsEnum.neutral:
+            //        relation.Foreground = new SolidColorBrush(Colors.LightSlateGray);
+            //        relation.Text = "Нейтрал";
+            //        break;
+            //    case RelationsEnum.unfriend:
+            //        relation.Foreground = new SolidColorBrush(Colors.IndianRed);
+            //        relation.Text = "Неприятель";
+            //        break;
+            //    case RelationsEnum.enemy:
+            //        relation.Foreground = new SolidColorBrush(Colors.Red);
+            //        relation.Text = "Враг";
+            //        break;
+            //    default:
+            //        relation.Foreground = new SolidColorBrush(Colors.Black);
+            //        relation.Text = "Это вы!";
+            //        break;
+            //}
             SPInfo.Children.Add(relation);
-            TextBlock news = new TextBlock();
-            news.Margin = new Thickness(3, 3, 3, 3);
-            news.TextAlignment = TextAlignment.Justify;
-            news.Text = "Новостей: " + user.news.ToString();
+            TextBlock news = new TextBlock()
+            {
+                Margin = new Thickness(3, 3, 3, 3),
+                TextAlignment = TextAlignment.Justify,
+                Text = "Новостей: " + user.news.ToString()
+            };
             SPInfo.Children.Add(news);
-            TextBlock comments = new TextBlock();
-            comments.Margin = new Thickness(3, 3, 3, 3);
-            comments.TextAlignment = TextAlignment.Justify;
-            comments.Text = "Комментариев: " + user.comments.ToString();
+            TextBlock comments = new TextBlock()
+            {
+                Margin = new Thickness(3, 3, 3, 3),
+                TextAlignment = TextAlignment.Justify,
+                Text = "Комментариев: " + user.comments.ToString()
+            };
             SPInfo.Children.Add(comments);
 
 
-            Image ava = new Image();
-            ava.Width = 100;
-            ava.Height = 100;
-            ava.Margin = new Thickness(0, 5, 5, 5);
+            Image ava = new Image()
+            {
+                Width = 100,
+                Height = 100,
+                Margin = new Thickness(0, 5, 5, 5)
+            };
             if (Nicks.AvaPath.ContainsKey(user.nick))
             {
                 ava.Source = Nicks.AvaPath[user.nick];
@@ -1609,12 +1503,12 @@ namespace RumineSimulator_2._0
             item.Background = new SolidColorBrush(Colors.GhostWhite);
             item.BorderThickness = new Thickness(1, 1, 1, 1);
             item.BorderBrush = new SolidColorBrush(Colors.LightSlateGray);
-            item.MouseDown += wrapUser_Click;
-            item.MouseDoubleClick += wrapUser_Click;
+            item.MouseDown += WrapUser_Click;
+            item.MouseDoubleClick += WrapUser_Click;
             return item;
         }
 
-        private void text_statusLog_TextChanged(object sender, TextChangedEventArgs e)
+        private void Text_statusLog_TextChanged(object sender, TextChangedEventArgs e)
         {
             text_logAll.Text = text_logAll.Text + "\n" + text_statusLog.Text;
         }

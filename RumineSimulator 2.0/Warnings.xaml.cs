@@ -39,26 +39,12 @@ namespace RumineSimulator_2._0
 
         private void button_WarnsUp_Click(object sender, RoutedEventArgs e)
         {
-            if (selected_user.LastBan.warn_sum + Convert.ToInt32(text_warnsAmount.Text) > 100)
-            {
-                PlayerActions.actions_quie.Add(new ActionWarnsChange($"Повышение предупреждений {selected_user.nick}", ActionsEnum.WarningsUp, 1,
-                    100 - selected_user.LastBan.warn_sum, text_reason.Text, selected_user));
-            }
-            PlayerActions.actions_quie.Add(new ActionWarnsChange($"Повышение предупреждений {selected_user.nick}", ActionsEnum.WarningsUp, 1,
-                                Convert.ToInt32(text_warnsAmount.Text), text_reason.Text, selected_user)); WarningsUpdate();
-            label_warnwarn.Text = "Изменение уровня предупреждений добавлено в очередь действий!";
+
         }
 
         private void button_WarnsDown_Click(object sender, RoutedEventArgs e)
         {
-            if (selected_user.LastBan.warn_sum - Convert.ToInt32(text_warnsAmount.Text) < 0)
-            {
-                PlayerActions.actions_quie.Add(new ActionWarnsChange($"Понижение предупреждений {selected_user.nick}", ActionsEnum.WarningsDown, 1,
-                                -selected_user.LastBan.warn_sum, text_reason.Text, selected_user));
-            }
-            PlayerActions.actions_quie.Add(new ActionWarnsChange($"Понижение предупреждений {selected_user.nick}", ActionsEnum.WarningsDown, 1,
-                            -Convert.ToInt32(text_warnsAmount.Text), text_reason.Text, selected_user)); WarningsUpdate();
-            label_warnwarn.Text = "Изменение уровня предупреждений добавлено в очередь действий!";
+
         }
 
         private void button_Close_Click(object sender, RoutedEventArgs e)
@@ -74,7 +60,7 @@ namespace RumineSimulator_2._0
             last_ban.warnings.Reverse();
 
             //Занесение информации
-            text_currLevel.Text = selected_user.LastBan.warn_sum.ToString();
+            text_currLevel.Text = selected_user.LastBan.Warn_sum.ToString();
 
             //Заголовок
             ListBoxItem item_header = new ListBoxItem();

@@ -20,7 +20,6 @@ namespace RumineSimulator_2._0
                     switch (dict.ElementAt(i).Key)
                     {
                         case HistoricEventTypes.WikiCreation:
-                            return new WikiCreation("Создание вики", EventsEnum.historic,new Reason(Date.current_date,Player.user,Player.user,ReasonsEnum.historic));
                         default:
                             return null;
                     }

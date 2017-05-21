@@ -38,7 +38,6 @@ namespace RumineSimulator_2._0
             text_userReputationPos.Text = $"(+{selected_user.reputation.Pos_reputation})";
             text_userReputationOtr.Text = $"(-{selected_user.reputation.Otr_reputation})";
             text_userReputation.Text = $"({selected_user.reputation.Base_reputation})";
-            text_yourKarma.Text = Player.user.karma.karma.ToString();
 
             ListBoxItem item_header = new ListBoxItem();
             item_header.Content = StackReputationHeader();
@@ -160,20 +159,12 @@ namespace RumineSimulator_2._0
 
         private void button_UpReputation_Click(object sender, RoutedEventArgs e)
         {
-            PlayerActions.actions_quie.Add(new ActionRepChange($"Повышение репутации {selected_user.nick}", ActionsEnum.ReputationUp, 1,
-                Player.user.karma.karma, text_Comment.Text, selected_user));
-            InformationUpdate();
-            text_Comment.Text = "";
-            text_yourKarma.Text = "Повышение репутации добавлено в очередь действий!";
+
         }
 
         private void button_DownReputation_Click(object sender, RoutedEventArgs e)
         {
-            PlayerActions.actions_quie.Add(new ActionRepChange($"Понижение репутации {selected_user.nick}", ActionsEnum.ReputationDown, 1,
-                -Player.user.karma.karma, text_Comment.Text, selected_user));
-            InformationUpdate();
-            text_Comment.Text = "";
-            text_yourKarma.Text = "Понижение репутации добавлено в очередь действий!";
+
         }
     }
 }

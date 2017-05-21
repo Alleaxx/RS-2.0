@@ -93,20 +93,10 @@
     <Compile Include="Активность\События\Исторические\WikiCreation.cs" />
     <Compile Include="Фракции\Fraction.cs" />
     <Compile Include="Фракции\FractionList.cs" />
-    <Compile Include="User\Игрок\DoParamResearch.cs" />
-    <Compile Include="User\Игрок\PlayerActivity.cs" />
     <Compile Include="User\Характер\ChanseParam.cs" />
     <Compile Include="GlobalParams.cs" />
     <Compile Include="User\Бан\Ban.cs" />
     <Compile Include="User\Бан\BanCenter.cs" />
-    <Compile Include="User\Игрок\Action.cs" />
-    <Compile Include="User\Игрок\ActionDoNews.cs" />
-    <Compile Include="User\Игрок\ActionDoComent.cs" />
-    <Compile Include="User\Игрок\PlayerActions.cs" />
-    <Compile Include="User\Игрок\ActionRepChange.cs" />
-    <Compile Include="User\Игрок\ActionsEnum.cs" />
-    <Compile Include="User\Игрок\ActionWarnsChange.cs" />
-    <Compile Include="User\Игрок\Player.cs" />
     <Compile Include="User\Бан\Warning.cs" />
     <Compile Include="User\Группы\GroupCondition.cs" />
     <Compile Include="User\Репа-карма\ReputationReason.cs" />
@@ -118,12 +108,6 @@
     <Compile Include="User\Характер\UserParamsEnum.cs" />
     <Compile Include="Warnings.xaml.cs">
       <DependentUpon>Warnings.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WindowAboutYou.xaml.cs">
-      <DependentUpon>WindowAboutYou.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WindowCabinet.xaml.cs">
-      <DependentUpon>WindowCabinet.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowReputation.xaml.cs">
       <DependentUpon>WindowReputation.xaml</DependentUpon>
@@ -174,14 +158,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Warnings.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="WindowAboutYou.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="WindowCabinet.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

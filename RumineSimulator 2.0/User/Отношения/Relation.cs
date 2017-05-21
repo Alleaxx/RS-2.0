@@ -19,36 +19,9 @@ namespace RumineSimulator_2._0
         //Значения дружбы и соперничества
         public int friendness { get; private set; }
         public int rivalry { get; private set; }
-        private int chanse_friendness_up;
-        public int Chanse_friendness_up
-        {
-            get
-            {
-                return chanse_friendness_up;
-            }
-            set
-            {
-                chanse_friendness_up = value;
-                if (chanse_friendness_up < 0)
-                    chanse_friendness_up = 0;
-            }
-        }
-        private int chanse_friendness_down;
-        public int Chanse_friendness_down
-        {
-            get
-            {
-                return chanse_friendness_down;
-            }
-            set
-            {
-                chanse_friendness_down = value;
-                if (chanse_friendness_down < 0)
-                    chanse_friendness_down = 0;
-            }
-        }
+
+
         public bool check_relation_change { get; set; }
-        public string change_rel_result { get; set; }
 
         //Разница в параметрах
         public int cons_difference { get; private set; }
@@ -67,8 +40,7 @@ namespace RumineSimulator_2._0
             user_init = init;
             user_goal = Goal;
             friendness = 0;
-            chanse_friendness_down = 0;
-            chanse_friendness_up = 0;
+
 
             #region Определяем дружбу
             //Сравниваем адекватность
@@ -397,39 +369,6 @@ namespace RumineSimulator_2._0
         {
             if (user_init.group == user_goal.group)
                 friendness++;
-        }
-        public string CheckFriendnessChange()
-        {
-            change_rel_result = "";
-            if (AdvRandom.PersentChanseBool(Chanse_friendness_up-chanse_friendness_down, 1000) && !check_relation_change)
-            {
-                friendness++;
-                check_relation_change = true;
-                user_goal.relations.All[user_init].friendness++;
-                user_goal.relations.All[user_init].check_relation_change = true;
-                user_goal.relations.All[user_init].change_rel_result = $"Отношения с пользователем {user_init.nick} улучшились";
-                change_rel_result = $"Отношения с пользователем {user_goal.nick} улучшились";
-                Chanse_friendness_down = 0;
-                user_goal.relations.All[user_init].Chanse_friendness_up = 0;
-                user_goal.relations.All[user_init].Chanse_friendness_down = 0;
-                Chanse_friendness_up = 0;
-                return change_rel_result;
-            }
-            else if (AdvRandom.PersentChanseBool(Chanse_friendness_down - Chanse_friendness_up, 1000) && !check_relation_change)
-            {
-                friendness--;
-                check_relation_change = true;
-                user_goal.relations.All[user_init].friendness--;
-                user_goal.relations.All[user_init].check_relation_change = true;
-                user_goal.relations.All[user_init].change_rel_result = $"Отношения с пользователем {user_init.nick} ухудшились";
-                change_rel_result = $"Отношения с пользователем {user_goal.nick} ухудшились";
-                Chanse_friendness_down = 0;
-                user_goal.relations.All[user_init].Chanse_friendness_up = 0;
-                user_goal.relations.All[user_init].Chanse_friendness_down = 0;
-                Chanse_friendness_up = 0;
-                return change_rel_result;
-            }
-            return change_rel_result;
         }
 
         public string ReturnTextRelation()

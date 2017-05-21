@@ -83,8 +83,8 @@ namespace RumineSimulator_2._0
                 rel = user.relations.UsersSpace(user.relations.All.ElementAt(i).Key);
                 int wish_modif_pos = 0;
                 int wish_modif_otr = 0;
-                wish_modif_pos += user.group.respect;
-                wish_modif_otr += user.group.respect;
+                wish_modif_pos += user.group.Respect;
+                wish_modif_otr += user.group.Respect;
                 switch (Date.current_date.Year - user.registration.Year + 1)
                 {
                     case 1:
@@ -154,20 +154,18 @@ namespace RumineSimulator_2._0
 
         public bool ChangeReputation(User author, float Value, string reason)
         {
-            if (author.blocked_users_rep[owner] == 0 || (author == Player.user && GlobalParams.GodMode))
+            if (author.blocked_users_rep[owner] == 0)
             {
                 ReputationHistory log;
                 if (Value > 0)
                 {
                     log = new ReputationHistory(author, Value, reason, false);
                     pos_reputation += Value;
-                    owner.relations.All[author].Chanse_friendness_up += 10;
                 }
                 else
                 {
                     log = new ReputationHistory(author, Value, reason, true);
                     otr_reputation -= Value;
-                    owner.relations.All[author].Chanse_friendness_down += 10;
                 }
                 base_reputation = pos_reputation - otr_reputation;
                 author.blocked_users_rep[owner] = 14;

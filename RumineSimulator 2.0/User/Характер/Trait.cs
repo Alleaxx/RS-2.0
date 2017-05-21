@@ -34,6 +34,7 @@ namespace RumineSimulator_2._0
             conditions = Conditions;
             known = false;
 
+            //Перевод цвета
             ColorTranslator.FromHtml(ColorHTTMLBack);
             dra_color = ColorTranslator.FromHtml(ColorHTTMLBack);
             System.Windows.Media.Color.FromRgb(dra_color.R, dra_color.G, dra_color.B);

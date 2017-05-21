@@ -27,25 +27,8 @@ namespace RumineSimulator_2._0
             }
         }
         private int param_gran;
-        public bool in_progress
-        {
-            get
-            {
-                foreach (Action act in PlayerActions.actions_quie)
-                {
-                    if (act is DoParamResearch)
-                    {
-                        DoParamResearch check = (DoParamResearch)act;
-                        if (check.user_goal == owner && check.param.name == name)
-                            return true;
-                    }
-                }
-                return false;
-            }
-        }
 
         public bool unknown { get; set; }
-        public bool allParams_toKnow { get; set; }
         public int time_min { get; private set; }
 
         public Parameter(User Owner,string Name, int value, int gran, bool Unknown, int Time_min, bool AllParam = false)
@@ -56,7 +39,6 @@ namespace RumineSimulator_2._0
             Param_value = value;
             unknown = Unknown;
             time_min = Time_min;
-            allParams_toKnow = AllParam;
         }
 
     }

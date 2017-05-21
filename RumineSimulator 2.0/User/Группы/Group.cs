@@ -11,11 +11,11 @@ namespace RumineSimulator_2._0
     class Group
     {
 
-        public string name { get; private set; }
+        public string Name { get; private set; }
 
         //Параметры группы
-        public int respect { get; private set; }
-        public int rareness { get; private set; }
+        public int Respect { get; private set; }
+        public int Rareness { get; private set; }
 
         //Цвет группы
         System.Drawing.Color dra_color = new System.Drawing.Color();
@@ -23,21 +23,21 @@ namespace RumineSimulator_2._0
         public GroupCondition condition;
 
         //Возможности группы
-        public bool mod { get; private set; }
-        public bool journ { get; private set; }
-        public bool mod_bezdn { get; private set; }
+        public bool Mod { get; private set; }
+        public bool Journ { get; private set; }
+        public bool Mod_bezdn { get; private set; }
         bool aC;
         bool admin;
 
         //Инициализация группы
         public Group(string Name,int Respect,int rareness,string ColorHTTML, GroupCondition Condition, bool Journ = false, bool Mod_bezdn = false, bool Mod = false, bool AC = false,bool Admin = false)
         {
-            name = Name;
-            this.rareness = rareness;
-            respect = Respect;
-            mod = Mod;
-            journ = Journ;
-            mod_bezdn = Mod_bezdn;
+            this.Name = Name;
+            this.Rareness = rareness;
+            this.Respect = Respect;
+            this.Mod = Mod;
+            this.Journ = Journ;
+            this.Mod_bezdn = Mod_bezdn;
             aC = AC;
             admin = Admin;
             condition = Condition;

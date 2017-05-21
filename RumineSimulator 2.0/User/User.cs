@@ -14,30 +14,6 @@ namespace RumineSimulator_2._0
         public DateTime registration { get; private set; }
         public DateTime last_activity { get; set; }
 
-        private int curr_timeForTime { get; set; }
-        public int Curr_timeForRumine
-        {
-            get
-            {
-                return curr_timeForTime;
-            }
-            set
-            {
-                curr_timeForTime = value;
-                if(this == Player.user && Player.enter_rumine)
-                {
-                    curr_timeForTime = 1000;
-                }
-                else if(this == Player.user && !Player.enter_rumine)
-                {
-                    curr_timeForTime = 0;
-                }
-            }
-        }
-        public int total_DayActivity { get; set; }
-        public int activity_chanse { get; set; }
-        public int activity_times { get; set; }
-        public int cooldawn { get; set; }
         public int rnd_num { get; set; }
         public int moder_chanse { get; set; }
 
@@ -80,8 +56,6 @@ namespace RumineSimulator_2._0
 
         public string description { get; private set; }
 
-        public bool already_known { get; set; }
-
         public UserDayLog daylog { get; private set; }
         public List<UserDayLog> last_thirty_Days = new List<UserDayLog>();
         public Dictionary<User, int> blocked_users_rep = new Dictionary<User, int>();
@@ -120,11 +94,6 @@ namespace RumineSimulator_2._0
             TraitMod();
             SetActivities();
             bans.Add(new Ban(this));
-
-            if (AdvRandom.PersentChanseBool(25))
-            {
-                already_known = true;
-            }
 
         }
 
@@ -186,7 +155,7 @@ namespace RumineSimulator_2._0
 
         private void GroupMod()
         {
-            if (group.mod)
+            if (group.Mod)
                 mod = true;
         }
 
@@ -306,7 +275,7 @@ namespace RumineSimulator_2._0
         {
             forum_influence = this.relations.friends.Count * 5 +
                 relations.comrades.Count * 2 +
-                group.respect * 10 +
+                group.Respect * 10 +
                 (likes / 100) + 
                 (int)reputation.Base_reputation;
         }
@@ -360,17 +329,12 @@ namespace RumineSimulator_2._0
                 SetOldness();
                 karma.KarmaUpdate(this);
             }
-            if(LastBan.banned && LastBan.ban_end == Date.current_date)
+            if(LastBan.Banned && LastBan.ban_end == Date.current_date)
             {
                 Ban ban = new Ban(this);
                 ban = bans[bans.Count - 1].BanEnd(this);
                 bans.Add(ban);
             }
-        }
-        public void UpdateHour()
-        {
-            if (cooldawn > 0)
-                cooldawn--;
         }
         public void UpdateBeginDay()
         {
@@ -383,7 +347,6 @@ namespace RumineSimulator_2._0
             }
             for (int i = 0; i < relations.All.Count; i++)
             {
-                daylog.addings = relations.All.ElementAt(i).Value.CheckFriendnessChange();
                 relations.All.ElementAt(i).Value.check_relation_change = false;
             }
         }
@@ -399,8 +362,7 @@ namespace RumineSimulator_2._0
         }
         public void SetActivities()
         {
-            activity_times = random.Next(0, 6) + character.leaveChanse.Param_value/4;
-            activity_chanse = (11 - character.leaveChanse.Param_value) * 7;
+
         }
 
         public void CheckReputation()
