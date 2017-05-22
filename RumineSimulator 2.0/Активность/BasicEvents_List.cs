@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace RumineSimulator_2._0
 {
-    class SmallEvent : Event
+    class BasicEvents_List
     {
-        public SmallEvent(string Name,EventType Type) : base(Name,Type)
-        {
+        static public List<Event> AllEvents = new List<Event>();
+        static Random random = new Random();
 
-        }
     }
 }

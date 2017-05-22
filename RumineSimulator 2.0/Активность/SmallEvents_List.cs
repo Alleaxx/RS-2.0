@@ -8,6 +8,7 @@ namespace RumineSimulator_2._0
 {
     static class SmallEvents_List
     {
+        static public List<SmallEvent> SmallEvents = new List<SmallEvent>();
         static Random random = new Random();
         public static SmallEvent MessageWrite()
         {

@@ -9,9 +9,10 @@ namespace RumineSimulator_2._0
     class InterfaceView
     {
         //Представление некоторых классов в графическом виде
-
+        public Interface_Value Interface_basic { get; set; }
         public InterfaceView()
         {
+
 
         }
     }

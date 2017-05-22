@@ -27,21 +27,26 @@ namespace RumineSimulator_2._0
             Name = name;
             EventType = type;
             date = Date.current_date;
+            BasicEvents_List.AllEvents.Add(this);
         }
-        public virtual void EventAdd_BasicInfo(Event_Creator creator,string description)
+        public virtual void EventAdd1_BasicInfo(Event_Creator creator,string description)
         {
             Creator = creator;
             if (Creator.Type == CreatorType.User)
                 participants.Add(UserList.UserSearch(Creator.Text),"Создавал и ваял");
             Description = description;
         }
-        public virtual void EventAdd_Mods(int day_mod,int week_mod,int month_mod)
+        public virtual void EventAdd2_Mods(int day_mod,int week_mod,int month_mod)
         {
             next_day_mod = day_mod;
             next_week_mod = week_mod;
             next_month_mod = month_mod;
         }
-        public virtual void EventAdd_Mods(ImageSource source)
+        public virtual void EventAdd3_Participants(User user,string role)
+        {
+            participants.Add(user, role);
+        }
+        public virtual void EventAdd4_ImageSource(ImageSource source)
         {
             ImageSource = source;
         }

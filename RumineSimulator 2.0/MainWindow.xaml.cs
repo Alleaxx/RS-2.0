@@ -123,7 +123,7 @@ namespace RumineSimulator_2._0
             }
             for (int i = 0; i < UserList.Users.Count; i++)
             {
-                list_Testing1.Items.Add(Interface_Value_Return(UserList.Users[i].InterfaceInfo.interface_basic));
+                list_Testing.Items.Add(Interface_Value_Return(UserList.Users[i].InterfaceInfo.interface_basic));
             }
         }
         //Выбор пользователя(бета-версия)

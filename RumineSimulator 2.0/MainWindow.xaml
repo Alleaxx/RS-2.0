@@ -526,28 +526,20 @@
                     </LinearGradientBrush>
                 </TabItem.Background>
                 <Grid x:Name="GridListView" Margin="0" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="74*"/>
+                        <RowDefinition Height="521*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="79*"/>
+                        <ColumnDefinition Width="332*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.Background>
                         <ImageBrush Stretch="UniformToFill" Opacity="0.15"/>
                     </Grid.Background>
-                    <ListView x:Name="listView_Users" Margin="2" FontSize="14" HorizontalContentAlignment="Center" Background="White">
-                        <ListView.View>
-                            <GridView>
-                                <GridView.Columns>
-                                    <GridViewColumn Header="Ник" DisplayMemberBinding="{Binding Nick}"></GridViewColumn>
-                                    <GridViewColumn Header="Регистрация" DisplayMemberBinding="{Binding Registration}"></GridViewColumn>
-                                    <GridViewColumn Header="Группа" DisplayMemberBinding="{Binding Group, StringFormat=\{0:C\}}"></GridViewColumn>
-                                    <GridViewColumn Header="Посещение" DisplayMemberBinding="{Binding Activity}"></GridViewColumn>
-                                    <GridViewColumn Header="Комментарии" DisplayMemberBinding="{Binding Comments}"></GridViewColumn>
-                                    <GridViewColumn Header="Рейтинг комментариев" DisplayMemberBinding="{Binding CommentsRate}"></GridViewColumn>
-                                    <GridViewColumn Header="Новости" DisplayMemberBinding="{Binding News}"></GridViewColumn>
-                                    <GridViewColumn Header="Сообщения" DisplayMemberBinding="{Binding Messages}"></GridViewColumn>
-                                    <GridViewColumn Header="Симпатии" DisplayMemberBinding="{Binding Likes}"></GridViewColumn>
-                                    <GridViewColumn Header="Карма" DisplayMemberBinding="{Binding Karma}"></GridViewColumn>
-                                    <GridViewColumn Header="Репутация" DisplayMemberBinding="{Binding Reputation}"></GridViewColumn>
-                                </GridView.Columns>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                    <ListBox x:Name="list_Testing" Margin="10,11,0,0" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Auto" Height="500" HorizontalAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Top" Grid.Row="1">
+                        <ListBoxItem Content="Список пользователей" Margin="0" FontSize="16" FontWeight="Medium" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True"/>
+                    </ListBox>
                 </Grid>
 
 
@@ -591,10 +583,6 @@
                     </ListBox>
                     <ListBox x:Name="list_messagesMonth" Grid.Column="7" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,2,0,0" Height="23" Width="200">
                         <ListBoxItem Content="Среднее кол-во страниц за месяц" HorizontalAlignment="Left"/>
-                    </ListBox>
-                    <ListBox x:Name="list_Testing" Grid.Column="6" Margin="2" HorizontalContentAlignment="Center" Grid.RowSpan="2"/>
-                    <ListBox x:Name="list_Testing1" SelectionChanged="List_Users_SelectionChanged" FontWeight="SemiBold" HorizontalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled" FontFamily="Segoe UI" Grid.Column="6" Margin="2" Grid.Row="1">
-                        <ListBoxItem Content="Список пользователей" Margin="0" FontSize="16" FontWeight="Medium" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True"/>
                     </ListBox>
 
                 </Grid>
