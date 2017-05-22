@@ -16,7 +16,7 @@ namespace RumineSimulator_2._0
         //Параметры группы
         public int Respect { get; private set; }
         public int Rareness { get; private set; }
-        public Interface_Value InterfaceInfo { get; private set; }
+        public Interface_String InterfaceInfo { get; private set; }
 
         //Цвет группы
         System.Drawing.Color dra_color = new System.Drawing.Color();
@@ -51,7 +51,7 @@ namespace RumineSimulator_2._0
             System.Windows.Media.Color.FromRgb(dra_color.R, dra_color.G, dra_color.B);
             need_brush.Color = System.Windows.Media.Color.FromRgb(dra_color.R, dra_color.G, dra_color.B);
 
-            InterfaceInfo = new Interface_Value(Name,"",false);
+            InterfaceInfo = new Interface_String(Name,"",false);
             InterfaceInfo.AddColor("", ColorHTTML);
         }
 

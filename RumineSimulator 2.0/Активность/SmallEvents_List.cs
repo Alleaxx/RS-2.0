@@ -14,6 +14,7 @@ namespace RumineSimulator_2._0
         {
             User user = UserList.Users[random.Next(UserList.Users.Count)];
             SmallEvent Event = new SmallEvent($"Сообщение от {user}",EventType.message);
+            Event.EventAdd2_Mods(random.Next(3), 1, 0, 0);
             return Event;
         }
     }

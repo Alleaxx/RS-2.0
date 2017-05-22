@@ -816,6 +816,7 @@ namespace RumineSimulator_2._0
         //Главный тик таймера
         private void TimeGoTick(object sender, EventArgs e)
         {
+            Activity.Time_Pass();
             MinuteUpdate();
         }
 
@@ -829,32 +830,18 @@ namespace RumineSimulator_2._0
         private void MinuteLogicUpdate()
         {
             Date.TimeGo();
-
-            if (Date.current_date.Hour < Date.current_date_prev.Hour)
-            {
-            }
-            if (Date.current_date.Minute % 10 == 0)
-            {
-
-            }
-            else if (Date.current_date.Minute % 4 == 0)
-            {
-
-            }
-
-            if (Date.current_date.Minute < Date.current_date_prev.Minute)
-            {
-
-            }
-            if (Date.current_date.Minute < Date.current_date_prev.Minute && Date.current_date.Month != Date.current_date_prev.Month)
-            {
-
-            }
             UserList.CheckingAllUserForUpdates();
         }
 
         private void MinuteInterfaceUpdate()
         {
+            //Изменение модификаторa активности
+            List_Main_ActivityProperties.Items.Clear();
+            InterfaceView_Activity info = Activity.InterfaceInfo;
+            foreach (Interface_String inter_string in info.act_properties)
+            {
+                List_Main_ActivityProperties.Items.Add(Interface_Value_Return(inter_string));
+            }
             StatusUpdate();
         }
 
@@ -954,6 +941,8 @@ namespace RumineSimulator_2._0
                 users_generated = true;
                 UserList.FractionChoose();
                 UserListAllUpdate();
+                Activity.Activity_Init();
+                text_log.AppendText("\nАктивность инициализирована...");
                 list_AverageTemperature.Items.Add($"Раковитость: {UserList.aver_rakness}");
                 list_AverageTemperature.Items.Add($"Адекватность: {UserList.aver_adeq}");
                 list_AverageTemperature.Items.Add($"Консервативность: {UserList.aver_conservative}");
@@ -983,7 +972,7 @@ namespace RumineSimulator_2._0
 
 
         //Базовое представление интерфейса - строка
-        private ListBoxItem Interface_Value_Return(Interface_Value interface_info)
+        private ListBoxItem Interface_Value_Return(Interface_String interface_info)
         {
             ListBoxItem item = new ListBoxItem();
             StackPanel stackpanel = new StackPanel()

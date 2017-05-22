@@ -89,6 +89,7 @@
                         </GroupBox>
                     </StackPanel>
                     <ProgressBar x:Name="progBar_Boredom" Height="10" Margin="2,332,2,331" VerticalAlignment="Center" Grid.Column="2" ToolTip="Binding = &quot;{Value}&quot;"/>
+                    <ListBox x:Name="List_Main_ActivityProperties" Grid.Column="1" HorizontalAlignment="Left" Height="228" Margin="368,239,0,0" VerticalAlignment="Top" Width="351"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="TabItemUsers" Header="Просмотр информации о юзере" FontFamily="Nirmala UI" HorizontalAlignment="Center" Margin="0">

@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 
 namespace RumineSimulator_2._0
 {
-    class Interface_Value
+    class Interface_String
     {
         //Параметры свойства
         public string Text_value { get; private set; }
@@ -26,7 +26,7 @@ namespace RumineSimulator_2._0
         public SolidColorBrush background_brush = new SolidColorBrush();
         public SolidColorBrush foreground_brush = new SolidColorBrush();
 
-        public Interface_Value(string Text,string Value,bool IsHited)
+        public Interface_String(string Text,string Value,bool IsHited)
         {
             Text_value = Text;
             Text_size = 15;

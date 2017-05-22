@@ -18,6 +18,7 @@ namespace RumineSimulator_2._0
         public int next_month_mod { get; private set; }
         public int next_week_mod { get; private set; }
         public int next_day_mod { get; private set; }
+        public int current_day_mod { get; private set; }
 
         public Event_Creator Creator { get; private set; }
         public Dictionary<User, string> participants = new Dictionary<User, string>();
@@ -36,8 +37,9 @@ namespace RumineSimulator_2._0
                 participants.Add(UserList.UserSearch(Creator.Text),"Создавал и ваял");
             Description = description;
         }
-        public virtual void EventAdd2_Mods(int day_mod,int week_mod,int month_mod)
+        public virtual void EventAdd2_Mods(int currDay_mod,int day_mod,int week_mod,int month_mod)
         {
+            current_day_mod = currDay_mod;
             next_day_mod = day_mod;
             next_week_mod = week_mod;
             next_month_mod = month_mod;
