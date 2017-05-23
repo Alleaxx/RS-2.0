@@ -14,6 +14,7 @@ namespace RumineSimulator_2._0
         public string Description { get; private set; }
         public EventType EventType { get; private set; }
         public DateTime date { get; private set; }
+        public InterfaceView_Event InterfaceInfo;
 
         public int next_month_mod { get; private set; }
         public int next_week_mod { get; private set; }
@@ -29,6 +30,7 @@ namespace RumineSimulator_2._0
             EventType = type;
             date = Date.current_date;
             BasicEvents_List.AllEvents.Add(this);
+
         }
         public virtual void EventAdd1_BasicInfo(Event_Creator creator,string description)
         {
@@ -52,10 +54,14 @@ namespace RumineSimulator_2._0
         {
             ImageSource = source;
         }
+        public virtual void EventAddEnd_InterfaceInfo()
+        {
+            InterfaceInfo = new InterfaceView_Event(this);
+        }
     }
 
     enum EventType
     {
-        message
+        message,comment,news
     }
 }

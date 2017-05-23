@@ -837,10 +837,16 @@ namespace RumineSimulator_2._0
         {
             //Изменение модификаторa активности
             List_Main_ActivityProperties.Items.Clear();
-            InterfaceView_Activity info = Activity.InterfaceInfo;
-            foreach (Interface_String inter_string in info.act_properties)
+            InterfaceView_Activity info_activity = Activity.InterfaceInfo;
+            List_Main_LastEventProperties.Items.Clear();
+            InterfaceView_Event info_event = Activity.Last_Event.InterfaceInfo;
+            foreach (Interface_String inter_string in info_activity.act_properties)
             {
                 List_Main_ActivityProperties.Items.Add(Interface_Value_Return(inter_string));
+            }
+            foreach (Interface_String inter_string in info_event.event_properties)
+            {
+                List_Main_LastEventProperties.Items.Add(Interface_Value_Return(inter_string));
             }
             StatusUpdate();
         }
@@ -1007,7 +1013,6 @@ namespace RumineSimulator_2._0
             }
             stackpanel.Children.Add(text_value);
             stackpanel.Children.Add(text_value_value);
-
             item.Content = stackpanel;
             item.IsHitTestVisible = interface_info.IsHited;
             item.Foreground = interface_info.foreground_brush;

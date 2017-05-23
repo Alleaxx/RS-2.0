@@ -15,5 +15,7 @@ namespace RumineSimulator_2._0
 
 
         }
+        public virtual void Add_Property(Interface_String property)
+        { }
     }
 }

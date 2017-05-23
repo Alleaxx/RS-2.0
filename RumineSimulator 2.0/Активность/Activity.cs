@@ -8,7 +8,22 @@ namespace RumineSimulator_2._0
 {
     static class Activity
     {
-        public static int Current_mod_activity { get; set; }
+        private static int current_mod_activity;
+        public static int Current_mod_activity
+        {
+            get { return current_mod_activity; }
+            set
+            {
+                if (current_mod_activity > 100)
+                    current_mod_activity = value - 1;
+                else if (current_mod_activity > 200)
+                    current_mod_activity = value - 2;
+                else
+                    current_mod_activity = value;
+
+            }
+        }
+        public static int CurrentDay_mod_activity { get; set; }
         public static int current_mod_activity_withoutTime
         {
             get { return Current_mod_activity; }
@@ -23,6 +38,8 @@ namespace RumineSimulator_2._0
             {
                 InterfaceView_Activity Info = new InterfaceView_Activity();
                 Info.Add_Property(new Interface_String("Мод. активности", Current_mod_activity.ToString(), false));
+                Info.Add_Property(new Interface_String("Мод. активности без времени", current_mod_activity_withoutTime.ToString(), false));
+                Info.Add_Property(new Interface_String("Мод. на сегодня", CurrentDay_mod_activity.ToString(), false));
                 Info.Add_Property(new Interface_String("Мод. дневной активности", NextDay_mod_activity.ToString(), false));
                 Info.Add_Property(new Interface_String("Мод. недельной активности", NextWeek_mod_activity.ToString(), false));
                 Info.Add_Property(new Interface_String("Мод. месячной активности", NextMonth_mod_activity.ToString(), false));
@@ -39,10 +56,13 @@ namespace RumineSimulator_2._0
         }
 
         public static Event Last_Event { get; private set; }
+        public static int Current_mod_activity1 { get => Current_mod_activity2; set => Current_mod_activity2 = value; }
+        public static int Current_mod_activity2 { get => current_mod_activity; set => current_mod_activity = value; }
+        public static int Current_mod_activity3 { get => current_mod_activity; set => current_mod_activity = value; }
 
         public static void Activity_Init()
         {
-            Current_mod_activity = 5;
+            Current_mod_activity = 90;
         }
 
         #region Определение прошедшего времени и операции с ним. Генерация модификаторов событий
@@ -84,6 +104,7 @@ namespace RumineSimulator_2._0
         {
             #region Активность в зависимости от времени дня
             current_mod_activity_withoutTime = Current_mod_activity;
+            Current_mod_activity = Current_mod_activity + CurrentDay_mod_activity / 50;
             switch (Date.current_date.Hour)
             {
                 case 0:
@@ -105,19 +126,19 @@ namespace RumineSimulator_2._0
                     Current_mod_activity = Current_mod_activity / 60;
                     break;
                 case 6:
-                    Current_mod_activity = Current_mod_activity / 50;
+                    Current_mod_activity = Current_mod_activity / 50 + 5;
                     break;
                 case 7:
-                    Current_mod_activity = Current_mod_activity / 30;
+                    Current_mod_activity = Current_mod_activity / 30 + 10;
                     break;
                 case 8:
-                    Current_mod_activity = Current_mod_activity / 5;
+                    Current_mod_activity = Current_mod_activity / 5 + 10;
                     break;
                 case 9:
-                    Current_mod_activity = Current_mod_activity / 5;
+                    Current_mod_activity = Current_mod_activity / 5 + 10;
                     break;
                 case 10:
-                    Current_mod_activity = Current_mod_activity / 5;
+                    Current_mod_activity = Current_mod_activity / 4 + 5;
                     break;
                 case 11:
                     Current_mod_activity = Current_mod_activity / 3;
@@ -129,42 +150,41 @@ namespace RumineSimulator_2._0
                     Current_mod_activity = Current_mod_activity / 2;
                     break;
                 case 14:
-                    Current_mod_activity = Current_mod_activity / 2;
+                    Current_mod_activity = Current_mod_activity / 3 * 2;
                     break;
                 case 15:
-                    Current_mod_activity = Current_mod_activity;
+                    Current_mod_activity = Current_mod_activity / 3 * 2;
                     break;
                 case 16:
-                    Current_mod_activity = Current_mod_activity;
+                    Current_mod_activity = Current_mod_activity / 3 * 2;
                     break;
                 case 17:
-                    Current_mod_activity = Current_mod_activity;
+                    Current_mod_activity = Current_mod_activity / 4 * 3;
                     break;
                 case 18:
-                    Current_mod_activity = Current_mod_activity + 5;
+                    Current_mod_activity = Current_mod_activity;
                     break;
                 case 19:
-                    Current_mod_activity = Current_mod_activity + 5;
+                    Current_mod_activity = Current_mod_activity;
                     break;
                 case 20:
-                    Current_mod_activity = Current_mod_activity + 10;
+                    Current_mod_activity = Current_mod_activity / 4 * 3;
                     break;
                 case 21:
-                    Current_mod_activity = Current_mod_activity + 5;
+                    Current_mod_activity = Current_mod_activity / 3 * 2 - 10;
                     break;
                 case 22:
-                    Current_mod_activity = Current_mod_activity / 2; ;
+                    Current_mod_activity = Current_mod_activity / 3 - 5; ;
                     break;
                 case 23:
-                    Current_mod_activity = Current_mod_activity / 5; ;
+                    Current_mod_activity = Current_mod_activity / 4; ;
                     break;
             }
-
             #endregion
         }
         public static void Day_Pass()
         {
-            Current_mod_activity = Current_mod_activity / 100 + NextDay_mod_activity;
+            CurrentDay_mod_activity = NextDay_mod_activity;
             NextDay_mod_activity = 0;
         }
         public static void Week_Pass()
@@ -179,9 +199,22 @@ namespace RumineSimulator_2._0
 
         public static void CheckEvents(bool newday, bool newweek, bool newmonth)
         {
-            if (AdvRandom.PersentChanseBool(20 + (Current_mod_activity / 10)))
+            //Сообщение
+            if (AdvRandom.PersentChanseBool(1 + (Current_mod_activity)))
             {
                 Last_Event = SmallEvents_List.MessageWrite();
+                LastEvent_ModsModifier();
+            }
+            //Комментарий
+            if (AdvRandom.PersentChanseBool(10 + (Current_mod_activity / 20) ))
+            {
+                Last_Event = SmallEvents_List.CommentWrite();
+                LastEvent_ModsModifier();
+            }
+            //Новость
+            if (AdvRandom.PersentChanseBool(1 + (Current_mod_activity / 50) ))
+            {
+                Last_Event = SmallEvents_List.NewsWrite();
                 LastEvent_ModsModifier();
             }
         }
