@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace RumineSimulator_2._0
 {
-    class BasicEvents_List
+    static class Statistic
     {
-        static public List<Event> AllEvents = new List<Event>();
-        static Random random = new Random();
-
+        public static int total_messages;
     }
 }

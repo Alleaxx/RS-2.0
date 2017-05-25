@@ -88,17 +88,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Statistic.cs" />
     <Compile Include="Активность\Activity.cs" />
     <Compile Include="Активность\Event_Creator.cs" />
     <Compile Include="Активность\События\SmallEvent.cs" />
     <Compile Include="Активность\SmallEvents_List.cs" />
-    <Compile Include="Активность\BasicEvents_List.cs" />
+    <Compile Include="Активность\Events_List.cs" />
     <Compile Include="Активность\События\Event.cs" />
     <Compile Include="Интерфейс\InterfaceView.cs" />
     <Compile Include="Интерфейс\InterfaceView_Activity.cs" />
     <Compile Include="Интерфейс\InterfaceView_Event.cs" />
     <Compile Include="Интерфейс\InterfaceView_User.cs" />
     <Compile Include="Интерфейс\Interface_String.cs" />
+    <Compile Include="Пользователь\Бан\WarningReason.cs" />
     <Compile Include="Фракции\Fraction.cs" />
     <Compile Include="Фракции\FractionList.cs" />
     <Compile Include="Пользователь\Характер\ChanseParam.cs" />
@@ -182,8 +184,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\App.datasource" />
     <None Include="Properties\DataSources\MainWindow.datasource" />

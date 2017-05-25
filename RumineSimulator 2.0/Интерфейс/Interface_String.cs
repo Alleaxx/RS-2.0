@@ -26,17 +26,21 @@ namespace RumineSimulator_2._0
         public SolidColorBrush background_brush = new SolidColorBrush();
         public SolidColorBrush foreground_brush = new SolidColorBrush();
 
-        public Interface_String(string Text,string Value,bool IsHited)
+        public bool header { get; private set; }
+
+        public Interface_String(string Text,string Value,bool IsHited,bool Header = false)
         {
             Text_value = Text;
             Text_size = 15;
             this.Value = Value;
             Value_size = 13;
             AddColor("#FFFFFF", "#000000");
+            header = Header;
 
             this.IsHited = IsHited;
             Image_path = "";
             ImageSource = null;
+            SetProfiles();
         }
         //Подсказка и изображение
         public void AddImagePathToolTip(string Path,string Tooltip)
@@ -87,6 +91,15 @@ namespace RumineSimulator_2._0
         {
             Text_size = size_text;
             Value_size = size_value;
+        }
+
+        public void SetProfiles()
+        {
+            if (header)
+            {
+                background_brush = new SolidColorBrush(Colors.LightGray);
+                Text_size = 16;
+            }
         }
     }
 }

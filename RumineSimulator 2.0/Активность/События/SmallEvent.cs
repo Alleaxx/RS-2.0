@@ -15,6 +15,7 @@ namespace RumineSimulator_2._0
         public override void EventAddEnd_InterfaceInfo()
         {
             base.EventAddEnd_InterfaceInfo();
+            InterfaceInfo = new InterfaceView_Event(this);
         }
     }
 }

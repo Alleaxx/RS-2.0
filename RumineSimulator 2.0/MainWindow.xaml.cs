@@ -740,7 +740,24 @@ namespace RumineSimulator_2._0
         //Характеристики выбранного события
         private void List_passedEvents_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            list_EventChar.Items.Clear();
+            list_EventParticipants.Items.Clear();
+            try
+            {
+                InterfaceView_Event info_event = Events_List.AllEvents[list_passedEvents.SelectedIndex].InterfaceInfo;
+                foreach (Interface_String inter_string in info_event.event_properties)
+                {
+                    list_EventChar.Items.Add(Interface_Value_Return(inter_string));
+                }
+                foreach (Interface_String inter_string in info_event.participants_properties)
+                {
+                    list_EventParticipants.Items.Add(Interface_Value_Return(inter_string));
+                }
+            }
+            catch
+            {
 
+            }
         }
         //Логика экспандеров
         private void exp_choose_Collapsed(object sender, RoutedEventArgs e)
@@ -844,10 +861,19 @@ namespace RumineSimulator_2._0
             {
                 List_Main_ActivityProperties.Items.Add(Interface_Value_Return(inter_string));
             }
-            foreach (Interface_String inter_string in info_event.event_properties)
+            try
             {
-                List_Main_LastEventProperties.Items.Add(Interface_Value_Return(inter_string));
+                foreach (Interface_String inter_string in info_event.event_properties)
+                {
+                    List_Main_LastEventProperties.Items.Add(Interface_Value_Return(inter_string));
+                }
             }
+            catch
+            {
+
+            }
+
+            List_Main_LastEventProperties.Items.Clear();
             StatusUpdate();
         }
 
@@ -988,14 +1014,14 @@ namespace RumineSimulator_2._0
             TextBlock text_value = new TextBlock()
             {
                 Margin = new Thickness(2, 2, 2, 1),
-                TextAlignment = TextAlignment.Justify,
-                Text = interface_info.Text_value,
+                TextAlignment = TextAlignment.Left,
+                Text = interface_info.Text_value + ": ",
                 FontSize = interface_info.Text_size,
             };
             TextBlock text_value_value = new TextBlock()
             {
-                Margin = new Thickness(2, 0, 2, 2),
-                TextAlignment = TextAlignment.Justify,
+                Margin = new Thickness(2, 3, 0, 0),
+                TextAlignment = TextAlignment.Right,
                 Text = interface_info.Value,
                 FontSize = interface_info.Value_size,
 
@@ -1207,5 +1233,20 @@ namespace RumineSimulator_2._0
         }
 
         #endregion
+
+        private void status_UpdateAll_Click(object sender, RoutedEventArgs e)
+        {
+            list_passedEvents.Items.Clear();
+            foreach (Event eve in Events_List.AllEvents)
+            {
+                list_passedEvents.Items.Add(Interface_Value_Return(eve.InterfaceInfo.Interface_basic));
+            }
+            list_EventsProperties.Items.Clear();
+            List<Interface_String> IntInfo = Events_List.GetInterfaceInfo();
+            foreach (Interface_String str in IntInfo)
+            {
+                list_EventsProperties.Items.Add(Interface_Value_Return(str));
+            }
+        }
     }
 }

@@ -204,18 +204,65 @@ namespace RumineSimulator_2._0
             {
                 Last_Event = SmallEvents_List.MessageWrite();
                 LastEvent_ModsModifier();
+                //Реакция на события
+                CheckLastEvent_Reaction();
             }
             //Комментарий
-            if (AdvRandom.PersentChanseBool(10 + (Current_mod_activity / 20) ))
+            if (AdvRandom.PersentChanseBool(1 + (Current_mod_activity / 30) ))
             {
                 Last_Event = SmallEvents_List.CommentWrite();
                 LastEvent_ModsModifier();
+                //Реакция на события
+                CheckLastEvent_Reaction();
             }
             //Новость
             if (AdvRandom.PersentChanseBool(1 + (Current_mod_activity / 50) ))
             {
                 Last_Event = SmallEvents_List.NewsWrite();
                 LastEvent_ModsModifier();
+                //Реакция на события
+                CheckLastEvent_Reaction();
+            }
+            //Рандомная репутация
+            if (AdvRandom.PersentChanseBool(1 + (Current_mod_activity / 50),200))
+            {
+                Last_Event = SmallEvents_List.ReputationChange_Random();
+                LastEvent_ModsModifier();
+                //Реакция на события
+                CheckLastEvent_Reaction();
+            }
+            //Рандомный бан
+            if (AdvRandom.PersentChanseBool(1 + (Current_mod_activity / 50),500))
+            {
+                Last_Event = SmallEvents_List.Ban_Random();
+                LastEvent_ModsModifier();
+                //Реакция на события
+                CheckLastEvent_Reaction();
+            }
+        }
+        public static void CheckLastEvent_Reaction()
+        {
+            Event reaction = CheckEvent_Reaction(Last_Event);
+            if (reaction != null && Last_Event.Reasonable)
+            {
+                Last_Event = reaction;
+                LastEvent_ModsModifier();
+                CheckLastEvent_Reaction();
+            }
+        }
+        public static Event CheckEvent_Reaction(Event reason)
+        {
+            if (AdvRandom.PersentChanseBool(1 + (Current_mod_activity / 50),400))
+            {
+                return SmallEvents_List.Ban_Reason(reason);
+            }
+            else if(AdvRandom.PersentChanseBool(1 + (Current_mod_activity / 50),400))
+            {
+                return SmallEvents_List.ReputationChange_Reason(reason);
+            }
+            else
+            {
+                return null;
             }
         }
         public static void LastEvent_ModsModifier()

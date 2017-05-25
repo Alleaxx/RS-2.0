@@ -98,6 +98,10 @@ namespace RumineSimulator_2._0
             PlusReasons.Add("Афанасий Афанасьевич Фет");
             PlusReasons.Add("снг");
             PlusReasons.Add("С Новым годом, чмо.");
+            PlusReasons.Add("пошел ты");
+            PlusReasons.Add("ееее");
+            PlusReasons.Add("ну такое");
+            PlusReasons.Add("молодец");
             #endregion
             #region Минусовая репутация
             MinusReasons.Add("Слишком приставучий!");
@@ -110,6 +114,9 @@ namespace RumineSimulator_2._0
             MinusReasons.Add("минус за минус, падла ");
             MinusReasons.Add("><(((°>");
             MinusReasons.Add("А? Что?");
+            MinusReasons.Add("пошел ты");
+            MinusReasons.Add("неочень");
+            MinusReasons.Add("уздарь");
             #endregion
         }
         public static string ReturnReason(bool minus)

@@ -551,13 +551,21 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <ListBox x:Name="list_passedEvents" VerticalAlignment="Top" SelectionChanged="List_passedEvents_SelectionChanged" Margin="2">
-                        <ListBoxItem Content="Все события"/>
+                    <ListBox x:Name="list_passedEvents" VerticalAlignment="Top" SelectionChanged="List_passedEvents_SelectionChanged" Margin="2,2,2,0">
+                        <ListBoxItem Content="События"/>
                     </ListBox>
-                    <ListBox x:Name="list_EventChar" Margin="2" Grid.Column="1" VerticalAlignment="Top">
-                        <ListBoxItem Content="Характеристики"/>
+                    <ListBox x:Name="list_EventChar" Margin="2,2,2,0" Grid.Column="1" VerticalAlignment="Top">
+                        <ListBoxItem Content="Свойство события"/>
+                    </ListBox>
+                    <ListBox x:Name="list_EventParticipants" Margin="2,2,2,0" Grid.Column="2" VerticalAlignment="Top">
+                        <ListBoxItem Content="Участники события"/>
+                    </ListBox>
+                    <ListBox x:Name="list_EventsProperties" Margin="2" Grid.Column="3" VerticalAlignment="Top">
+                        <ListBoxItem Content="Свойства событий"/>
                     </ListBox>
                 </Grid>
             </TabItem>
@@ -757,7 +765,7 @@
         <ToolBarTray x:Name="toolbarTrayLeft" HorizontalAlignment="Left" Margin="0" Orientation="Vertical" Grid.Row="1" Grid.RowSpan="2">
             <ToolBar x:Name="toolBarLeft" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Button x:Name="status_playerOnline" Content="Вы" FontWeight="SemiBold" Foreground="#FF176093" BorderBrush="#FF707070" Template="{DynamicResource ButtonsRumineGrayStyle}" Margin="0,2"/>
-                <Button x:Name="status_UpdateAll" Content="F5" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2"/>
+                <Button x:Name="status_UpdateAll" Content="F5" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2" Click="status_UpdateAll_Click"/>
                 <Button x:Name="status_FastPrivateCab" Content="Кб" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2"/>
             </ToolBar>
         </ToolBarTray>
