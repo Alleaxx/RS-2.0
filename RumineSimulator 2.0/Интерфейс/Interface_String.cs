@@ -23,8 +23,11 @@ namespace RumineSimulator_2._0
         public string Tooltip { get; private set; }
         public bool IsHited { get; private set; }
         //Цвета
-        public SolidColorBrush background_brush = new SolidColorBrush();
-        public SolidColorBrush foreground_brush = new SolidColorBrush();
+        public SolidColorBrush background_brush_all = new SolidColorBrush();
+        public SolidColorBrush foreground_brush_all = new SolidColorBrush();
+        public SolidColorBrush foreground_brush_value;
+        public SolidColorBrush foreground_brush_text;
+
 
         public bool header { get; private set; }
 
@@ -55,9 +58,9 @@ namespace RumineSimulator_2._0
                 {
                     Image_path = "pack://application:,,,/Resources/" + Path;
                 }
+                ImageSource = new BitmapImage(new Uri(Image_path));
             }
             this.Tooltip = Tooltip;
-            ImageSource = new BitmapImage(new Uri(Image_path));
         }
         public void AddImage(ImageSource image_sourse)
         {
@@ -66,23 +69,41 @@ namespace RumineSimulator_2._0
 
 
         //Добавление цвета через html-строки
-        public void AddColor(string background,string foreground)
+        public void AddColor(string background_all,string foreground_all,string f_val = "",string f_text = "")
         {
-            if(background != "")
+            if(background_all != "")
             {
-                ColorTranslator.FromHtml(background);
+                ColorTranslator.FromHtml(background_all);
                 System.Drawing.Color drab_color = new System.Drawing.Color();
-                drab_color = ColorTranslator.FromHtml(background);
+                drab_color = ColorTranslator.FromHtml(background_all);
                 System.Windows.Media.Color.FromRgb(drab_color.R, drab_color.G, drab_color.B);
-                background_brush.Color = System.Windows.Media.Color.FromRgb(drab_color.R, drab_color.G, drab_color.B);
+                background_brush_all.Color = System.Windows.Media.Color.FromRgb(drab_color.R, drab_color.G, drab_color.B);
             }
-            if(foreground != "")
+            if(foreground_all != "")
             {
-                ColorTranslator.FromHtml(foreground);
+                ColorTranslator.FromHtml(foreground_all);
                 System.Drawing.Color draf_color = new System.Drawing.Color();
-                draf_color = ColorTranslator.FromHtml(foreground);
+                draf_color = ColorTranslator.FromHtml(foreground_all);
                 System.Windows.Media.Color.FromRgb(draf_color.R, draf_color.G, draf_color.B);
-                foreground_brush.Color = System.Windows.Media.Color.FromRgb(draf_color.R, draf_color.G, draf_color.B);
+                foreground_brush_all.Color = System.Windows.Media.Color.FromRgb(draf_color.R, draf_color.G, draf_color.B);
+            }
+            if(f_text != "")
+            {
+                foreground_brush_text = new SolidColorBrush();
+                ColorTranslator.FromHtml(f_text);
+                System.Drawing.Color drab_color = new System.Drawing.Color();
+                drab_color = ColorTranslator.FromHtml(f_text);
+                System.Windows.Media.Color.FromRgb(drab_color.R, drab_color.G, drab_color.B);
+                foreground_brush_text.Color = System.Windows.Media.Color.FromRgb(drab_color.R, drab_color.G, drab_color.B);
+            }
+            if (f_val != "")
+            {
+                foreground_brush_value = new SolidColorBrush();
+                ColorTranslator.FromHtml(f_val);
+                System.Drawing.Color drab_color = new System.Drawing.Color();
+                drab_color = ColorTranslator.FromHtml(f_val);
+                System.Windows.Media.Color.FromRgb(drab_color.R, drab_color.G, drab_color.B);
+                foreground_brush_value.Color = System.Windows.Media.Color.FromRgb(drab_color.R, drab_color.G, drab_color.B);
             }
 
         }
@@ -97,7 +118,7 @@ namespace RumineSimulator_2._0
         {
             if (header)
             {
-                background_brush = new SolidColorBrush(Colors.LightGray);
+                background_brush_all = new SolidColorBrush(Colors.LightGray);
                 Text_size = 16;
             }
         }

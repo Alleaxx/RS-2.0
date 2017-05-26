@@ -18,6 +18,7 @@ namespace RumineSimulator_2._0
         public static void InitDate(DateTime Found_date, DateTime Curr_Date)
         {
             current_date = Curr_Date;
+            current_date_prev = current_date;
             found_date = Found_date;
         }
         public static void TimeGo()

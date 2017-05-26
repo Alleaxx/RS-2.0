@@ -10,6 +10,7 @@ namespace RumineSimulator_2._0
     {
         public SmallEvent(string Name,EventType Type) : base(Name,Type)
         {
+            Duration = 0;
             SmallEvents_List.SmallEvents.Add(this);
         }
         public override void EventAddEnd_InterfaceInfo()

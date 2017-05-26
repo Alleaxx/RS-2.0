@@ -12,9 +12,12 @@ namespace RumineSimulator_2._0
         public long id;
         public ImageSource ImageSource { get; private set; }
         public string Name { get; private set; }
-        public string Description { get; private set; }
+        public string Tooltip { get; private set; }
+        public string BigDescription { get; private set; }
         public EventType EventType { get; private set; }
         public DateTime date { get; private set; }
+        public int Duration { get; set; }
+        public DateTime date_end { get; private set; }
         public InterfaceView_Event InterfaceInfo;
         public bool Reasonable { get; private set; }
 
@@ -38,26 +41,37 @@ namespace RumineSimulator_2._0
             Events_List.AllEvents.Add(this);
 
         }
-        public virtual void EventAdd1_BasicInfo(Event_Creator creator,string description,bool reasonable = true)
+        public virtual void EventAdd1_BasicInfo(Event_Creator creator, string tooltip,bool reasonable = true)
         {
             Creator = creator;
-            Description = description;
+            Tooltip = tooltip;
             Reasonable = reasonable;
         }
-        public virtual void EventAdd2_Mods(int currDay_mod,int day_mod,int week_mod,int month_mod,int reaction = 1)
+        public virtual void EventAdd2_Description(string description)
+        {
+            BigDescription = description;
+        }
+        public virtual void EventAdd3_Mods(int currDay_mod,int day_mod,int week_mod,int month_mod,int reaction = 1)
         {
             current_day_mod = currDay_mod;
             next_day_mod = day_mod;
             next_week_mod = week_mod;
             next_month_mod = month_mod;
+            Reaction = reaction;
         }
-        public virtual void EventAdd3_Participants(User user,string role)
+        public virtual void EventAdd4_Participants(User user,string role)
         {
             participants.Add(user, role);
         }
-        public virtual void EventAdd4_ImageSource(ImageSource source)
+        public virtual void EventAdd5_ImageSource(ImageSource source)
         {
             ImageSource = source;
+        }
+        public virtual void EventAdd6_Dates(int duration)
+        {
+            Duration = duration;
+            date_end = date;
+            date_end.AddMinutes(duration);
         }
         public virtual void EventAddEnd_InterfaceInfo()
         {
@@ -67,6 +81,6 @@ namespace RumineSimulator_2._0
 
     enum EventType
     {
-        message,comment,news,reputation,ban,fail
+        message,comment,news,reputation,ban,fail,dayEnd
     }
 }

@@ -31,6 +31,7 @@ namespace RumineSimulator_2._0
         private DispatcherTimer timer_TimeGo = null;
         WindowWarn WindowWarnings;
         WindowReputation WindowReputation;
+        EventView WindowEvent;
 
         private short speed = 1;
         private short update_time = 5;
@@ -65,7 +66,7 @@ namespace RumineSimulator_2._0
             text_log.AppendText("\nФракции созданы...");
             selected_index_user = -1;
             list_Relations.SelectedIndex = 1;
-            Date.InitDate(new DateTime(2011, 07, 27), new DateTime(2013, 07, 19, 11, 59, 0));
+            Date.InitDate(new DateTime(2011, 07, 27), new DateTime(2013, 07, 19, 12, 0, 0));
             StatusTextData.Text = Date.ReturnCurrDate();
             text_foundDate.Text = Date.found_date.ToShortDateString();
             for (int i = 0; i < TraitsList.AllTraits.Count; i++)
@@ -120,10 +121,6 @@ namespace RumineSimulator_2._0
                     if (user.nick == nick)
                         selected_userRelation = user;
                 }
-            }
-            for (int i = 0; i < UserList.Users.Count; i++)
-            {
-                list_Testing.Items.Add(Interface_Value_Return(UserList.Users[i].InterfaceInfo.interface_basic));
             }
         }
         //Выбор пользователя(бета-версия)
@@ -749,7 +746,7 @@ namespace RumineSimulator_2._0
                 {
                     list_EventChar.Items.Add(Interface_Value_Return(inter_string));
                 }
-                foreach (Interface_String inter_string in info_event.participants_properties)
+                foreach (Interface_String inter_string in info_event.connectedEntities_properties)
                 {
                     list_EventParticipants.Items.Add(Interface_Value_Return(inter_string));
                 }
@@ -818,7 +815,6 @@ namespace RumineSimulator_2._0
             timer_TimeGo.Interval = new TimeSpan(0, 0, 0, 0, 250);
             update_time = Convert.ToInt16(text_UpdateTimes.Text);
 
-
             timer_TimeGo.IsEnabled = true;
             button_TimeGo.IsEnabled = false;
             button_GenerateUsers.IsEnabled = false;
@@ -853,27 +849,21 @@ namespace RumineSimulator_2._0
         private void MinuteInterfaceUpdate()
         {
             //Изменение модификаторa активности
-            List_Main_ActivityProperties.Items.Clear();
-            InterfaceView_Activity info_activity = Activity.InterfaceInfo;
-            List_Main_LastEventProperties.Items.Clear();
-            InterfaceView_Event info_event = Activity.Last_Event.InterfaceInfo;
-            foreach (Interface_String inter_string in info_activity.act_properties)
+            if(Activity.Last_Event != null)
             {
-                List_Main_ActivityProperties.Items.Add(Interface_Value_Return(inter_string));
-            }
-            try
-            {
+                List_Main_ActivityProperties.Items.Clear();
+                InterfaceView_Activity info_activity = Activity.InterfaceInfo;
+                List_Main_LastEventProperties.Items.Clear();
+                InterfaceView_Event info_event = Activity.Last_Event.InterfaceInfo;
+                foreach (Interface_String inter_string in info_activity.act_properties)
+                {
+                    List_Main_ActivityProperties.Items.Add(Interface_Value_Return(inter_string));
+                }
                 foreach (Interface_String inter_string in info_event.event_properties)
                 {
                     List_Main_LastEventProperties.Items.Add(Interface_Value_Return(inter_string));
                 }
             }
-            catch
-            {
-
-            }
-
-            List_Main_LastEventProperties.Items.Clear();
             StatusUpdate();
         }
 
@@ -972,6 +962,7 @@ namespace RumineSimulator_2._0
                 relations_generated = true;
                 users_generated = true;
                 UserList.FractionChoose();
+                UserList.CreateInterfaceInfo();
                 UserListAllUpdate();
                 Activity.Activity_Init();
                 text_log.AppendText("\nАктивность инициализирована...");
@@ -1007,6 +998,8 @@ namespace RumineSimulator_2._0
         private ListBoxItem Interface_Value_Return(Interface_String interface_info)
         {
             ListBoxItem item = new ListBoxItem();
+            item.Foreground = interface_info.foreground_brush_all;
+            item.Background = interface_info.background_brush_all;
             StackPanel stackpanel = new StackPanel()
             {
                 Orientation = Orientation.Horizontal
@@ -1015,7 +1008,7 @@ namespace RumineSimulator_2._0
             {
                 Margin = new Thickness(2, 2, 2, 1),
                 TextAlignment = TextAlignment.Left,
-                Text = interface_info.Text_value + ": ",
+                Text = interface_info.Text_value,
                 FontSize = interface_info.Text_size,
             };
             TextBlock text_value_value = new TextBlock()
@@ -1024,8 +1017,11 @@ namespace RumineSimulator_2._0
                 TextAlignment = TextAlignment.Right,
                 Text = interface_info.Value,
                 FontSize = interface_info.Value_size,
-
             };
+            if (interface_info.foreground_brush_text != null)
+                text_value.Foreground = interface_info.foreground_brush_text;
+            if (interface_info.foreground_brush_value != null)
+                text_value_value.Foreground = interface_info.foreground_brush_value;
             //Расшифровка изображения
             if (interface_info.Image_path != "")
             {
@@ -1041,8 +1037,51 @@ namespace RumineSimulator_2._0
             stackpanel.Children.Add(text_value_value);
             item.Content = stackpanel;
             item.IsHitTestVisible = interface_info.IsHited;
-            item.Foreground = interface_info.foreground_brush;
-            item.Background = interface_info.background_brush;
+            item.ToolTip = interface_info.Tooltip;
+            return item;
+        }
+        private ListBoxItem Interface_ProgressBar_Return(Interface_ProgressBar interface_info)
+        {
+            ListBoxItem item = new ListBoxItem();
+            StackPanel stackpanel = new StackPanel()
+            {
+                Orientation = Orientation.Vertical
+            };
+            TextBlock text_value = new TextBlock()
+            {
+                Margin = new Thickness(2, 2, 2, 1),
+                TextAlignment = TextAlignment.Justify,
+                Text = interface_info.Text_value,
+                FontSize = interface_info.Text_size,
+            };
+            ProgressBar progress_bar = new ProgressBar()
+            {
+                Height = 10,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                HorizontalContentAlignment = HorizontalAlignment.Stretch,
+                Margin = new Thickness(2, 2, 2, 1),
+                Maximum = interface_info.max_value,
+                Minimum = interface_info.min_value,
+                Value = Convert.ToInt32(interface_info.Value),
+                Foreground = interface_info.foreground_brush_value,
+                Background = interface_info.background_brush_all
+            };
+            //Расшифровка изображения
+            if (interface_info.Image_path != "")
+            {
+                Image image = new Image()
+                {
+                    Width = 15,
+                    Height = 15,
+                    Source = new BitmapImage(new Uri(interface_info.Image_path))
+                };
+                stackpanel.Children.Add(image);
+            }
+            progress_bar.Width = stackpanel.Width;
+            stackpanel.Children.Add(text_value);
+            stackpanel.Children.Add(progress_bar);
+            item.Content = stackpanel;
+            item.IsHitTestVisible = interface_info.IsHited;
             item.ToolTip = interface_info.Tooltip;
             return item;
         }
@@ -1239,7 +1278,7 @@ namespace RumineSimulator_2._0
             list_passedEvents.Items.Clear();
             foreach (Event eve in Events_List.AllEvents)
             {
-                list_passedEvents.Items.Add(Interface_Value_Return(eve.InterfaceInfo.Interface_basic));
+                list_passedEvents.Items.Add(Interface_Value_Return(eve.InterfaceInfo.string_info));
             }
             list_EventsProperties.Items.Clear();
             List<Interface_String> IntInfo = Events_List.GetInterfaceInfo();
@@ -1247,6 +1286,87 @@ namespace RumineSimulator_2._0
             {
                 list_EventsProperties.Items.Add(Interface_Value_Return(str));
             }
+            if(list_UsersAlpha.Items.Count < 2)
+            {
+                for (int i = 0; i < UserList.Users.Count; i++)
+                {
+                    list_UsersAlpha.Items.Add(Interface_Value_Return(UserList.Users[i].InterfaceInfo.interface_basic));
+                }
+            }
+        }
+
+        private void button_EventView_Click(object sender, RoutedEventArgs e)
+        {
+            WindowEvent = new EventView(Events_List.AllEvents[list_passedEvents.SelectedIndex].id);
+            WindowEvent.Show();
+        }
+
+        private void list_UsersAlpha_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            InfoUserUpdate_Alpha();
+        }
+        private void InfoUserUpdate_Alpha()
+        {
+            try
+            {
+                User sel_user = UserList.Users[list_UsersAlpha.SelectedIndex - 1];
+                selected_user = sel_user;
+                //Аватарка
+                Image_Ava.Source = sel_user.InterfaceInfo.interface_basic.ImageSource;
+                //Основные св-ва
+                list_UserPropertiesBasic.Items.Clear();
+                foreach (Interface_String info in sel_user.InterfaceInfo.basic_properties)
+                {
+                    list_UserPropertiesBasic.Items.Add(Interface_Value_Return(info));
+                }
+                //Трейты
+                list_TraitsNew.Items.Clear();
+                foreach (Interface_String info in sel_user.InterfaceInfo.traits)
+                {
+                    list_TraitsNew.Items.Add(Interface_Value_Return(info));
+                }
+                //Описание
+                text_Description.Text = sel_user.description;
+                //Числовые свойства
+                list_UserPropertiesNumeric.Items.Clear();
+                foreach (Interface_String info in sel_user.InterfaceInfo.numeric_properties)
+                {
+                    list_UserPropertiesNumeric.Items.Add(Interface_Value_Return(info));
+                }
+                //Репутация
+                button_ReputationBeta.Content = $"({sel_user.reputation.Base_reputation.ToString()})";
+                button_ReputationMinusBeta.Content = $"(-{sel_user.reputation.Otr_reputation.ToString()})";
+                button_ReputationPlusBeta.Content = $"(+{sel_user.reputation.Pos_reputation.ToString()})";
+
+                //Прогресс-бары
+                list_Character.Items.Clear();
+                foreach (Interface_String info in sel_user.InterfaceInfo.character_properties)
+                {
+                    if(info.GetType() == sel_user.InterfaceInfo.interface_basic.GetType())
+                        list_Character.Items.Add(Interface_Value_Return(info));
+                    else
+                        list_Character.Items.Add(Interface_ProgressBar_Return((Interface_ProgressBar)info));
+                }
+                list_Skills.Items.Clear();
+                foreach (Interface_String info in sel_user.InterfaceInfo.skills_properties)
+                {
+                    if (info.GetType() == sel_user.InterfaceInfo.interface_basic.GetType())
+                        list_Skills.Items.Add(Interface_Value_Return(info));
+                    else
+                        list_Skills.Items.Add(Interface_ProgressBar_Return((Interface_ProgressBar)info));
+                }
+            }
+            catch
+            {
+
+            }
+
+        }
+
+        private void button_ReputationBeta_Click(object sender, RoutedEventArgs e)
+        {
+            WindowReputation = new WindowReputation(selected_user.nick);
+            WindowReputation.Show();
         }
     }
 }

@@ -88,6 +88,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EventView.xaml.cs">
+      <DependentUpon>EventView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Statistic.cs" />
     <Compile Include="Активность\Activity.cs" />
     <Compile Include="Активность\Event_Creator.cs" />
@@ -98,7 +101,9 @@
     <Compile Include="Интерфейс\InterfaceView.cs" />
     <Compile Include="Интерфейс\InterfaceView_Activity.cs" />
     <Compile Include="Интерфейс\InterfaceView_Event.cs" />
+    <Compile Include="Интерфейс\InterfaceView_Trait.cs" />
     <Compile Include="Интерфейс\InterfaceView_User.cs" />
+    <Compile Include="Интерфейс\Interface_ProgressBar.cs" />
     <Compile Include="Интерфейс\Interface_String.cs" />
     <Compile Include="Пользователь\Бан\WarningReason.cs" />
     <Compile Include="Фракции\Fraction.cs" />
@@ -141,6 +146,10 @@
     <Compile Include="Пользователь\Прочее\Nicks.cs" />
     <Compile Include="Активность\События\AnounceType.cs" />
     <Compile Include="Фракции\Squad.cs" />
+    <Page Include="EventView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

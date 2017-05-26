@@ -95,8 +95,6 @@ namespace RumineSimulator_2._0
             TraitMod();
             SetActivities();
             bans.Add(new Ban(this));
-            InterfaceInfo = new InterfaceView_User(this);
-
         }
 
         //Установка даты регистрации
@@ -132,6 +130,11 @@ namespace RumineSimulator_2._0
             {
                 news_quality = 0;
             }
+        }
+
+        public void CreateInterfaceInfo()
+        {
+            InterfaceInfo = new InterfaceView_User(this);
         }
 
         private void TraitMod()

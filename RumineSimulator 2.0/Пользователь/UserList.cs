@@ -89,6 +89,13 @@ namespace RumineSimulator_2._0
             Nicks.NicksInit();
             Users.Clear();
         }
+        static public void CreateInterfaceInfo()
+        {
+            for (int i = 0; i < Users.Count; i++)
+            {
+                Users[i].CreateInterfaceInfo();
+            }
+        }
 
         //Выбор модераторов
         static public void ModerChoose()

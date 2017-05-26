@@ -18,6 +18,7 @@ namespace RumineSimulator_2._0
         public Traits id { get; set;}
         public TraitType type { get; private set; }
         public bool known { get; set; }
+        public InterfaceView_Trait InterfaceInfo = new InterfaceView_Trait();
 
         System.Drawing.Color dra_color = new System.Drawing.Color();
         public SolidColorBrush background_brush = new SolidColorBrush();
@@ -42,6 +43,10 @@ namespace RumineSimulator_2._0
             draf_color = ColorTranslator.FromHtml(ColorHTTMLFore);
             System.Windows.Media.Color.FromRgb(draf_color.R, draf_color.G, draf_color.B);
             foreground_brush.Color = System.Windows.Media.Color.FromRgb(draf_color.R, draf_color.G, draf_color.B);
+
+            InterfaceInfo.string_info = new Interface_String(s_name, "", true);
+            InterfaceInfo.string_info.AddImagePathToolTip("", full_description);
+            InterfaceInfo.string_info.AddColor(ColorHTTMLBack, ColorHTTMLFore);
         }
     }
 }

@@ -32,6 +32,13 @@ namespace RumineSimulator_2._0
         public static int NextDay_mod_activity { get; private set; }
         public static int NextWeek_mod_activity { get; private set; }
         public static int NextMonth_mod_activity { get; private set; }
+
+        public static int curr_day_messages { get; set; }
+        public static int curr_day_comments { get; set; }
+        public static int curr_day_news { get; set; }
+        public static int curr_day_repChanges { get; set; }
+        public static int curr_day_bans { get; set; }
+        public static List<Event> today_events = new List<Event>();
         public static InterfaceView_Activity InterfaceInfo
         {
             get
@@ -56,13 +63,10 @@ namespace RumineSimulator_2._0
         }
 
         public static Event Last_Event { get; private set; }
-        public static int Current_mod_activity1 { get => Current_mod_activity2; set => Current_mod_activity2 = value; }
-        public static int Current_mod_activity2 { get => current_mod_activity; set => current_mod_activity = value; }
-        public static int Current_mod_activity3 { get => current_mod_activity; set => current_mod_activity = value; }
 
         public static void Activity_Init()
         {
-            Current_mod_activity = 90;
+            Current_mod_activity = 20;
         }
 
         #region Определение прошедшего времени и операции с ним. Генерация модификаторов событий
@@ -86,7 +90,7 @@ namespace RumineSimulator_2._0
                 Day_Pass();
             }
             //Прошел месяц
-            else if (Date.current_date.Day != Date.current_date_prev.Day)
+            else if (Date.current_date.Month != Date.current_date_prev.Month)
             {
                 Minute_Pass();
                 Hour_Pass();
@@ -180,12 +184,24 @@ namespace RumineSimulator_2._0
                     Current_mod_activity = Current_mod_activity / 4; ;
                     break;
             }
+            CheckEvents(false, false, false);
             #endregion
         }
         public static void Day_Pass()
         {
+            CheckEvents(true, false, false);
+            DayStatisticsUpdate();
             CurrentDay_mod_activity = NextDay_mod_activity;
             NextDay_mod_activity = 0;
+        }
+        public static void DayStatisticsUpdate()
+        {
+            curr_day_messages = 0;
+            curr_day_bans = 0;
+            curr_day_comments = 0;
+            curr_day_repChanges = 0;
+            curr_day_news = 0;
+            today_events.Clear();
         }
         public static void Week_Pass()
         {
@@ -208,7 +224,7 @@ namespace RumineSimulator_2._0
                 CheckLastEvent_Reaction();
             }
             //Комментарий
-            if (AdvRandom.PersentChanseBool(1 + (Current_mod_activity / 30) ))
+            if (AdvRandom.PersentChanseBool(1 + (Current_mod_activity / 20) ))
             {
                 Last_Event = SmallEvents_List.CommentWrite();
                 LastEvent_ModsModifier();
@@ -216,7 +232,7 @@ namespace RumineSimulator_2._0
                 CheckLastEvent_Reaction();
             }
             //Новость
-            if (AdvRandom.PersentChanseBool(1 + (Current_mod_activity / 50) ))
+            if (AdvRandom.PersentChanseBool(current_mod_activity,10000))
             {
                 Last_Event = SmallEvents_List.NewsWrite();
                 LastEvent_ModsModifier();
@@ -224,7 +240,7 @@ namespace RumineSimulator_2._0
                 CheckLastEvent_Reaction();
             }
             //Рандомная репутация
-            if (AdvRandom.PersentChanseBool(1 + (Current_mod_activity / 50),200))
+            if (AdvRandom.PersentChanseBool(current_mod_activity, 2000))
             {
                 Last_Event = SmallEvents_List.ReputationChange_Random();
                 LastEvent_ModsModifier();
@@ -232,11 +248,19 @@ namespace RumineSimulator_2._0
                 CheckLastEvent_Reaction();
             }
             //Рандомный бан
-            if (AdvRandom.PersentChanseBool(1 + (Current_mod_activity / 50),500))
+            if (AdvRandom.PersentChanseBool(Current_mod_activity, 10000))
             {
                 Last_Event = SmallEvents_List.Ban_Random();
                 LastEvent_ModsModifier();
                 //Реакция на события
+                CheckLastEvent_Reaction();
+            }
+            
+            //Новый день
+            if (newday)
+            {
+                Last_Event = Events_List.DayEnd();
+                LastEvent_ModsModifier();
                 CheckLastEvent_Reaction();
             }
         }
@@ -252,11 +276,11 @@ namespace RumineSimulator_2._0
         }
         public static Event CheckEvent_Reaction(Event reason)
         {
-            if (AdvRandom.PersentChanseBool(1 + (Current_mod_activity / 50),400))
+            if (AdvRandom.PersentChanseBool(Current_mod_activity + Last_Event.Reaction,10000))
             {
                 return SmallEvents_List.Ban_Reason(reason);
             }
-            else if(AdvRandom.PersentChanseBool(1 + (Current_mod_activity / 50),400))
+            else if(AdvRandom.PersentChanseBool(current_mod_activity + Last_Event.Reaction, 2000))
             {
                 return SmallEvents_List.ReputationChange_Reason(reason);
             }
@@ -271,6 +295,7 @@ namespace RumineSimulator_2._0
             NextDay_mod_activity += Last_Event.next_day_mod;
             NextWeek_mod_activity += Last_Event.next_week_mod;
             NextMonth_mod_activity += Last_Event.next_month_mod;
+            today_events.Add(Last_Event);
         }
         #endregion
     }
