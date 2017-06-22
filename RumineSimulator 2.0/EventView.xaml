@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RumineSimulator_2._0"
         mc:Ignorable="d"
-        Title="Новое событие!" Height="700" Width="550">
+        Title="Новое событие!" Height="700" Width="650">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -35,7 +35,7 @@
             <TextBlock x:Name="Text_ResultStatic" TextWrapping="Wrap" Text="Итоги события:" FontSize="16" HorizontalAlignment="Left" FontWeight="Medium"/>
             <TextBlock x:Name="text_Result" TextWrapping="Wrap" Text="Итогом стало увеличение активности из-за ухода столь паршивого пользователя!" FontSize="14"/>
         </StackPanel>
-        <StackPanel x:Name="SP_Description" Grid.Column="1" Margin="5" Grid.Row="1">
+        <StackPanel x:Name="SP_Description" Grid.Column="1" Margin="5" Grid.Row="1" Grid.RowSpan="3">
             <TextBlock x:Name="Text_DescriptionStatic" TextWrapping="Wrap" Text="Описание события" FontSize="16" FontWeight="Medium"/>
             <TextBlock x:Name="text_EventDescription" Margin="0,0,20,0" TextWrapping="Wrap" Text="Пользователь Allexx был обнаружен зверски убитым прямо во флудилке. Причиной смерти стала деградация мозга от нахождения на румине. Ждите дальнейших новостей!" FontSize="14" Height="122"/>
         </StackPanel>

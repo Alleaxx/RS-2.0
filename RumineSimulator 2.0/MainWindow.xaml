@@ -780,7 +780,7 @@
             </TabItem>
 
         </TabControl>
-        <StatusBar Margin="2,2,47,2" Grid.Row="2" Grid.Column="1">
+        <StatusBar x:Name="StatusBar_Down" Margin="2,2,47,2" Grid.Row="2" Grid.Column="1">
             <StackPanel Margin="0,0,2,0">
                 <TextBox x:Name="text_statusLog" TextWrapping="Wrap" Margin="2" TextChanged="Text_statusLog_TextChanged" Text="Лог" FontSize="16"/>
             </StackPanel>

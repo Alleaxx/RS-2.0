@@ -251,12 +251,50 @@ namespace RumineSimulator_2._0
                            select i;
             return sortedGr.ToList();
         }
+        static public List<User> ReturnUsersForumInfluenceDesc()
+        {
+            var sortedGr = from i in Users
+                           orderby i.forum_influence descending
+                           select i;
+            return sortedGr.ToList();
+        }
         static public List<User> ReturnUsersActiveFilter()
         {
             var sortedGr = from i in Users
                            where i.activity == true
                            select i;
             return sortedGr.ToList();
+        }
+
+        //Сортировка по списку трейтов
+        static public List<User> ReturnUserByTraits(List<User> users_to_sort,List<Traits> req_traits,bool and_or = true)
+        {
+            List<User> sorted = new List<User>();
+            foreach (User user in users_to_sort)
+            {
+                bool sort = false;
+                if (and_or)
+                {
+                    sort = true;
+                    foreach (Traits t_type in req_traits)
+                    {
+                        if (!user.traits.Contains(TraitsList.AllTraits[t_type]))
+                            sort = false;
+                    }
+                }
+                else
+                {
+                    foreach (Traits t_type in req_traits)
+                    {
+                        if (user.traits.Contains(TraitsList.AllTraits[t_type]))
+                            sort = true;
+                    }
+                }
+
+                if (sort)
+                    sorted.Add(user);
+            }
+            return sorted;
         }
         #endregion
     }

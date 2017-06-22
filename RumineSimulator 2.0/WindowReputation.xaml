@@ -13,14 +13,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel x:Name="StackPanel_info" Margin="2" Grid.Row="1">
-            <StackPanel x:Name="StackPanel_yourKarma" HorizontalAlignment="Left" Margin="2" VerticalAlignment="Top" Orientation="Horizontal">
-                <TextBlock x:Name="label" TextWrapping="Wrap" Text="Ваша карма:" Margin="15,2,2,2" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource LabelsStyle}"/>
-                <TextBlock x:Name="text_yourKarma" TextWrapping="Wrap" Text="1" Margin="50,2,2,2" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource TextParamsStyle}"/>
-            </StackPanel>
-            <StackPanel x:Name="StackPanel_comment" VerticalAlignment="Top" Orientation="Horizontal" Margin="2">
-                <TextBlock x:Name="label_Coment" TextWrapping="Wrap" Margin="15,2,2,2" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource LabelsStyle}" Text="Комментарий:"/>
-                <TextBox x:Name="text_Comment" TextWrapping="Wrap" Margin="50,2,2,2" VerticalContentAlignment="Center" Padding="5,0" Width="400"/>
-            </StackPanel>
+            <StackPanel x:Name="StackPanel_comment" VerticalAlignment="Top" Orientation="Horizontal" Margin="2"/>
             <StackPanel x:Name="StackPanel_userReputation" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal" Margin="2">
                 <TextBlock x:Name="label1" TextWrapping="Wrap" Text="Репутация пользователя:" Margin="15,2,2,2" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource LabelsStyle}"/>
                 <TextBlock x:Name="text_userReputationPos" TextWrapping="Wrap" Text="(+1)" Margin="50,2,2,2" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource TextParamsStyle}" FontWeight="Bold" Foreground="#FF30CF0D"/>
@@ -31,8 +24,6 @@
         <ListBox x:Name="list_ReputationHistory" Margin="2"/>
         <StackPanel x:Name="StackPanel_buttons" Margin="2" Grid.Row="2" Orientation="Horizontal" FlowDirection="RightToLeft">
             <Button x:Name="button_Close" Content="Закрыть" VerticalAlignment="Center" Margin="2,10,2,6" Click="button_Close_Click" Template="{DynamicResource ButtonsRumineGrayStyle}" HorizontalAlignment="Center"/>
-            <Button x:Name="button_DownReputation" Content="Понизить репутацию" VerticalAlignment="Center" Margin="2,10.5,2,6.5" Click="button_DownReputation_Click" Template="{DynamicResource ButtonsRumineGrayStyle}" HorizontalAlignment="Center"/>
-            <Button x:Name="button_UpReputation" Content="Поднять репутацию" VerticalAlignment="Center" Margin="2,10,2,6" Click="button_UpReputation_Click" Template="{DynamicResource ButtonsRumineGrayStyle}" HorizontalAlignment="Center"/>
         </StackPanel>
 
     </Grid>

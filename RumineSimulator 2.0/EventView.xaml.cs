@@ -45,6 +45,10 @@ namespace RumineSimulator_2._0
                 {
                     List_Participants.Items.Add(Interface_String_Return(inter_string));
                 }
+                foreach (Interface_String inter_string in info_event.special_event_properties)
+                {
+                    List_EventProperties.Items.Add(Interface_String_Return(inter_string));
+                }
             }
             catch
             {

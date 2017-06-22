@@ -15,18 +15,8 @@
         <ListBox x:Name="listBox_warnings" Margin="5,10,5,5" BorderThickness="1,0"/>
         <StackPanel Margin="2" Grid.Row="2" Orientation="Horizontal" FlowDirection="RightToLeft">
             <Button x:Name="button_Close" Content="Закрыть" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" FontWeight="Medium" Padding="4" Click="button_Close_Click" Template="{DynamicResource ButtonsRumineGrayStyle}"/>
-            <Button x:Name="button_WarnsDown" Content="Понизить уровень предупреждений" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,2,2,0" FontWeight="Medium" Padding="4" Click="button_WarnsDown_Click" Template="{DynamicResource ButtonsRumineGrayStyle}"/>
-            <Button x:Name="button_WarnsUp" Content="Повысить уровень предупреждений" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,2,2,0" FontWeight="Medium" Padding="4" Click="button_WarnsUp_Click" Template="{DynamicResource ButtonsRumineGrayStyle}"/>
         </StackPanel>
         <StackPanel Margin="2" Grid.Row="1">
-            <StackPanel Margin="2" Orientation="Horizontal" VerticalAlignment="Top">
-                <TextBlock x:Name="label_Reason" TextWrapping="Wrap" Text="Причина" Style="{DynamicResource LabelsStyle}" Margin="10,2,2,2"/>
-                <TextBox x:Name="text_reason" TextWrapping="Wrap" Style="{DynamicResource TextParamsStyle}" Margin="50,2,2,2" VerticalAlignment="Bottom" Width="400"/>
-            </StackPanel>
-            <StackPanel Margin="2" Orientation="Horizontal" VerticalAlignment="Top">
-                <TextBlock x:Name="label_warnsAmount" TextWrapping="Wrap" Text="Баллы" Style="{DynamicResource LabelsStyle}" Margin="10,2,2,2"/>
-                <TextBox x:Name="text_warnsAmount" TextWrapping="Wrap" Text="0" Style="{DynamicResource TextParamsStyle}" Margin="50,2,2,2" VerticalAlignment="Bottom" Padding="5,0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
-            </StackPanel>
             <StackPanel Margin="2" Orientation="Horizontal" VerticalAlignment="Top">
                 <TextBlock x:Name="label_CurrLevel" TextWrapping="Wrap" Text="Текущий уровень предупреждений пользователя:" Style="{DynamicResource TextParamsStyle}" Margin="10,2,2,2"/>
                 <TextBlock x:Name="text_currLevel" TextWrapping="Wrap" Text="0" Margin="50,2,2,2" HorizontalAlignment="Center" VerticalAlignment="Center"/>

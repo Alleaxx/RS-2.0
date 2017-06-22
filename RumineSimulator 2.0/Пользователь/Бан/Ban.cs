@@ -85,7 +85,7 @@ namespace RumineSimulator_2._0
         public List<Warning> WarnSortByDate()
         {
             var sortedGr = from i in warnings
-                           orderby i.date descending
+                           orderby i.date 
                            select i;
             return sortedGr.ToList();
         }

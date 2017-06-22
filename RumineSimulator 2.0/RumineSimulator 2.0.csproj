@@ -93,7 +93,10 @@
     </Compile>
     <Compile Include="Statistic.cs" />
     <Compile Include="Активность\Activity.cs" />
+    <Compile Include="Активность\EventDescription.cs" />
     <Compile Include="Активность\Event_Creator.cs" />
+    <Compile Include="Активность\HistoricEvents_List.cs" />
+    <Compile Include="Активность\События\HistoricEvent.cs" />
     <Compile Include="Активность\События\SmallEvent.cs" />
     <Compile Include="Активность\SmallEvents_List.cs" />
     <Compile Include="Активность\Events_List.cs" />
@@ -511,7 +514,12 @@
   <ItemGroup>
     <Resource Include="Resources\quest.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\лого вики блюмошка.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\logo_bluemoshka.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

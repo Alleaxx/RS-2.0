@@ -156,15 +156,5 @@ namespace RumineSimulator_2._0
         {
             this.Close();
         }
-
-        private void button_UpReputation_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void button_DownReputation_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

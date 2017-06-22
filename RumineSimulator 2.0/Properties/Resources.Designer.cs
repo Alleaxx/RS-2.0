@@ -563,6 +563,16 @@ namespace RumineSimulator_2._0.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap logo_bluemoshka {
+            get {
+                object obj = ResourceManager.GetObject("logo_bluemoshka", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap lolnoob {
             get {
                 object obj = ResourceManager.GetObject("lolnoob", resourceCulture);

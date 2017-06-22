@@ -746,6 +746,10 @@ namespace RumineSimulator_2._0
                 {
                     list_EventChar.Items.Add(Interface_Value_Return(inter_string));
                 }
+                foreach (Interface_String inter_string in info_event.special_event_properties)
+                {
+                    list_EventChar.Items.Add(Interface_Value_Return(inter_string));
+                }
                 foreach (Interface_String inter_string in info_event.connectedEntities_properties)
                 {
                     list_EventParticipants.Items.Add(Interface_Value_Return(inter_string));
@@ -966,6 +970,8 @@ namespace RumineSimulator_2._0
                 UserListAllUpdate();
                 Activity.Activity_Init();
                 text_log.AppendText("\nАктивность инициализирована...");
+                HistoricEvents_List.HistoricEvents_Creation(1);
+                text_log.AppendText("\nИсторические события заданы...");
                 list_AverageTemperature.Items.Add($"Раковитость: {UserList.aver_rakness}");
                 list_AverageTemperature.Items.Add($"Адекватность: {UserList.aver_adeq}");
                 list_AverageTemperature.Items.Add($"Консервативность: {UserList.aver_conservative}");

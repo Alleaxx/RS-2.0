@@ -37,16 +37,6 @@ namespace RumineSimulator_2._0
             WarningsUpdate();
         }
 
-        private void button_WarnsUp_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void button_WarnsDown_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void button_Close_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -67,7 +57,6 @@ namespace RumineSimulator_2._0
             item_header.Background = new SolidColorBrush(Colors.LightGray);
             item_header.Content = StackWarningsHeader();
             listBox_warnings.Items.Add(item_header);
-
             foreach (Warning warn in selected_user.LastBan.warnings)
             {
                 ListBoxItem item = new ListBoxItem();

@@ -14,9 +14,9 @@ namespace RumineSimulator_2._0
             get { return current_mod_activity; }
             set
             {
-                if (current_mod_activity > 100)
+                if (current_mod_activity > 75)
                     current_mod_activity = value - 1;
-                else if (current_mod_activity > 200)
+                else if (current_mod_activity > 100)
                     current_mod_activity = value - 2;
                 else
                     current_mod_activity = value;
@@ -62,7 +62,23 @@ namespace RumineSimulator_2._0
             }
         }
 
-        public static Event Last_Event { get; private set; }
+        public static Event last_Event { get; private set; }
+        public static Event last_SmallEvent { get; private set; }
+        public static Event last_HistoricEvent { get; private set; }
+        public static Event Last_Event {
+            get
+            {
+                return last_Event;
+            }
+            private set
+            {
+                last_Event = value;
+                if (last_Event.EventGlobalType == EventType.small)
+                    last_SmallEvent = last_Event;
+                if (last_Event.EventGlobalType == EventType.historic)
+                    last_HistoricEvent = last_Event;
+            }
+        }
 
         public static void Activity_Init()
         {
@@ -189,6 +205,7 @@ namespace RumineSimulator_2._0
         }
         public static void Day_Pass()
         {
+            Events_List.CheckEventsDelete();
             CheckEvents(true, false, false);
             DayStatisticsUpdate();
             CurrentDay_mod_activity = NextDay_mod_activity;
@@ -251,6 +268,16 @@ namespace RumineSimulator_2._0
             if (AdvRandom.PersentChanseBool(Current_mod_activity, 10000))
             {
                 Last_Event = SmallEvents_List.Ban_Random();
+                LastEvent_ModsModifier();
+                //Реакция на события
+                CheckLastEvent_Reaction();
+            }
+
+            HistoricEvent h_event = HistoricEvents_List.EventCheck();
+            if (h_event != null)
+            {
+                Last_Event = h_event;
+                Events_List.AllEvents.Add(Last_Event);
                 LastEvent_ModsModifier();
                 //Реакция на события
                 CheckLastEvent_Reaction();

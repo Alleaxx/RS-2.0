@@ -15,7 +15,8 @@ namespace RumineSimulator_2._0
         public string Tooltip { get; private set; }
         public string BigDescription { get; private set; }
         public EventType EventType { get; private set; }
-        public DateTime date { get; private set; }
+        public EventType EventGlobalType { get; set; }
+        public DateTime date { get; set; }
         public int Duration { get; set; }
         public DateTime date_end { get; private set; }
         public InterfaceView_Event InterfaceInfo;
@@ -26,6 +27,7 @@ namespace RumineSimulator_2._0
         public int next_day_mod { get; private set; }
         public int current_day_mod { get; private set; }
         public int Reaction { get; private set; }
+        public int Days_Delete { get; set; }
 
         public Event_Creator Creator { get; private set; }
         public Dictionary<User, string> participants = new Dictionary<User, string>();
@@ -37,10 +39,14 @@ namespace RumineSimulator_2._0
             Events_List.id++;
             Name = name;
             EventType = type;
+            EventGlobalType = EventType.usual;
             date = Date.current_date;
-            Events_List.AllEvents.Add(this);
+            if(EventType != EventType.historicWiki)
+                Events_List.AllEvents.Add(this);
+            Days_Delete = 365;
 
         }
+
         public virtual void EventAdd1_BasicInfo(Event_Creator creator, string tooltip,bool reasonable = true)
         {
             Creator = creator;
@@ -77,10 +83,22 @@ namespace RumineSimulator_2._0
         {
             InterfaceInfo = new InterfaceView_Event(this);
         }
+
+        public virtual void DayPass()
+        {
+            Days_Delete--;
+            List<Interface_String> temp_spec = InterfaceInfo.special_event_properties;
+            List<Interface_String> temp_con = InterfaceInfo.connectedEntities_properties;
+            InterfaceInfo = new InterfaceView_Event(this);
+            InterfaceInfo.special_event_properties = temp_spec;
+            InterfaceInfo.connectedEntities_properties = temp_con;
+        }
     }
 
     enum EventType
     {
-        message,comment,news,reputation,ban,fail,dayEnd
+        usual, small, historic,
+        message, comment, news, reputation, ban, fail, dayEnd,
+        historicWiki
     }
 }
