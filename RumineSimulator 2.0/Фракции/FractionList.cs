@@ -10,6 +10,7 @@ namespace RumineSimulator_2._0
     {
         public static Fraction NeutralFraction;
         public static List<Fraction> AllFractions = new List<Fraction>();
+        public static int id_total = 0;
         public static void FractionsInit()
         {
             List<Traits> ideol = new List<Traits>();
@@ -43,9 +44,29 @@ namespace RumineSimulator_2._0
             ideol = new List<Traits>() { Traits.programmer, Traits.arter,Traits.writer };
             enemy = new List<Traits>() { Traits.rak };
             AllFractions.Add(new Fraction("MicroShit", ideol, enemy, FractionAggression.light,false));
+
+            ideol = new List<Traits>() { Traits.pane};
+            enemy = new List<Traits>() {};
+            AllFractions.Add(new Fraction("Броняши", ideol, enemy, FractionAggression.ambigious, false));
+
+            ideol = new List<Traits>() {};
+            enemy = new List<Traits>() { Traits.pane };
+            AllFractions.Add(new Fraction("Хейтеры", ideol, enemy, FractionAggression.ambigious, false));
+
             ideol.Clear();
             enemy.Clear();
 
+        }
+
+        public static Fraction SearchFractionName(string name)
+        {
+            Fraction sel_fraction = AllFractions[0];
+            foreach (Fraction fraction in AllFractions)
+            {
+                if (fraction.name == name)
+                    sel_fraction = fraction;
+            }
+            return sel_fraction;
         }
     }
 }

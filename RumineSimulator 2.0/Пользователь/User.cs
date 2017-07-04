@@ -12,7 +12,19 @@ namespace RumineSimulator_2._0
         public string nick { get; set; }
 
         public DateTime registration { get; private set; }
-        public DateTime last_activity { get; set; }
+        private DateTime last_activity;
+        public DateTime Last_activity
+        {
+            get
+            {
+                return last_activity;
+            }
+            set
+            {
+                last_activity = value;
+                CreateInterInfo();
+            }
+        }
 
         public int rnd_num { get; set; }
         public int moder_chanse { get; set; }
@@ -59,7 +71,7 @@ namespace RumineSimulator_2._0
         public UserDayLog daylog { get; private set; }
         public List<UserDayLog> last_thirty_Days = new List<UserDayLog>();
         public Dictionary<User, int> blocked_users_rep = new Dictionary<User, int>();
-        public InterfaceView_User InterfaceInfo;
+        public Interface_User InterfaceInfo;
 
         Random random;
 
@@ -132,9 +144,10 @@ namespace RumineSimulator_2._0
             }
         }
 
-        public void CreateInterfaceInfo()
+        //Обновить интерфейсное представление пользователя
+        public void CreateInterInfo()
         {
-            InterfaceInfo = new InterfaceView_User(this);
+            InterfaceInfo = new Interface_User(this);
         }
 
         private void TraitMod()
@@ -293,9 +306,9 @@ namespace RumineSimulator_2._0
             description = UserDescription.GetTextDescription(this);
             reputation.ReputationRelations(this);
             karma.KarmaUpdate(this);
-            for (int i = 0; i < UserList.UserAmount; i++)
+            for (int i = 0; i < Users.UserAmount; i++)
             {
-                blocked_users_rep.Add(UserList.Users[i], 0);
+                blocked_users_rep.Add(Users.UsersList[i], 0);
             }
             group = GroupsList.ReturnUserGroup(this);
             GroupMod();
@@ -307,7 +320,7 @@ namespace RumineSimulator_2._0
         {
             if (main)
             {
-                if (Fraction.MemberAccept(this))
+                if (Fraction.MemberAcceptCheck(this))
                 {
                     main_fraction = Fraction;
                     Fraction.members.Add(this);
@@ -345,10 +358,10 @@ namespace RumineSimulator_2._0
         {
             SetActivities();
             daylog = new UserDayLog(this);
-            for (int i = 0; i < UserList.UserAmount; i++)
+            for (int i = 0; i < Users.UserAmount; i++)
             {
-                if (blocked_users_rep[UserList.Users[i]] > 0)
-                    blocked_users_rep[UserList.Users[i]]--;
+                if (blocked_users_rep[Users.UsersList[i]] > 0)
+                    blocked_users_rep[Users.UsersList[i]]--;
             }
             for (int i = 0; i < relations.All.Count; i++)
             {

@@ -30,11 +30,12 @@ namespace RumineSimulator_2._0
         public static string[] wiki_names = new string[5]
         {"Вики по Ру-майнкрафт.ру","Румайн-вики","Румине вики","Wiki Ru-minecraft","Mine.ru Wiki"
         };
-        public static string[] wiki_comment_good = new string[5]
-        {"Поддерживаю создателя, эта идея мне по нраву(с)","Готов править статьи(с)","Прекрасное начинание(с)","Плюсовал и лайкал","Махал руками за"
+        public static string[] wiki_comment_good = new string[7]
+        {"Поддерживаю автора, мне нравится идея!(с)","Готов править статьи(с)","Прекрасное начинание(с)",
+            "Плюсовал и лайкал","Махал руками за","Великолепно(С)","Будем надеяться на лучшее(с)"
         };
-        public static string[] wiki_comment_bad = new string[5]
-        {"Ничего не выйдет(с)","Создатель ничего не смыслит в подобных делах(с)","Тьфу(с)","Мертво(с)","Топал ногами и ругался"
+        public static string[] wiki_comment_bad = new string[6]
+        {"Ничего не выйдет(с)","Аффтар лох и апазорился(с)","Тьфу(с)","Мертво(с)","Топал ногами и ругался","выпей йаду(с)"
         };
 
         #endregion
@@ -42,75 +43,74 @@ namespace RumineSimulator_2._0
 
         public static void HistoricEvents_Creation(int premade)
         {
-
-            #region Вики по румайну
             int rnd_premade = premade;
-            DateTime pre_date = new DateTime(2013, 7, 20, random.Next(9, 24), random.Next(60), 0);
+            List<User> all_users = Users.UsersList;
+            #region Вики по румайну
+            DateTime wiki_pre_date = new DateTime(2013, 9, random.Next(1, 30), random.Next(9, 24), random.Next(60), 0);
 
             //Выбор создателя вики
-            User creator = UserList.Users[0];
+            User wiki_creator = Users.UsersList[0];
             string wiki_name = "";
-            bool sucees = true;
-            bool rak = false;
-            int firstDay = random.Next(10, 150);
+            bool wiki_sucees = true;
+            bool wiki_rak = false;
+            int wiki_firstDay = random.Next(10, 150);
 
-            HistoricEvent wikiCreation = new HistoricEvent("Создание вики по Ру-майну", EventType.historicWiki, pre_date);
+            HistoricEvent wikiCreation = new HistoricEvent("Создание вики по Ру-майну", EventType.historicWiki, wiki_pre_date);
             //Содержание исторического события
             switch (rnd_premade)
             {
                 //Исторический мод
                 case 0:
-                    creator = UserList.UserSearch("Andrej2001");
+                    wiki_creator = Users.UserSearch("Andrej2001");
                     wiki_name = "Ru.Ru-minecraft вики";
 
-                    wikiCreation.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, creator.nick), "Создание вики Ру-майна");
-                    wikiCreation.EventAdd2_Description($"{intros_good[random.Next(intros_good.Length)]} Сегодня была создана вики по нашему замечательному сайту Ru-minecraft.ru! Она имеет название {wiki_name}, создателем является {creator.nick}. Почти сразу же вики подверглась вандализму со стороны известного senyaiv, но достойным пользователям удалось его остановить. {endings[random.Next(endings.Length)]} ");
+                    wikiCreation.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, wiki_creator.nick), "Создание вики Ру-майна");
+                    wikiCreation.EventAdd2_Description($"{intros_good[random.Next(intros_good.Length)]} Сегодня была создана вики по нашему замечательному сайту Ru-minecraft.ru! Она имеет название {wiki_name}, создателем является {wiki_creator.nick}. Почти сразу же вики подверглась вандализму со стороны известного senyaiv, но достойным пользователям удалось его остановить. {endings[random.Next(endings.Length)]} ");
                     wikiCreation.EventAdd3_Mods(25, 10, 5, 3, 100);
-                    wikiCreation.EventAdd4_Participants(creator, "Создал настоящую, официальную вики Ру-майна. Честь и хвала");
-                    wikiCreation.EventAdd4_Participants(UserList.UserSearch("senyaiv"), "Вандал первого дня. Поехавший, впрочем оно и неудивительно");
-                    wikiCreation.EventAdd4_Participants(UserList.UserSearch("naswai"), "Поддерживал, наполнял и создавал");
-                    wikiCreation.EventAdd4_Participants(UserList.UserSearch("Allexx"), "Сражался за главную страницу вики с Сеней");
+                    wikiCreation.EventAdd4_Participants(wiki_creator, "Создал настоящую, официальную вики Ру-майна. Честь и хвала");
+                    wikiCreation.EventAdd4_Participants(Users.UserSearch("senyaiv"), "Вандал первого дня. Поехавший, впрочем оно и неудивительно");
+                    wikiCreation.EventAdd4_Participants(Users.UserSearch("naswai"), "Поддерживал, наполнял и создавал");
+                    wikiCreation.EventAdd4_Participants(Users.UserSearch("Allexx"), "Сражался за главную страницу вики с Сеней");
                     break;
 
                 //Полностью рандомный мод
                 case 1:
                     //Создатель
-                    List<User> users = UserList.ReturnUsersForumInfluenceDesc();
-                    users = UserList.ReturnUserByTraits(users, new List<Traits>() { Traits.programmer, Traits.accurateguy }, false);
-                    creator = users[random.Next(users.Count)];
+                    List<User> users = Users.ReturnUsersForumInfluenceDesc();
+                    users = Users.ReturnUserByTraits(users, new List<Traits>() { Traits.programmer, Traits.accurateguy }, false);
+                    wiki_creator = users[random.Next(users.Count)];
 
                     wiki_name = wiki_names[random.Next(wiki_names.Length)];
-                    wikiCreation.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, creator.nick), "Создание вики Ру-майна");
-                    wikiCreation.EventAdd2_Description($"{intros_good[random.Next(intros_good.Length)]} Сегодня была создана вики описывающая наш Румине! Она имеет название {wiki_name}, создателем является {creator.nick}. Надеемся на то, что вики будет жить и процветать. {endings[random.Next(endings.Length)]}");
+                    wikiCreation.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, wiki_creator.nick), "Создание вики Ру-майна");
+                    wikiCreation.EventAdd2_Description($"{intros_good[random.Next(intros_good.Length)]} Сегодня была создана вики описывающая наш Румине! Она имеет название {wiki_name}, создателем является {wiki_creator.nick}. Надеемся на то, что вики будет жить и процветать. {endings[random.Next(endings.Length)]}");
                     wikiCreation.EventAdd3_Mods(25, 10, 5, 5, 1000);
-                    wikiCreation.EventAdd4_Participants(creator, creator.traits[random.Next(creator.traits.Count)].short_name);
+                    wikiCreation.EventAdd4_Participants(wiki_creator, wiki_creator.traits[random.Next(wiki_creator.traits.Count)].short_name);
                     //Комментарии на вики
-                    List<User> all_users = UserList.Users;
                     foreach (User user in all_users)
                     {
-                        if (AdvRandom.PersentChanseBool(15) && user != creator)
+                        if (AdvRandom.PersentChanseBool(15) && user != wiki_creator)
                         {
-                            if (creator.relations.All[user].relation == RelationsEnum.comrade ||
-                                creator.relations.All[user].relation == RelationsEnum.neutral ||
-                                creator.relations.All[user].relation == RelationsEnum.friend)
+                            if (wiki_creator.relations.All[user].relation == RelationsEnum.comrade ||
+                                wiki_creator.relations.All[user].relation == RelationsEnum.neutral ||
+                                wiki_creator.relations.All[user].relation == RelationsEnum.friend)
                             {
-                                if(random.Next(3) == 1)
-                                    wikiCreation.EventAdd4_Participants(user, user.traits[random.Next(creator.traits.Count)].short_name);
+                                if (random.Next(3) == 1)
+                                    wikiCreation.EventAdd4_Participants(user, user.traits[random.Next(user.traits.Count)].short_name);
                                 else
                                     wikiCreation.EventAdd4_Participants(user, wiki_comment_good[random.Next(wiki_comment_good.Length)]);
                             }
                             else
                             {
                                 if (random.Next(3) == 1)
-                                    wikiCreation.EventAdd4_Participants(user, user.traits[random.Next(creator.traits.Count)].short_name);
+                                    wikiCreation.EventAdd4_Participants(user, user.traits[random.Next(user.traits.Count)].short_name);
                                 else
                                     wikiCreation.EventAdd4_Participants(user, wiki_comment_bad[random.Next(wiki_comment_bad.Length)]);
                             }
                         }
                     }
                     //Установка прочих параметров
-                    if (creator.traits.Contains(TraitsList.AllTraits[Traits.rak]))
-                        rak = true;
+                    if (wiki_creator.traits.Contains(TraitsList.AllTraits[Traits.rak]))
+                        wiki_rak = true;
                     break;
 
             }
@@ -121,21 +121,79 @@ namespace RumineSimulator_2._0
             //Интерфейс
             wikiCreation.EventAddEnd_InterfaceInfo();
             wikiCreation.InterfaceInfo.Add_Property(new Interface_String("Вики Румайна: ", "", false, true));
-            wikiCreation.more_properties.Add("Создатель вики: ", creator.nick);
-            wikiCreation.InterfaceInfo.Add_Property(new Interface_String("Создатель вики: ", creator.nick, false));
+            wikiCreation.more_properties.Add("Создатель вики: ", wiki_creator.nick);
+            wikiCreation.InterfaceInfo.Add_Property(new Interface_String("Создатель вики: ", wiki_creator.nick, false));
             wikiCreation.more_properties.Add("Название: ", wiki_name);
             wikiCreation.InterfaceInfo.Add_Property(new Interface_String("Название: ", wiki_name, false));
-            wikiCreation.more_properties.Add("Правок в первый день: ", firstDay.ToString());
-            wikiCreation.InterfaceInfo.Add_Property(new Interface_String("Правок в первый день: ", firstDay.ToString(), false));
-            wikiCreation.more_properties.Add("Успех при создании: ", sucees.ToString());
-            wikiCreation.InterfaceInfo.Add_Property(new Interface_String("Успех при создании: ", sucees.ToString(), false));
-            wikiCreation.more_properties.Add("Рако-вики: ", rak.ToString());
-            wikiCreation.InterfaceInfo.Add_Property(new Interface_String("Рако-вики: ", rak.ToString(), false));
+            wikiCreation.more_properties.Add("Правок в первый день: ", wiki_firstDay.ToString());
+            wikiCreation.InterfaceInfo.Add_Property(new Interface_String("Правок в первый день: ", wiki_firstDay.ToString(), false));
+            wikiCreation.more_properties.Add("Успех при создании: ", wiki_sucees.ToString());
+            wikiCreation.InterfaceInfo.Add_Property(new Interface_String("Успех при создании: ", wiki_sucees.ToString(), false));
+            wikiCreation.more_properties.Add("Рако-вики: ", wiki_rak.ToString());
+            wikiCreation.InterfaceInfo.Add_Property(new Interface_String("Рако-вики: ", wiki_rak.ToString(), false));
 
             future_HistoricEvents.Add(wikiCreation);
+
             #endregion
+            #region Нашествие пане
+            DateTime paneAttack_pre_date = new DateTime(2013, 7, 20, random.Next(9, 24), random.Next(60), 0);
 
+            //Выбор создателя вики
+            User paneAttack_creator = Users.UsersList[0];
+            string paneAttack_name = "Нашествие пане";
 
+            HistoricEvent paneAttack = new HistoricEvent(paneAttack_name, EventType.historicPaneAttack, paneAttack_pre_date);
+            //Содержание исторического события
+
+            //Создатели
+            Fraction pane_fraction = FractionList.SearchFractionName("Броняши");
+            pane_fraction.active = true;
+            Fraction antiPane_fraction = new Fraction("Антиброни", new List<Traits> { }, new List<Traits> { Traits.pane },
+                FractionAggression.ambigious, true,false,true);
+            foreach (User user in all_users)
+            {
+                if (antiPane_fraction.MemberAcceptCheck(user) && AdvRandom.PersentChanseBool(15))
+                {
+                    antiPane_fraction.members.Add(user);
+                }
+            }
+            antiPane_fraction.FractionCreationEnd();
+
+            FractionList.AllFractions.Add(antiPane_fraction);
+
+            paneAttack.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Rumine, "Война фракций"), "Нашествие пане");
+            paneAttack.EventAdd2_Description($"{intros_good[random.Next(intros_good.Length)]} Было официально объявлено нашествие брони на румине! Все поклонники сериала MLP({pane_fraction.members.Count} юзеров) объединились и вовсю продвигают свою идеологию! Не всем это нравится, и на румине появляется сопротивление. Что же из этого выйдет? {endings[random.Next(endings.Length)]}");
+            paneAttack.EventAdd3_Mods(15, 15, 5, 0, 1000);
+            //Комментарии на вики
+            foreach (User user in pane_fraction.members)
+            {
+                if (AdvRandom.PersentChanseBool(15))
+                    paneAttack.EventAdd4_Participants(user, "За пане!");
+            }
+            foreach (User user in antiPane_fraction.members)
+            {
+                if (AdvRandom.PersentChanseBool(15))
+                    paneAttack.EventAdd4_Participants(user, "Сжечь ересь!");
+            }
+            //Установка прочих параметров
+
+            paneAttack.EventAdd5_ImageSource(new BitmapImage(new Uri("pack://application:,,,/Resources/logo_bluemoshka.png")));
+            paneAttack.EventAdd6_Dates(0);
+
+            //Интерфейс
+            paneAttack.EventAddEnd_InterfaceInfo();
+            paneAttack.InterfaceInfo.Add_Property(new Interface_String("Нашествие пане: ", "", false, true));
+            paneAttack.more_properties.Add("Группировка брони: ", pane_fraction.name);
+            paneAttack.InterfaceInfo.Add_Property(new Interface_String("Группировка брони: ", pane_fraction.name, false));
+            paneAttack.more_properties.Add("Влияние брони: ", pane_fraction.Influence.ToString());
+            paneAttack.InterfaceInfo.Add_Property(new Interface_String("Влияние брони: ", pane_fraction.Influence.ToString(), false));
+            paneAttack.more_properties.Add("Группировка сопротивления: ", antiPane_fraction.name.ToString());
+            paneAttack.InterfaceInfo.Add_Property(new Interface_String("Группировка сопротивления: ", antiPane_fraction.name.ToString(), false));
+            paneAttack.more_properties.Add("Влияние сопротивления: ", antiPane_fraction.Influence.ToString());
+            paneAttack.InterfaceInfo.Add_Property(new Interface_String("Влияние сопротивления: ", antiPane_fraction.Influence.ToString(), false));
+
+            future_HistoricEvents.Add(paneAttack);
+            #endregion
 
         }
 

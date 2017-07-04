@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace RumineSimulator_2._0
 {
-    static class UserList
+    static class Users
     {
         //Список пользователей в приложении и их количество
-        static public List<User> Users = new List<User>();
+        static public List<User> UsersList = new List<User>();
         static public int UserAmount
         {
             get
             {
-                return Users.Count;
+                return UsersList.Count;
             }
         }
 
@@ -38,7 +38,7 @@ namespace RumineSimulator_2._0
             for (int i = 0; i < amount; i++)
             {
                 User generated_user = new User();
-                Users.Add(generated_user);
+                UsersList.Add(generated_user);
                 aver_adeq += generated_user.character.adeq.Param_value;
                 aver_rakness += generated_user.character.rakness.Param_value;
                 aver_conservative += generated_user.character.conservative.Param_value;
@@ -59,27 +59,27 @@ namespace RumineSimulator_2._0
             aver_sciense /= UserAmount;
             for (int i = 0; i < UserAmount; i++)
             {
-                Users[i].GenerateRelation();
+                UsersList[i].GenerateRelation();
             }
         }
 
         //Проверка пользователей на апдейты
         static public void CheckingAllUserForUpdates()
         {
-            for (int i = 0; i < Users.Count; i++)
+            for (int i = 0; i < UsersList.Count; i++)
             {
                 if (Date.current_date_prev.Minute > Date.current_date.Minute)
                 {
                 }
                 if (Date.current_date.Hour == 0 && Date.current_date.Minute < Date.current_date_prev.Minute)
                 {
-                    Users[i].UpdateBeginDay();
+                    UsersList[i].UpdateBeginDay();
                 }
                 if (Date.current_date.Hour == 23 && Date.current_date.Minute == 59)
                 {
-                    Users[i].UpdateEndDay();
+                    UsersList[i].UpdateEndDay();
                 }
-                Users[i].CheckingForUpdates();
+                UsersList[i].CheckingForUpdates();
             }
         }
 
@@ -87,13 +87,13 @@ namespace RumineSimulator_2._0
         static public void UsersClear()
         {
             Nicks.NicksInit();
-            Users.Clear();
+            UsersList.Clear();
         }
         static public void CreateInterfaceInfo()
         {
-            for (int i = 0; i < Users.Count; i++)
+            for (int i = 0; i < UsersList.Count; i++)
             {
-                Users[i].CreateInterfaceInfo();
+                UsersList[i].CreateInterInfo();
             }
         }
 
@@ -115,14 +115,14 @@ namespace RumineSimulator_2._0
                 }
                 i++;
             }
-            while (ModerAmount != mod_recomend && i != UserList.Users.Count - 5);
+            while (ModerAmount != mod_recomend && i != _0.Users.UsersList.Count - 5);
 
 
         }
 
         static public User UserSearch(string nick)
         {
-            foreach (User user in Users)
+            foreach (User user in UsersList)
             {
                 if (user.nick == nick)
                     return user;
@@ -132,13 +132,13 @@ namespace RumineSimulator_2._0
 
         static public void FractionChoose()
         {
-            foreach (User user in Users)
+            foreach (User user in UsersList)
             {
                 //Добавляем доступные фракции
                 List<Fraction> Av_fracs = new List<Fraction>();
                 foreach (Fraction fraction in FractionList.AllFractions)
                 {
-                    if (fraction.MemberAccept(user))
+                    if (fraction.MemberAcceptCheck(user))
                         Av_fracs.Add(fraction);
                 }
                 //Распределяем доступные фракции
@@ -182,7 +182,7 @@ namespace RumineSimulator_2._0
         #region Сортировки
         static public List<User> ReturnUsersGroupRarenesSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in UsersList
                            orderby i.@group.Respect descending
                            select i;
             return sortedGr.ToList();
@@ -190,77 +190,77 @@ namespace RumineSimulator_2._0
         }
         static public List<User> ReturnUsersRegSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in UsersList
                            orderby i.registration
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersMessagesSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in UsersList
                            orderby i.messages descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersRepSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in UsersList
                            orderby i.reputation.Base_reputation descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersAdeqSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in UsersList
                            where i.main_fraction.name != "Нет фракции"
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersRakSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in UsersList
                            orderby i.character.rakness.Param_value descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersConsSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in UsersList
                            orderby i.character.conservative descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersCreativeSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in UsersList
                            orderby i.character.creativity.Param_value descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersScienseSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in UsersList
                            orderby i.character.sciense.Param_value descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersModerChanseDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in UsersList
                            orderby i.moder_chanse descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersForumInfluenceDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in UsersList
                            orderby i.forum_influence descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersActiveFilter()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in UsersList
                            where i.activity == true
                            select i;
             return sortedGr.ToList();

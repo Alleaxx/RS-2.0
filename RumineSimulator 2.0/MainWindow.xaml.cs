@@ -65,7 +65,6 @@ namespace RumineSimulator_2._0
             FractionList.FractionsInit();
             text_log.AppendText("\nФракции созданы...");
             selected_index_user = -1;
-            list_Relations.SelectedIndex = 1;
             Date.InitDate(new DateTime(2011, 07, 27), new DateTime(2013, 07, 19, 12, 0, 0));
             StatusTextData.Text = Date.ReturnCurrDate();
             text_foundDate.Text = Date.found_date.ToShortDateString();
@@ -101,7 +100,7 @@ namespace RumineSimulator_2._0
                 TextBlock text = (TextBlock)panel.Children[1];
                 selected_index_user = list_UserDetail.SelectedIndex;
                 string nick = text.Text;
-                foreach (User user in UserList.Users)
+                foreach (User user in Users.UsersList)
                 {
                     if (user.nick == nick)
                         selected_user = user;
@@ -109,18 +108,6 @@ namespace RumineSimulator_2._0
                     UserBetaUpdate();
                 }
 
-            }
-            if (list_Relations.SelectedItem != null)
-            {
-                ListBoxItem item = (ListBoxItem)list_Relations.SelectedItem;
-                StackPanel panel = (StackPanel)item.Content;
-                TextBlock text = (TextBlock)panel.Children[0];
-                string nick = text.Text;
-                foreach (User user in UserList.Users)
-                {
-                    if (user.nick == nick)
-                        selected_userRelation = user;
-                }
             }
         }
         //Выбор пользователя(бета-версия)
@@ -132,7 +119,7 @@ namespace RumineSimulator_2._0
             StackPanel Spanel0 = (StackPanel)item.Content;
             StackPanel Spanel = (StackPanel)Spanel0.Children[1];
             TextBlock nick = (TextBlock)Spanel.Children[0];
-            foreach (User user in UserList.Users)
+            foreach (User user in Users.UsersList)
             {
                 if (user.nick == nick.Text)
                 {
@@ -156,7 +143,7 @@ namespace RumineSimulator_2._0
             {
                 image_Ava1.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/No_ava.png"));
             }
-            text_Dates.Text = selected_user_beta.registration.ToShortDateString() + " - " + selected_user_beta.last_activity.ToShortDateString();
+            text_Dates.Text = selected_user_beta.registration.ToShortDateString() + " - " + selected_user_beta.Last_activity.ToShortDateString();
             //text_Relation1.Foreground = new SolidColorBrush(selected_user_beta.relations.All[Player.user].color);
             //text_Relation1.Text = selected_user_beta.relations.All[Player.user].ReturnTextRelation();
 
@@ -236,11 +223,9 @@ namespace RumineSimulator_2._0
         {
             if ((bool)checkBox_DescrHide.IsChecked)
             {
-                gB_Description.Visibility = Visibility.Hidden;
             }
             else
             {
-                gB_Description.Visibility = Visibility.Visible;
             }
         }
 
@@ -249,7 +234,6 @@ namespace RumineSimulator_2._0
 
             DP_warningsLevel.Visibility = Visibility.Visible;
             DP_warningsLevel.Height = 21;
-            gB_Description.Visibility = Visibility.Visible;
             button_AdminPanel.Visibility = Visibility.Visible;
             button_AdminPanel.Height = 27;
         }
@@ -280,17 +264,12 @@ namespace RumineSimulator_2._0
         private void List_Users_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SELECTIONUsersUpdate();
-            if (expanderListUser_rel.IsExpanded)
-                UserListRelUpdate();
             if (relations_generated && selected_user != selected_userRelation && selected_userRelation != null)
-                UserRelationUpdate();
             InfoUserUpdate();
         }
         private void list_UserRelation_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
             SELECTIONUsersUpdate();
-            if (selected_user != selected_userRelation && selected_userRelation != null)
-                UserRelationUpdate();
 
         }
         private void Button_UpdateAll_Click(object sender, RoutedEventArgs e)
@@ -303,7 +282,6 @@ namespace RumineSimulator_2._0
         }
         private void ExpanderListUser_rel_Expanded(object sender, RoutedEventArgs e)
         {
-            UserListRelUpdate();
         }
         //Перерисовка списков из-за сортировки
         private void ComboBoxUserSort_all_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -312,7 +290,7 @@ namespace RumineSimulator_2._0
         }
         private void comboBoxUserSort_rel_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UserListRelUpdate();
+
         }
 
 
@@ -326,44 +304,44 @@ namespace RumineSimulator_2._0
             {
                 //Без сортировки
                 case 0:
-                    list_sort = UserList.Users;
+                    list_sort = Users.UsersList;
                     break;
                 //Ценность группы    
                 case 1:
-                    list_sort = UserList.ReturnUsersGroupRarenesSortDesc();
+                    list_sort = Users.ReturnUsersGroupRarenesSortDesc();
                     break;
                 //По дате регистрации
                 case 2:
-                    list_sort = UserList.ReturnUsersRegSortDesc();
+                    list_sort = Users.ReturnUsersRegSortDesc();
                     break;
                 //По репутации
                 case 3:
-                    list_sort = UserList.ReturnUsersRepSortDesc();
+                    list_sort = Users.ReturnUsersRepSortDesc();
                     break;
                 //Сообщениям
                 case 4:
-                    list_sort = UserList.ReturnUsersMessagesSortDesc();
+                    list_sort = Users.ReturnUsersMessagesSortDesc();
                     break;
                 //Адекватности
                 case 5:
-                    list_sort = UserList.ReturnUsersAdeqSortDesc();
+                    list_sort = Users.ReturnUsersAdeqSortDesc();
                     break;
                 //Раковитости
                 case 6:
-                    list_sort = UserList.ReturnUsersRakSortDesc();
+                    list_sort = Users.ReturnUsersRakSortDesc();
                     break;
                 //Консервативности
                 case 7:
-                    list_sort = UserList.ReturnUsersConsSortDesc();
+                    list_sort = Users.ReturnUsersConsSortDesc();
                     break;
                 case 8:
-                    list_sort = UserList.ReturnUsersCreativeSortDesc();
+                    list_sort = Users.ReturnUsersCreativeSortDesc();
                     break;
                 case 9:
-                    list_sort = UserList.ReturnUsersScienseSortDesc();
+                    list_sort = Users.ReturnUsersScienseSortDesc();
                     break;
                 default:
-                    list_sort = UserList.Users;
+                    list_sort = Users.UsersList;
                     break;
             }
             #endregion
@@ -381,40 +359,6 @@ namespace RumineSimulator_2._0
             }
             list_UserDetail.SelectedIndex = selected_index_user;
             SELECTIONUsersUpdate();
-        }
-        private void UserListRelUpdate()
-        {
-            if (selected_user != null && relations_generated)
-            {
-                list_Relations.Items.Clear();
-                List<User> list_sort = new List<User>();
-                #region Сортировка
-                switch (comboBox_SortRel.SelectedIndex)
-                {
-                    //Без сортировки
-                    case 0:
-                        list_sort = UserList.Users;
-                        break;
-                    case 1:
-                        list_sort = selected_user.relations.ReturnUsersRelSortDesc();
-                        break;
-                    default:
-                        list_sort = UserList.Users;
-                        break;
-
-                }
-                #endregion
-                for (int i = 0; i < list_sort.Count; i++)
-                {
-                    //Добавляем в список идентификатор юзера
-                    ListBoxItem user_item = new ListBoxItem()
-                    {
-                        Content = StackPanUserLists(list_sort[i], true),
-                        Background = new SolidColorBrush(selected_user.relations.All[list_sort[i]].color)
-                    };
-                    list_Relations.Items.Add(user_item);
-                }
-            }
         }
         //Информация
         private void InfoUserUpdate()
@@ -436,7 +380,7 @@ namespace RumineSimulator_2._0
                 string header = $"{selected_user.nick}";
                 gB_MainInfo.Header = header;
                 text_Registration.Text = selected_user.registration.ToShortDateString() + $"({selected_user.m_oldness}й месяц)";
-                text_LastActivity.Text = selected_user.last_activity.ToShortDateString() + " " + selected_user.last_activity.ToShortTimeString();
+                text_LastActivity.Text = selected_user.Last_activity.ToShortDateString() + " " + selected_user.Last_activity.ToShortTimeString();
 
                 //Цвет группы юзера и сама группа
                 text_Group.Foreground = selected_user.group.need_brush;
@@ -536,16 +480,7 @@ namespace RumineSimulator_2._0
                 #endregion
 
 
-                //Текстовое описание
-                text_UserDescription.Text = selected_user.description;
-                valueUser_log.Text = "";
 
-                //Лог пользователя
-                foreach (UserDayLog log in selected_user.last_thirty_Days)
-                {
-                    valueUser_log.Text = valueUser_log.Text + log.text_descr;
-                }
-                valueUser_log.ScrollToEnd();
 
                 //Репутация
                 list_Traits.Items.Clear();
@@ -568,171 +503,10 @@ namespace RumineSimulator_2._0
                     list_Traits.Items.Add(item);
                 }
 
-                #region Кол-во друзей и т.д.
-                text_friendsAmount.Text = selected_user.relations.friends.Count.ToString();
-                text_comradesAmount.Text = selected_user.relations.comrades.Count.ToString();
-                text_neutralsAmount.Text = selected_user.relations.neutrals.Count.ToString();
-                text_unfriendsAmount.Text = selected_user.relations.unfriends.Count.ToString();
-                text_enemiesAmount.Text = selected_user.relations.enemies.Count.ToString();
-                #endregion
-
 
             }
 
 
-        }
-        private void UserRelationUpdate()
-        {
-
-            #region Обновление основного сравнения
-            expanderListUser_rel.Header = ($"{selected_user.ToString()} и {selected_userRelation.ToString()}");
-            text_nickDiff2.Text = selected_userRelation.nick;
-            text_RegDiff2.Text = selected_userRelation.registration.ToShortDateString();
-            text_GroupDiff1.Foreground = selected_user.group.need_brush;
-            text_GroupDiff2.Text = selected_userRelation.group.Name;
-            text_GroupDiff2.Foreground = selected_userRelation.group.need_brush;
-            #endregion
-
-            #region Само отношение
-            SolidColorBrush brush_rel_text = new SolidColorBrush();
-            switch (selected_user.relations.All[selected_userRelation].relation)
-            {
-                case RelationsEnum.friend:
-                    brush_rel_text = new SolidColorBrush(selected_user.relations.All[selected_userRelation].color);
-                    text_Relation.Text = "Друзья";
-                    break;
-                case RelationsEnum.comrade:
-                    brush_rel_text = new SolidColorBrush(Colors.Lime);
-                    text_Relation.Text = "Товарищи";
-                    break;
-                case RelationsEnum.neutral:
-                    brush_rel_text = new SolidColorBrush(Colors.LightSlateGray);
-                    text_Relation.Text = "Нейтралы";
-                    break;
-                case RelationsEnum.unfriend:
-                    brush_rel_text = new SolidColorBrush(Colors.IndianRed);
-                    text_Relation.Text = "Неприятели";
-                    break;
-                case RelationsEnum.enemy:
-                    brush_rel_text = new SolidColorBrush(Colors.Red);
-                    text_Relation.Text = "Враги";
-                    break;
-            }
-            slider_friendness.Value = selected_user.relations.All[selected_userRelation].friendness;
-            text_Relation.Foreground = brush_rel_text;
-            //Разницы в сладйерах
-            slider_AdeqDiff.Value = selected_user.relations.All[selected_userRelation].adeq_difference;
-            slider_RaknessDiff.Value = selected_user.relations.All[selected_userRelation].rak_difference;
-            slider_ConsDiff.Value = selected_user.relations.All[selected_userRelation].cons_difference;
-            #endregion
-
-            #region Статистика
-            text_KarmaDiff1.Text = selected_user.karma.karma.ToString();
-            text_RepDiff1.Text = selected_user.reputation.Base_reputation.ToString();
-
-            text_KarmaDiff2.Text = selected_userRelation.karma.karma.ToString();
-            text_CommentsDiff2.Text = selected_userRelation.comments.ToString();
-            text_RepDiff2.Text = selected_userRelation.reputation.Base_reputation.ToString();
-            text_NewsDiff2.Text = selected_userRelation.news.ToString();
-            text_MessagesDiff2.Text = selected_userRelation.messages.ToString();
-            text_LikesDiff2.Text = selected_userRelation.likes.ToString();
-
-            if (selected_user.karma.karma > selected_userRelation.karma.karma)
-            {
-                text_KarmaDiff1.Foreground = new SolidColorBrush(Colors.DarkGreen);
-                text_KarmaDiff2.Foreground = new SolidColorBrush(Colors.DarkRed);
-            }
-            else if (selected_user.karma.karma < selected_userRelation.karma.karma)
-            {
-                text_KarmaDiff1.Foreground = new SolidColorBrush(Colors.DarkRed);
-                text_KarmaDiff2.Foreground = new SolidColorBrush(Colors.DarkGreen);
-            }
-            else
-            {
-                text_KarmaDiff1.Foreground = new SolidColorBrush(Colors.Blue);
-                text_KarmaDiff2.Foreground = new SolidColorBrush(Colors.Blue);
-            }
-
-            if (selected_user.comments > selected_userRelation.comments)
-            {
-                text_CommentsDiff1.Foreground = new SolidColorBrush(Colors.DarkGreen);
-                text_CommentsDiff2.Foreground = new SolidColorBrush(Colors.DarkRed);
-            }
-            else if (selected_user.comments < selected_userRelation.comments)
-            {
-                text_CommentsDiff1.Foreground = new SolidColorBrush(Colors.DarkRed);
-                text_CommentsDiff2.Foreground = new SolidColorBrush(Colors.DarkGreen);
-            }
-            else
-            {
-                text_CommentsDiff1.Foreground = new SolidColorBrush(Colors.Blue);
-                text_CommentsDiff2.Foreground = new SolidColorBrush(Colors.Blue);
-            }
-
-            if (selected_user.reputation.Base_reputation > selected_userRelation.reputation.Base_reputation)
-            {
-                text_RepDiff1.Foreground = new SolidColorBrush(Colors.DarkGreen);
-                text_RepDiff2.Foreground = new SolidColorBrush(Colors.DarkRed);
-            }
-            else if (selected_user.reputation.Base_reputation < selected_userRelation.reputation.Base_reputation)
-            {
-                text_RepDiff1.Foreground = new SolidColorBrush(Colors.DarkRed);
-                text_RepDiff2.Foreground = new SolidColorBrush(Colors.DarkGreen);
-            }
-            else
-            {
-                text_RepDiff1.Foreground = new SolidColorBrush(Colors.Blue);
-                text_RepDiff2.Foreground = new SolidColorBrush(Colors.Blue);
-            }
-
-            if (selected_user.news > selected_userRelation.news)
-            {
-                text_NewsDiff1.Foreground = new SolidColorBrush(Colors.DarkGreen);
-                text_NewsDiff2.Foreground = new SolidColorBrush(Colors.DarkRed);
-            }
-            else if (selected_user.news < selected_userRelation.news)
-            {
-                text_NewsDiff1.Foreground = new SolidColorBrush(Colors.DarkRed);
-                text_NewsDiff2.Foreground = new SolidColorBrush(Colors.DarkGreen);
-            }
-            else
-            {
-                text_NewsDiff1.Foreground = new SolidColorBrush(Colors.Blue);
-                text_NewsDiff2.Foreground = new SolidColorBrush(Colors.Blue);
-            }
-
-            if (selected_user.messages > selected_userRelation.messages)
-            {
-                text_MessagesDiff1.Foreground = new SolidColorBrush(Colors.DarkGreen);
-                text_MessagesDiff2.Foreground = new SolidColorBrush(Colors.DarkRed);
-            }
-            else if (selected_user.messages < selected_userRelation.messages)
-            {
-                text_MessagesDiff1.Foreground = new SolidColorBrush(Colors.DarkRed);
-                text_MessagesDiff2.Foreground = new SolidColorBrush(Colors.DarkGreen);
-            }
-            else
-            {
-                text_MessagesDiff1.Foreground = new SolidColorBrush(Colors.Blue);
-                text_MessagesDiff2.Foreground = new SolidColorBrush(Colors.Blue);
-            }
-
-            if (selected_user.likes > selected_userRelation.likes)
-            {
-                text_LikesDiff1.Foreground = new SolidColorBrush(Colors.DarkGreen);
-                text_LikesDiff2.Foreground = new SolidColorBrush(Colors.DarkRed);
-            }
-            else if (selected_user.likes < selected_userRelation.likes)
-            {
-                text_LikesDiff1.Foreground = new SolidColorBrush(Colors.DarkRed);
-                text_LikesDiff2.Foreground = new SolidColorBrush(Colors.DarkGreen);
-            }
-            else
-            {
-                text_LikesDiff1.Foreground = new SolidColorBrush(Colors.Blue);
-                text_LikesDiff2.Foreground = new SolidColorBrush(Colors.Blue);
-            }
-            #endregion
         }
         //Характеристики выбранного события
         private void List_passedEvents_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -847,7 +621,7 @@ namespace RumineSimulator_2._0
         private void MinuteLogicUpdate()
         {
             Date.TimeGo();
-            UserList.CheckingAllUserForUpdates();
+            Users.CheckingAllUserForUpdates();
         }
 
         private void MinuteInterfaceUpdate()
@@ -945,11 +719,11 @@ namespace RumineSimulator_2._0
             timer_users = new DispatcherTimer();  // если надо, то в скобках указываем приоритет, например DispatcherPriority.Render
             timer_users.Tick += new EventHandler(TimerTick);
             timer_users.Interval = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(text_GenerateTick.Text));
-            text_GeneratedUsers.Text = UserList.UserAmount.ToString();
+            text_GeneratedUsers.Text = Users.UserAmount.ToString();
             if (users_generated)
             {
                 Nicks.NicksInit();
-                UserList.Users.Clear();
+                Users.UsersList.Clear();
             }
             timer_users.Start();
         }
@@ -960,31 +734,31 @@ namespace RumineSimulator_2._0
             {
                 timer_users.Stop();
                 text_log.AppendText("\n" + timer_total_users + " юзеров сгенерировано...");
-                UserList.GenerateRelations();
+                Users.GenerateRelations();
                 text_log.AppendText("\nОтношения сгенерированы...");
-                UserList.ModerChoose();
+                Users.ModerChoose();
                 relations_generated = true;
                 users_generated = true;
-                UserList.FractionChoose();
-                UserList.CreateInterfaceInfo();
+                Users.FractionChoose();
+                Users.CreateInterfaceInfo();
                 UserListAllUpdate();
                 Activity.Activity_Init();
                 text_log.AppendText("\nАктивность инициализирована...");
                 HistoricEvents_List.HistoricEvents_Creation(1);
                 text_log.AppendText("\nИсторические события заданы...");
-                list_AverageTemperature.Items.Add($"Раковитость: {UserList.aver_rakness}");
-                list_AverageTemperature.Items.Add($"Адекватность: {UserList.aver_adeq}");
-                list_AverageTemperature.Items.Add($"Консервативность: {UserList.aver_conservative}");
-                list_AverageTemperature.Items.Add($"Толерантность: {UserList.aver_tolerance}");
-                list_AverageTemperature.Items.Add($"Креативность: {UserList.aver_creativity}");
-                list_AverageTemperature.Items.Add($"Наука: {UserList.aver_sciense}");
+                list_AverageTemperature.Items.Add($"Раковитость: {Users.aver_rakness}");
+                list_AverageTemperature.Items.Add($"Адекватность: {Users.aver_adeq}");
+                list_AverageTemperature.Items.Add($"Консервативность: {Users.aver_conservative}");
+                list_AverageTemperature.Items.Add($"Толерантность: {Users.aver_tolerance}");
+                list_AverageTemperature.Items.Add($"Креативность: {Users.aver_creativity}");
+                list_AverageTemperature.Items.Add($"Наука: {Users.aver_sciense}");
                 list_AverageTemperature.Items.Add($"Объекты отношений: {GlobalParams.relation_obj}");
             }
 
             else
             {
-                UserList.GenerateUsers(1);
-                text_GeneratedUsers.Text = UserList.UserAmount.ToString();
+                Users.GenerateUsers(1);
+                text_GeneratedUsers.Text = Users.UserAmount.ToString();
                 timer_generated_users++;
             }
         }
@@ -1278,9 +1052,10 @@ namespace RumineSimulator_2._0
         }
 
         #endregion
-
+        //F5
         private void status_UpdateAll_Click(object sender, RoutedEventArgs e)
         {
+            //Обновить события
             list_passedEvents.Items.Clear();
             foreach (Event eve in Events_List.AllEvents)
             {
@@ -1292,12 +1067,19 @@ namespace RumineSimulator_2._0
             {
                 list_EventsProperties.Items.Add(Interface_Value_Return(str));
             }
+            //Обновление пользователей
             if(list_UsersAlpha.Items.Count < 2)
             {
-                for (int i = 0; i < UserList.Users.Count; i++)
+                for (int i = 0; i < Users.UsersList.Count; i++)
                 {
-                    list_UsersAlpha.Items.Add(Interface_Value_Return(UserList.Users[i].InterfaceInfo.interface_basic));
+                    list_UsersAlpha.Items.Add(Interface_Value_Return(Users.UsersList[i].InterfaceInfo.interface_basic));
                 }
+            }
+            //Обновление фракций
+            list_FractionsInfo.Items.Clear();
+            foreach (Fraction fraction in FractionList.AllFractions)
+            {
+                list_FractionsInfo.Items.Add(Interface_Value_Return(fraction.Interface_Info.string_info));
             }
         }
 
@@ -1311,11 +1093,43 @@ namespace RumineSimulator_2._0
         {
             InfoUserUpdate_Alpha();
         }
+
+
+        private void button_ReputationBeta_Click(object sender, RoutedEventArgs e)
+        {
+            WindowReputation = new WindowReputation(selected_user.nick);
+            WindowReputation.Show();
+        }
+
+        //Изменение выбранной фракции
+        private void list_FractionsInfo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            InfoFractionsUpdate_Alpha();
+        }
+        //Обновление информации о выбранной фракции
+        private void InfoFractionsUpdate_Alpha()
+        {
+            list_FractionDetails.Items.Clear();
+            try
+            {
+                Fraction sel_fraction = FractionList.AllFractions[list_FractionsInfo.SelectedIndex];
+                foreach (Interface_String str in sel_fraction.Interface_Info.basic_properties)
+                {
+                    list_FractionDetails.Items.Add(Interface_Value_Return(str));
+                }
+
+            }
+            catch
+            {
+
+            }
+        }
+        //Обновление информации о выбранном пользователе
         private void InfoUserUpdate_Alpha()
         {
             try
             {
-                User sel_user = UserList.Users[list_UsersAlpha.SelectedIndex - 1];
+                User sel_user = Users.UsersList[list_UsersAlpha.SelectedIndex - 1];
                 selected_user = sel_user;
                 //Аватарка
                 Image_Ava.Source = sel_user.InterfaceInfo.interface_basic.ImageSource;
@@ -1348,7 +1162,7 @@ namespace RumineSimulator_2._0
                 list_Character.Items.Clear();
                 foreach (Interface_String info in sel_user.InterfaceInfo.character_properties)
                 {
-                    if(info.GetType() == sel_user.InterfaceInfo.interface_basic.GetType())
+                    if (info.GetType() == sel_user.InterfaceInfo.interface_basic.GetType())
                         list_Character.Items.Add(Interface_Value_Return(info));
                     else
                         list_Character.Items.Add(Interface_ProgressBar_Return((Interface_ProgressBar)info));
@@ -1367,12 +1181,6 @@ namespace RumineSimulator_2._0
 
             }
 
-        }
-
-        private void button_ReputationBeta_Click(object sender, RoutedEventArgs e)
-        {
-            WindowReputation = new WindowReputation(selected_user.nick);
-            WindowReputation.Show();
         }
     }
 }

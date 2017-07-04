@@ -20,7 +20,7 @@ namespace RumineSimulator_2._0
         public static SmallEvent MessageWrite()
         {
             //Создание события
-            User user = UserList.Users[random.Next(UserList.Users.Count)];
+            User user = Users.UsersList[random.Next(Users.UsersList.Count)];
             SmallEvent Event = new SmallEvent($"Сообщение от {user}", EventType.message);
             Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, user.nick), "Некто написал сообщение на форуме. Ничего необычного");
             Event.participants.Add(user, Roles_Creator[random.Next(Roles_Creator.Count)]);
@@ -47,7 +47,7 @@ namespace RumineSimulator_2._0
         public static SmallEvent CommentWrite()
         {
             //Создание события
-            User user = UserList.Users[random.Next(UserList.Users.Count)];
+            User user = Users.UsersList[random.Next(Users.UsersList.Count)];
             SmallEvent Event = new SmallEvent($"Комментарий от {user}", EventType.comment);
             Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, user.nick), "Какой-то пользователь прокомментировал новость");
             Event.participants.Add(user, Roles_Creator[random.Next(Roles_Creator.Count)]);
@@ -72,7 +72,7 @@ namespace RumineSimulator_2._0
         public static SmallEvent NewsWrite()
         {
             //Создание события
-            User user = UserList.Users[random.Next(UserList.Users.Count)];
+            User user = Users.UsersList[random.Next(Users.UsersList.Count)];
             SmallEvent Event = new SmallEvent($"Новость от {user}", EventType.news);
             Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, user.nick), "Какой-то пользователь создал новость на румине");
             Event.participants.Add(user, Roles_Creator[random.Next(Roles_Creator.Count)]);
@@ -92,8 +92,8 @@ namespace RumineSimulator_2._0
         public static SmallEvent ReputationChange_Random()
         {
             //Создание события
-            User user_init = UserList.Users[random.Next(UserList.Users.Count)];
-            User user_goal = UserList.Users[random.Next(UserList.Users.Count)];
+            User user_init = Users.UsersList[random.Next(Users.UsersList.Count)];
+            User user_goal = Users.UsersList[random.Next(Users.UsersList.Count)];
             if (user_init == user_goal)
             {
                 return FailEvent();
@@ -151,8 +151,8 @@ namespace RumineSimulator_2._0
         public static SmallEvent ReputationChange_Reason(Event reason)
         {
             //Создание события
-            User user_init = UserList.Users[random.Next(UserList.Users.Count)];
-            User user_goal = UserList.UserSearch(reason.participants.ElementAt(0).Key.nick);
+            User user_init = Users.UsersList[random.Next(Users.UsersList.Count)];
+            User user_goal = Users.UserSearch(reason.participants.ElementAt(0).Key.nick);
             if (user_init == user_goal)
             {
                 return FailEvent();
@@ -217,13 +217,13 @@ namespace RumineSimulator_2._0
 
             //Создание события
             List<User> moders = new List<User>();
-            foreach (User moder in UserList.Users)
+            foreach (User moder in Users.UsersList)
             {
                 if (moder.mod)
                     moders.Add(moder);
             }
             User user_init = moders[random.Next(moders.Count)];
-            User user_goal = UserList.Users[random.Next(UserList.Users.Count)];
+            User user_goal = Users.UsersList[random.Next(Users.UsersList.Count)];
             if (user_init == user_goal)
             {
                 return FailEvent();
@@ -253,13 +253,13 @@ namespace RumineSimulator_2._0
 
             //Создание события
             List<User> moders = new List<User>();
-            foreach (User moder in UserList.Users)
+            foreach (User moder in Users.UsersList)
             {
                 if (moder.mod)
                     moders.Add(moder);
             }
             User user_init = moders[random.Next(moders.Count)];
-            User user_goal = UserList.UserSearch(reason.participants.ElementAt(0).Key.nick);
+            User user_goal = Users.UserSearch(reason.participants.ElementAt(0).Key.nick);
             if (user_init == user_goal)
             {
                 return FailEvent();
@@ -351,7 +351,7 @@ namespace RumineSimulator_2._0
             SmallEvent Event = new SmallEvent("Фейл", EventType.fail);
             Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Event, "Мде"), "Этот пользователь хотел нам что-то сказать. Но что - мы так и не узнаем...");
             Event.EventAdd3_Mods(0, 0, 0, 0);
-            Event.EventAdd4_Participants(UserList.Users[random.Next(UserList.Users.Count)], Roles_moderator[random.Next(Roles_moderator.Count)]);
+            Event.EventAdd4_Participants(Users.UsersList[random.Next(Users.UsersList.Count)], Roles_moderator[random.Next(Roles_moderator.Count)]);
             Event.EventAdd6_Dates(0);
             Event.EventAddEnd_InterfaceInfo();
             return Event;

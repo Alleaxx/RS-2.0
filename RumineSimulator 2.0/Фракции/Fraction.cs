@@ -8,11 +8,14 @@ namespace RumineSimulator_2._0
 {
     class Fraction
     {
+        public int id { get; set; }
         public string name { get; private set; }
         public List<Traits> ideology_traits = new List<Traits>();
         public List<Traits> enemy_traits = new List<Traits>();
-        public int FractionInfluence { get; set;}
+        public int Influence { get; set;}
+        public InterfaceView_Fraction Interface_Info { get; set; }
 
+        public bool active;
         public bool no_cond;
         public bool hard_cond;
 
@@ -27,8 +30,9 @@ namespace RumineSimulator_2._0
 
         public FractionAggression aggro_type = new FractionAggression();
 
-        public Fraction(string Name, List<Traits> Ideology, List<Traits> EnemyTraits, FractionAggression Type,bool HardCond,bool NoCond = false)
+        public Fraction(string Name, List<Traits> Ideology, List<Traits> EnemyTraits, FractionAggression Type,bool HardCond,bool NoCond = false,bool active = false)
         {
+            id = FractionList.id_total++;
             name = Name;
             ideology_traits = Ideology;
             enemy_traits = EnemyTraits;
@@ -39,11 +43,11 @@ namespace RumineSimulator_2._0
 
         public void FractionCreationEnd()
         {
-            FractionInfluence = 0;
+            Influence = 0;
             int leader_influence = 0;
             foreach (User user in members)
             {
-                FractionInfluence += user.forum_influence;
+                Influence += user.forum_influence;
                 if(user.forum_influence > leader_influence)
                 {
                     leader = user;
@@ -67,9 +71,10 @@ namespace RumineSimulator_2._0
                     }
                 }
             }
+            Interface_Info = new InterfaceView_Fraction(this);
         }
 
-        public bool MemberAccept(User user)
+        public bool MemberAcceptCheck(User user)
         {
             int need_traits = 0;
             if (no_cond)

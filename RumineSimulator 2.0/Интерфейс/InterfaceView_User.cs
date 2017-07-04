@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RumineSimulator_2._0
 {
-    class InterfaceView_User : InterfaceView
+    class Interface_User : InterfaceView
     {
         public Interface_String interface_basic { get; private set; }
         public List<Interface_String> basic_properties = new List<Interface_String>();
@@ -15,7 +15,7 @@ namespace RumineSimulator_2._0
         public List<Interface_String> skills_properties = new List<Interface_String>();
         public List<Interface_String> traits = new List<Interface_String>();
 
-        public InterfaceView_User(User user) : base()
+        public Interface_User(User user) : base()
         {
             //Базовое представление в виде строчки
             interface_basic = new Interface_String(user.nick, "", true);
@@ -40,7 +40,7 @@ namespace RumineSimulator_2._0
             basic_properties.Add(new Interface_String("Даты", "", false, true));
             basic_properties.Last().SetSize(18, 14);
             basic_properties.Add(new Interface_String("Дата регистрации: ", user.registration.ToLongDateString(), true));
-            basic_properties.Add(new Interface_String("Последнее посещение: ", user.last_activity.ToLongDateString(), true));
+            basic_properties.Add(new Interface_String("Последнее посещение: ", user.Last_activity.ToLongDateString(), true));
             if(user.main_fraction != null)
             {
                 basic_properties.Add(new Interface_String("Фракции", "", false, true));

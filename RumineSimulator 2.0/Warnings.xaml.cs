@@ -28,7 +28,7 @@ namespace RumineSimulator_2._0
         {
             //Инициализация переменных      
             InitializeComponent();
-            selected_user = UserList.UserSearch(nick);
+            selected_user = Users.UserSearch(nick);
             last_ban = selected_user.bans[selected_user.bans.Count - 1];
             last_ban.warnings.Reverse();
 

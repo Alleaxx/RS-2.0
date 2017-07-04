@@ -104,6 +104,7 @@
     <Compile Include="Интерфейс\InterfaceView.cs" />
     <Compile Include="Интерфейс\InterfaceView_Activity.cs" />
     <Compile Include="Интерфейс\InterfaceView_Event.cs" />
+    <Compile Include="Интерфейс\InterfaceView_Fraction.cs" />
     <Compile Include="Интерфейс\InterfaceView_Trait.cs" />
     <Compile Include="Интерфейс\InterfaceView_User.cs" />
     <Compile Include="Интерфейс\Interface_ProgressBar.cs" />
@@ -139,7 +140,7 @@
     <Compile Include="Пользователь\Отношения\RelationsEnum.cs" />
     <Compile Include="Пользователь\Репа-карма\ReputationHistory.cs" />
     <Compile Include="Пользователь\Характер\Character.cs" />
-    <Compile Include="Пользователь\UserList.cs" />
+    <Compile Include="Пользователь\Users.cs" />
     <Compile Include="Пользователь\Прочее\UserDescription.cs" />
     <Compile Include="Пользователь\Группы\GroupsList.cs" />
     <Compile Include="Пользователь\Группы\Group.cs" />

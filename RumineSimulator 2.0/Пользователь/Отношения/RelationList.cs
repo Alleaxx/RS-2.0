@@ -26,12 +26,12 @@ namespace RumineSimulator_2._0
         public void RelationsGenerate(User main_user)
         {
             //Цикл для генерации отношений со всеми пользователями
-            for (int i = 0; i < UserList.UserAmount; i++)
+            for (int i = 0; i < Users.UserAmount; i++)
             {
                 //Если юзера, к которому надо сгенерить отношения самого нету в отношениях - добавляем
                 if (!All.ContainsKey(main_user))
                     All.Add(main_user, new Relation(main_user, main_user));
-                User pr_user = UserList.Users[i];
+                User pr_user = Users.UsersList[i];
                 //Если пользователь еще не добавлен в главный список то генерим отношение, иначе забиваем
                 if (!IsUserAlreadyInList(pr_user, main_user))
                 {
@@ -43,7 +43,7 @@ namespace RumineSimulator_2._0
                     pr_user.relations.All.Add(main_user, new Relation(pr_user, main_user));
 
                     //Последняя итерация цикла - распределяем всех из оллов
-                    if (i == UserList.UserAmount - 1)
+                    if (i == Users.UserAmount - 1)
                     {
                         for (int a = 0; a < All.Count; a++)
                         {

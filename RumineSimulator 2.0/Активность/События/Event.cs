@@ -41,8 +41,6 @@ namespace RumineSimulator_2._0
             EventType = type;
             EventGlobalType = EventType.usual;
             date = Date.current_date;
-            if(EventType != EventType.historicWiki)
-                Events_List.AllEvents.Add(this);
             Days_Delete = 365;
 
         }
@@ -82,6 +80,11 @@ namespace RumineSimulator_2._0
         public virtual void EventAddEnd_InterfaceInfo()
         {
             InterfaceInfo = new InterfaceView_Event(this);
+
+        }
+        public virtual void EventAction()
+        {
+            Events_List.AllEvents.Add(this);
         }
 
         public virtual void DayPass()
@@ -99,6 +102,6 @@ namespace RumineSimulator_2._0
     {
         usual, small, historic,
         message, comment, news, reputation, ban, fail, dayEnd,
-        historicWiki
+        historicWiki,historicPaneAttack,HistorticFakeDay
     }
 }

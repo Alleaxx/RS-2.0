@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RumineSimulator_2._0"
         xmlns:Properties="clr-namespace:RumineSimulator_2._0.Properties" xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="MainWindow1" x:Class="RumineSimulator_2._0.MainWindow"
         mc:Ignorable="d"
-        Title="Симулятор Румайна v2.0" Icon="icon2.ico" TextOptions.TextFormattingMode="Display" FontFamily="Nirmala UI" Height="720" Width="1280" Background="White">
+        Title="Симулятор Румайна v2.0" Icon="icon2.ico" TextOptions.TextFormattingMode="Display" FontFamily="Nirmala UI" Height="900" Width="1398" Background="White">
     <Grid x:Name="GridMainWindow" Margin="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -286,182 +286,6 @@
                                 </StackPanel>
                             </GroupBox>
                         </StackPanel>
-                        <GroupBox x:Name="groupBox" Grid.Column="2" Header="Прочее" Grid.RowSpan="3" Style="{DynamicResource HeadersStyle}">
-                            <StackPanel x:Name="StackPanelUserRel" Margin="2">
-                                <GroupBox x:Name="groupBox1" Header="Отношения" Margin="2" HorizontalAlignment="Left" Style="{DynamicResource HeadersStyle}">
-                                    <StackPanel x:Name="StackPanelRelAmount" Margin="2">
-                                        <DockPanel x:Name="DockPanel_friendsAmount" Margin="2" HorizontalAlignment="Left" Width="150" Background="LimeGreen">
-                                            <TextBlock x:Name="label_friendsAmount" TextWrapping="Wrap" Text="Друзей:" VerticalAlignment="Top" Margin="2" HorizontalAlignment="Left" FontSize="13" Style="{DynamicResource LabelsStyle}"/>
-                                            <TextBlock x:Name="text_friendsAmount" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Margin="2" DockPanel.Dock="Right" HorizontalAlignment="Right" Style="{DynamicResource TextParamsStyle}"/>
-                                        </DockPanel>
-                                        <DockPanel x:Name="DockPanel_comradesAmount" Margin="2,2,0,2" HorizontalAlignment="Left" Width="150" Background="Lime">
-                                            <TextBlock x:Name="label_comradesAmount" TextWrapping="Wrap" Text="Товарищей:" VerticalAlignment="Top" Margin="2" HorizontalAlignment="Left" FontSize="13" Style="{DynamicResource LabelsStyle}"/>
-                                            <TextBlock x:Name="text_comradesAmount" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Margin="2" DockPanel.Dock="Right" HorizontalAlignment="Right" Style="{DynamicResource TextParamsStyle}"/>
-                                        </DockPanel>
-                                        <DockPanel x:Name="DockPanel_neutralsAmount" Margin="2" HorizontalAlignment="Left" Width="150" Background="LightSlateGray">
-                                            <TextBlock x:Name="label_neutralsAmount" TextWrapping="Wrap" Text="Нейтралов:" VerticalAlignment="Top" Margin="2" HorizontalAlignment="Left" FontSize="13" Style="{DynamicResource LabelsStyle}"/>
-                                            <TextBlock x:Name="text_neutralsAmount" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Margin="2" DockPanel.Dock="Right" HorizontalAlignment="Right" Style="{DynamicResource TextParamsStyle}"/>
-                                        </DockPanel>
-                                        <DockPanel x:Name="DockPanel_unfriendsAmount" Margin="2" HorizontalAlignment="Left" Width="150" Background="IndianRed">
-                                            <TextBlock x:Name="label_unfriendsAmount" TextWrapping="Wrap" Text="Неприятелей:" VerticalAlignment="Top" Margin="2" HorizontalAlignment="Left" FontSize="13" Style="{DynamicResource LabelsStyle}"/>
-                                            <TextBlock x:Name="text_unfriendsAmount" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Margin="2" DockPanel.Dock="Right" HorizontalAlignment="Right" Style="{DynamicResource TextParamsStyle}"/>
-                                        </DockPanel>
-                                        <DockPanel x:Name="DockPanel_eneimrsAmount" Margin="2" HorizontalAlignment="Left" Width="150" Background="Red">
-                                            <TextBlock x:Name="label_enemiesAmount" TextWrapping="Wrap" Text="Врагов:" VerticalAlignment="Top" Margin="2" HorizontalAlignment="Left" FontSize="13" Style="{DynamicResource LabelsStyle}"/>
-                                            <TextBlock x:Name="text_enemiesAmount" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Margin="2" DockPanel.Dock="Right" HorizontalAlignment="Right" Style="{DynamicResource TextParamsStyle}"/>
-                                        </DockPanel>
-                                    </StackPanel>
-                                </GroupBox>
-                                <Expander x:Name="expanderListUser_rel" Header="Выбор пользователя" Margin="2" ScrollViewer.CanContentScroll="True" Style="{DynamicResource LabelsStyle}" Expanded="ExpanderListUser_rel_Expanded">
-                                    <StackPanel x:Name="StackPanelListUser_rel" Margin="2">
-                                        <TextBlock x:Name="label_sort" TextWrapping="Wrap" Text="Сортировать по..." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2"/>
-                                        <ComboBox x:Name="comboBox_SortRel" Margin="2" SelectedIndex="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="comboBoxUserSort_rel_SelectionChanged">
-                                            <ComboBoxItem Content="Нет сортировки"/>
-                                            <ComboBoxItem Content="Отношению"/>
-                                        </ComboBox>
-                                        <ListBox x:Name="list_Relations" Margin="2" SelectionChanged="list_UserRelation_SelectionChanged_1" Background="White" FontWeight="Medium" FontFamily="Segoe UI" VerticalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="400"/>
-                                    </StackPanel>
-                                </Expander>
-                                <GroupBox x:Name="gB_RelationInfo" Header="Информация" VerticalAlignment="Top" Width="281" HorizontalAlignment="Left" Style="{DynamicResource LabelsStyle}">
-                                    <Expander x:Name="expander_UserDifference" Header="Раскрыть/закрыть" Margin="2" VerticalAlignment="Center" Background="{x:Null}">
-                                        <StackPanel x:Name="StackPanelDifference" Margin="2">
-                                            <DockPanel x:Name="DockDiffNick" LastChildFill="False" Margin="1,1,1,3">
-                                                <TextBlock x:Name="text_nickDiff1" TextWrapping="Wrap" Text="{Binding Header, ElementName=gB_MainInfo}" VerticalAlignment="Top" HorizontalAlignment="Left" FontWeight="Medium" FontSize="13"/>
-                                                <TextBlock x:Name="text_nickDiff2" TextWrapping="Wrap" Text="Ник" VerticalAlignment="Top" DockPanel.Dock="Right" FontWeight="Medium" FontSize="13"/>
-                                            </DockPanel>
-                                            <DockPanel x:Name="DockDiffNick_Copy3" Margin="1">
-                                                <TextBlock x:Name="text_Relation" TextWrapping="Wrap" Text="Отношения 2.0" FontWeight="Medium" Margin="30,2,2,2" FontSize="13"/>
-                                                <Slider x:Name="slider_friendness" Margin="15,2,30,2" BorderBrush="White" Foreground="White" BorderThickness="0" IsEnabled="False" AutoToolTipPlacement="TopLeft" Minimum="-10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                                                    <Slider.Background>
-                                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                            <LinearGradientBrush.RelativeTransform>
-                                                                <TransformGroup>
-                                                                    <ScaleTransform CenterY="0.5" CenterX="0.5"/>
-                                                                    <SkewTransform CenterY="0.5" CenterX="0.5"/>
-                                                                    <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
-                                                                    <TranslateTransform/>
-                                                                </TransformGroup>
-                                                            </LinearGradientBrush.RelativeTransform>
-                                                            <GradientStop Color="Red" Offset="1"/>
-                                                            <GradientStop Color="LimeGreen" Offset="0.4"/>
-                                                            <GradientStop Color="IndianRed" Offset="0.55"/>
-                                                            <GradientStop Color="Lime"/>
-                                                        </LinearGradientBrush>
-                                                    </Slider.Background>
-                                                </Slider>
-                                            </DockPanel>
-                                            <DockPanel x:Name="DockDiffNick_Copy" LastChildFill="False" Margin="1">
-                                                <TextBlock x:Name="text_regDiff1" TextWrapping="Wrap" Text="{Binding Text, ElementName=text_Registration}"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                                                <TextBlock x:Name="text_RegDiff2" TextWrapping="Wrap" Text="Регистрация" VerticalAlignment="Top" DockPanel.Dock="Right"/>
-                                            </DockPanel>
-                                            <DockPanel x:Name="DockDiffNick_Copy1" LastChildFill="False" Margin="1,1,1,3">
-                                                <TextBlock x:Name="text_GroupDiff1" TextWrapping="Wrap" Text="{Binding Text, ElementName=text_Group}" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="13" FontWeight="Medium"/>
-                                                <TextBlock x:Name="text_GroupDiff2" TextWrapping="Wrap" Text="Группа" VerticalAlignment="Top" DockPanel.Dock="Right" FontSize="13" FontWeight="Medium"/>
-                                            </DockPanel>
-                                            <TextBlock x:Name="label_diff" TextWrapping="Wrap" Text="Разница в..." Margin="1,3,1,1" HorizontalAlignment="Center" FontSize="14" FontWeight="Medium"/>
-                                            <DockPanel x:Name="DockDiffNick_Copy2" Margin="1">
-                                                <TextBlock x:Name="textUserRelDiff_relation1" TextWrapping="Wrap" Text="Адекватности" Margin="30,2,2,2"/>
-                                                <Slider x:Name="slider_AdeqDiff" Margin="15,2,30,2" BorderBrush="White" Foreground="White" BorderThickness="0" IsEnabled="False" AutoToolTipPlacement="TopLeft" VerticalAlignment="Center" Minimum="-10">
-                                                    <Slider.Background>
-                                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                            <LinearGradientBrush.RelativeTransform>
-                                                                <TransformGroup>
-                                                                    <ScaleTransform CenterY="0.5" CenterX="0.5"/>
-                                                                    <SkewTransform CenterY="0.5" CenterX="0.5"/>
-                                                                    <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
-                                                                    <TranslateTransform/>
-                                                                </TransformGroup>
-                                                            </LinearGradientBrush.RelativeTransform>
-                                                            <GradientStop Color="#FF5841EC"/>
-                                                            <GradientStop Color="#FFE80F7C" Offset="1"/>
-                                                            <GradientStop Color="#FF74A1F0" Offset="0.5"/>
-                                                        </LinearGradientBrush>
-                                                    </Slider.Background>
-                                                </Slider>
-                                            </DockPanel>
-                                            <DockPanel x:Name="DockDiffNick_Copy4" Margin="1">
-                                                <TextBlock x:Name="textUserRelDiff_relation2" TextWrapping="Wrap" Text="Раковитости" Margin="30,2,2,2"/>
-                                                <Slider x:Name="slider_RaknessDiff" Margin="15,2,30,2" BorderBrush="White" Foreground="White" BorderThickness="0" IsEnabled="False" AutoToolTipPlacement="TopLeft" VerticalAlignment="Center" Minimum="-10">
-                                                    <Slider.Background>
-                                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                            <LinearGradientBrush.RelativeTransform>
-                                                                <TransformGroup>
-                                                                    <ScaleTransform CenterY="0.5" CenterX="0.5"/>
-                                                                    <SkewTransform CenterY="0.5" CenterX="0.5"/>
-                                                                    <RotateTransform Angle="270" CenterY="0.5" CenterX="0.5"/>
-                                                                    <TranslateTransform/>
-                                                                </TransformGroup>
-                                                            </LinearGradientBrush.RelativeTransform>
-                                                            <GradientStop Color="#FFFFAAC5"/>
-                                                            <GradientStop Color="#FFEA0000" Offset="1"/>
-                                                        </LinearGradientBrush>
-                                                    </Slider.Background>
-                                                </Slider>
-                                            </DockPanel>
-                                            <DockPanel x:Name="DockDiffNick_Copy6" Margin="1,1,1,3">
-                                                <TextBlock x:Name="textUserRelDiff_relation3" TextWrapping="Wrap" Text="Консервативности" Margin="30,2,2,2"/>
-                                                <Slider x:Name="slider_ConsDiff" Margin="15,2,30,2" BorderBrush="White" Foreground="White" BorderThickness="0" IsEnabled="False" AutoToolTipPlacement="TopLeft" VerticalAlignment="Center" Minimum="-10">
-                                                    <Slider.Background>
-                                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                            <LinearGradientBrush.RelativeTransform>
-                                                                <TransformGroup>
-                                                                    <ScaleTransform CenterY="0.5" CenterX="0.5"/>
-                                                                    <SkewTransform CenterY="0.5" CenterX="0.5"/>
-                                                                    <RotateTransform Angle="270" CenterY="0.5" CenterX="0.5"/>
-                                                                    <TranslateTransform/>
-                                                                </TransformGroup>
-                                                            </LinearGradientBrush.RelativeTransform>
-                                                            <GradientStop Color="#FFC96400" Offset="1"/>
-                                                            <GradientStop Color="#FFFFFF0E"/>
-                                                        </LinearGradientBrush>
-                                                    </Slider.Background>
-                                                </Slider>
-                                            </DockPanel>
-                                            <DockPanel x:Name="DockDiffNick_Copy5" Margin="1,3,1,1">
-                                                <TextBlock x:Name="text_KarmaDiff1" TextWrapping="Wrap" Text="параметр" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14"/>
-                                                <TextBlock x:Name="text_KarmaDiff2" TextWrapping="Wrap" Text="параметр" VerticalAlignment="Top" DockPanel.Dock="Right" FontSize="14"/>
-                                                <TextBlock x:Name="label_KarmaDiff" TextWrapping="Wrap" Text="Карма" HorizontalAlignment="Center" FontSize="14" FontWeight="Medium"/>
-                                            </DockPanel>
-                                            <DockPanel x:Name="DockDiffNick_Copy7" Margin="1">
-                                                <TextBlock x:Name="text_RepDiff1" TextWrapping="Wrap" Text="параметр" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14"/>
-                                                <TextBlock x:Name="text_RepDiff2" TextWrapping="Wrap" Text="параметр" VerticalAlignment="Top" DockPanel.Dock="Right" FontSize="14"/>
-                                                <TextBlock x:Name="label_RepDiff" TextWrapping="Wrap" Text="Репутация" HorizontalAlignment="Center" FontSize="14" FontWeight="Medium"/>
-                                            </DockPanel>
-                                            <DockPanel x:Name="DockDiffNick_Copy8" Margin="1">
-                                                <TextBlock x:Name="text_CommentsDiff1" TextWrapping="Wrap" Text="{Binding Text, ElementName=text_comments}" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14"/>
-                                                <TextBlock x:Name="text_CommentsDiff2" TextWrapping="Wrap" Text="параметр" VerticalAlignment="Top" DockPanel.Dock="Right" FontSize="14"/>
-                                                <TextBlock x:Name="label_CommentDiff" TextWrapping="Wrap" Text="Комментарии" HorizontalAlignment="Center" FontSize="14" FontWeight="Medium"/>
-                                            </DockPanel>
-                                            <DockPanel x:Name="DockDiffNick_Copy9" Margin="1">
-                                                <TextBlock x:Name="text_NewsDiff1" TextWrapping="Wrap" Text="{Binding Text, ElementName=text_news}" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14"/>
-                                                <TextBlock x:Name="text_NewsDiff2" TextWrapping="Wrap" Text="параметр" VerticalAlignment="Top" DockPanel.Dock="Right" FontSize="14"/>
-                                                <TextBlock x:Name="label_NewsDiff" TextWrapping="Wrap" Text="Новости" HorizontalAlignment="Center" FontSize="14" FontWeight="Medium"/>
-                                            </DockPanel>
-                                            <DockPanel x:Name="DockDiffNick_Copy10" Margin="1">
-                                                <TextBlock x:Name="text_MessagesDiff1" TextWrapping="Wrap" Text="{Binding Text, ElementName=text_messages}" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14"/>
-                                                <TextBlock x:Name="text_MessagesDiff2" TextWrapping="Wrap" Text="параметр" VerticalAlignment="Top" DockPanel.Dock="Right" FontSize="14"/>
-                                                <TextBlock x:Name="label_MessagesDiff" TextWrapping="Wrap" Text="Сообщения" HorizontalAlignment="Center" FontSize="14" FontWeight="Medium"/>
-                                            </DockPanel>
-                                            <DockPanel x:Name="DockDiffNick_Copy11" Margin="1">
-                                                <TextBlock x:Name="text_LikesDiff1" TextWrapping="Wrap" Text="{Binding Text, ElementName=text_likes}" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14"/>
-                                                <TextBlock x:Name="text_LikesDiff2" TextWrapping="Wrap" Text="параметр" VerticalAlignment="Top" DockPanel.Dock="Right" FontSize="14"/>
-                                                <TextBlock x:Name="label_LikesDiff" TextWrapping="Wrap" Text="Симпатии" HorizontalAlignment="Center" FontSize="14" FontWeight="Medium"/>
-                                            </DockPanel>
-                                        </StackPanel>
-                                    </Expander>
-                                </GroupBox>
-                                <GroupBox x:Name="gB_UserLog2" Header="Лог пользователя" VerticalAlignment="Top" Width="281" HorizontalAlignment="Left" Style="{DynamicResource LabelsStyle}">
-                                    <Expander x:Name="expanderUserRel_difference1" Header="Раскрыть/закрыть" Margin="2" VerticalAlignment="Center" Background="{x:Null}">
-                                        <GroupBox x:Name="gB_UserLog" Header="Изменения пользователя" Background="White" Foreground="Black" BorderBrush="#FF323232">
-                                            <TextBox x:Name="valueUser_log" Margin="2" TextWrapping="Wrap" Text="TextBox" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="230" HorizontalScrollBarVisibility="Auto" Height="450" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto"/>
-                                        </GroupBox>
-                                    </Expander>
-                                </GroupBox>
-                            </StackPanel>
-                        </GroupBox>
-                        <GroupBox x:Name="gB_Description" Header="Описание пользователя" Margin="2" Background="White" Foreground="Black" BorderBrush="#FF323232" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Top" Style="{DynamicResource LabelsStyle}">
-                            <TextBox x:Name="text_UserDescription" Margin="2" TextWrapping="Wrap" Text="TextBox" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" Width="130" Style="{DynamicResource TextParamsStyle}"/>
-                        </GroupBox>
                     </Grid>
                     <StackPanel Grid.Column="1" Margin="2" Grid.Row="1"/>
                     <StackPanel Margin="2">
@@ -775,6 +599,21 @@
                             </StackPanel>
                         </Grid>
                     </Expander>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Фракции">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox x:Name="list_FractionsInfo" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" SelectionChanged="list_FractionsInfo_SelectionChanged">
+                        <ListBoxItem Content="Список фракций"/>
+                    </ListBox>
+                    <ListBox x:Name="list_FractionDetails" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top">
+                        <ListBoxItem Content="Детали фракции"/>
+                    </ListBox>
 
                 </Grid>
             </TabItem>

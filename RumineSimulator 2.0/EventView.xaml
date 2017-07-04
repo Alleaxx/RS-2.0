@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RumineSimulator_2._0"
         mc:Ignorable="d"
-        Title="Новое событие!" Height="700" Width="650">
+        Title="Новое событие!" Height="750" Width="750">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>

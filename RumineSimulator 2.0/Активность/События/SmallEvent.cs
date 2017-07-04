@@ -13,6 +13,7 @@ namespace RumineSimulator_2._0
             Days_Delete = 7;
             Duration = 0;
             EventGlobalType = EventType.small;
+            Events_List.AllEvents.Add(this);
             Events_List.SmallEvents.Add(this);
         }
         public override void EventAddEnd_InterfaceInfo()
