@@ -45,7 +45,7 @@ namespace RumineSimulator_2._0
             foreground_brush.Color = System.Windows.Media.Color.FromRgb(draf_color.R, draf_color.G, draf_color.B);
 
             InterfaceInfo.string_info = new Interface_String(s_name, "", true);
-            InterfaceInfo.string_info.AddImagePathToolTip("", full_description);
+            InterfaceInfo.string_info.AddToolTip(full_description);
             InterfaceInfo.string_info.AddColor(ColorHTTMLBack, ColorHTTMLFore);
         }
     }

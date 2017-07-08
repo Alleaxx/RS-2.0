@@ -37,17 +37,17 @@ namespace RumineSimulator_2._0
             try
             {
                 InterfaceView_Event info_event = selected_event.InterfaceInfo;
-                foreach (Interface_String inter_string in info_event.event_properties)
+                foreach (Interface_String inter_string in info_event.basic_event_properties)
                 {
-                    List_EventProperties.Items.Add(Interface_String_Return(inter_string));
+                    List_EventProperties.Items.Add(inter_string.Item);
                 }
                 foreach (Interface_String inter_string in info_event.connectedEntities_properties)
                 {
-                    List_Participants.Items.Add(Interface_String_Return(inter_string));
+                    List_Participants.Items.Add(inter_string.Item);
                 }
                 foreach (Interface_String inter_string in info_event.special_event_properties)
                 {
-                    List_EventProperties.Items.Add(Interface_String_Return(inter_string));
+                    List_EventProperties.Items.Add(inter_string.Item);
                 }
             }
             catch
@@ -59,47 +59,5 @@ namespace RumineSimulator_2._0
 
 
         //Базовое представление интерфейса - строка
-        private ListBoxItem Interface_String_Return(Interface_String interface_info)
-        {
-            ListBoxItem item = new ListBoxItem();
-            StackPanel stackpanel = new StackPanel()
-            {
-                Orientation = Orientation.Horizontal
-            };
-            TextBlock text_value = new TextBlock()
-            {
-                Margin = new Thickness(2, 2, 2, 1),
-                TextAlignment = TextAlignment.Left,
-                Text = interface_info.Text_value,
-                FontSize = interface_info.Text_size,
-            };
-            TextBlock text_value_value = new TextBlock()
-            {
-                Margin = new Thickness(2, 3, 0, 0),
-                TextAlignment = TextAlignment.Right,
-                Text = interface_info.Value,
-                FontSize = interface_info.Value_size,
-
-            };
-            //Расшифровка изображения
-            if (interface_info.Image_path != "")
-            {
-                Image image = new Image()
-                {
-                    Width = 15,
-                    Height = 15,
-                    Source = new BitmapImage(new Uri(interface_info.Image_path))
-                };
-                stackpanel.Children.Add(image);
-            }
-            stackpanel.Children.Add(text_value);
-            stackpanel.Children.Add(text_value_value);
-            item.Content = stackpanel;
-            item.IsHitTestVisible = interface_info.IsHited;
-            item.Foreground = interface_info.foreground_brush_all;
-            item.Background = interface_info.background_brush_all;
-            item.ToolTip = interface_info.Tooltip;
-            return item;
-        }
     }
 }

@@ -6,70 +6,100 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace RumineSimulator_2._0
 {
-    class Interface_String
+    class Interface_String: IGUI
     {
-        //Параметры свойства
-        public string Text_value { get; private set; }
-        public int Text_size { get; private set; }
-        //Значение свойства
-        public string Value { get; private set; }
-        public int Value_size { get; private set; }
-        //Изображение
-        public string Image_path { get; private set; }
         public ImageSource ImageSource { get; private set; }
-        public string Tooltip { get; private set; }
-        public bool IsHited { get; private set; }
         //Цвета
         public SolidColorBrush background_brush_all = new SolidColorBrush();
         public SolidColorBrush foreground_brush_all = new SolidColorBrush();
         public SolidColorBrush foreground_brush_value;
         public SolidColorBrush foreground_brush_text;
+        //GUI
+        protected ListBoxItem item;
+        public ListBoxItem Item { get { CreateGui(); return item; } private set { item = value; } }
+
+        protected StackPanel stackpanel = new StackPanel();
+        protected TextBlock text_name = new TextBlock(), text_value =  new TextBlock();
+        protected System.Windows.Controls.Image Image = null;
 
 
-        public bool header { get; private set; }
+        StringProfile profile { get; set; }
 
-        public Interface_String(string Text,string Value,bool IsHited,bool Header = false)
+        public Interface_String(string Text, string Value,bool IsHited = true,StringProfile prof = StringProfile.Usual)
         {
-            Text_value = Text;
-            Text_size = 15;
-            this.Value = Value;
-            Value_size = 13;
-            AddColor("#FFFFFF", "#000000");
-            header = Header;
+            text_name.Text = Text;
+            text_name.FontSize = 15;
+            text_name.Margin = new Thickness(2, 2, 2, 1);
+            text_name.TextAlignment = TextAlignment.Left;
 
-            this.IsHited = IsHited;
-            Image_path = "";
-            ImageSource = null;
+
+            text_value.Text = Value;
+            text_value.FontSize = 13;
+            text_value.Margin = new Thickness(2, 3, 0, 0);
+            text_value.TextAlignment = TextAlignment.Right;
+
+            stackpanel.Orientation = Orientation.Horizontal;
+
+            profile = prof;
+
+            item = new ListBoxItem();
+            Image = new System.Windows.Controls.Image();
+            item.IsHitTestVisible = IsHited;
+            Image.Source = null;
             SetProfiles();
         }
-        //Подсказка и изображение
-        public void AddImagePathToolTip(string Path,string Tooltip)
+        public Interface_String(string Text, string Value) : this(Text, Value, false, StringProfile.Usual)
+        {
+
+        }
+
+        public virtual void CreateGui()
+        {
+            stackpanel.Children.Clear();
+            stackpanel.Children.Add(Image);
+            stackpanel.Children.Add(text_name);
+            stackpanel.Children.Add(text_value);
+            item.Content = stackpanel;
+        }
+
+        //Подсказка
+        public void AddToolTip(string tooltip)
+        {
+            item.ToolTip = tooltip;
+        }
+
+        //Редактирование изображения
+        public void AddImage(string Path)
         {
             if(Path != "")
             {
                 if (Path.Contains("pack://application:,,,/Resources/"))
                 {
-                    Image_path = Path;
+                    AddImage(new BitmapImage(new Uri(Path)));
                 }
                 else
                 {
-                    Image_path = "pack://application:,,,/Resources/" + Path;
+                    Path = "pack://application:,,,/Resources/" + Path;
+                    AddImage(new BitmapImage(new Uri(Path)));
                 }
-                ImageSource = new BitmapImage(new Uri(Image_path));
+
             }
-            this.Tooltip = Tooltip;
         }
-        public void AddImage(ImageSource image_sourse)
+        public void AddImage(ImageSource image_sourse,int height = 15,int weidth = 15)
         {
-            ImageSource = image_sourse;
+            Image.Width = weidth;
+            Image.Height = height;
+            Image.Source = image_sourse;
         }
 
 
         //Добавление цвета через html-строки
-        public void AddColor(string background_all,string foreground_all,string f_val = "",string f_text = "")
+        public virtual void AddColor(string background_all,string foreground_all,string f_val = "",string f_text = "")
         {
             if(background_all != "")
             {
@@ -78,6 +108,7 @@ namespace RumineSimulator_2._0
                 drab_color = ColorTranslator.FromHtml(background_all);
                 System.Windows.Media.Color.FromRgb(drab_color.R, drab_color.G, drab_color.B);
                 background_brush_all.Color = System.Windows.Media.Color.FromRgb(drab_color.R, drab_color.G, drab_color.B);
+                item.Background = background_brush_all;
             }
             if(foreground_all != "")
             {
@@ -86,6 +117,7 @@ namespace RumineSimulator_2._0
                 draf_color = ColorTranslator.FromHtml(foreground_all);
                 System.Windows.Media.Color.FromRgb(draf_color.R, draf_color.G, draf_color.B);
                 foreground_brush_all.Color = System.Windows.Media.Color.FromRgb(draf_color.R, draf_color.G, draf_color.B);
+                item.Foreground = foreground_brush_all;
             }
             if(f_text != "")
             {
@@ -95,6 +127,7 @@ namespace RumineSimulator_2._0
                 drab_color = ColorTranslator.FromHtml(f_text);
                 System.Windows.Media.Color.FromRgb(drab_color.R, drab_color.G, drab_color.B);
                 foreground_brush_text.Color = System.Windows.Media.Color.FromRgb(drab_color.R, drab_color.G, drab_color.B);
+                text_name.Foreground = foreground_brush_text;
             }
             if (f_val != "")
             {
@@ -104,23 +137,37 @@ namespace RumineSimulator_2._0
                 drab_color = ColorTranslator.FromHtml(f_val);
                 System.Windows.Media.Color.FromRgb(drab_color.R, drab_color.G, drab_color.B);
                 foreground_brush_value.Color = System.Windows.Media.Color.FromRgb(drab_color.R, drab_color.G, drab_color.B);
+                text_value.Foreground = foreground_brush_value;
             }
 
         }
         //Размер текства свойства и его значения
         public void SetSize(int size_text,int size_value)
         {
-            Text_size = size_text;
-            Value_size = size_value;
+            text_name.FontSize = size_text;
+            text_value.FontSize = size_value;
         }
 
         public void SetProfiles()
         {
-            if (header)
+            switch (profile)
             {
-                background_brush_all = new SolidColorBrush(Colors.LightGray);
-                Text_size = 16;
+                case StringProfile.Header:
+                    item.Background =  new SolidColorBrush(Colors.LightGray);
+                    text_name.FontSize = 16;
+                    break;
+                case StringProfile.Quote:
+                    text_value.TextAlignment = TextAlignment.Right;
+                    text_name.TextAlignment = TextAlignment.Right;
+                    break;
+                default:
+                    break;
             }
+
         }
+    }
+    enum StringProfile
+    {
+        Header,Usual,Quote
     }
 }

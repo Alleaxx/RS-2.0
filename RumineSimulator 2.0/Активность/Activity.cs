@@ -44,19 +44,19 @@ namespace RumineSimulator_2._0
             get
             {
                 InterfaceView_Activity Info = new InterfaceView_Activity();
-                Info.Add_Property(new Interface_String("Мод. активности", Current_mod_activity.ToString(), false));
-                Info.Add_Property(new Interface_String("Мод. активности без времени", current_mod_activity_withoutTime.ToString(), false));
-                Info.Add_Property(new Interface_String("Мод. на сегодня", CurrentDay_mod_activity.ToString(), false));
-                Info.Add_Property(new Interface_String("Мод. дневной активности", NextDay_mod_activity.ToString(), false));
-                Info.Add_Property(new Interface_String("Мод. недельной активности", NextWeek_mod_activity.ToString(), false));
-                Info.Add_Property(new Interface_String("Мод. месячной активности", NextMonth_mod_activity.ToString(), false));
+                Info.Add_ActivityProperty(new Interface_String("Мод. активности", Current_mod_activity.ToString(), false));
+                Info.Add_ActivityProperty(new Interface_String("Мод. активности без времени", current_mod_activity_withoutTime.ToString(), false));
+                Info.Add_ActivityProperty(new Interface_String("Мод. на сегодня", CurrentDay_mod_activity.ToString(), false));
+                Info.Add_ActivityProperty(new Interface_String("Мод. дневной активности", NextDay_mod_activity.ToString(), false));
+                Info.Add_ActivityProperty(new Interface_String("Мод. недельной активности", NextWeek_mod_activity.ToString(), false));
+                Info.Add_ActivityProperty(new Interface_String("Мод. месячной активности", NextMonth_mod_activity.ToString(), false));
                 try
                 {
-                    Info.Add_Property(new Interface_String("Последнее событие", Last_Event.Name, false));
+                    Info.Add_ActivityProperty(new Interface_String("Последнее событие", Last_Event.Name, false));
                 }
                 catch
                 {
-                    Info.Add_Property(new Interface_String("Событий пока нет", "", false));
+                    Info.Add_ActivityProperty(new Interface_String("Событий пока нет", "", false));
                 }
                 return Info;
             }

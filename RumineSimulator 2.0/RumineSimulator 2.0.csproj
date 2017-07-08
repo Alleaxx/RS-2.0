@@ -101,6 +101,7 @@
     <Compile Include="Активность\SmallEvents_List.cs" />
     <Compile Include="Активность\Events_List.cs" />
     <Compile Include="Активность\События\Event.cs" />
+    <Compile Include="Интерфейс\IGUI.cs" />
     <Compile Include="Интерфейс\InterfaceView.cs" />
     <Compile Include="Интерфейс\InterfaceView_Activity.cs" />
     <Compile Include="Интерфейс\InterfaceView_Event.cs" />

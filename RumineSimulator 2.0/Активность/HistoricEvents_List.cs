@@ -120,17 +120,17 @@ namespace RumineSimulator_2._0
 
             //Интерфейс
             wikiCreation.EventAddEnd_InterfaceInfo();
-            wikiCreation.InterfaceInfo.Add_Property(new Interface_String("Вики Румайна: ", "", false, true));
+            wikiCreation.InterfaceInfo.Add_EventProperty(new Interface_String("Вики Румайна: ", "", false, StringProfile.Header));
             wikiCreation.more_properties.Add("Создатель вики: ", wiki_creator.nick);
-            wikiCreation.InterfaceInfo.Add_Property(new Interface_String("Создатель вики: ", wiki_creator.nick, false));
+            wikiCreation.InterfaceInfo.Add_EventProperty(new Interface_String("Создатель вики: ", wiki_creator.nick, false));
             wikiCreation.more_properties.Add("Название: ", wiki_name);
-            wikiCreation.InterfaceInfo.Add_Property(new Interface_String("Название: ", wiki_name, false));
+            wikiCreation.InterfaceInfo.Add_EventProperty(new Interface_String("Название: ", wiki_name, false));
             wikiCreation.more_properties.Add("Правок в первый день: ", wiki_firstDay.ToString());
-            wikiCreation.InterfaceInfo.Add_Property(new Interface_String("Правок в первый день: ", wiki_firstDay.ToString(), false));
+            wikiCreation.InterfaceInfo.Add_EventProperty(new Interface_String("Правок в первый день: ", wiki_firstDay.ToString(), false));
             wikiCreation.more_properties.Add("Успех при создании: ", wiki_sucees.ToString());
-            wikiCreation.InterfaceInfo.Add_Property(new Interface_String("Успех при создании: ", wiki_sucees.ToString(), false));
+            wikiCreation.InterfaceInfo.Add_EventProperty(new Interface_String("Успех при создании: ", wiki_sucees.ToString(), false));
             wikiCreation.more_properties.Add("Рако-вики: ", wiki_rak.ToString());
-            wikiCreation.InterfaceInfo.Add_Property(new Interface_String("Рако-вики: ", wiki_rak.ToString(), false));
+            wikiCreation.InterfaceInfo.Add_EventProperty(new Interface_String("Рако-вики: ", wiki_rak.ToString(), false));
 
             future_HistoricEvents.Add(wikiCreation);
 
@@ -182,15 +182,15 @@ namespace RumineSimulator_2._0
 
             //Интерфейс
             paneAttack.EventAddEnd_InterfaceInfo();
-            paneAttack.InterfaceInfo.Add_Property(new Interface_String("Нашествие пане: ", "", false, true));
+            paneAttack.InterfaceInfo.Add_EventProperty(new Interface_String("Нашествие пане: ", "", false, StringProfile.Header));
             paneAttack.more_properties.Add("Группировка брони: ", pane_fraction.name);
-            paneAttack.InterfaceInfo.Add_Property(new Interface_String("Группировка брони: ", pane_fraction.name, false));
+            paneAttack.InterfaceInfo.Add_EventProperty(new Interface_String("Группировка брони: ", pane_fraction.name, false));
             paneAttack.more_properties.Add("Влияние брони: ", pane_fraction.Influence.ToString());
-            paneAttack.InterfaceInfo.Add_Property(new Interface_String("Влияние брони: ", pane_fraction.Influence.ToString(), false));
+            paneAttack.InterfaceInfo.Add_EventProperty(new Interface_String("Влияние брони: ", pane_fraction.Influence.ToString(), false));
             paneAttack.more_properties.Add("Группировка сопротивления: ", antiPane_fraction.name.ToString());
-            paneAttack.InterfaceInfo.Add_Property(new Interface_String("Группировка сопротивления: ", antiPane_fraction.name.ToString(), false));
+            paneAttack.InterfaceInfo.Add_EventProperty(new Interface_String("Группировка сопротивления: ", antiPane_fraction.name.ToString(), false));
             paneAttack.more_properties.Add("Влияние сопротивления: ", antiPane_fraction.Influence.ToString());
-            paneAttack.InterfaceInfo.Add_Property(new Interface_String("Влияние сопротивления: ", antiPane_fraction.Influence.ToString(), false));
+            paneAttack.InterfaceInfo.Add_EventProperty(new Interface_String("Влияние сопротивления: ", antiPane_fraction.Influence.ToString(), false));
 
             future_HistoricEvents.Add(paneAttack);
             #endregion

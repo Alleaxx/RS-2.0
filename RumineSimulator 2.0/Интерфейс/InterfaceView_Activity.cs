@@ -8,11 +8,13 @@ namespace RumineSimulator_2._0
 {
     class InterfaceView_Activity : InterfaceView
     {
-        public List<Interface_String> act_properties = new List<Interface_String>();
+        public List<Interface_String> activity_properties = new List<Interface_String>();
 
-        public void Add_Property(Interface_String info)
+
+        //Добавление строк в списки свойств активности
+        public void Add_ActivityProperty(Interface_String info)
         {
-            act_properties.Add(info);
+            Add_Property(activity_properties, info);
         }
     }
 }

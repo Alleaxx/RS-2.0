@@ -27,13 +27,13 @@ namespace RumineSimulator_2._0
             Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Rumine, "Румайн"), "Прошёл еще один день на румине",false);
             Event.EventAdd3_Mods(random.Next(0), 0, 0, 0);
             Event.EventAddEnd_InterfaceInfo();
-            Event.InterfaceInfo.Add_Property(new Interface_String("Прошедший день", Date.current_date_prev.ToShortDateString(), false, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Кол-во событий: ", Activity.today_events.Count.ToString(), true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Кол-во сообщений: ", Activity.curr_day_messages.ToString(), true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Кол-во комментариев: ", Activity.curr_day_comments.ToString(), true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Кол-во новостей: ", Activity.curr_day_news.ToString(), true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Кол-во измененений репутации: ", Activity.curr_day_repChanges.ToString(), true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Кол-во попыток забанить: ", Activity.curr_day_bans.ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Прошедший день", Date.current_date_prev.ToShortDateString(), false, StringProfile.Header));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Кол-во событий: ", Activity.today_events.Count.ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Кол-во сообщений: ", Activity.curr_day_messages.ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Кол-во комментариев: ", Activity.curr_day_comments.ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Кол-во новостей: ", Activity.curr_day_news.ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Кол-во измененений репутации: ", Activity.curr_day_repChanges.ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Кол-во попыток забанить: ", Activity.curr_day_bans.ToString(), true));
             BasicEvents.Add(Event);
             return Event;
         }

@@ -39,9 +39,9 @@ namespace RumineSimulator_2._0
             }
             //Информация в интерфейсе
             Event.EventAddEnd_InterfaceInfo();
-            Event.InterfaceInfo.Add_Property(new Interface_String("Информация о сообщении: ", "", false,true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Симпатии к сообщению: ", likes.ToString(), true));
-            Event.InterfaceInfo.Add_Property(new Interface_String($"Влияние:  {user.forum_influence}, шанс: ", chanse.ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Информация о сообщении: ", "", false, StringProfile.Header));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Симпатии к сообщению: ", likes.ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String($"Влияние:  {user.forum_influence}, шанс: ", chanse.ToString(), true));
             return Event;
         }
         public static SmallEvent CommentWrite()
@@ -64,9 +64,9 @@ namespace RumineSimulator_2._0
             }
             //Информация в интерфейсе
             Event.EventAddEnd_InterfaceInfo();
-            Event.InterfaceInfo.Add_Property(new Interface_String("Информация о комментарии: ", "", false, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Плюсы комментария: ", likes.ToString(), true));
-            Event.InterfaceInfo.Add_Property(new Interface_String($"Влияние:  {user.forum_influence}, шанс: ", (user.forum_influence / 10).ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Информация о комментарии: ", "", false, StringProfile.Header));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Плюсы комментария: ", likes.ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String($"Влияние:  {user.forum_influence}, шанс: ", (user.forum_influence / 10).ToString(), true));
             return Event;
         }
         public static SmallEvent NewsWrite()
@@ -84,8 +84,8 @@ namespace RumineSimulator_2._0
             int quality = random.Next(user.news_quality - 5, user.news_quality + 5);
             //Информация в интерфейсе
             Event.EventAddEnd_InterfaceInfo();
-            Event.InterfaceInfo.Add_Property(new Interface_String("Информация о новости: ", "", false, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Качество новости: ", quality.ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Информация о новости: ", "", false, StringProfile.Header));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Качество новости: ", quality.ToString(), true));
             return Event;
         }
 
@@ -142,10 +142,10 @@ namespace RumineSimulator_2._0
             Event.participants[user_init] = change_reason;
             //Информация в интерфейсе
             Event.EventAddEnd_InterfaceInfo();
-            Event.InterfaceInfo.Add_Property(new Interface_String("Информация о репутации: ", "", false, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Кто поставил: ", user_init.nick, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Кому поставили: ", user_goal.nick, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Проставленная карма: ", karma_result.ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Информация о репутации: ", "", false, StringProfile.Header));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Кто поставил: ", user_init.nick, true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Кому поставили: ", user_goal.nick, true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Проставленная карма: ", karma_result.ToString(), true));
             return Event;
         }
         public static SmallEvent ReputationChange_Reason(Event reason)
@@ -203,11 +203,11 @@ namespace RumineSimulator_2._0
             Event.connected_events.Add(reason);
             //Информация в интерфейсе
             Event.EventAddEnd_InterfaceInfo();
-            Event.InterfaceInfo.Add_Property(new Interface_String("Информация о репутации: ", "", false, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Кто поставил: ", user_init.nick, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Кому поставили: ", user_goal.nick, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Причина: ", reason.Name, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Проставленная карма: ", karma_result.ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Информация о репутации: ", "", false, StringProfile.Header));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Кто поставил: ", user_init.nick, true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Кому поставили: ", user_goal.nick, true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Причина: ", reason.Name, true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Проставленная карма: ", karma_result.ToString(), true));
 
             return Event;
         }
@@ -241,11 +241,11 @@ namespace RumineSimulator_2._0
             int chanse = BanCheck(user_init, user_goal);
             //Информация в интерфейсе
             Event.EventAddEnd_InterfaceInfo();
-            Event.InterfaceInfo.Add_Property(new Interface_String("Информация о бане: ", "", false, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Модератор: ", user_init.nick, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Жертва: ", user_goal.nick, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Забанен?: ", banned.ToString(), true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Шанс бана: ", chanse.ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Информация о бане: ", "", false, StringProfile.Header));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Модератор: ", user_init.nick, true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Жертва: ", user_goal.nick, true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Забанен?: ", banned.ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Шанс бана: ", chanse.ToString(), true));
             return Event;
         }
         public static SmallEvent Ban_Reason(Event reason)
@@ -288,12 +288,12 @@ namespace RumineSimulator_2._0
             Event.connected_events.Add(reason);
             //Информация в интерфейсе
             Event.EventAddEnd_InterfaceInfo();
-            Event.InterfaceInfo.Add_Property(new Interface_String("Информация о бане: ", "", false, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Модератор: ", user_init.nick, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Жертва: ", user_goal.nick, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Причина: ", reason.Name, true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Забанен?: ", banned.ToString(), true));
-            Event.InterfaceInfo.Add_Property(new Interface_String("Шанс бана: ", chanse.ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Информация о бане: ", "", false, StringProfile.Header));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Модератор: ", user_init.nick, true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Жертва: ", user_goal.nick, true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Причина: ", reason.Name, true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Забанен?: ", banned.ToString(), true));
+            Event.InterfaceInfo.Add_EventProperty(new Interface_String("Шанс бана: ", chanse.ToString(), true));
             return Event;
         }
         static int BanCheck(User user_init,User user_goal)
