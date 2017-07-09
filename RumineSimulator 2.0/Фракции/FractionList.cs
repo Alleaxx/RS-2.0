@@ -58,12 +58,23 @@ namespace RumineSimulator_2._0
 
         }
 
-        public static Fraction SearchFractionName(string name)
+        //Поиск фракции по параметрам
+        public static Fraction SearchFraction(string name)
         {
             Fraction sel_fraction = AllFractions[0];
             foreach (Fraction fraction in AllFractions)
             {
                 if (fraction.name == name)
+                    sel_fraction = fraction;
+            }
+            return sel_fraction;
+        }
+        public static Fraction SearchFraction(int id)
+        {
+            Fraction sel_fraction = AllFractions[0];
+            foreach (Fraction fraction in AllFractions)
+            {
+                if (fraction.id == id)
                     sel_fraction = fraction;
             }
             return sel_fraction;

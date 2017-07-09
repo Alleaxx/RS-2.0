@@ -36,16 +36,16 @@ namespace RumineSimulator_2._0
             List_Participants.Items.Clear();
             try
             {
-                InterfaceView_Event info_event = selected_event.InterfaceInfo;
-                foreach (Interface_String inter_string in info_event.basic_event_properties)
+                IntView_Event info_event = selected_event.InterfaceInfo;
+                foreach (GuiString inter_string in info_event.basicEvent_props)
                 {
                     List_EventProperties.Items.Add(inter_string.Item);
                 }
-                foreach (Interface_String inter_string in info_event.connectedEntities_properties)
+                foreach (GuiString inter_string in info_event.connectedEntities_props)
                 {
                     List_Participants.Items.Add(inter_string.Item);
                 }
-                foreach (Interface_String inter_string in info_event.special_event_properties)
+                foreach (GuiString inter_string in info_event.specialEvent_props)
                 {
                     List_EventProperties.Items.Add(inter_string.Item);
                 }

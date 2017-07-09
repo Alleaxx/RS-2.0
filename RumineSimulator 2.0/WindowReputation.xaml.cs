@@ -24,7 +24,7 @@ namespace RumineSimulator_2._0
         public WindowReputation(string nick)
         {
             InitializeComponent();
-            selected_user = Users.UserSearch(nick);
+            selected_user = UsersControl.UserSearch(nick);
             InformationUpdate();
 
         }

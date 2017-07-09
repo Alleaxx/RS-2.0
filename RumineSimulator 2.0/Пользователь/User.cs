@@ -9,6 +9,7 @@ namespace RumineSimulator_2._0
     class User
     {
         #region Свойства пользователя
+        public int user_id { get; private set; }
         public string nick { get; set; }
 
         public DateTime registration { get; private set; }
@@ -22,7 +23,6 @@ namespace RumineSimulator_2._0
             set
             {
                 last_activity = value;
-                CreateInterInfo();
             }
         }
 
@@ -71,7 +71,14 @@ namespace RumineSimulator_2._0
         public UserDayLog daylog { get; private set; }
         public List<UserDayLog> last_thirty_Days = new List<UserDayLog>();
         public Dictionary<User, int> blocked_users_rep = new Dictionary<User, int>();
-        public Interface_User InterfaceInfo;
+        //GUI-представление
+        public IntView_User InterfaceInfo
+        {
+            get
+            {
+                return new IntView_User(this);
+            }
+        }
 
         Random random;
 
@@ -81,6 +88,7 @@ namespace RumineSimulator_2._0
         {
             random = new Random();
             //Ник получаем из списка свободных ников
+            user_id = UsersControl.UserAmount + 1;
             nick = Nicks.SelectFreeNick();
 
             //Устанавливаем рандомную дату регистрации(2011 - 30%, 2012 - 30%, 2013 - 40%), на ее основе комменты и новости
@@ -113,12 +121,12 @@ namespace RumineSimulator_2._0
         private void SetRegistration()
         {
             //Устанавливаем рандомную дату регистрации(2011 - 30%, 2012 - 30%, 2013 - 40%)
-            if (AdvRandom.PersentChanseBool(40))
+            if (AdvRnd.PersentChanseBool(40))
             {
                 registration = new DateTime(random.Next(Date.found_date.Year, Date.current_date.Year + 1), random.Next(1, 13), random.Next(1, 29));
 
             }
-            else if (AdvRandom.PersentChanseBool(50))
+            else if (AdvRnd.PersentChanseBool(50))
             {
                 registration = new DateTime(random.Next(Date.found_date.Year + 1, Date.current_date.Year + 1), random.Next(1, 13), random.Next(1, 29));
 
@@ -137,17 +145,11 @@ namespace RumineSimulator_2._0
 
         private void CharacterMod()
         {
-            news_quality = random.Next(0,10) + character.creativity.Param_value * 5 + character.sciense.Param_value * 5;
+            news_quality = random.Next(0,10) + character.creativity.Value * 5 + character.sciense.Value * 5;
             if(news == 0)
             {
                 news_quality = 0;
             }
-        }
-
-        //Обновить интерфейсное представление пользователя
-        public void CreateInterInfo()
-        {
-            InterfaceInfo = new Interface_User(this);
         }
 
         private void TraitMod()
@@ -272,10 +274,10 @@ namespace RumineSimulator_2._0
         private void SetLikesRatings()
         {
             //Первые 2 числа - границы процентов симпатий, вторые два - границы рейтинга комментариев
-            int min_like = (10 - character.rakness.Param_value) * 7;
-            int max_like = min_like + (10 - character.adeq.Param_value) * 10;
+            int min_like = (10 - character.rakness.Value) * 7;
+            int max_like = min_like + (10 - character.adeq.Value) * 10;
             int min_coment = 1;
-            int max_coment = character.adeq.Param_value / 2 + 1;
+            int max_coment = character.adeq.Value / 2 + 1;
             LikesRateCounting(min_like,max_like,min_coment,max_coment);
         }
         private void LikesRateCounting(int min_pers_likes, int max_pers_likes, int min_rate, int max_rate)
@@ -306,9 +308,9 @@ namespace RumineSimulator_2._0
             description = UserDescription.GetTextDescription(this);
             reputation.ReputationRelations(this);
             karma.KarmaUpdate(this);
-            for (int i = 0; i < Users.UserAmount; i++)
+            for (int i = 0; i < UsersControl.UserAmount; i++)
             {
-                blocked_users_rep.Add(Users.UsersList[i], 0);
+                blocked_users_rep.Add(UsersControl.UsersList[i], 0);
             }
             group = GroupsList.ReturnUserGroup(this);
             GroupMod();
@@ -358,14 +360,13 @@ namespace RumineSimulator_2._0
         {
             SetActivities();
             daylog = new UserDayLog(this);
-            for (int i = 0; i < Users.UserAmount; i++)
+            for (int i = 0; i < UsersControl.UserAmount; i++)
             {
-                if (blocked_users_rep[Users.UsersList[i]] > 0)
-                    blocked_users_rep[Users.UsersList[i]]--;
+                if (blocked_users_rep[UsersControl.UsersList[i]] > 0)
+                    blocked_users_rep[UsersControl.UsersList[i]]--;
             }
             for (int i = 0; i < relations.All.Count; i++)
             {
-                relations.All.ElementAt(i).Value.check_relation_change = false;
             }
         }
         public void UpdateEndDay()

@@ -39,26 +39,11 @@ namespace RumineSimulator_2._0
         public static int curr_day_repChanges { get; set; }
         public static int curr_day_bans { get; set; }
         public static List<Event> today_events = new List<Event>();
-        public static InterfaceView_Activity InterfaceInfo
+        public static IntView_Activity InterfaceInfo
         {
             get
             {
-                InterfaceView_Activity Info = new InterfaceView_Activity();
-                Info.Add_ActivityProperty(new Interface_String("Мод. активности", Current_mod_activity.ToString(), false));
-                Info.Add_ActivityProperty(new Interface_String("Мод. активности без времени", current_mod_activity_withoutTime.ToString(), false));
-                Info.Add_ActivityProperty(new Interface_String("Мод. на сегодня", CurrentDay_mod_activity.ToString(), false));
-                Info.Add_ActivityProperty(new Interface_String("Мод. дневной активности", NextDay_mod_activity.ToString(), false));
-                Info.Add_ActivityProperty(new Interface_String("Мод. недельной активности", NextWeek_mod_activity.ToString(), false));
-                Info.Add_ActivityProperty(new Interface_String("Мод. месячной активности", NextMonth_mod_activity.ToString(), false));
-                try
-                {
-                    Info.Add_ActivityProperty(new Interface_String("Последнее событие", Last_Event.Name, false));
-                }
-                catch
-                {
-                    Info.Add_ActivityProperty(new Interface_String("Событий пока нет", "", false));
-                }
-                return Info;
+                return new IntView_Activity();
             }
         }
 
@@ -233,7 +218,7 @@ namespace RumineSimulator_2._0
         public static void CheckEvents(bool newday, bool newweek, bool newmonth)
         {
             //Сообщение
-            if (AdvRandom.PersentChanseBool(1 + (Current_mod_activity)))
+            if (AdvRnd.PersentChanseBool(1 + (Current_mod_activity)))
             {
                 Last_Event = SmallEvents_List.MessageWrite();
                 LastEvent_ModsModifier();
@@ -241,7 +226,7 @@ namespace RumineSimulator_2._0
                 CheckLastEvent_Reaction();
             }
             //Комментарий
-            if (AdvRandom.PersentChanseBool(1 + (Current_mod_activity / 20) ))
+            if (AdvRnd.PersentChanseBool(1 + (Current_mod_activity / 20) ))
             {
                 Last_Event = SmallEvents_List.CommentWrite();
                 LastEvent_ModsModifier();
@@ -249,7 +234,7 @@ namespace RumineSimulator_2._0
                 CheckLastEvent_Reaction();
             }
             //Новость
-            if (AdvRandom.PersentChanseBool(current_mod_activity,10000))
+            if (AdvRnd.PersentChanseBool(current_mod_activity,10000))
             {
                 Last_Event = SmallEvents_List.NewsWrite();
                 LastEvent_ModsModifier();
@@ -257,7 +242,7 @@ namespace RumineSimulator_2._0
                 CheckLastEvent_Reaction();
             }
             //Рандомная репутация
-            if (AdvRandom.PersentChanseBool(current_mod_activity, 2000))
+            if (AdvRnd.PersentChanseBool(current_mod_activity, 2000))
             {
                 Last_Event = SmallEvents_List.ReputationChange_Random();
                 LastEvent_ModsModifier();
@@ -265,7 +250,7 @@ namespace RumineSimulator_2._0
                 CheckLastEvent_Reaction();
             }
             //Рандомный бан
-            if (AdvRandom.PersentChanseBool(Current_mod_activity, 10000))
+            if (AdvRnd.PersentChanseBool(Current_mod_activity, 10000))
             {
                 Last_Event = SmallEvents_List.Ban_Random();
                 LastEvent_ModsModifier();
@@ -303,11 +288,11 @@ namespace RumineSimulator_2._0
         }
         public static Event CheckEvent_Reaction(Event reason)
         {
-            if (AdvRandom.PersentChanseBool(Current_mod_activity + Last_Event.Reaction,10000))
+            if (AdvRnd.PersentChanseBool(Current_mod_activity + Last_Event.Reaction,10000))
             {
                 return SmallEvents_List.Ban_Reason(reason);
             }
-            else if(AdvRandom.PersentChanseBool(current_mod_activity + Last_Event.Reaction, 2000))
+            else if(AdvRnd.PersentChanseBool(current_mod_activity + Last_Event.Reaction, 2000))
             {
                 return SmallEvents_List.ReputationChange_Reason(reason);
             }

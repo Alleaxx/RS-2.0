@@ -78,7 +78,7 @@
                             <TextBlock x:Name="text_foundDate" Margin="2" TextWrapping="Wrap" Text="значение"/>
                         </GroupBox>
                     </StackPanel>
-                    <Button x:Name="button" Content="Button" Grid.Column="1" HorizontalAlignment="Left" Margin="414,221,0,0" VerticalAlignment="Top" Width="170" Height="74" BorderBrush="#FF707070" Background="#FFDADADA"/>
+                    <Button x:Name="button" Content="Button" Grid.Column="1" HorizontalAlignment="Left" Margin="414,221,0,0" VerticalAlignment="Top" Width="170" Height="74" BorderBrush="#FF707070" Background="#FFF7BD8C"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabItemUsersList" Header="Список пользователей">
@@ -104,34 +104,55 @@
                     <Grid.Background>
                         <ImageBrush Stretch="UniformToFill" Opacity="0.15"/>
                     </Grid.Background>
-                    <ListBox x:Name="list_UsersAlpha" Margin="2,2,0,0" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Top" SelectionChanged="list_UsersAlpha_SelectionChanged" Grid.Row="1" Grid.RowSpan="2">
+                    <ListBox x:Name="list_UsersAlpha" Margin="5" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalContentAlignment="Center" VerticalAlignment="Top" SelectionChanged="list_UsersAlpha_SelectionChanged" Grid.Row="1" Grid.RowSpan="2">
                         <ListBoxItem Content="Список пользователей" Margin="0" FontSize="16" FontWeight="Medium" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True"/>
                     </ListBox>
-                    <ListBox x:Name="list_UserPropertiesBasic" Grid.Column="1" Margin="5,5,5,0" VerticalContentAlignment="Center" VerticalAlignment="Top" Grid.Row="1">
+                    <ListBox x:Name="list_UserPropertiesBasic" Grid.Column="1" Margin="5" VerticalContentAlignment="Center" VerticalAlignment="Top" Grid.Row="1" HorizontalContentAlignment="Center">
                         <ListBoxItem Content="Базовые св-ва пользователя"/>
                     </ListBox>
                     <Image x:Name="Image_Ava" Margin="40,0" Width="100" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1"/>
                     <StackPanel Grid.Column="2" Margin="2">
-                        <TextBlock x:Name="text_Karma" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Репутация" VerticalAlignment="Center" Foreground="Black" FontSize="18" Margin="5,20,5,5"/>
+                        <TextBlock x:Name="text_Karma" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Репутация" VerticalAlignment="Center" Foreground="Black" FontSize="22" Margin="5,20,5,5"/>
                         <StackPanel x:Name="SPReputationControl_Copy" Orientation="Horizontal" Margin="2" HorizontalAlignment="Center" Background="White">
-                            <Button x:Name="button_ReputationPlusBeta" Content="(+0.00)" Margin="2" Height="25" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" BorderBrush="#FF6A6262" Background="White" Foreground="#FF30CF0D" FontSize="14" FontWeight="Bold" BorderThickness="0"/>
-                            <Button x:Name="button_ReputationBeta" Content="(0.00)" Margin="2" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" BorderBrush="#FF6A6262" Background="White" Foreground="#FF2552E8" FontSize="14" FontWeight="Bold" BorderThickness="0" Click="button_ReputationBeta_Click"/>
-                            <Button x:Name="button_ReputationMinusBeta" Content="(-0.00)" Margin="2" Height="25" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" BorderBrush="#FF6A6262" Foreground="#FFD8131C" Background="White" FontSize="14" FontWeight="Bold" BorderThickness="0"/>
+                            <Button x:Name="button_ReputationPlusAlpha" Content="(+0.00)" Margin="2" Height="25" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" BorderBrush="#FF6A6262" Background="White" Foreground="#FF30CF0D" FontSize="16" FontWeight="Bold" BorderThickness="0"/>
+                            <Button x:Name="button_ReputationAlpha" Content="(0.00)" Margin="2" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" BorderBrush="#FF6A6262" Background="White" Foreground="#FF2552E8" FontSize="16" FontWeight="Bold" BorderThickness="0" Click="button_ReputationBeta_Click"/>
+                            <Button x:Name="button_ReputationMinusAlpha" Content="(-0.00)" Margin="2" Height="25" Template="{DynamicResource ButtonsRumineGrayStyleBorderSel}" BorderBrush="#FF6A6262" Foreground="#FFD8131C" Background="White" FontSize="16" FontWeight="Bold" BorderThickness="0"/>
                         </StackPanel>
                     </StackPanel>
-                    <ListBox x:Name="list_TraitsNew" Grid.Column="2" Margin="2,2,2,0" Grid.Row="1" VerticalAlignment="Top">
+                    <ListBox x:Name="list_TraitsNew" Grid.Column="2" Margin="5" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Center">
                         <ListBoxItem Content="Черты характера"/>
                     </ListBox>
                     <TextBlock x:Name="text_Description" Grid.Column="3" Margin="5" TextWrapping="Wrap" Text="Описание пользователя" FontSize="14"/>
-                    <ListBox x:Name="list_UserPropertiesNumeric" Grid.Column="3" Margin="2,2,2,0" VerticalContentAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Grid.RowSpan="2">
+                    <ListBox x:Name="list_UserPropertiesNumeric" Grid.Column="3" Margin="2,2,2,0" VerticalContentAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Grid.RowSpan="2" HorizontalContentAlignment="Center">
                         <ListBoxItem Content="Числовые св-ва пользователя"/>
                     </ListBox>
-                    <ListBox x:Name="list_Character" Margin="2" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top">
-                        <ListBoxItem Content="Характер и всё такое"/>
+                    <ListBox x:Name="list_UsersAlpha_SelectedProp" Margin="10,25,5,5" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Top" SelectionChanged="list_UsersAlpha_SelectionChanged" Grid.Column="4" Grid.RowSpan="2">
+                        <ListBoxItem Content="Выбранное свойство" Margin="0" FontSize="16" FontWeight="Medium" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True"/>
                     </ListBox>
-                    <ListBox x:Name="list_Skills" Margin="2" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top">
-                        <ListBoxItem Content="Умения"/>
-                    </ListBox>
+                    <StackPanel Grid.Column="2" Margin="5" Grid.Row="2">
+                        <ListBox x:Name="list_Character" Margin="0" VerticalAlignment="Top" HorizontalContentAlignment="Center">
+                            <ListBoxItem Content="Характер и всё такое"/>
+                        </ListBox>
+                        <ListBox x:Name="list_Skills" Margin="0" VerticalAlignment="Top" HorizontalContentAlignment="Center">
+                            <ListBoxItem Content="Умения"/>
+                        </ListBox>
+                    </StackPanel>
+                    <StackPanel Margin="0">
+                        <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Сортировать по..." FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+                        <ComboBox x:Name="comboBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5">
+                            <ComboBoxItem Content="Без сортировки"/>
+                        </ComboBox>
+                        <WrapPanel Margin="5">
+                            <CheckBox x:Name="checkGroup_Pos" Content="CheckBox" Margin="2"/>
+                            <CheckBox x:Name="checkGroup_Pos_Copy" Content="CheckBox" Margin="2"/>
+                            <CheckBox x:Name="checkGroup_Pos_Copy1" Content="CheckBox" Margin="2"/>
+                        </WrapPanel>
+                        <WrapPanel Margin="5">
+                            <CheckBox x:Name="checkGroup_Pos1" Content="CheckBox" Margin="2"/>
+                            <CheckBox x:Name="checkGroup_Pos_Copy2" Content="CheckBox" Margin="2"/>
+                            <CheckBox x:Name="checkGroup_Pos_Copy3" Content="CheckBox" Margin="2"/>
+                        </WrapPanel>
+                    </StackPanel>
                 </Grid>
 
 
@@ -176,11 +197,6 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <ListBox x:Name="list_AllTraits" Margin="2,2,1,1"/>
-                    <TextBox x:Name="text_logAll" HorizontalAlignment="Left" Margin="2" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="5"/>
-                    <ListBox x:Name="list_AverageTemperature" Margin="2" VerticalAlignment="Top" Grid.Column="3" Grid.ColumnSpan="2">
-                        <ListBoxItem Content="Средняя температура" Margin="2"/>
-                    </ListBox>
 
                 </Grid>
             </TabItem>
@@ -188,13 +204,26 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <ListBox x:Name="list_FractionsInfo" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" SelectionChanged="list_FractionsInfo_SelectionChanged">
+                    <ListBox x:Name="list_FractionsInfo" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" SelectionChanged="list_FractionsInfo_SelectionChanged">
                         <ListBoxItem Content="Список фракций"/>
                     </ListBox>
-                    <ListBox x:Name="list_FractionDetails" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top">
-                        <ListBoxItem Content="Детали фракции"/>
+                    <ListBox x:Name="list_ViewListDetails" Grid.Column="4" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top">
+                        <ListBoxItem Content="Детали выбора"/>
+                    </ListBox>
+                    <ListBox x:Name="list_TraitsInfo" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" SelectionChanged="list_FractionsInfo_SelectionChanged" Grid.Column="1" Height="600">
+                        <ListBoxItem Content="Список трейтов"/>
+                    </ListBox>
+                    <ListBox x:Name="list_Statistics" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" SelectionChanged="list_FractionsInfo_SelectionChanged" Grid.Column="5" Grid.ColumnSpan="2">
+                        <ListBoxItem Content="Статистика"/>
+                    </ListBox>
+                    <ListBox x:Name="list_GroupsInfo" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" SelectionChanged="list_FractionsInfo_SelectionChanged" Grid.Column="3">
+                        <ListBoxItem Content="Список групп"/>
                     </ListBox>
 
                 </Grid>

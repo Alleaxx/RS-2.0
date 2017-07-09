@@ -161,33 +161,33 @@ namespace RumineSimulator_2._0
             switch (random.Next(2))
             {
                 case 0:
-                    descr = descr + adeq_Begin[user.character.adeq.Param_value];
+                    descr = descr + adeq_Begin[user.character.adeq.Value];
                     descr_available["Адекватность"] = false;
                     break;
                 case 1:
-                    descr = descr + rakness_Begin[user.character.rakness.Param_value];
+                    descr = descr + rakness_Begin[user.character.rakness.Value];
                     descr_available["Рак"] = false;
                     break;
             }
             //добавляем консервированность юзера
-            descr = descr + cons_Middle[user.character.conservative.Param_value];
+            descr = descr + cons_Middle[user.character.conservative.Value];
             //Название юзера
             descr = descr + Oldness(Date.current_date.Year-user.registration.Year+1);
 
             //второй этап выбора
             if (descr_available["Рак"])
             {
-                descr = descr + rakness_Middle[user.character.rakness.Param_value];
+                descr = descr + rakness_Middle[user.character.rakness.Value];
                 descr_available["Рак"] = false;
             }
             else if (descr_available["Адекватность"])
             {
-                descr = descr + adeq_Middle[user.character.adeq.Param_value];
+                descr = descr + adeq_Middle[user.character.adeq.Value];
                 descr_available["Адекватность"] = false;
             }
             //Добавляем про шанс ухода
             descr = descr + ". ";
-            descr = descr + leave_Middle[user.character.leaveChanse.Param_value];
+            descr = descr + leave_Middle[user.character.leaveChanse.Value];
             //Количество друзей и так далее
             descr_available.Clear();
             return descr;

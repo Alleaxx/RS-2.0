@@ -12,16 +12,31 @@ namespace RumineSimulator_2._0
         public string name { get; private set; }
         public List<Traits> ideology_traits = new List<Traits>();
         public List<Traits> enemy_traits = new List<Traits>();
-        public int Influence { get; set;}
-        public InterfaceView_Fraction Interface_Info { get; set; }
+        public int Influence
+        {
+            get
+            {
+                int infl = 0;
+                foreach (User user in members)
+                {
+                    infl += user.forum_influence;
+                }
+                return infl;
+            }
+        }
+        public IntView_Fraction Interface_Info
+        {
+            get
+            {
+                return new IntView_Fraction(this);
+            }
+        }
 
         public bool active;
         public bool no_cond;
         public bool hard_cond;
 
         public User leader { get; private set; }
-        public Squad squad { get; private set; }
-
 
         public string ideology { get; private set; }
 
@@ -30,7 +45,7 @@ namespace RumineSimulator_2._0
 
         public FractionAggression aggro_type = new FractionAggression();
 
-        public Fraction(string Name, List<Traits> Ideology, List<Traits> EnemyTraits, FractionAggression Type,bool HardCond,bool NoCond = false,bool active = false)
+        public Fraction(string Name, List<Traits> Ideology, List<Traits> EnemyTraits, FractionAggression Type, bool HardCond, bool NoCond = false, bool active = false)
         {
             id = FractionList.id_total++;
             name = Name;
@@ -43,37 +58,34 @@ namespace RumineSimulator_2._0
 
         public void FractionCreationEnd()
         {
-            Influence = 0;
+            //Выбор лидера фракции
             int leader_influence = 0;
             foreach (User user in members)
             {
-                Influence += user.forum_influence;
-                if(user.forum_influence > leader_influence)
+                if (user.forum_influence > leader_influence)
                 {
                     leader = user;
                     leader_influence = user.forum_influence;
                 }
             }
+            //Вражеские фракции
             foreach (Fraction fraction in FractionList.AllFractions)
             {
-                if(fraction != this)
+                if (fraction != this)
                 {
-                    foreach (Traits true_trait in ideology_traits)
+                    foreach (Traits bad_trait in enemy_traits)
                     {
-                        foreach (Traits bad_trait in fraction.enemy_traits)
+                        if (fraction.ideology_traits.Contains(bad_trait))
                         {
-                            if(bad_trait == true_trait)
-                            {
-                                enemy_fractions.Add(fraction);
-                                break;
-                            }
+                            enemy_fractions.Add(fraction);
                         }
+
                     }
                 }
             }
-            Interface_Info = new InterfaceView_Fraction(this);
         }
 
+        //Проверка на принятие во фракцию
         public bool MemberAcceptCheck(User user)
         {
             int need_traits = 0;
@@ -83,18 +95,18 @@ namespace RumineSimulator_2._0
             {
                 foreach (Traits t_type in enemy_traits)
                 {
-                    if (trait.id == t_type)
+                    if (trait.id_trait == t_type)
                     {
                         return false;
                     }
                 }
                 foreach (Traits t_type in ideology_traits)
                 {
-                    if (!hard_cond && trait.id == t_type)
+                    if (!hard_cond && trait.id_trait == t_type)
                     {
                         return true;
                     }
-                    else if (trait.id == t_type)
+                    else if (trait.id_trait == t_type)
                     {
                         need_traits++;
                     }
