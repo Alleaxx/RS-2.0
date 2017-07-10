@@ -24,8 +24,6 @@
             <Button x:Name="button_leftToolHide" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="Button_leftToolHide_Click" FontWeight="SemiBold" FontSize="14"/>
             <TextBlock x:Name="StatusTextData" FontSize="16" Text="Нынешняя дата" Margin="5,1" FontWeight="Medium" Width="135"/>
             <Separator/>
-            <TextBlock x:Name="StatusTextActivness" HorizontalAlignment="Center" Margin="5,1" Padding="0" Text="Активность фч" VerticalAlignment="Center" Width="135"/>
-            <TextBlock x:Name="StatusTextEvent" Text="Событие" Margin="5,1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100"/>
             <Separator Margin="10,2,2,2"/>
             <RadioButton x:Name="statusRadButton_cont" Content="&gt;" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,0" Checked="StatusRadButton_cont_Checked" Padding="0" IsEnabled="False" FontSize="17" FontWeight="ExtraBlack" VerticalContentAlignment="Top"/>
             <RadioButton x:Name="statusRadButton_pause" Content="||" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,0" Padding="0" IsEnabled="False" FontSize="17" FontWeight="ExtraBlack" VerticalContentAlignment="Top"/>
@@ -35,7 +33,9 @@
             <Button x:Name="StatusSpeed_x3" BorderThickness="0" Content="&gt;&gt;&gt;" Margin="2,1,5,1" Padding="0" Click="StatusSpeed_x3_Click" IsEnabled="False"/>
             <Button x:Name="StatusSpeed_x4" BorderThickness="0" Content="|&gt;" Margin="0,1" Padding="0" Click="StatusSpeed_x4_Click" IsEnabled="False"/>
             <Separator/>
-            <TextBlock x:Name="text_playerOnline" HorizontalAlignment="Center" Margin="2,1,5,1" Text="оффлайн" VerticalAlignment="Center" Style="{DynamicResource TextParamsStyle}" FontWeight="SemiBold"/>
+            <TextBlock x:Name="StatusTextActivness" HorizontalAlignment="Center" Margin="5,1" Padding="0" Text="Активность фч" VerticalAlignment="Center" Width="125"/>
+            <Separator/>
+            <TextBlock x:Name="StatusTextEvent" Text="Событие" Margin="5,1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200"/>
         </ToolBar>
         <TabControl x:Name="tabControlMain" Margin="0" Background="White" Grid.Column="1" Grid.Row="1">
             <TabItem x:Name="TabItemMain" Header="Общее" VerticalAlignment="Top" HorizontalAlignment="Center">
@@ -43,42 +43,49 @@
                     <ImageBrush/>
                 </TabItem.Background>
                 <Grid Margin="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="327"/>
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="47*"/>
-                        <ColumnDefinition Width="619*"/>
-                        <ColumnDefinition Width="283*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="68*"/>
+                        <ColumnDefinition Width="31*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.Background>
                         <ImageBrush ImageSource="/RumineSimulator 2.0;component/Resources/fon.gif" Stretch="UniformToFill" Opacity="0.15"/>
                     </Grid.Background>
-                    <Image x:Name="image" HorizontalAlignment="Left" Height="200" Margin="10,10,0,0" VerticalAlignment="Top" Width="400" Source="/RumineSimulator 2.0;component/Resources/1459031501.png" Grid.ColumnSpan="2"/>
-                    <StackPanel HorizontalAlignment="Left" Margin="368,20,0,0" VerticalAlignment="Top" Grid.Column="1">
-                        <Button x:Name="button_GenerateUsers" Content="Сгенерировать пользователей" VerticalAlignment="Top" Click="Button_UserGenerate_Click" ToolTip="Кнопка для генерации пользователей" Margin="2" HorizontalContentAlignment="Left" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14" />
-                        <Button x:Name="button_TimeGo" Content="Запустить ход времени" VerticalAlignment="Top" Click="Button_TimeGo_Click" ToolTip="Кнопка для генерации пользователей" Margin="2" HorizontalContentAlignment="Left" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14"/>
-                        <DockPanel x:Name="DP_UpdateTimes" LastChildFill="False" Margin="2" VerticalAlignment="Top" HorizontalAlignment="Left" Background="White">
-                            <TextBlock x:Name="label_UpdateTimes" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Обновлять информацию" Background="#FFE6E6E6"/>
-                            <TextBox x:Name="text_UpdateTimes" TextWrapping="Wrap" Text="5" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0"/>
-                        </DockPanel>
-                        <DockPanel x:Name="DP_GenerateTick" LastChildFill="False" Margin="2" VerticalAlignment="Top" HorizontalAlignment="Left" Background="White">
+                    <StackPanel Margin="5,5,0,0">
+                        <TextBox x:Name="textBox" TextWrapping="Wrap" Text="Стартовые параметры" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
+                        <Button x:Name="button_GenerateUsers" Content="Сгенерировать пользователей" VerticalAlignment="Top" Click="Button_UserGenerate_Click" ToolTip="Кнопка для генерации пользователей" Margin="2" HorizontalContentAlignment="Center" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14" />
+                        <Button x:Name="button_TimeGo" Content="Запустить ход времени" VerticalAlignment="Top" Click="Button_TimeGo_Click" ToolTip="Кнопка для генерации пользователей" Margin="2" HorizontalContentAlignment="Center" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14"/>
+                        <DockPanel x:Name="DP_GenerateTick" LastChildFill="False" Margin="2" VerticalAlignment="Top" Background="#FFDDDDDD">
                             <TextBlock x:Name="label_GenerateTick" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Время между генерацией(мс)"/>
                             <TextBox x:Name="text_GenerateTick" TextWrapping="Wrap" Text="5" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0"/>
                         </DockPanel>
-                        <DockPanel x:Name="DP_maxSpeed" LastChildFill="False" Margin="2" VerticalAlignment="Top" HorizontalAlignment="Left" Background="White">
+                        <DockPanel x:Name="DP_maxSpeed" LastChildFill="False" Margin="2" VerticalAlignment="Top" Background="#FFDDDDDD">
                             <TextBlock x:Name="label_MaxSpeed" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Максимальная скорость(мс)"/>
                             <TextBox x:Name="text_MaxSpeed" TextWrapping="Wrap" Text="15" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0"/>
                         </DockPanel>
-                        <DockPanel x:Name="DP_GeneratedUsers" LastChildFill="False" Margin="2" VerticalAlignment="Top" HorizontalAlignment="Left" Background="White">
+                        <DockPanel x:Name="DP_GeneratedUsers" LastChildFill="False" Margin="2" VerticalAlignment="Top" Background="#FFDDDDDD">
                             <TextBlock x:Name="label_UsersGenerated" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Пользователей"/>
                             <TextBox x:Name="text_GeneratedUsers" TextWrapping="Wrap" Text="50" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0"/>
                         </DockPanel>
-                    </StackPanel>
-                    <TextBox x:Name="text_log" HorizontalAlignment="Right" Margin="0,10,20,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Center" FontSize="14" Text="Здесь будет располагаться лог событий" Height="150" Grid.Column="2"/>
-                    <StackPanel x:Name="SP_online" HorizontalAlignment="Left" Margin="10,293,0,77" VerticalAlignment="Center" Width="400" Height="225" Grid.ColumnSpan="2">
-                        <GroupBox x:Name="gB_foundDate" Header="Основание сайта" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FF969696" Background="White">
+                        <TextBox x:Name="textBox_Copy" TextWrapping="Wrap" Text="Характеристики сайта" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
+                        <GroupBox x:Name="gB_foundDate" Header="Основание сайта" VerticalAlignment="Top" BorderBrush="#FF747474" Background="#FFDDDDDD">
                             <TextBlock x:Name="text_foundDate" Margin="2" TextWrapping="Wrap" Text="значение"/>
                         </GroupBox>
+                        <TextBox x:Name="textBox_Copy1" TextWrapping="Wrap" Text="Статистика" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
+                        <Expander x:Name="expander_Stat" Header="Просмотреть статистику" HorizontalContentAlignment="Left" VerticalContentAlignment="Stretch" IsExpanded="True"/>
                     </StackPanel>
-                    <Button x:Name="button" Content="Button" Grid.Column="1" HorizontalAlignment="Left" Margin="414,221,0,0" VerticalAlignment="Top" Width="170" Height="74" BorderBrush="#FF707070" Background="#FFEEEEEE"/>
+                    <StackPanel Grid.Column="1" Margin="5" HorizontalAlignment="Left">
+                        <Image x:Name="image" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="400" Source="/RumineSimulator 2.0;component/Resources/1459031501.png"/>
+                        <TextBox x:Name="textBox_Copy2" TextWrapping="Wrap" Text="Лог событий" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
+                        <TextBox x:Name="text_log" Margin="5" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Stretch" FontSize="14" Text="Здесь будет располагаться лог событий" UseLayoutRounding="True" VerticalContentAlignment="Stretch" Height="225"/>
+                    </StackPanel>
+                    <ListBox x:Name="list_Activity" Grid.Column="1" HorizontalAlignment="Left" Height="465" Margin="410,10,0,0" VerticalAlignment="Top" Width="468" HorizontalContentAlignment="Center" Grid.ColumnSpan="2">
+                        <ListBoxItem Content="Информация об активности"/>
+                    </ListBox>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabItemUsersList" Header="Список пользователей">
@@ -173,6 +180,7 @@
                         </ListBox>
                         <Button x:Name="button_ViewWarns" Content="Показать предупреждения" Template="{DynamicResource ButtonsRumineGrayStyle}" Margin="5" Click="button_ViewWarns_Click"/>
                     </StackPanel>
+                    <TextBlock x:Name="text_UserChangeLog" Grid.Column="4" Margin="5" TextWrapping="Wrap" Text="Чейнджлог пользователя" FontSize="14"/>
                 </Grid>
 
 
@@ -239,7 +247,7 @@
                     <ListBox x:Name="list_TraitsInfo" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" SelectionChanged="list_FractionsInfo_SelectionChanged" Grid.Column="1" Height="600">
                         <ListBoxItem Content="Список трейтов"/>
                     </ListBox>
-                    <ListBox x:Name="list_Statistics" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" SelectionChanged="list_FractionsInfo_SelectionChanged" Grid.Column="5" Grid.ColumnSpan="2">
+                    <ListBox x:Name="list_Statistics" Margin="0" SelectionChanged="list_FractionsInfo_SelectionChanged" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="2" VerticalContentAlignment="Center">
                         <ListBoxItem Content="Статистика"/>
                     </ListBox>
                     <ListBox x:Name="list_GroupsInfo" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" SelectionChanged="list_FractionsInfo_SelectionChanged" Grid.Column="3">

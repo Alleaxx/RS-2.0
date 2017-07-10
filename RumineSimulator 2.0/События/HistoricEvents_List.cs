@@ -64,9 +64,9 @@ namespace RumineSimulator_2._0
                     wiki_creator = UsersControl.UserSearch("Andrej2001");
                     wiki_name = "Ru.Ru-minecraft вики";
 
-                    wikiCreation.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, wiki_creator.nick), "Создание вики Ру-майна");
+                    wikiCreation.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, wiki_creator.nick));
                     wikiCreation.EventAdd2_Description($"{intros_good[random.Next(intros_good.Length)]} Сегодня была создана вики по нашему замечательному сайту Ru-minecraft.ru! Она имеет название {wiki_name}, создателем является {wiki_creator.nick}. Почти сразу же вики подверглась вандализму со стороны известного senyaiv, но достойным пользователям удалось его остановить. {endings[random.Next(endings.Length)]} ");
-                    wikiCreation.EventAdd3_Mods(25, 10, 5, 3, 100);
+                    wikiCreation.EventAdd3_Mods(25, 10, 5, 3);
                     wikiCreation.EventAdd4_Participants(wiki_creator, "Создал настоящую, официальную вики Ру-майна. Честь и хвала");
                     wikiCreation.EventAdd4_Participants(UsersControl.UserSearch("senyaiv"), "Вандал первого дня. Поехавший, впрочем оно и неудивительно");
                     wikiCreation.EventAdd4_Participants(UsersControl.UserSearch("naswai"), "Поддерживал, наполнял и создавал");
@@ -81,9 +81,9 @@ namespace RumineSimulator_2._0
                     wiki_creator = users[random.Next(users.Count)];
 
                     wiki_name = wiki_names[random.Next(wiki_names.Length)];
-                    wikiCreation.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, wiki_creator.nick), "Создание вики Ру-майна");
+                    wikiCreation.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, wiki_creator.nick));
                     wikiCreation.EventAdd2_Description($"{intros_good[random.Next(intros_good.Length)]} Сегодня была создана вики описывающая наш Румине! Она имеет название {wiki_name}, создателем является {wiki_creator.nick}. Надеемся на то, что вики будет жить и процветать. {endings[random.Next(endings.Length)]}");
-                    wikiCreation.EventAdd3_Mods(25, 10, 5, 5, 1000);
+                    wikiCreation.EventAdd3_Mods(25, 10, 5, 5);
                     wikiCreation.EventAdd4_Participants(wiki_creator, wiki_creator.traits[random.Next(wiki_creator.traits.Count)].name);
                     //Комментарии на вики
                     foreach (User user in all_users)
@@ -160,9 +160,9 @@ namespace RumineSimulator_2._0
 
             FractionList.AllFractions.Add(antiPane_fraction);
 
-            paneAttack.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Rumine, "Война фракций"), "Нашествие пане");
+            paneAttack.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Rumine, "Война фракций"));
             paneAttack.EventAdd2_Description($"{intros_good[random.Next(intros_good.Length)]} Было официально объявлено нашествие брони на румине! Все поклонники сериала MLP({pane_fraction.members.Count} юзеров) объединились и вовсю продвигают свою идеологию! Не всем это нравится, и на румине появляется сопротивление. Что же из этого выйдет? {endings[random.Next(endings.Length)]}");
-            paneAttack.EventAdd3_Mods(15, 15, 5, 0, 1000);
+            paneAttack.EventAdd3_Mods(15, 15, 5, 0);
             //Комментарии на вики
             foreach (User user in pane_fraction.members)
             {

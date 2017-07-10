@@ -188,7 +188,7 @@ namespace RumineSimulator_2._0
             //Число рекомендуемых модераторов - кол-во пользователей / 20 + рандом
             int mod_recomend = UsersControl.Users.Count / 20;
             mod_recomend += random.Next(0, 3);
-            int need_amount = mod_recomend - (int)UsersControl.ModerAmount;
+            int need_amount = mod_recomend - (int)UsersControl.moderAmount;
             int i = 0;
             //Предполагаемые модератор - список с наибольшим шансом модератора наверху
             List<User> poss_mods = UsersControl.ReturnUsersModerChanseDesc();
@@ -206,7 +206,7 @@ namespace RumineSimulator_2._0
                     i = 0;
                 }
             }
-            while (UsersControl.ModerAmount != mod_recomend);
+            while (UsersControl.moderAmount != mod_recomend);
         }
         #endregion
 

@@ -297,7 +297,7 @@ namespace RumineSimulator_2._0
             }
             else
             {
-                return UsersControl.UserAmount.ToString();
+                return UsersControl.Users.Count.ToString();
             }
 
         }

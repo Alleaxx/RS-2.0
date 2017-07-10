@@ -43,7 +43,6 @@ namespace RumineSimulator_2._0
             Add_UserBasicProps(new GuiString("Даты", "", false, StringProfile.Header));
             basic_props.Last().SetSize(18, 14);
             Add_UserBasicProps(new GuiString("Дата регистрации: ", user.registration.ToLongDateString()));
-            Add_UserBasicProps(new GuiString("Последнее посещение: ", user.Last_activity.ToLongDateString()));
             if (user.main_fraction != null)
             {
                 Add_UserBasicProps(new GuiString("Фракции", "", false, StringProfile.Header));

@@ -19,6 +19,7 @@ namespace RumineSimulator_2._0
         public SolidColorBrush foreground_brush_all = new SolidColorBrush();
         public SolidColorBrush foreground_brush_value;
         public SolidColorBrush foreground_brush_text;
+        public SolidColorBrush border_brush;
         //GUI
         protected ListBoxItem item;
         public ListBoxItem Item { get { CreateGui(); return item; } private set { item = value; } }
@@ -128,7 +129,7 @@ namespace RumineSimulator_2._0
 
 
         //Добавление цвета через html-строки
-        public virtual void SetColor(string background_all,string foreground_all,string f_val = "",string f_text = "")
+        public virtual void SetColor(string background_all,string foreground_all,string f_val = "",string f_text = "",string border_Brush ="")
         {
             if(background_all != "")
             {
@@ -168,6 +169,16 @@ namespace RumineSimulator_2._0
                 foreground_brush_value.Color = System.Windows.Media.Color.FromRgb(drab_color.R, drab_color.G, drab_color.B);
                 text_value.Foreground = foreground_brush_value;
             }
+            if(border_Brush != "")
+            {
+                border_brush = new SolidColorBrush();
+                ColorTranslator.FromHtml(border_Brush);
+                System.Drawing.Color drab_color = new System.Drawing.Color();
+                drab_color = ColorTranslator.FromHtml(border_Brush);
+                System.Windows.Media.Color.FromRgb(drab_color.R, drab_color.G, drab_color.B);
+                border_brush.Color = System.Windows.Media.Color.FromRgb(drab_color.R, drab_color.G, drab_color.B);
+                item.BorderBrush = border_brush;
+            }
 
         }
         public virtual void SetColor(SolidColorBrush back,SolidColorBrush fore)
@@ -189,7 +200,8 @@ namespace RumineSimulator_2._0
             switch (profile)
             {
                 case StringProfile.Header:
-                    item.Background =  new SolidColorBrush(Colors.LightGray);
+                    SetColor("#FFB2B2B2", "","","", "#FF5D5D5D");
+                    item.BorderBrush =  new SolidColorBrush(Colors.DarkGray);
                     text_name.FontSize = 16;
                     break;
                 case StringProfile.Quote:

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RumineSimulator_2._0
 {
-    static class Events_List
+    static class EventsControl
     {
         static public long id = 0;
         static public List<Event> AllEvents = new List<Event>();
@@ -21,10 +21,17 @@ namespace RumineSimulator_2._0
             return Events_properties;
         }
 
+
+
+
+
+
+
+
         public static Event DayEnd()
         {
             Event Event = new Event("Окончание дня", EventType.dayEnd);
-            Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Rumine, "Румайн"), "Прошёл еще один день на румине",false);
+            Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Rumine, "Румайн"));
             Event.EventAdd3_Mods(random.Next(0), 0, 0, 0);
             Event.InterfaceInfo.Add_EventProperty(new GuiString("Прошедший день", Date.current_date_prev.ToShortDateString(), false, StringProfile.Header));
             Event.InterfaceInfo.Add_EventProperty(new GuiString("Кол-во событий: ", Activity.today_events.Count.ToString(), true));
@@ -51,7 +58,7 @@ namespace RumineSimulator_2._0
             for (int i = 0; i < AllEvents.Count; )
             {
                 AllEvents[i].DayPass();
-                if (AllEvents[i].Days_Delete == 0)
+                if (AllEvents[i].daysToDelete == 0)
                 {
                     AllEvents.RemoveAt(i);
                 }
@@ -63,7 +70,7 @@ namespace RumineSimulator_2._0
             }
             for (int i = 0; i < SmallEvents.Count;)
             {
-                if (SmallEvents[i].Days_Delete == 0)
+                if (SmallEvents[i].daysToDelete == 0)
                 {
                     SmallEvents.RemoveAt(i);
                 }

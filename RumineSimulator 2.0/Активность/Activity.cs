@@ -8,30 +8,48 @@ namespace RumineSimulator_2._0
 {
     static class Activity
     {
-        private static int current_mod_activity;
-        public static int Current_mod_activity
+        //Чистая активность на которую действуют модификаторы
+        private static float current_vaActivity_Clear;
+        public static float Current_valActivity_Clear
         {
-            get { return current_mod_activity; }
+            get { return current_vaActivity_Clear; }
             set
             {
-                if (current_mod_activity > 75)
-                    current_mod_activity = value - 1;
-                else if (current_mod_activity > 100)
-                    current_mod_activity = value - 2;
+                if (current_vaActivity_Clear >= 25 && current_vaActivity_Clear < 50)
+                    current_vaActivity_Clear = value - 0.5F;
+                else if (current_vaActivity_Clear >= 50 && current_vaActivity_Clear < 75)
+                    current_vaActivity_Clear = value - 0.75F;
+                else if (current_vaActivity_Clear >= 75 && current_vaActivity_Clear < 100)
+                    current_vaActivity_Clear = value - 1.25F;
+                else if (current_vaActivity_Clear > 100)
+                    current_vaActivity_Clear = value - 2;
                 else
-                    current_mod_activity = value;
+                    current_vaActivity_Clear = value;
 
             }
         }
-        public static int CurrentDay_mod_activity { get; set; }
-        public static int current_mod_activity_withoutTime
+
+        //Настоящий параметр активности после применения модификаторов
+        public static int current_valActivity_Real
         {
-            get { return Current_mod_activity; }
-            set { Current_mod_activity = value; }
+            get
+            {
+                return (int)(current_vaActivity_Clear * hour_modActivity * day_modActivity * week_modActivity * month_modActivity);
+            }
         }
-        public static int NextDay_mod_activity { get; private set; }
-        public static int NextWeek_mod_activity { get; private set; }
-        public static int NextMonth_mod_activity { get; private set; }
+
+
+        //Часовой модификатор активности, оперирует десятыми
+        public static float hour_modActivity
+        {
+            get; private set;
+        }
+        //Дневной модификатор активности, оперирует десятыми и сотыми
+        public static float day_modActivity { get; private set; }
+        //Недельный модификатор активности, оперирует сотыми
+        public static float week_modActivity { get; private set; }
+        //Месячный модификатор активности, оперирует сотыми
+        public static float month_modActivity { get; private set; }
 
         public static int curr_day_messages { get; set; }
         public static int curr_day_comments { get; set; }
@@ -39,6 +57,7 @@ namespace RumineSimulator_2._0
         public static int curr_day_repChanges { get; set; }
         public static int curr_day_bans { get; set; }
         public static List<Event> today_events = new List<Event>();
+
         public static IntView_Activity InterfaceInfo
         {
             get
@@ -50,7 +69,8 @@ namespace RumineSimulator_2._0
         public static Event last_Event { get; private set; }
         public static Event last_SmallEvent { get; private set; }
         public static Event last_HistoricEvent { get; private set; }
-        public static Event Last_Event {
+        public static Event Last_Event
+        {
             get
             {
                 return last_Event;
@@ -65,9 +85,15 @@ namespace RumineSimulator_2._0
             }
         }
 
+        private static Random random = new Random();
+
         public static void Activity_Init()
         {
-            Current_mod_activity = 20;
+            Current_valActivity_Clear = 50;
+            hour_modActivity = 0.5F;
+            day_modActivity = 1;
+            week_modActivity = 1;
+            month_modActivity = 1;
         }
 
         #region Определение прошедшего времени и операции с ним. Генерация модификаторов событий
@@ -104,85 +130,84 @@ namespace RumineSimulator_2._0
         {
             CheckEvents(false, false, false);
         }
+
         //Проверка часовых событий и модификатор дневной активности
         public static void Hour_Pass()
         {
             #region Активность в зависимости от времени дня
-            current_mod_activity_withoutTime = Current_mod_activity;
-            Current_mod_activity = Current_mod_activity + CurrentDay_mod_activity / 50;
             switch (Date.current_date.Hour)
             {
                 case 0:
-                    Current_mod_activity = Current_mod_activity / 20;
+                    hour_modActivity = 0.15F;
                     break;
                 case 1:
-                    Current_mod_activity = Current_mod_activity / 40;
+                    hour_modActivity = 0.1F;
                     break;
                 case 2:
-                    Current_mod_activity = Current_mod_activity / 60;
+                    hour_modActivity = 0.05F;
                     break;
                 case 3:
-                    Current_mod_activity = Current_mod_activity / 70;
+                    hour_modActivity = 0.05F;
                     break;
                 case 4:
-                    Current_mod_activity = Current_mod_activity / 80;
+                    hour_modActivity = 0.05F;
                     break;
                 case 5:
-                    Current_mod_activity = Current_mod_activity / 60;
+                    hour_modActivity = 0.1F;
                     break;
                 case 6:
-                    Current_mod_activity = Current_mod_activity / 50 + 5;
+                    hour_modActivity = 0.15F;
                     break;
                 case 7:
-                    Current_mod_activity = Current_mod_activity / 30 + 10;
+                    hour_modActivity = 0.2F;
                     break;
                 case 8:
-                    Current_mod_activity = Current_mod_activity / 5 + 10;
+                    hour_modActivity = 0.3F;
                     break;
                 case 9:
-                    Current_mod_activity = Current_mod_activity / 5 + 10;
+                    hour_modActivity = 0.3F;
                     break;
                 case 10:
-                    Current_mod_activity = Current_mod_activity / 4 + 5;
+                    hour_modActivity = 0.4F;
                     break;
                 case 11:
-                    Current_mod_activity = Current_mod_activity / 3;
+                    hour_modActivity = 0.4F;
                     break;
                 case 12:
-                    Current_mod_activity = Current_mod_activity / 2;
+                    hour_modActivity = 0.5F;
                     break;
                 case 13:
-                    Current_mod_activity = Current_mod_activity / 2;
+                    hour_modActivity = 0.5F;
                     break;
                 case 14:
-                    Current_mod_activity = Current_mod_activity / 3 * 2;
+                    hour_modActivity = 0.5F;
                     break;
                 case 15:
-                    Current_mod_activity = Current_mod_activity / 3 * 2;
+                    hour_modActivity = 0.6F;
                     break;
                 case 16:
-                    Current_mod_activity = Current_mod_activity / 3 * 2;
+                    hour_modActivity = 0.6F;
                     break;
                 case 17:
-                    Current_mod_activity = Current_mod_activity / 4 * 3;
+                    hour_modActivity = 0.7F;
                     break;
                 case 18:
-                    Current_mod_activity = Current_mod_activity;
+                    hour_modActivity = 0.8F;
                     break;
                 case 19:
-                    Current_mod_activity = Current_mod_activity;
+                    hour_modActivity = 0.9F;
                     break;
                 case 20:
-                    Current_mod_activity = Current_mod_activity / 4 * 3;
+                    hour_modActivity = 0.75F;
                     break;
                 case 21:
-                    Current_mod_activity = Current_mod_activity / 3 * 2 - 10;
+                    hour_modActivity = 0.65F;
                     break;
                 case 22:
-                    Current_mod_activity = Current_mod_activity / 3 - 5; ;
+                    hour_modActivity = 0.5F;
                     break;
                 case 23:
-                    Current_mod_activity = Current_mod_activity / 4; ;
+                    hour_modActivity = 0.3F;
                     break;
             }
             CheckEvents(false, false, false);
@@ -190,11 +215,10 @@ namespace RumineSimulator_2._0
         }
         public static void Day_Pass()
         {
-            Events_List.CheckEventsDelete();
+            day_modActivity = 1;
+            EventsControl.CheckEventsDelete();
             CheckEvents(true, false, false);
             DayStatisticsUpdate();
-            CurrentDay_mod_activity = NextDay_mod_activity;
-            NextDay_mod_activity = 0;
         }
         public static void DayStatisticsUpdate()
         {
@@ -207,26 +231,39 @@ namespace RumineSimulator_2._0
         }
         public static void Week_Pass()
         {
-            Current_mod_activity = Current_mod_activity / 100 + NextDay_mod_activity / 10;
-            NextWeek_mod_activity = 0;
+            week_modActivity = 1;
         }
         public static void Month_Pass()
         {
-
+            month_modActivity = 1;
         }
 
         public static void CheckEvents(bool newday, bool newweek, bool newmonth)
         {
-            //Сообщение
-            if (AdvRnd.PersentChanseBool(1 + (Current_mod_activity)))
+            List<Event> new_events = new List<Event>();
+
+
+            //Проверка на возможность события при текущей активности
+            if (AdvRnd.PersentChanseBool(current_valActivity_Real))
             {
-                Last_Event = SmallEvents_List.MessageWrite();
+                new_events.Add(EventStatChange_Preset.returnStatChangeEvent(new ReactionReason()));
+                //Проверяем 2 раза, 2е событие является реакцией
+                if (AdvRnd.PersentChanseBool(current_valActivity_Real/2))
+                {
+                    new_events.Add(EventStatChange_Preset.returnStatChangeEvent(new ReactionReason(new_events.Last())));
+                }
+            }
+
+
+            //Действия с новыми событиями
+            foreach(Event new_event in new_events)
+            {
+                EventsControl.AllEvents.Add(new_event);
+                Last_Event = new_event;
                 LastEvent_ModsModifier();
-                //Реакция на события
-                CheckLastEvent_Reaction();
             }
             //Комментарий
-            if (AdvRnd.PersentChanseBool(1 + (Current_mod_activity / 20) ))
+            if (AdvRnd.PersentChanseBool(1 + (current_valActivity_Real / 20)))
             {
                 Last_Event = SmallEvents_List.CommentWrite();
                 LastEvent_ModsModifier();
@@ -234,7 +271,7 @@ namespace RumineSimulator_2._0
                 CheckLastEvent_Reaction();
             }
             //Новость
-            if (AdvRnd.PersentChanseBool(current_mod_activity,10000))
+            if (AdvRnd.PersentChanseBool(current_valActivity_Real, 10000))
             {
                 Last_Event = SmallEvents_List.NewsWrite();
                 LastEvent_ModsModifier();
@@ -242,7 +279,7 @@ namespace RumineSimulator_2._0
                 CheckLastEvent_Reaction();
             }
             //Рандомная репутация
-            if (AdvRnd.PersentChanseBool(current_mod_activity, 2000))
+            if (AdvRnd.PersentChanseBool(current_valActivity_Real, 2000))
             {
                 Last_Event = SmallEvents_List.ReputationChange_Random();
                 LastEvent_ModsModifier();
@@ -250,7 +287,7 @@ namespace RumineSimulator_2._0
                 CheckLastEvent_Reaction();
             }
             //Рандомный бан
-            if (AdvRnd.PersentChanseBool(Current_mod_activity, 10000))
+            if (AdvRnd.PersentChanseBool(current_valActivity_Real, 10000))
             {
                 Last_Event = SmallEvents_List.Ban_Random();
                 LastEvent_ModsModifier();
@@ -262,20 +299,21 @@ namespace RumineSimulator_2._0
             if (h_event != null)
             {
                 Last_Event = h_event;
-                Events_List.AllEvents.Add(Last_Event);
+                EventsControl.AllEvents.Add(Last_Event);
                 LastEvent_ModsModifier();
                 //Реакция на события
                 CheckLastEvent_Reaction();
             }
-            
+
             //Новый день
             if (newday)
             {
-                Last_Event = Events_List.DayEnd();
+                Last_Event = EventsControl.DayEnd();
                 LastEvent_ModsModifier();
                 CheckLastEvent_Reaction();
             }
         }
+
         public static void CheckLastEvent_Reaction()
         {
             Event reaction = CheckEvent_Reaction(Last_Event);
@@ -288,11 +326,11 @@ namespace RumineSimulator_2._0
         }
         public static Event CheckEvent_Reaction(Event reason)
         {
-            if (AdvRnd.PersentChanseBool(Current_mod_activity + Last_Event.Reaction,10000))
+            if (AdvRnd.PersentChanseBool(current_valActivity_Real, 10000))
             {
                 return SmallEvents_List.Ban_Reason(reason);
             }
-            else if(AdvRnd.PersentChanseBool(current_mod_activity + Last_Event.Reaction, 2000))
+            else if (AdvRnd.PersentChanseBool(current_valActivity_Real, 2000))
             {
                 return SmallEvents_List.ReputationChange_Reason(reason);
             }
@@ -303,10 +341,7 @@ namespace RumineSimulator_2._0
         }
         public static void LastEvent_ModsModifier()
         {
-            Current_mod_activity += Last_Event.current_day_mod;
-            NextDay_mod_activity += Last_Event.next_day_mod;
-            NextWeek_mod_activity += Last_Event.next_week_mod;
-            NextMonth_mod_activity += Last_Event.next_month_mod;
+            Current_valActivity_Clear += Last_Event.current_valMinute_mod;
             today_events.Add(Last_Event);
         }
         #endregion

@@ -10,11 +10,11 @@ namespace RumineSimulator_2._0
     {
         public SmallEvent(string Name,EventType Type) : base(Name,Type)
         {
-            Days_Delete = 7;
+            daysToDelete = 7;
             Duration = 0;
             EventGlobalType = EventType.small;
-            Events_List.AllEvents.Add(this);
-            Events_List.SmallEvents.Add(this);
+            EventsControl.AllEvents.Add(this);
+            EventsControl.SmallEvents.Add(this);
         }
     }
 }

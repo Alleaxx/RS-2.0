@@ -16,7 +16,7 @@ namespace RumineSimulator_2._0
             this.pre_Date = pre_Date;
             date = pre_Date;
             EventGlobalType = EventType.historic;
-            Days_Delete = 2000;
+            daysToDelete = 2000;
         }
 
         public bool CheckEvent()

@@ -23,13 +23,12 @@ namespace RumineSimulator_2._0
         public EventView(long event_id)
         {
             InitializeComponent();
-            selected_event = Events_List.EventSearch(event_id);
+            selected_event = EventsControl.EventSearch(event_id);
             EventUpdate();
         }
         public void EventUpdate()
         {
             Text_EventName.Text = selected_event.Name;
-            Text_EventName.ToolTip = selected_event.Tooltip;
             text_EventDescription.Text = selected_event.BigDescription;
 
             List_EventProperties.Items.Clear();
@@ -44,10 +43,6 @@ namespace RumineSimulator_2._0
                 foreach (GuiString inter_string in info_event.connectedEntities_props)
                 {
                     List_Participants.Items.Add(inter_string.Item);
-                }
-                foreach (GuiString inter_string in info_event.specialEvent_props)
-                {
-                    List_EventProperties.Items.Add(inter_string.Item);
                 }
             }
             catch

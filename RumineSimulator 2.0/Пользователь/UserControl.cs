@@ -10,7 +10,9 @@ namespace RumineSimulator_2._0
     {
         //Список пользователей в приложении и их количество
         static public List<User> Users = new List<User>();
-        static public int ModerAmount
+
+        //Считается по статусу пользователя, не группы
+        static public int moderAmount
         {
             get
             {
@@ -23,18 +25,14 @@ namespace RumineSimulator_2._0
                 return mods;
             }
         }
-        static public int UserAmount
-        {
-            get
-            {
-                return Users.Count;
-            }
-        }
+
         static public List<string> UpdatesUserLog = new List<string>();
 
         static Random random = new Random();
 
 
+
+        #region Создание пользователей, генерация отношений
         //Генерация пользователей в указанном количестве
         static public void GenerateUsers(int amount)
         {
@@ -42,38 +40,48 @@ namespace RumineSimulator_2._0
             {
                 User generated_user = new User();
                 Users.Add(generated_user);
+
+
+                #region Статистика(добавление параметров пользователей
                 Statistic.aver_adeq += generated_user.character.adeq.Value;
                 Statistic.aver_rakness += generated_user.character.rakness.Value;
                 Statistic.aver_conservative += generated_user.character.conservative.Value;
                 Statistic.aver_tolerance += generated_user.character.tolerance.Value;
                 Statistic.aver_creativity += generated_user.character.creativity.Value;
                 Statistic.aver_sciense += generated_user.character.sciense.Value;
+                Statistic.aver_humanist += generated_user.character.humanist.Value;
+                Statistic.aver_historic += generated_user.character.historic.Value;
+                Statistic.aver_leaveChanse += generated_user.character.leaveChanse.Value;
+                #endregion
             }
         }
-
         //Генерация отношений для каждого пользователя из списка юзверей
         static public void GenerateRelations()
         {
-            Statistic.aver_adeq /= UserAmount;
-            Statistic.aver_rakness /= UserAmount;
-            Statistic.aver_conservative /= UserAmount;
-            Statistic.aver_tolerance /= UserAmount;
-            Statistic.aver_creativity /= UserAmount;
-            Statistic.aver_sciense /= UserAmount;
-            for (int i = 0; i < UserAmount; i++)
+            #region Статистика(деление параметров на кол-во пользователей)
+            Statistic.aver_adeq /= Users.Count;
+            Statistic.aver_rakness /= Users.Count;
+            Statistic.aver_conservative /= Users.Count;
+            Statistic.aver_tolerance /= Users.Count;
+            Statistic.aver_creativity /= Users.Count;
+            Statistic.aver_sciense /= Users.Count;
+            Statistic.aver_humanist /= Users.Count;
+            Statistic.aver_historic /= Users.Count;
+            Statistic.aver_leaveChanse /= Users.Count;
+            #endregion
+
+            for (int i = 0; i < Users.Count; i++)
             {
                 Users[i].GenerateRelation();
             }
         }
+        #endregion
 
         //Проверка пользователей на апдейты
         static public void CheckingAllUserForUpdates()
         {
             for (int i = 0; i < Users.Count; i++)
             {
-                if (Date.current_date_prev.Minute > Date.current_date.Minute)
-                {
-                }
                 if (Date.current_date.Hour == 0 && Date.current_date.Minute < Date.current_date_prev.Minute)
                 {
                     Users[i].UpdateBeginDay();
@@ -84,32 +92,6 @@ namespace RumineSimulator_2._0
                 }
                 Users[i].CheckingForUpdates();
             }
-        }
-
-        //Очистка пользователей
-        static public void UsersClear()
-        {
-            Nicks.NicksInit();
-            Users.Clear();
-        }
-
-        static public User UserSearch(string nick)
-        {
-            foreach (User user in Users)
-            {
-                if (user.nick == nick)
-                    return user;
-            }
-            return null;
-        }
-        static public User UserSearch(int id)
-        {
-            foreach (User user in Users)
-            {
-                if (user.user_id == id)
-                    return user;
-            }
-            return null;
         }
 
         static public void FractionChoose()
@@ -160,6 +142,27 @@ namespace RumineSimulator_2._0
                 fr.FractionCreationEnd();
             }
         }
+
+        #region Поиск пользователей(по нику и id)
+        static public User UserSearch(string nick)
+        {
+            foreach (User user in Users)
+            {
+                if (user.nick == nick)
+                    return user;
+            }
+            return null;
+        }
+        static public User UserSearch(int id)
+        {
+            foreach (User user in Users)
+            {
+                if (user.user_id == id)
+                    return user;
+            }
+            return null;
+        }
+        #endregion
 
         #region Сортировки
         //Возвращение списка на основе заданной сортировки

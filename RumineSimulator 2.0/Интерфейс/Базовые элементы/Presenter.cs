@@ -35,7 +35,7 @@ namespace RumineSimulator_2._0
                     selected_ban = UsersControl.UserSearch(id).LastBan;
                     break;
                 case "simEvent":
-                    selected_event = Events_List.EventSearch(id);
+                    selected_event = EventsControl.EventSearch(id);
                     break;
                 case "fraction":
                     selected_fraction = FractionList.SearchFraction(id);
@@ -87,7 +87,7 @@ namespace RumineSimulator_2._0
                     case "ban":
                         return UsersControl.UserSearch(id).LastBan.InterfaceInfo;
                     case "simEvent":
-                        return Events_List.EventSearch(id).InterfaceInfo;
+                        return EventsControl.EventSearch(id).InterfaceInfo;
                     case "fraction":
                         return FractionList.SearchFraction(id).Interface_Info;
                     case "trait":

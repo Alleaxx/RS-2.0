@@ -9,7 +9,6 @@ namespace RumineSimulator_2._0
     class IntView_Event : IntView
     {
         public List<GuiString> basicEvent_props = new List<GuiString>();
-        public List<GuiString> specialEvent_props = new List<GuiString>();
         public List<GuiString> connectedEntities_props = new List<GuiString>();
 
         //Создание информации события
@@ -18,20 +17,23 @@ namespace RumineSimulator_2._0
             //Базовая информация
             classic_string = new GuiString(eve.Name,"",true);
             classic_string.SetGUIName(GUITypes.simEvent, (Int32)eve.id);
-            Add_BasicEventProperty(new GuiString("Основные свойства: ", "", false, StringProfile.Header));
+            Add_BasicEventProperty(classic_string);
             Add_BasicEventProperty(new GuiString("Дата: ", $"{eve.date.ToLongDateString()} {eve.date.ToShortTimeString()}"));
-            Add_BasicEventProperty(new GuiString("Длительность: ", eve.Duration.ToString()));
-            Add_BasicEventProperty(new GuiString("Конец: ", $"{eve.date_end.ToLongDateString()} {eve.date_end.ToShortTimeString()}"));
+            if(eve.Duration != 0)
+            {
+                Add_BasicEventProperty(new GuiString("Длительность: ", eve.Duration.ToString()));
+                Add_BasicEventProperty(new GuiString("Конец: ", $"{eve.date_end.ToLongDateString()} {eve.date_end.ToShortTimeString()}"));
+            }
             Add_BasicEventProperty(new GuiString("Тип: ", eve.EventType.ToString()));
             if(eve.Creator == null)
                 Add_BasicEventProperty(new GuiString("Неизвестно", ""));
             else
                 Add_BasicEventProperty(new GuiString("Создатель: ", eve.Creator.Text));
-            Add_BasicEventProperty(new GuiString("Мод. дня: ", eve.next_day_mod.ToString()));
-            Add_BasicEventProperty(new GuiString("Мод. недели: ", eve.next_week_mod.ToString()));
-            Add_BasicEventProperty(new GuiString("Мод. месяца: ", eve.next_month_mod.ToString()));
-            Add_BasicEventProperty(new GuiString($"Реактивность({eve.Reasonable}): ", eve.Reaction.ToString()));
-            Add_BasicEventProperty(new GuiString($"Дней до удаления: ", eve.Days_Delete.ToString()));
+            Add_BasicEventProperty(new GuiString("Параметр активности: ", eve.current_valMinute_mod.ToString()));
+            Add_BasicEventProperty(new GuiString("Мод. дня: ", eve.dayMod.ToString()));
+            Add_BasicEventProperty(new GuiString("Мод. недели: ", eve.weekMod.ToString()));
+            Add_BasicEventProperty(new GuiString("Мод. месяца: ", eve.monthMod.ToString()));
+            Add_BasicEventProperty(new GuiString($"Дней до удаления: ", eve.daysToDelete.ToString()));
 
             //Участники
             Add_SpecEventConnected(new GuiString("Cписок участников: ", $"({eve.participants.Count})", false, StringProfile.Header));
@@ -43,7 +45,7 @@ namespace RumineSimulator_2._0
                 Add_SpecEventConnected(new GuiString(eve.participants.ElementAt(i).Value, ""));
             }
 
-            specialEvent_props = eve.props;
+            basicEvent_props.AddRange(eve.eventSpec_properties);
 
             //Запись связанных событий
             if(eve.connected_events.Count != 0)
@@ -77,7 +79,7 @@ namespace RumineSimulator_2._0
         //Добавление строк в списки свойств события
         public void Add_EventProperty(GuiString property)
         {
-            Add_Property(specialEvent_props,property);
+            Add_Property(basicEvent_props, property);
         }
         public void Add_SpecEventConnected(GuiString property)
         {

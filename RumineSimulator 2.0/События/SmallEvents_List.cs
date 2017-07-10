@@ -17,40 +17,14 @@ namespace RumineSimulator_2._0
         static List<string> Roles_moderator_victim = new List<string> {"Я хотел сделать как лучше!","Они ничего не смыслят в румине","Я делаю то, что должно",
         "Наше дело правое, победа будет за нами","Голос правды не угаснет никогда"};
 
-        public static SmallEvent MessageWrite()
-        {
-            //Создание события
-            User user = UsersControl.Users[random.Next(UsersControl.Users.Count)];
-            SmallEvent Event = new SmallEvent($"Сообщение от {user}", EventType.message);
-            Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, user.nick), "Некто написал сообщение на форуме. Ничего необычного");
-            Event.participants.Add(user, Roles_Creator[random.Next(Roles_Creator.Count)]);
-            Event.EventAdd3_Mods(random.Next(3), 1, 0, 0,1);
-            Event.EventAdd6_Dates(0);
-            //Воплощение события
-            user.messages++;
-            Activity.curr_day_messages++;
-            int likes = 0;
-            int chanse = 0;
-            chanse = user.forum_influence / 5;
-            if (AdvRnd.PersentChanseBool(chanse))
-            {
-                likes = random.Next(3);
-                user.likes = user.likes + likes;
-            }
-            //Информация в интерфейсе
-            Event.props.Add(new GuiString("Информация о сообщении: ", "", false, StringProfile.Header));
-            Event.props.Add(new GuiString("Симпатии к сообщению: ", likes.ToString(), true));
-            Event.props.Add(new GuiString($"Влияние:  {user.forum_influence}, шанс: ", chanse.ToString(), true));
-            return Event;
-        }
         public static SmallEvent CommentWrite()
         {
             //Создание события
             User user = UsersControl.Users[random.Next(UsersControl.Users.Count)];
             SmallEvent Event = new SmallEvent($"Комментарий от {user}", EventType.comment);
-            Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, user.nick), "Какой-то пользователь прокомментировал новость");
+            Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, user.nick));
             Event.participants.Add(user, Roles_Creator[random.Next(Roles_Creator.Count)]);
-            Event.EventAdd3_Mods(random.Next(2), 0, 0, 0,1);
+            Event.EventAdd3_Mods(random.Next(2), 0, 0, 0);
             Event.EventAdd6_Dates(0);
             //Воплощение события
             user.comments++;
@@ -62,9 +36,9 @@ namespace RumineSimulator_2._0
                 user.likes = user.comments_rate + likes;
             }
             //Информация в интерфейсе
-            Event.props.Add(new GuiString("Информация о комментарии: ", "", false, StringProfile.Header));
-            Event.props.Add(new GuiString("Плюсы комментария: ", likes.ToString(), true));
-            Event.props.Add(new GuiString($"Влияние:  {user.forum_influence}, шанс: ", (user.forum_influence / 10).ToString(), true));
+            Event.eventSpec_properties.Add(new GuiString("Информация о комментарии: ", "", false, StringProfile.Header));
+            Event.eventSpec_properties.Add(new GuiString("Плюсы комментария: ", likes.ToString(), true));
+            Event.eventSpec_properties.Add(new GuiString($"Влияние:  {user.forum_influence}, шанс: ", (user.forum_influence / 10).ToString(), true));
             return Event;
         }
         public static SmallEvent NewsWrite()
@@ -72,17 +46,17 @@ namespace RumineSimulator_2._0
             //Создание события
             User user = UsersControl.Users[random.Next(UsersControl.Users.Count)];
             SmallEvent Event = new SmallEvent($"Новость от {user}", EventType.news);
-            Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, user.nick), "Какой-то пользователь создал новость на румине");
+            Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, user.nick));
             Event.participants.Add(user, Roles_Creator[random.Next(Roles_Creator.Count)]);
-            Event.EventAdd3_Mods(random.Next(3), 2, 1, 0,50);
+            Event.EventAdd3_Mods(random.Next(3), 2, 1, 0);
             Event.EventAdd6_Dates(0);
             //Воплощение события
             user.news++;
             Activity.curr_day_news++;
             int quality = random.Next(user.news_quality - 5, user.news_quality + 5);
             //Информация в интерфейсе
-            Event.props.Add(new GuiString("Информация о новости: ", "", false, StringProfile.Header));
-            Event.props.Add(new GuiString("Качество новости: ", quality.ToString(), true));
+            Event.eventSpec_properties.Add(new GuiString("Информация о новости: ", "", false, StringProfile.Header));
+            Event.eventSpec_properties.Add(new GuiString("Качество новости: ", quality.ToString(), true));
             return Event;
         }
 
@@ -96,11 +70,11 @@ namespace RumineSimulator_2._0
                 return FailEvent();
             }
             SmallEvent Event = new SmallEvent($"Изменение репутации {user_goal} пользователем {user_init}", EventType.reputation);
-            Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, user_init.nick),
-                "Пользователь изменил при помощи своей кармы репутацию другому юзеру",false);
+            Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, user_init.nick)
+                );
             Event.participants.Add(user_init, Roles_Creator[random.Next(Roles_Creator.Count)]);
             Event.participants.Add(user_goal, "Задумчиво смотрел на свою репутацию");
-            Event.EventAdd3_Mods(0, 0, 0, 0,20);
+            Event.EventAdd3_Mods(0, 0, 0, 0);
             Event.EventAdd6_Dates(0);
             //Воплощение события
             Activity.curr_day_repChanges++;
@@ -138,10 +112,10 @@ namespace RumineSimulator_2._0
             }
             Event.participants[user_init] = change_reason;
             //Информация в интерфейсе
-            Event.props.Add(new GuiString("Информация о репутации: ", "", false, StringProfile.Header));
-            Event.props.Add(new GuiString("Кто поставил: ", user_init.nick, true));
-            Event.props.Add(new GuiString("Кому поставили: ", user_goal.nick, true));
-            Event.props.Add(new GuiString("Проставленная карма: ", karma_result.ToString(), true));
+            Event.eventSpec_properties.Add(new GuiString("Информация о репутации: ", "", false, StringProfile.Header));
+            Event.eventSpec_properties.Add(new GuiString("Кто поставил: ", user_init.nick, true));
+            Event.eventSpec_properties.Add(new GuiString("Кому поставили: ", user_goal.nick, true));
+            Event.eventSpec_properties.Add(new GuiString("Проставленная карма: ", karma_result.ToString(), true));
             return Event;
         }
         public static SmallEvent ReputationChange_Reason(Event reason)
@@ -154,11 +128,11 @@ namespace RumineSimulator_2._0
                 return FailEvent();
             }
             SmallEvent Event = new SmallEvent($"Изменение репутации {user_goal} пользователем {user_init}", EventType.reputation);
-            Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Event, reason.Name),
-                $"Пользователь в ответ на действие {user_goal} проставил ему репутацию",false);
+            Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Event, reason.Name)
+                );
             Event.participants.Add(user_init, Roles_Creator[random.Next(Roles_Creator.Count)]);
             Event.participants.Add(user_goal, "Задумчиво смотрел на свою репутацию");
-            Event.EventAdd3_Mods(0, 0, 0, 0,20);
+            Event.EventAdd3_Mods(0, 0, 0, 0);
             Event.EventAdd6_Dates(0);
             //Воплощение события
             Activity.curr_day_repChanges++;
@@ -198,11 +172,11 @@ namespace RumineSimulator_2._0
             reason.connected_events.Add(Event);
             Event.connected_events.Add(reason);
             //Информация в интерфейсе
-            Event.props.Add(new GuiString("Информация о репутации: ", "", false, StringProfile.Header));
-            Event.props.Add(new GuiString("Кто поставил: ", user_init.nick, true));
-            Event.props.Add(new GuiString("Кому поставили: ", user_goal.nick, true));
-            Event.props.Add(new GuiString("Причина: ", reason.Name, true));
-            Event.props.Add(new GuiString("Проставленная карма: ", karma_result.ToString(), true));
+            Event.eventSpec_properties.Add(new GuiString("Информация о репутации: ", "", false, StringProfile.Header));
+            Event.eventSpec_properties.Add(new GuiString("Кто поставил: ", user_init.nick, true));
+            Event.eventSpec_properties.Add(new GuiString("Кому поставили: ", user_goal.nick, true));
+            Event.eventSpec_properties.Add(new GuiString("Причина: ", reason.Name, true));
+            Event.eventSpec_properties.Add(new GuiString("Проставленная карма: ", karma_result.ToString(), true));
 
             return Event;
         }
@@ -225,21 +199,21 @@ namespace RumineSimulator_2._0
             }
             SmallEvent Event = new SmallEvent($"{user_init} несет Закон и Порядок ", EventType.ban);
             Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User,
-                user_init.nick), $"Модератор {user_init.nick} заметил неподобающее поведение одного из участников форума и пытается его пресечь!");
+                user_init.nick));
             Event.participants.Add(user_init, Roles_moderator[random.Next(Roles_moderator.Count)]);
             Event.participants.Add(user_goal, Roles_moderator_victim[random.Next(Roles_moderator_victim.Count)]);
-            Event.EventAdd3_Mods(random.Next(1, 4), 1, 0, 0,200);
+            Event.EventAdd3_Mods(random.Next(1, 4), 1, 0, 0);
             Event.EventAdd6_Dates(0);
             //Воплощение события
             Activity.curr_day_bans++;
             bool banned = false;
             int chanse = BanCheck(user_init, user_goal);
             //Информация в интерфейсе
-            Event.props.Add(new GuiString("Информация о бане: ", "", false, StringProfile.Header));
-            Event.props.Add(new GuiString("Модератор: ", user_init.nick, true));
-            Event.props.Add(new GuiString("Жертва: ", user_goal.nick, true));
-            Event.props.Add(new GuiString("Забанен?: ", banned.ToString(), true));
-            Event.props.Add(new GuiString("Шанс бана: ", chanse.ToString(), true));
+            Event.eventSpec_properties.Add(new GuiString("Информация о бане: ", "", false, StringProfile.Header));
+            Event.eventSpec_properties.Add(new GuiString("Модератор: ", user_init.nick, true));
+            Event.eventSpec_properties.Add(new GuiString("Жертва: ", user_goal.nick, true));
+            Event.eventSpec_properties.Add(new GuiString("Забанен?: ", banned.ToString(), true));
+            Event.eventSpec_properties.Add(new GuiString("Шанс бана: ", chanse.ToString(), true));
             return Event;
         }
         public static SmallEvent Ban_Reason(Event reason)
@@ -254,15 +228,15 @@ namespace RumineSimulator_2._0
             }
             User user_init = moders[random.Next(moders.Count)];
             User user_goal = UsersControl.UserSearch(reason.participants.ElementAt(0).Key.nick);
-            if (user_init == user_goal)
+            if (user_init == user_goal || reason.participants.Count == 0)
             {
                 return FailEvent();
             }
             SmallEvent Event = new SmallEvent($"{user_init} несет Закон и Порядок ", EventType.ban);
-            Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Event, reason.Name), $"Модератор {user_init.nick} заметил {reason.Name}");
+            Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Event, reason.Name));
             Event.participants.Add(user_init, Roles_moderator[random.Next(Roles_moderator.Count)]);
             Event.participants.Add(user_goal, Roles_moderator_victim[random.Next(Roles_moderator_victim.Count)]);
-            Event.EventAdd3_Mods(random.Next(1, 4), 1, 0, 0,200);
+            Event.EventAdd3_Mods(random.Next(1, 4), 1, 0, 0);
             Event.EventAdd6_Dates(0);
             //Воплощение события
             Activity.curr_day_bans++;
@@ -281,12 +255,12 @@ namespace RumineSimulator_2._0
             reason.connected_events.Add(Event);
             Event.connected_events.Add(reason);
             //Информация в интерфейсе
-            Event.props.Add(new GuiString("Информация о бане: ", "", false, StringProfile.Header));
-            Event.props.Add(new GuiString("Модератор: ", user_init.nick, true));
-            Event.props.Add(new GuiString("Жертва: ", user_goal.nick, true));
-            Event.props.Add(new GuiString("Причина: ", reason.Name, true));
-            Event.props.Add(new GuiString("Забанен?: ", banned.ToString(), true));
-            Event.props.Add(new GuiString("Шанс бана: ", chanse.ToString(), true));
+            Event.eventSpec_properties.Add(new GuiString("Информация о бане: ", "", false, StringProfile.Header));
+            Event.eventSpec_properties.Add(new GuiString("Модератор: ", user_init.nick, true));
+            Event.eventSpec_properties.Add(new GuiString("Жертва: ", user_goal.nick, true));
+            Event.eventSpec_properties.Add(new GuiString("Причина: ", reason.Name, true));
+            Event.eventSpec_properties.Add(new GuiString("Забанен?: ", banned.ToString(), true));
+            Event.eventSpec_properties.Add(new GuiString("Шанс бана: ", chanse.ToString(), true));
             return Event;
         }
         static int BanCheck(User user_init,User user_goal)
@@ -342,7 +316,7 @@ namespace RumineSimulator_2._0
         public static SmallEvent FailEvent()
         {
             SmallEvent Event = new SmallEvent("Фейл", EventType.fail);
-            Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Event, "Мде"), "Этот пользователь хотел нам что-то сказать. Но что - мы так и не узнаем...");
+            Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Event, "Мде"));
             Event.EventAdd3_Mods(0, 0, 0, 0);
             Event.EventAdd4_Participants(UsersControl.Users[random.Next(UsersControl.Users.Count)], Roles_moderator[random.Next(Roles_moderator.Count)]);
             Event.EventAdd6_Dates(0);

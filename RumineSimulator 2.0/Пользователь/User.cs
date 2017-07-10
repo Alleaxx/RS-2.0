@@ -13,20 +13,7 @@ namespace RumineSimulator_2._0
         public string nick { get; set; }
 
         public DateTime registration { get; private set; }
-        private DateTime last_activity;
-        public DateTime Last_activity
-        {
-            get
-            {
-                return last_activity;
-            }
-            set
-            {
-                last_activity = value;
-            }
-        }
 
-        public int rnd_num { get; set; }
         public int moder_chanse { get; set; }
 
         public int month_oldness { get; private set; }
@@ -88,7 +75,7 @@ namespace RumineSimulator_2._0
         {
             random = new Random();
             //Ник получаем из списка свободных ников
-            user_id = UsersControl.UserAmount + 1;
+            user_id = UsersControl.Users.Count + 1;
             nick = Nicks.SelectFreeNick();
 
             //Устанавливаем рандомную дату регистрации(2011 - 30%, 2012 - 30%, 2013 - 40%), на ее основе комменты и новости
@@ -113,7 +100,6 @@ namespace RumineSimulator_2._0
             relations = new RelationControl(this);
             CharacterMod();
             TraitMod();
-            SetActivities();
             bans.Add(new Ban(this));
         }
 
@@ -143,6 +129,8 @@ namespace RumineSimulator_2._0
 
         }
 
+
+        //Влияние характера на параметры
         private void CharacterMod()
         {
             news_quality = random.Next(0,10) + character.creativity.Value * 5 + character.sciense.Value * 5;
@@ -152,20 +140,17 @@ namespace RumineSimulator_2._0
             }
         }
 
+        //Влияние трейтов на все параметры
         private void TraitMod()
         {
+            if (traits.Contains(TraitsList.SearchTrait(TraitsType.accurateguy)))
+            {
+                news_quality += 10;
+            }
             if (traits.Contains(TraitsList.SearchTrait(TraitsType.newslover)))
             {
                 news *= random.Next(1, 3) + 3;
                 comments = comments * random.Next(1, 3) + 5;
-            }
-            if (traits.Contains(TraitsList.SearchTrait(TraitsType.vilka)))
-            {
-                comments = comments * random.Next(1, 4);
-            }
-            if (traits.Contains(TraitsList.SearchTrait(TraitsType.accurateguy)))
-            {
-                news_quality += 10;
             }
             if (traits.Contains(TraitsList.SearchTrait(TraitsType.leader)))
             {
@@ -173,12 +158,7 @@ namespace RumineSimulator_2._0
             }
         }
 
-        private void GroupMod()
-        {
-            if (group.Mod)
-                mod = true;
-        }
-
+        //Определяет олдфажность пользователя
         private void SetOldness()
         {
             if (Date.current_date.Year - registration.Year > 1)
@@ -196,7 +176,7 @@ namespace RumineSimulator_2._0
 
         }
 
-        //Установка кол-ва сообщений, комментариев и новостей в зависимости от реги
+        //Установка кол-ва сообщений, комментариев и новостей в зависимости от реги, а также шанса на модера
         private void SetMessages()
         {
             switch (Date.current_date.Year - registration.Year + 1)
@@ -231,6 +211,7 @@ namespace RumineSimulator_2._0
                     comments = 8 * random.Next(1, 50) + 75;
                     break;
             }
+
         }
         public void SetModerChanse()
         {
@@ -270,7 +251,7 @@ namespace RumineSimulator_2._0
 
         }
 
-        #region Установка симпатий и рейтинга
+        //Симпатии и рейтинг
         private void SetLikesRatings()
         {
             //Первые 2 числа - границы процентов симпатий, вторые два - границы рейтинга комментариев
@@ -291,6 +272,7 @@ namespace RumineSimulator_2._0
             likes = (int)(Convert.ToDouble(messages) * (Convert.ToDouble(random.Next(min_pers_likes, max_pers_likes))) / 100);
         }
 
+        //Устанавливает форумное влияние
         private void SetForum_influence()
         {
             forum_influence = relations.RelationCountUsersReturn(RelationType.friend).Count * 5 +
@@ -298,27 +280,26 @@ namespace RumineSimulator_2._0
                 group.Respect * 10 +
                 (likes / 100) + 
                 (int)reputation.Base_reputation;
-            if (traits.Contains(TraitsList.SearchTrait(TraitsType.leader))) ;
-            forum_influence = forum_influence + (forum_influence / 2);
+
         }
-        #endregion
 
         //Генерация отношений
         public void GenerateRelation()
         {
             description = UserDescription.GetTextDescription(this);
+            //Рандомизирует репутацию на основе отношений
             reputation.ReputationRelations(this);
             karma.KarmaUpdate(this);
-            for (int i = 0; i < UsersControl.UserAmount; i++)
+            for (int i = 0; i < UsersControl.Users.Count; i++)
             {
                 blocked_users_rep.Add(UsersControl.Users[i], 0);
             }
             group = GroupsControl.ReturnUserGroup(this);
-            GroupMod();
             SetModerChanse();
             SetForum_influence();
         }
 
+        //Присоединение юзера к фракции
         public void JoinFraction(Fraction Fraction, bool main)
         {
             if (main)
@@ -336,13 +317,7 @@ namespace RumineSimulator_2._0
             }
         }
 
-        //Пользователь в строку
-        public override string ToString()
-        {
-            return nick;
-        }
-
-        //Обновление юзера со временем
+        //Обновление юзера, бан и карма
         public void CheckingForUpdates()
         {
             if (Date.current_date.Day == registration.Day + 1)
@@ -357,16 +332,18 @@ namespace RumineSimulator_2._0
                 bans.Add(ban);
             }
         }
+
         public void UpdateBeginDay()
         {
-            SetActivities();
             daylog = new UserDayLog(this);
-            for (int i = 0; i < UsersControl.UserAmount; i++)
+            //Уменьшение на день доступности проставки репутации заблокированным пользователям
+            for (int i = 0; i < UsersControl.Users.Count; i++)
             {
                 if (blocked_users_rep[UsersControl.Users[i]] > 0)
                     blocked_users_rep[UsersControl.Users[i]]--;
             }
         }
+
         public void UpdateEndDay()
         {
             if (daylog != null)
@@ -376,57 +353,6 @@ namespace RumineSimulator_2._0
                 if (last_thirty_Days.Count > 30)
                     last_thirty_Days.RemoveAt(0);
             }
-        }
-        public void SetActivities()
-        {
-
-        }
-
-        public void CheckReputation()
-        {
-            //Dictionary<User, bool> last_changes = new Dictionary<User, bool>();
-            //for (int i = reputation.history.Count-random.Next(1,4); i < reputation.history.Count; i++)
-            //{
-            //    if (i < 0)
-            //        i = 0;
-            //    last_changes.Add(reputation.history[i].author, reputation.history[i].otr);
-            //}
-            //int choise = 0;
-            //for (int i = 0; i < last_changes.Count; i++)
-            //{
-            //    if (relations.friends.ContainsKey(last_changes.ElementAt(i).Key) || relations.comrades.ContainsKey(last_changes.ElementAt(i).Key))
-            //        choise += 50;
-            //    else if (relations.enemies.ContainsKey(last_changes.ElementAt(i).Key) || relations.unfriends.ContainsKey(last_changes.ElementAt(i).Key))
-            //        choise -= 50;
-            //    if (last_changes.ElementAt(i).Value)
-            //        choise -= 25;
-            //    else if (last_changes.ElementAt(i).Value)
-            //        choise += 25;
-
-            //    if(choise > 0)
-            //    {
-            //        if (AdvRandom.PersentChanseBool(choise))
-            //        {
-            //            last_changes.ElementAt(i).Key.reputation.ChangeReputation(this, karma.karma, ReputationReason.ReturnReason(false) + "(Убийца - садовник!)");
-            //        }
-            //    }
-            //    else if(choise == 0)
-            //    {
-            //        if(random.Next(2) == 0)
-            //            last_changes.ElementAt(i).Key.reputation.ChangeReputation(this, karma.karma, ReputationReason.ReturnReason(false) + "(Убийца - садовник!)");
-            //        else
-            //            last_changes.ElementAt(i).Key.reputation.ChangeReputation(this, -karma.karma, ReputationReason.ReturnReason(true) + "(Убийца - садовник!)");
-            //    }
-            //    else
-            //    {
-            //        if (AdvRandom.PersentChanseBool(choise))
-            //        {
-            //            last_changes.ElementAt(i).Key.reputation.ChangeReputation(this, -karma.karma, ReputationReason.ReturnReason(true) + "(Убийца - садовник!)");
-            //        }
-            //    }
-
-            //}
-
         }
     }
 }
