@@ -103,7 +103,6 @@
     <Compile Include="События\Event_Creator.cs" />
     <Compile Include="События\HistoricEvents_List.cs" />
     <Compile Include="События\HistoricEvent.cs" />
-    <Compile Include="События\SmallEvent.cs" />
     <Compile Include="События\SmallEvents_List.cs" />
     <Compile Include="События\EventsControl.cs" />
     <Compile Include="События\Event.cs" />

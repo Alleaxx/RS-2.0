@@ -10,7 +10,6 @@ namespace RumineSimulator_2._0
     {
         static public long id = 0;
         static public List<Event> AllEvents = new List<Event>();
-        static public List<SmallEvent> SmallEvents = new List<SmallEvent>();
         static public List<Event> BasicEvents = new List<Event>();
         static Random random = new Random();
         static public List<GuiString> Events_properties = new List<GuiString>();
@@ -67,17 +66,6 @@ namespace RumineSimulator_2._0
                     i++;
                 }
 
-            }
-            for (int i = 0; i < SmallEvents.Count;)
-            {
-                if (SmallEvents[i].daysToDelete == 0)
-                {
-                    SmallEvents.RemoveAt(i);
-                }
-                else
-                {
-                    i++;
-                }
             }
         }
     }

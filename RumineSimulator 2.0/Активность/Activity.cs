@@ -30,11 +30,11 @@ namespace RumineSimulator_2._0
         }
 
         //Настоящий параметр активности после применения модификаторов
-        public static int current_valActivity_Real
+        public static float current_valActivity_Real
         {
             get
             {
-                return (int)(current_vaActivity_Clear * hour_modActivity * day_modActivity * week_modActivity * month_modActivity);
+                return (current_vaActivity_Clear + day_modActivity + week_modActivity + month_modActivity) * hour_modActivity;
             }
         }
 
@@ -153,28 +153,28 @@ namespace RumineSimulator_2._0
                     hour_modActivity = 0.05F;
                     break;
                 case 5:
-                    hour_modActivity = 0.1F;
+                    hour_modActivity = 0.05F;
                     break;
                 case 6:
-                    hour_modActivity = 0.15F;
+                    hour_modActivity = 0.1F;
                     break;
                 case 7:
-                    hour_modActivity = 0.2F;
+                    hour_modActivity = 0.1F;
                     break;
                 case 8:
-                    hour_modActivity = 0.3F;
+                    hour_modActivity = 0.2F;
                     break;
                 case 9:
-                    hour_modActivity = 0.3F;
+                    hour_modActivity = 0.2F;
                     break;
                 case 10:
-                    hour_modActivity = 0.4F;
+                    hour_modActivity = 0.3F;
                     break;
                 case 11:
-                    hour_modActivity = 0.4F;
+                    hour_modActivity = 0.3F;
                     break;
                 case 12:
-                    hour_modActivity = 0.5F;
+                    hour_modActivity = 0.4F;
                     break;
                 case 13:
                     hour_modActivity = 0.5F;
@@ -243,56 +243,38 @@ namespace RumineSimulator_2._0
             List<Event> new_events = new List<Event>();
 
 
-            //Проверка на возможность события при текущей активности
-            if (AdvRnd.PersentChanseBool(current_valActivity_Real))
+            //Сообщение
+            if (AdvRnd.PersentChanseBool((int)current_valActivity_Real))
             {
-                new_events.Add(EventStatChange_Preset.returnStatChangeEvent(new ReactionReason()));
-                //Проверяем 2 раза, 2е событие является реакцией
-                if (AdvRnd.PersentChanseBool(current_valActivity_Real/2))
-                {
-                    new_events.Add(EventStatChange_Preset.returnStatChangeEvent(new ReactionReason(new_events.Last())));
-                }
+                new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.message));
+            }
+            //Комментарий
+            if (AdvRnd.PersentChanseBool((int)current_valActivity_Real /10))
+            {
+                new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.comment));
+            }
+            //Новость
+            if (AdvRnd.PersentChanseBool((int)(current_valActivity_Real/10),600))
+            {
+                new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.news));
+            }
+            //Изменение репутации
+            if (AdvRnd.PersentChanseBool((int)(current_valActivity_Real / 10), 500))
+            {
+                new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.reputation));
+            }
+            if (AdvRnd.PersentChanseBool((int)(current_valActivity_Real / 10), 1000))
+            {
+                new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.ban));
             }
 
 
             //Действия с новыми событиями
-            foreach(Event new_event in new_events)
+            foreach (Event new_event in new_events)
             {
                 EventsControl.AllEvents.Add(new_event);
                 Last_Event = new_event;
                 LastEvent_ModsModifier();
-            }
-            //Комментарий
-            if (AdvRnd.PersentChanseBool(1 + (current_valActivity_Real / 20)))
-            {
-                Last_Event = SmallEvents_List.CommentWrite();
-                LastEvent_ModsModifier();
-                //Реакция на события
-                CheckLastEvent_Reaction();
-            }
-            //Новость
-            if (AdvRnd.PersentChanseBool(current_valActivity_Real, 10000))
-            {
-                Last_Event = SmallEvents_List.NewsWrite();
-                LastEvent_ModsModifier();
-                //Реакция на события
-                CheckLastEvent_Reaction();
-            }
-            //Рандомная репутация
-            if (AdvRnd.PersentChanseBool(current_valActivity_Real, 2000))
-            {
-                Last_Event = SmallEvents_List.ReputationChange_Random();
-                LastEvent_ModsModifier();
-                //Реакция на события
-                CheckLastEvent_Reaction();
-            }
-            //Рандомный бан
-            if (AdvRnd.PersentChanseBool(current_valActivity_Real, 10000))
-            {
-                Last_Event = SmallEvents_List.Ban_Random();
-                LastEvent_ModsModifier();
-                //Реакция на события
-                CheckLastEvent_Reaction();
             }
 
             HistoricEvent h_event = HistoricEvents_List.EventCheck();
@@ -301,8 +283,7 @@ namespace RumineSimulator_2._0
                 Last_Event = h_event;
                 EventsControl.AllEvents.Add(Last_Event);
                 LastEvent_ModsModifier();
-                //Реакция на события
-                CheckLastEvent_Reaction();
+
             }
 
             //Новый день
@@ -310,38 +291,14 @@ namespace RumineSimulator_2._0
             {
                 Last_Event = EventsControl.DayEnd();
                 LastEvent_ModsModifier();
-                CheckLastEvent_Reaction();
-            }
-        }
-
-        public static void CheckLastEvent_Reaction()
-        {
-            Event reaction = CheckEvent_Reaction(Last_Event);
-            if (reaction != null && Last_Event.Reasonable)
-            {
-                Last_Event = reaction;
-                LastEvent_ModsModifier();
-                CheckLastEvent_Reaction();
-            }
-        }
-        public static Event CheckEvent_Reaction(Event reason)
-        {
-            if (AdvRnd.PersentChanseBool(current_valActivity_Real, 10000))
-            {
-                return SmallEvents_List.Ban_Reason(reason);
-            }
-            else if (AdvRnd.PersentChanseBool(current_valActivity_Real, 2000))
-            {
-                return SmallEvents_List.ReputationChange_Reason(reason);
-            }
-            else
-            {
-                return null;
             }
         }
         public static void LastEvent_ModsModifier()
         {
             Current_valActivity_Clear += Last_Event.current_valMinute_mod;
+            day_modActivity += Last_Event.dayMod;
+            month_modActivity += Last_Event.monthMod;
+            week_modActivity += Last_Event.weekMod;
             today_events.Add(Last_Event);
         }
         #endregion

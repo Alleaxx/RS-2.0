@@ -26,9 +26,9 @@ namespace RumineSimulator_2._0
         }
         public bool Reasonable { get; private set; }
 
-        public int monthMod { get; private set; }
-        public int weekMod { get; private set; }
-        public int dayMod { get; private set; }
+        public float monthMod { get; private set; }
+        public float weekMod { get; private set; }
+        public float dayMod { get; private set; }
         public int current_valMinute_mod { get; private set; }
 
         public int daysToDelete { get; set; }
@@ -60,7 +60,7 @@ namespace RumineSimulator_2._0
         {
             BigDescription = description;
         }
-        public virtual void EventAdd3_Mods(int currDay_mod,int day_mod,int week_mod,int month_mod)
+        public virtual void EventAdd3_Mods(int currDay_mod,float day_mod,float week_mod,float month_mod)
         {
             current_valMinute_mod = currDay_mod;
             dayMod = day_mod;

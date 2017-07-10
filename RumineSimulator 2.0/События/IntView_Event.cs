@@ -24,11 +24,13 @@ namespace RumineSimulator_2._0
                 Add_BasicEventProperty(new GuiString("Длительность: ", eve.Duration.ToString()));
                 Add_BasicEventProperty(new GuiString("Конец: ", $"{eve.date_end.ToLongDateString()} {eve.date_end.ToShortTimeString()}"));
             }
-            Add_BasicEventProperty(new GuiString("Тип: ", eve.EventType.ToString()));
-            if(eve.Creator == null)
+            basicEvent_props.AddRange(eve.eventSpec_properties);
+            Add_BasicEventProperty(new GuiString("Прочие параметры","",false,StringProfile.Header));
+            if (eve.Creator == null)
                 Add_BasicEventProperty(new GuiString("Неизвестно", ""));
             else
                 Add_BasicEventProperty(new GuiString("Создатель: ", eve.Creator.Text));
+            Add_BasicEventProperty(new GuiString("Тип: ", eve.EventType.ToString()));
             Add_BasicEventProperty(new GuiString("Параметр активности: ", eve.current_valMinute_mod.ToString()));
             Add_BasicEventProperty(new GuiString("Мод. дня: ", eve.dayMod.ToString()));
             Add_BasicEventProperty(new GuiString("Мод. недели: ", eve.weekMod.ToString()));
@@ -44,8 +46,6 @@ namespace RumineSimulator_2._0
                 Add_SpecEventConnected(user_reaction);
                 Add_SpecEventConnected(new GuiString(eve.participants.ElementAt(i).Value, ""));
             }
-
-            basicEvent_props.AddRange(eve.eventSpec_properties);
 
             //Запись связанных событий
             if(eve.connected_events.Count != 0)
