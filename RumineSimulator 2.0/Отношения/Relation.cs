@@ -10,294 +10,294 @@ namespace RumineSimulator_2._0
 {
     class Relation
     {
-        public User user_init { get; private set; }
-        public User user_goal { get; private set; }
-        public System.Windows.Media.Color color { get; private set; }
-        public RelationsEnum relation { get; private set; }
-        public string relation_text { get; private set; }
+        public RelationType relation { get; private set; }
+        public List<string> relation_log = new List<string>();
 
         //Значения дружбы и соперничества
         public int friendness { get; private set; }
-        public int rivalry { get; private set; }
-
-        //Разница в параметрах
-
+        //Интерфейсное представление
+        public IntView_Relation InterfaceInfo
+        {
+            get
+            {
+                return new IntView_Relation(this);
+            }
+        }
         Random random = new Random();
 
-        public Relation(User init, User Goal)
+        public Relation(User init, User goal)
         {
-            Statistic.relation_obj++;
             //начальные параметры
-            user_init = init;
-            user_goal = Goal;
             friendness = 0;
 
-            //Сравниваем параметры и определяем дружбу
+            //Сравниваем параметры, определяем параметр дружбы
+            DiffCompareAdeq(init,goal);
+            DiffCompareCons(init, goal);
+            DiffCompareRakness(init, goal);
+            DiffCompareOldness(init, goal);
+            DiffCompareGroup(init.group,goal.group);
 
-            DiffCompareAdeq(user_init.character.adeq.Value,user_goal.character.adeq.Value);
-            DiffCompareCons();
-            DiffCompareRakness();
-            DiffCompareOldness();
-            DiffCompareGroup(user_init.group,user_goal.group);
-
+            //Выводим тип отношения в зависимости от параметра дружбы
             if (friendness >= GlobalParams.friend_condition)
             {
-                relation = RelationsEnum.friend;
+                relation = RelationType.friend;
             }
                 
             else if (friendness < GlobalParams.friend_condition && friendness >= GlobalParams.comrade_condition)
             {
-                relation = RelationsEnum.comrade;
+                relation = RelationType.comrade;
             }
                 
             else if (friendness > GlobalParams.enemy_condition && friendness <= GlobalParams.unfriends_condition)
             {
-                relation = RelationsEnum.unfriend;
+                relation = RelationType.unfriend;
             }
                 
             else if (friendness <= GlobalParams.enemy_condition)
             {
-                relation = RelationsEnum.enemy;
+                relation = RelationType.enemy;
             }
+
             else
             {
-                relation = RelationsEnum.neutral;
+                relation = RelationType.neutral;
             }
-            if(user_init == user_goal)
+
+            if(init == goal)
             {
-                relation = RelationsEnum.me;
-                color = Colors.CadetBlue;
-            }
-            switch (relation)
-            {
-                case RelationsEnum.friend:
-                    color = Colors.LimeGreen;
-                    break;
-                case RelationsEnum.comrade:
-                    color = Colors.Lime;
-                    break;
-                case RelationsEnum.neutral:
-                    color = Colors.LightSlateGray;
-                    break;
-                case RelationsEnum.unfriend:
-                    color = Colors.IndianRed;
-                    break;
-                case RelationsEnum.enemy:
-                    color = Colors.Red;
-                    break;
+                relation = RelationType.me;
             }
         }
 
         //Более подробное сравнение параметров на основе разницы
-        private void DiffCompareAdeq(int init, int goal)
+        private void DiffCompareAdeq(User init, User goal)
         {
-            if (user_init.character.adeq.Value >= 7 && user_goal.character.adeq.Value >= 7)
+            if (init.character.adeq.Value >= 7 && goal.character.adeq.Value >= 7)
             {
                 friendness += 2;
+                relation_log.Add($"Оба юзера поразительно адекватны. Это их роднит({2})");
             }
             else
             {
-                int adeq_difference = user_init.character.adeq.Value - user_goal.character.adeq.Value;
+                int adeq_difference = init.character.adeq.Value - goal.character.adeq.Value;
                 int time_adeq_difference = adeq_difference;
                 if (adeq_difference < 0)
                 {
                     time_adeq_difference = -adeq_difference;
                 }
-
-                switch (adeq_difference)
+                int friend_infl = 0;
+                switch (time_adeq_difference)
                 {
                     case 0:
-                        friendness += 2;
+                        friend_infl = 2;
                         break;
                     case 1:
-                        friendness += 2;
+                        friend_infl = 2;
                         break;
                     case 2:
-                        friendness += 1;
+                        friend_infl = 1;
                         break;
                     case 3:
-                        friendness += 0;
                         break;
                     case 4:
-                        friendness += 0;
                         break;
                     case 5:
-                        friendness += 0;
                         break;
                     case 6:
-                        friendness += -1;
+                        friend_infl = -1;
                         break;
                     case 7:
-                        friendness += -1;
+                        friend_infl = -1;
                         break;
                     case 8:
-                        friendness += -2;
+                        friend_infl = -2;
                         break;
                     case 9:
-                        friendness += -2;
+                        friend_infl = -2;
                         break;
                     case 10:
-                        friendness += -3;
+                        friend_infl = -3;
                         break;
                 }
+                friendness += friend_infl;
+                relation_log.Add($"Разница адекватности {time_adeq_difference}, влияние на дружбу ({friend_infl})");
 
             }
         }
-        private void DiffCompareCons()
+        private void DiffCompareCons(User init, User goal)
         {
-            int cons_difference = user_init.character.conservative.Value - user_goal.character.conservative.Value;
+            int cons_difference = init.character.conservative.Value - goal.character.conservative.Value;
             int time_cons_difference = cons_difference;
             if (cons_difference < 0)
             {
                 time_cons_difference = -cons_difference;
             }
-
-            switch (cons_difference)
+            int friend_infl = 0;
+            switch (time_cons_difference)
             {
                 case 0:
-                    friendness += 2;
+                    friend_infl = 1;
                     break;
                 case 1:
-                    friendness += 1;
+                    friend_infl = 1;
                     break;
                 case 2:
-                    friendness += 0;
                     break;
                 case 3:
-                    friendness += 0;
                     break;
                 case 4:
-                    friendness += 0;
                     break;
                 case 5:
-                    friendness += -1;
                     break;
                 case 6:
-                    friendness += -1;
+                    friend_infl = -1;
                     break;
                 case 7:
-                    friendness += -1;
+                    friend_infl = -1;
                     break;
                 case 8:
-                    friendness += -2;
+                    friend_infl = -2;
                     break;
                 case 9:
-                    friendness += -2;
+                    friend_infl = -3;
                     break;
                 case 10:
-                    friendness += -3;
+                    friend_infl = -3;
                     break;
             }
+            friendness += friend_infl;
+            relation_log.Add($"Разница консервативности {time_cons_difference}, влияние на дружбу ({friend_infl})");
         }
-        private void DiffCompareRakness()
+        private void DiffCompareRakness(User init, User goal)
         {
-            if (user_init.character.rakness.Value <= 4 && user_goal.character.rakness.Value <= 4)
+            if (init.character.rakness.Value <= 4 && goal.character.rakness.Value <= 4)
             {
-                friendness += 1;
+                friendness += 2;
+                relation_log.Add($"Оба пользователя не являются раками, что благотворно на них сказывается({+2})");
             }
             else
             {
-                int rak_difference = user_init.character.rakness.Value - user_goal.character.rakness.Value;
+                int rak_difference = init.character.rakness.Value - goal.character.rakness.Value;
                 int time_rak_difference = rak_difference;
                 if (rak_difference < 0)
                 {
                     time_rak_difference = -rak_difference;
                 }
+                int friend_infl = 0;
                 switch (time_rak_difference)
                 {
                     case 0:
-                        friendness += 2;
+                        friend_infl = 3;
                         break;
                     case 1:
-                        friendness += 2;
+                        friend_infl = 2;
                         break;
                     case 2:
-                        friendness += 1;
+                        friend_infl= 1;
                         break;
                     case 3:
-                        friendness += 0;
                         break;
                     case 4:
-                        friendness += 0;
                         break;
                     case 5:
-                        friendness += -2;
+                        friend_infl= -2;
                         break;
                     case 6:
-                        friendness += -3;
+                        friend_infl= -4;
                         break;
                     case 7:
-                        friendness += -5;
+                        friend_infl= -6;
                         break;
                     case 8:
-                        friendness += -6;
+                        friend_infl= -6;
                         break;
                     case 9:
-                        friendness += -6;
+                        friend_infl= -7;
                         break;
                     case 10:
-                        friendness += -7;
+                        friend_infl= -8;
                         break;
                 }
+                friendness += friend_infl;
+                relation_log.Add($"Разница раковитости {time_rak_difference}, влияние на дружбу ({friend_infl})");
             }
 
         }
-        private void DiffCompareOldness()
+        private void DiffCompareOldness(User init, User goal)
         {
-            int oldness_difference = user_goal.registration.Year - user_init.registration.Year;
-            int time_oldness_diff = user_goal.registration.Year - user_init.registration.Year;
+            int oldness_difference = goal.registration.Year - init.registration.Year;
+            int time_oldness_diff = oldness_difference;
             if (oldness_difference < 0)
             {
                 time_oldness_diff = -oldness_difference;
             }
+            int friend_infl = 0;
             switch (time_oldness_diff)
             {
                 case 0:
-                    friendness += 0;
+                    relation_log.Add($"Разницы в олдфажности почти нет, влияния на отношения тоже");
                     break;
                 case 1:
-                    friendness += 0;
+                    relation_log.Add($"Разница в олдфажности средняя, влияния на отношения нет");
                     break;
                 case 2:
-                    if (user_init.character.tolerance.Value < 5 && user_init.m_oldness > user_goal.m_oldness)
-                        friendness -= 1;
+                    if (init.character.tolerance.Value < 5 && init.month_oldness > goal.month_oldness)
+                    {
+                        friend_infl = -2;
+                        relation_log.Add($"Значительная разница в олдфажности и абсолютное отсутствие терпимости!({-2})");
+                    }
+                    else
+                    {
+                        relation_log.Add($"Разница в олдфажности большая, но влияния на отношения нет");
+                    }
+
                     break;
             }
+            friendness += friend_infl;
         }
-        private void DiffCompareCreativeSciense(int init, int goal)
+        //Умения
+        private void DiffCompareCreativeSciense(User init, User goal)
         {
-            if(user_init.character.creativity.Value > 5 && user_goal.character.creativity.Value > 5)
+            if(init.character.creativity.Value > 5 && goal.character.creativity.Value > 5)
             {
-                friendness++;
+                relation_log.Add($"Оба пользователя весьма креативны, что улучшает их отношения ({+2})");
+                friendness +=2;
             }
-            if (user_init.character.sciense.Value > 5 && user_goal.character.sciense.Value > 5)
+            if (init.character.sciense.Value > 5 && goal.character.sciense.Value > 5)
             {
-                friendness++;
+                relation_log.Add($"Оба пользователя являются технарями, что улучшает их отношения ({+2})");
+                friendness +=2;
+            }
+            if (init.character.humanist.Value > 5 && goal.character.humanist.Value > 5)
+            {
+                relation_log.Add($"Оба пользователя являются гуманитариями, что улучшает их отношения ({+2})");
+                friendness += 2;
+            }
+            if (init.character.historic.Value > 5 && goal.character.historic.Value > 5)
+            {
+                relation_log.Add($"Оба пользователя ценят историю румине, что улучшает их отношения ({+1})");
+                friendness += 1;
+            }
+            if (init.character.sciense.Value > 5 && goal.character.humanist.Value > 5)
+            {
+                relation_log.Add($"Война технарей и гуманитариев не обошла стороной и этих пользователей({-1})");
+                friendness -= 1;
+            }
+            if (init.character.humanist.Value > 5 && goal.character.sciense.Value > 5)
+            {
+                relation_log.Add($"Война гуманитариев и технарей не обошла стороной и этих пользователей({-1})");
+                friendness -= 1;
             }
         }
 
         //Прочие сравнения параметров
         private void DiffCompareGroup(Group init, Group goal)
         {
-            if (user_init.group == user_goal.group)
-                friendness++;
-        }
-        public string ReturnTextRelation()
-        {
-            switch (relation)
+            if (init == goal)
             {
-                case RelationsEnum.friend:
-                    return "Друг";
-                case RelationsEnum.comrade:
-                    return "Товарищ";
-                case RelationsEnum.neutral:
-                    return "Нейтрал";
-                case RelationsEnum.unfriend:
-                    return "Неприятель";
-                case RelationsEnum.enemy:
-                    return "Враг";
+                relation_log.Add($"У пользователей одинаковая группа, что слегка улучшает их отношения({+1})");
+                friendness++;
             }
-            return "hz";
 
         }
 

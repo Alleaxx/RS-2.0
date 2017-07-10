@@ -9,13 +9,25 @@ namespace RumineSimulator_2._0
     static class UsersControl
     {
         //Список пользователей в приложении и их количество
-        static public List<User> UsersList = new List<User>();
-        static public float ModerAmount { get; set; }
+        static public List<User> Users = new List<User>();
+        static public int ModerAmount
+        {
+            get
+            {
+                int mods = 0;
+                foreach (User user in Users)
+                {
+                    if (user.group.Mod)
+                        mods++;
+                }
+                return mods;
+            }
+        }
         static public int UserAmount
         {
             get
             {
-                return UsersList.Count;
+                return Users.Count;
             }
         }
         static public List<string> UpdatesUserLog = new List<string>();
@@ -26,11 +38,10 @@ namespace RumineSimulator_2._0
         //Генерация пользователей в указанном количестве
         static public void GenerateUsers(int amount)
         {
-            ModerAmount = 0;
             for (int i = 0; i < amount; i++)
             {
                 User generated_user = new User();
-                UsersList.Add(generated_user);
+                Users.Add(generated_user);
                 Statistic.aver_adeq += generated_user.character.adeq.Value;
                 Statistic.aver_rakness += generated_user.character.rakness.Value;
                 Statistic.aver_conservative += generated_user.character.conservative.Value;
@@ -51,27 +62,27 @@ namespace RumineSimulator_2._0
             Statistic.aver_sciense /= UserAmount;
             for (int i = 0; i < UserAmount; i++)
             {
-                UsersList[i].GenerateRelation();
+                Users[i].GenerateRelation();
             }
         }
 
         //Проверка пользователей на апдейты
         static public void CheckingAllUserForUpdates()
         {
-            for (int i = 0; i < UsersList.Count; i++)
+            for (int i = 0; i < Users.Count; i++)
             {
                 if (Date.current_date_prev.Minute > Date.current_date.Minute)
                 {
                 }
                 if (Date.current_date.Hour == 0 && Date.current_date.Minute < Date.current_date_prev.Minute)
                 {
-                    UsersList[i].UpdateBeginDay();
+                    Users[i].UpdateBeginDay();
                 }
                 if (Date.current_date.Hour == 23 && Date.current_date.Minute == 59)
                 {
-                    UsersList[i].UpdateEndDay();
+                    Users[i].UpdateEndDay();
                 }
-                UsersList[i].CheckingForUpdates();
+                Users[i].CheckingForUpdates();
             }
         }
 
@@ -79,35 +90,12 @@ namespace RumineSimulator_2._0
         static public void UsersClear()
         {
             Nicks.NicksInit();
-            UsersList.Clear();
-        }
-
-        //Выбор модераторов
-        static public void ModerChoose()
-        {
-            int mod_recomend = UserAmount / 20;
-            mod_recomend += random.Next(0, 3);
-            int need_amount = mod_recomend - (int)ModerAmount;
-            int i = 0;
-            List<User> poss_mods = ReturnUsersModerChanseDesc();
-            do
-            {
-                if (AdvRnd.PersentChanseBool(poss_mods[i].moder_chanse))
-                {
-                    poss_mods[i].group = GroupsList.Groups[GroupsEnum.Moderator];
-                    poss_mods[i].mod = true;
-                    ModerAmount++;
-                }
-                i++;
-            }
-            while (ModerAmount != mod_recomend && i != _0.UsersControl.UsersList.Count - 5);
-
-
+            Users.Clear();
         }
 
         static public User UserSearch(string nick)
         {
-            foreach (User user in UsersList)
+            foreach (User user in Users)
             {
                 if (user.nick == nick)
                     return user;
@@ -116,7 +104,7 @@ namespace RumineSimulator_2._0
         }
         static public User UserSearch(int id)
         {
-            foreach (User user in UsersList)
+            foreach (User user in Users)
             {
                 if (user.user_id == id)
                     return user;
@@ -126,7 +114,7 @@ namespace RumineSimulator_2._0
 
         static public void FractionChoose()
         {
-            foreach (User user in UsersList)
+            foreach (User user in Users)
             {
                 //Добавляем доступные фракции
                 List<Fraction> Av_fracs = new List<Fraction>();
@@ -140,11 +128,11 @@ namespace RumineSimulator_2._0
                 {
                     user.JoinFraction(FractionList.NeutralFraction, true);
                 }
-                else if(Av_fracs.Count == 1)
+                else if (Av_fracs.Count == 1)
                 {
                     user.JoinFraction(Av_fracs[0], true);
                 }
-                else if(Av_fracs.Count > 1)
+                else if (Av_fracs.Count > 1)
                 {
                     //Шанс остаться нейтральным или все-таки
                     if (AdvRnd.PersentChanseBool(75))
@@ -174,9 +162,38 @@ namespace RumineSimulator_2._0
         }
 
         #region Сортировки
+        //Возвращение списка на основе заданной сортировки
+        static public List<User> UserListReturnSort()
+        {
+            switch (Presenter.sorting_user)
+            {
+                case SortingUserTypes.no_sort:
+                    return Users;
+                case SortingUserTypes.groupRareness:
+                    return ReturnUsersGroupRarenesSortDesc();
+                case SortingUserTypes.adeq:
+                    return ReturnUsersAdeqSortDesc();
+                case SortingUserTypes.influence:
+                    return ReturnUsersForumInfluenceDesc();
+                case SortingUserTypes.messages:
+                    return ReturnUsersMessagesSortDesc();
+                case SortingUserTypes.moderChanse:
+                    return ReturnUsersModerChanseDesc();
+                case SortingUserTypes.rakness:
+                    return ReturnUsersRakSortDesc();
+                case SortingUserTypes.registration:
+                    return ReturnUsersRegSortDesc();
+                case SortingUserTypes.reputation:
+                    return ReturnUsersRepSortDesc();
+                default:
+                    return Users;
+            }
+        }
+
+
         static public List<User> ReturnUsersGroupRarenesSortDesc()
         {
-            var sortedGr = from i in UsersList
+            var sortedGr = from i in Users
                            orderby i.@group.Respect descending
                            select i;
             return sortedGr.ToList();
@@ -184,84 +201,77 @@ namespace RumineSimulator_2._0
         }
         static public List<User> ReturnUsersRegSortDesc()
         {
-            var sortedGr = from i in UsersList
+            var sortedGr = from i in Users
                            orderby i.registration
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersMessagesSortDesc()
         {
-            var sortedGr = from i in UsersList
+            var sortedGr = from i in Users
                            orderby i.messages descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersRepSortDesc()
         {
-            var sortedGr = from i in UsersList
+            var sortedGr = from i in Users
                            orderby i.reputation.Base_reputation descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersAdeqSortDesc()
         {
-            var sortedGr = from i in UsersList
-                           where i.main_fraction.name != "Нет фракции"
+            var sortedGr = from i in Users
+                           orderby i.character.adeq.Value descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersRakSortDesc()
         {
-            var sortedGr = from i in UsersList
+            var sortedGr = from i in Users
                            orderby i.character.rakness.Value descending
-                           select i;
-            return sortedGr.ToList();
-        }
-        static public List<User> ReturnUsersConsSortDesc()
-        {
-            var sortedGr = from i in UsersList
-                           orderby i.character.conservative descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersCreativeSortDesc()
         {
-            var sortedGr = from i in UsersList
+            var sortedGr = from i in Users
                            orderby i.character.creativity.Value descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersScienseSortDesc()
         {
-            var sortedGr = from i in UsersList
+            var sortedGr = from i in Users
                            orderby i.character.sciense.Value descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersModerChanseDesc()
         {
-            var sortedGr = from i in UsersList
+            var sortedGr = from i in Users
                            orderby i.moder_chanse descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersForumInfluenceDesc()
         {
-            var sortedGr = from i in UsersList
+            var sortedGr = from i in Users
                            orderby i.forum_influence descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersActiveFilter()
         {
-            var sortedGr = from i in UsersList
+            var sortedGr = from i in Users
                            where i.activity == true
                            select i;
             return sortedGr.ToList();
         }
 
         //Сортировка по списку трейтов
-        static public List<User> ReturnUserByTraits(List<User> users_to_sort,List<Traits> req_traits,bool and_or = true)
+        static public List<User> ReturnUserByTraits(List<User> users_to_sort, List<TraitsType> req_traits, bool and_or = true)
         {
             List<User> sorted = new List<User>();
             foreach (User user in users_to_sort)
@@ -270,17 +280,17 @@ namespace RumineSimulator_2._0
                 if (and_or)
                 {
                     sort = true;
-                    foreach (Traits t_type in req_traits)
+                    foreach (TraitsType t_type in req_traits)
                     {
-                        if (!user.traits.Contains(TraitsList.AllTraits[t_type]))
+                        if (!user.traits.Contains(TraitsList.SearchTrait(t_type)))
                             sort = false;
                     }
                 }
                 else
                 {
-                    foreach (Traits t_type in req_traits)
+                    foreach (TraitsType t_type in req_traits)
                     {
-                        if (user.traits.Contains(TraitsList.AllTraits[t_type]))
+                        if (user.traits.Contains((TraitsList.SearchTrait(t_type))))
                             sort = true;
                     }
                 }

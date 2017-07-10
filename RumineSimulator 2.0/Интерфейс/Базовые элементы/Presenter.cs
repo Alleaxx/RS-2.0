@@ -15,6 +15,8 @@ namespace RumineSimulator_2._0
         public static Event selected_event;
         public static Group selected_group;
         public static Trait selected_trait;
+        public static Relation selected_relation;
+        public static SortingUserTypes sorting_user = SortingUserTypes.no_sort;
 
         //Изменение выбранного объекта за счет имени выбранного элемента списка
         public static void SelectionCheck(string name)
@@ -27,7 +29,7 @@ namespace RumineSimulator_2._0
                     selected_user = UsersControl.UserSearch(id);
                     break;
                 case "group":
-                    selected_group = GroupsList.GroupSearch(id);
+                    selected_group = GroupsControl.GroupSearch(id);
                     break;
                 case "ban":
                     selected_ban = UsersControl.UserSearch(id).LastBan;
@@ -40,6 +42,8 @@ namespace RumineSimulator_2._0
                     break;
                 case "trait":
                     selected_trait = TraitsList.SearchTrait(id);
+                    break;
+                case "relation":
                     break;
                 case "usualProperty":
                     break;
@@ -79,7 +83,7 @@ namespace RumineSimulator_2._0
                     case "user":
                         return UsersControl.UserSearch(id).InterfaceInfo;
                     case "group":
-                        return GroupsList.GroupSearch(id).InterfaceInfo;
+                        return GroupsControl.GroupSearch(id).InterfaceInfo;
                     case "ban":
                         return UsersControl.UserSearch(id).LastBan.InterfaceInfo;
                     case "simEvent":
@@ -88,6 +92,8 @@ namespace RumineSimulator_2._0
                         return FractionList.SearchFraction(id).Interface_Info;
                     case "trait":
                         return TraitsList.SearchTrait(id).InterfaceInfo;
+                    case "relation":
+                        return selected_user.relations.RelationReturn(UsersControl.UserSearch(id)).InterfaceInfo;
                     default:
                         return new IntView();
                 }
@@ -99,10 +105,21 @@ namespace RumineSimulator_2._0
 
         }
 
+        //Установка сортировки пользователей
+        public static void SetUserSort(SortingUserTypes type)
+        {
+
+            sorting_user = type;
+        }
+
     }
 
     enum GUITypes
     {
-        user,group,ban,simEvent,fraction,trait
+        user,group,ban,simEvent,fraction,trait,relation
+    }
+    enum SortingUserTypes
+    {
+        no_sort,registration,groupRareness,messages,reputation,adeq,rakness,moderChanse,influence,warning
     }
 }

@@ -17,7 +17,7 @@ namespace RumineSimulator_2._0
         public List<Warning> warnings = new List<Warning>();
         public int Warn_sum { get; private set; }
 
-        public bool Ac { get; set; }
+        public bool admin_center { get; set; }
 
         public DateTime ban_start = new DateTime();
 
@@ -35,7 +35,7 @@ namespace RumineSimulator_2._0
         {
             id = Owner.user_id;
             this.Owner = Owner;
-            Ac = AC;
+            admin_center = AC;
             if (AC)
             {
                 Banned = true;
@@ -84,7 +84,7 @@ namespace RumineSimulator_2._0
             if(Warn_sum == 100)
             {
                 Banned = false;
-                warnings.Add(new Warning(UsersControl.UsersList[0],-10, "Автоматическое снижение уровня предупреждений после блокировки",user));
+                warnings.Add(new Warning(UsersControl.Users[0],-10, "Автоматическое снижение уровня предупреждений после блокировки",user));
             }
             else
             {
@@ -96,7 +96,7 @@ namespace RumineSimulator_2._0
         public List<Warning> WarnSortByDate()
         {
             var sortedGr = from i in warnings
-                           orderby i.date 
+                           orderby i.date descending
                            select i;
             return sortedGr.ToList();
         }

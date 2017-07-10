@@ -18,6 +18,7 @@ namespace RumineSimulator_2._0
         static public float aver_conservative { get; set; }
         //Количество объектов
         public static int relation_obj { get; set; }
+        public static int guiString_obj { get; set; }
 
         public static IntView_Statistics InterfaceInfo
         {

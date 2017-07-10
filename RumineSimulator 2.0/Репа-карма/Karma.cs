@@ -48,21 +48,21 @@ namespace RumineSimulator_2._0
             #region За активность
             if (user.comments < 20)
                 kar_activity = 0.2F;
-            else if ((user.comments >= 20 && user.comments < 100) && user.m_oldness >= 2)
+            else if ((user.comments >= 20 && user.comments < 100) && user.month_oldness >= 2)
                 kar_activity = 0.3F;
-            else if ((user.comments >= 100 && user.comments < 200) && user.m_oldness >= 4)
+            else if ((user.comments >= 100 && user.comments < 200) && user.month_oldness >= 4)
                 kar_activity = 0.4F;
-            else if ((user.comments >= 200 && user.comments < 300) && user.m_oldness >= 6)
+            else if ((user.comments >= 200 && user.comments < 300) && user.month_oldness >= 6)
                 kar_activity = 0.5F;
-            else if ((user.comments >= 300 && user.comments < 500) && user.m_oldness >= 8)
+            else if ((user.comments >= 300 && user.comments < 500) && user.month_oldness >= 8)
                 kar_activity = 0.6F;
-            else if ((user.comments >= 500 && user.comments < 700) && user.m_oldness >= 12)
+            else if ((user.comments >= 500 && user.comments < 700) && user.month_oldness >= 12)
                 kar_activity = 0.7F;
-            else if ((user.comments >= 700 && user.comments < 900) && user.m_oldness >= 18)
+            else if ((user.comments >= 700 && user.comments < 900) && user.month_oldness >= 18)
                 kar_activity = 0.8F;
-            else if ((user.comments >= 900 && user.comments < 1200) && user.m_oldness >= 24)
+            else if ((user.comments >= 900 && user.comments < 1200) && user.month_oldness >= 24)
                 kar_activity = 0.9F;
-            else if (user.comments >= 1200 && user.m_oldness >= 6)
+            else if (user.comments >= 1200 && user.month_oldness >= 6)
                 kar_activity = 1;
             #endregion
             #region За репутацию

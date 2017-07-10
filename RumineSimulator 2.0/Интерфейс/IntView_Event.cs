@@ -38,7 +38,7 @@ namespace RumineSimulator_2._0
             for (int i = 0; i < eve.participants.Count; i++)
             {
                 GuiString user_reaction = new GuiString(eve.participants.ElementAt(i).Key.nick, "", false, StringProfile.Usual);
-                user_reaction.AddColor("", eve.participants.ElementAt(i).Key.group.ColorHTML);
+                user_reaction.SetColor("", eve.participants.ElementAt(i).Key.group.ColorHTML);
                 Add_SpecEventConnected(user_reaction);
                 Add_SpecEventConnected(new GuiString(eve.participants.ElementAt(i).Value, ""));
             }

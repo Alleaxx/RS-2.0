@@ -44,12 +44,12 @@ namespace RumineSimulator_2._0
         public static void HistoricEvents_Creation(int premade)
         {
             int rnd_premade = premade;
-            List<User> all_users = UsersControl.UsersList;
+            List<User> all_users = UsersControl.Users;
             #region Вики по румайну
             DateTime wiki_pre_date = new DateTime(2013, 9, random.Next(1, 30), random.Next(9, 24), random.Next(60), 0);
 
             //Выбор создателя вики
-            User wiki_creator = UsersControl.UsersList[0];
+            User wiki_creator = UsersControl.Users[0];
             string wiki_name = "";
             bool wiki_sucees = true;
             bool wiki_rak = false;
@@ -77,39 +77,39 @@ namespace RumineSimulator_2._0
                 case 1:
                     //Создатель
                     List<User> users = UsersControl.ReturnUsersForumInfluenceDesc();
-                    users = UsersControl.ReturnUserByTraits(users, new List<Traits>() { Traits.programmer, Traits.accurateguy }, false);
+                    users = UsersControl.ReturnUserByTraits(users, new List<TraitsType>() { TraitsType.programmer, TraitsType.accurateguy }, false);
                     wiki_creator = users[random.Next(users.Count)];
 
                     wiki_name = wiki_names[random.Next(wiki_names.Length)];
                     wikiCreation.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, wiki_creator.nick), "Создание вики Ру-майна");
                     wikiCreation.EventAdd2_Description($"{intros_good[random.Next(intros_good.Length)]} Сегодня была создана вики описывающая наш Румине! Она имеет название {wiki_name}, создателем является {wiki_creator.nick}. Надеемся на то, что вики будет жить и процветать. {endings[random.Next(endings.Length)]}");
                     wikiCreation.EventAdd3_Mods(25, 10, 5, 5, 1000);
-                    wikiCreation.EventAdd4_Participants(wiki_creator, wiki_creator.traits[random.Next(wiki_creator.traits.Count)].short_name);
+                    wikiCreation.EventAdd4_Participants(wiki_creator, wiki_creator.traits[random.Next(wiki_creator.traits.Count)].name);
                     //Комментарии на вики
                     foreach (User user in all_users)
                     {
                         if (AdvRnd.PersentChanseBool(15) && user != wiki_creator)
                         {
-                            if (wiki_creator.relations.All[user].relation == RelationsEnum.comrade ||
-                                wiki_creator.relations.All[user].relation == RelationsEnum.neutral ||
-                                wiki_creator.relations.All[user].relation == RelationsEnum.friend)
+                            if (wiki_creator.relations.RelationStateReturn(user) == RelationType.comrade ||
+                                wiki_creator.relations.RelationStateReturn(user) == RelationType.neutral ||
+                                wiki_creator.relations.RelationStateReturn(user) == RelationType.friend)
                             {
                                 if (random.Next(3) == 1)
-                                    wikiCreation.EventAdd4_Participants(user, user.traits[random.Next(user.traits.Count)].short_name);
+                                    wikiCreation.EventAdd4_Participants(user, user.traits[random.Next(user.traits.Count)].name);
                                 else
                                     wikiCreation.EventAdd4_Participants(user, wiki_comment_good[random.Next(wiki_comment_good.Length)]);
                             }
                             else
                             {
                                 if (random.Next(3) == 1)
-                                    wikiCreation.EventAdd4_Participants(user, user.traits[random.Next(user.traits.Count)].short_name);
+                                    wikiCreation.EventAdd4_Participants(user, user.traits[random.Next(user.traits.Count)].name);
                                 else
                                     wikiCreation.EventAdd4_Participants(user, wiki_comment_bad[random.Next(wiki_comment_bad.Length)]);
                             }
                         }
                     }
                     //Установка прочих параметров
-                    if (wiki_creator.traits.Contains(TraitsList.AllTraits[Traits.rak]))
+                    if (wiki_creator.traits.Contains(TraitsList.SearchTrait(TraitsType.rak)))
                         wiki_rak = true;
                     break;
 
@@ -138,7 +138,7 @@ namespace RumineSimulator_2._0
             DateTime paneAttack_pre_date = new DateTime(2013, 7, 20, random.Next(9, 24), random.Next(60), 0);
 
             //Выбор создателя вики
-            User paneAttack_creator = UsersControl.UsersList[0];
+            User paneAttack_creator = UsersControl.Users[0];
             string paneAttack_name = "Нашествие пане";
 
             HistoricEvent paneAttack = new HistoricEvent(paneAttack_name, EventType.historicPaneAttack, paneAttack_pre_date);
@@ -147,7 +147,7 @@ namespace RumineSimulator_2._0
             //Создатели
             Fraction pane_fraction = FractionList.SearchFraction("Броняши");
             pane_fraction.active = true;
-            Fraction antiPane_fraction = new Fraction("Антиброни", new List<Traits> { }, new List<Traits> { Traits.pane },
+            Fraction antiPane_fraction = new Fraction("Антиброни", new List<TraitsType> { }, new List<TraitsType> { TraitsType.pane },
                 FractionAggression.ambigious, true,false,true);
             foreach (User user in all_users)
             {

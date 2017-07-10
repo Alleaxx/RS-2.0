@@ -20,7 +20,7 @@ namespace RumineSimulator_2._0
         public static SmallEvent MessageWrite()
         {
             //Создание события
-            User user = UsersControl.UsersList[random.Next(UsersControl.UsersList.Count)];
+            User user = UsersControl.Users[random.Next(UsersControl.Users.Count)];
             SmallEvent Event = new SmallEvent($"Сообщение от {user}", EventType.message);
             Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, user.nick), "Некто написал сообщение на форуме. Ничего необычного");
             Event.participants.Add(user, Roles_Creator[random.Next(Roles_Creator.Count)]);
@@ -46,7 +46,7 @@ namespace RumineSimulator_2._0
         public static SmallEvent CommentWrite()
         {
             //Создание события
-            User user = UsersControl.UsersList[random.Next(UsersControl.UsersList.Count)];
+            User user = UsersControl.Users[random.Next(UsersControl.Users.Count)];
             SmallEvent Event = new SmallEvent($"Комментарий от {user}", EventType.comment);
             Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, user.nick), "Какой-то пользователь прокомментировал новость");
             Event.participants.Add(user, Roles_Creator[random.Next(Roles_Creator.Count)]);
@@ -70,7 +70,7 @@ namespace RumineSimulator_2._0
         public static SmallEvent NewsWrite()
         {
             //Создание события
-            User user = UsersControl.UsersList[random.Next(UsersControl.UsersList.Count)];
+            User user = UsersControl.Users[random.Next(UsersControl.Users.Count)];
             SmallEvent Event = new SmallEvent($"Новость от {user}", EventType.news);
             Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, user.nick), "Какой-то пользователь создал новость на румине");
             Event.participants.Add(user, Roles_Creator[random.Next(Roles_Creator.Count)]);
@@ -89,8 +89,8 @@ namespace RumineSimulator_2._0
         public static SmallEvent ReputationChange_Random()
         {
             //Создание события
-            User user_init = UsersControl.UsersList[random.Next(UsersControl.UsersList.Count)];
-            User user_goal = UsersControl.UsersList[random.Next(UsersControl.UsersList.Count)];
+            User user_init = UsersControl.Users[random.Next(UsersControl.Users.Count)];
+            User user_goal = UsersControl.Users[random.Next(UsersControl.Users.Count)];
             if (user_init == user_goal)
             {
                 return FailEvent();
@@ -106,15 +106,15 @@ namespace RumineSimulator_2._0
             Activity.curr_day_repChanges++;
             float karma_result = 0;
             string change_reason = "";
-            if (user_init.relations.All[user_goal].relation == RelationsEnum.comrade ||
-                user_init.relations.All[user_goal].relation == RelationsEnum.friend)
+            if (user_init.relations.RelationStateReturn(user_goal) == RelationType.comrade ||
+                user_init.relations.RelationStateReturn(user_goal) == RelationType.friend)
             {
                 karma_result = user_init.karma.karma;
                 change_reason = ReputationReason.ReturnReason(false);
                 user_goal.reputation.ChangeReputation(user_init, user_init.karma.karma, change_reason);
             }
-            else if (user_init.relations.All[user_goal].relation == RelationsEnum.unfriend ||
-                user_init.relations.All[user_goal].relation == RelationsEnum.enemy)
+            else if (user_init.relations.RelationStateReturn(user_goal) == RelationType.unfriend ||
+                user_init.relations.RelationStateReturn(user_goal) == RelationType.enemy)
             {
                 karma_result = -user_init.karma.karma;
                 change_reason = ReputationReason.ReturnReason(true);
@@ -147,7 +147,7 @@ namespace RumineSimulator_2._0
         public static SmallEvent ReputationChange_Reason(Event reason)
         {
             //Создание события
-            User user_init = UsersControl.UsersList[random.Next(UsersControl.UsersList.Count)];
+            User user_init = UsersControl.Users[random.Next(UsersControl.Users.Count)];
             User user_goal = UsersControl.UserSearch(reason.participants.ElementAt(0).Key.nick);
             if (user_init == user_goal)
             {
@@ -164,15 +164,15 @@ namespace RumineSimulator_2._0
             Activity.curr_day_repChanges++;
             float karma_result = 0;
             string change_reason = "";
-            if (user_init.relations.All[user_goal].relation == RelationsEnum.comrade ||
-                user_init.relations.All[user_goal].relation == RelationsEnum.friend)
+            if (user_init.relations.RelationStateReturn(user_goal) == RelationType.comrade ||
+                user_init.relations.RelationStateReturn(user_goal) == RelationType.friend)
             {
                 karma_result = user_init.karma.karma;
                 change_reason = ReputationReason.ReturnReason(false);
                 user_goal.reputation.ChangeReputation(user_init, user_init.karma.karma,change_reason);
             }
-            else if (user_init.relations.All[user_goal].relation == RelationsEnum.unfriend ||
-                user_init.relations.All[user_goal].relation == RelationsEnum.enemy)
+            else if (user_init.relations.RelationStateReturn(user_goal) == RelationType.unfriend ||
+                user_init.relations.RelationStateReturn(user_goal) == RelationType.enemy)
             {
                 karma_result = -user_init.karma.karma;
                 change_reason = ReputationReason.ReturnReason(true);
@@ -212,13 +212,13 @@ namespace RumineSimulator_2._0
 
             //Создание события
             List<User> moders = new List<User>();
-            foreach (User moder in UsersControl.UsersList)
+            foreach (User moder in UsersControl.Users)
             {
                 if (moder.mod)
                     moders.Add(moder);
             }
             User user_init = moders[random.Next(moders.Count)];
-            User user_goal = UsersControl.UsersList[random.Next(UsersControl.UsersList.Count)];
+            User user_goal = UsersControl.Users[random.Next(UsersControl.Users.Count)];
             if (user_init == user_goal)
             {
                 return FailEvent();
@@ -247,7 +247,7 @@ namespace RumineSimulator_2._0
 
             //Создание события
             List<User> moders = new List<User>();
-            foreach (User moder in UsersControl.UsersList)
+            foreach (User moder in UsersControl.Users)
             {
                 if (moder.mod)
                     moders.Add(moder);
@@ -293,45 +293,45 @@ namespace RumineSimulator_2._0
         {
             int chanse = -10;
             //Расчет шансов
-            if (user_init.relations.All[user_goal].relation == RelationsEnum.comrade ||
-                user_init.relations.All[user_goal].relation == RelationsEnum.friend)
+            if (user_init.relations.RelationStateReturn(user_goal) == RelationType.comrade ||
+                user_init.relations.RelationStateReturn(user_goal) == RelationType.friend)
             {
                 chanse -= 20;
             }
-            else if (user_init.relations.All[user_goal].relation == RelationsEnum.unfriend ||
-                user_init.relations.All[user_goal].relation == RelationsEnum.enemy)
+            else if (user_init.relations.RelationStateReturn(user_goal) == RelationType.unfriend ||
+                user_init.relations.RelationStateReturn(user_goal) == RelationType.enemy)
             {
                 chanse += 20;
             }
-            if (user_goal.traits.Contains(TraitsList.AllTraits[Traits.rak]))
+            if (user_goal.traits.Contains(TraitsList.SearchTrait(TraitsType.rak)))
             {
                 chanse += 75;
             }
-            if (user_goal.traits.Contains(TraitsList.AllTraits[Traits.madguy]))
+            if (user_goal.traits.Contains(TraitsList.SearchTrait(TraitsType.madguy)))
             {
                 chanse += 40;
             }
-            if (user_goal.traits.Contains(TraitsList.AllTraits[Traits.accurateguy]))
+            if (user_goal.traits.Contains(TraitsList.SearchTrait(TraitsType.accurateguy)))
             {
                 chanse -= 10;
             }
-            if (user_init.traits.Contains(TraitsList.AllTraits[Traits.tiran]))
+            if (user_init.traits.Contains(TraitsList.SearchTrait(TraitsType.tiran)))
             {
                 chanse += 60;
             }
-            if (user_goal.traits.Contains(TraitsList.AllTraits[Traits.ded]))
+            if (user_goal.traits.Contains(TraitsList.SearchTrait(TraitsType.ded)))
             {
                 chanse -= 20;
             }
-            if (user_goal.traits.Contains(TraitsList.AllTraits[Traits.kindguy]))
+            if (user_goal.traits.Contains(TraitsList.SearchTrait(TraitsType.kindguy)))
             {
                 chanse -= 10;
             }
-            if (user_goal.traits.Contains(TraitsList.AllTraits[Traits.srednefag]))
+            if (user_goal.traits.Contains(TraitsList.SearchTrait(TraitsType.srednefag)))
             {
                 chanse -= 10;
             }
-            if (user_goal.traits.Contains(TraitsList.AllTraits[Traits.revolutioner]))
+            if (user_goal.traits.Contains(TraitsList.SearchTrait(TraitsType.revolutioner)))
             {
                 chanse += 25;
             }
@@ -344,7 +344,7 @@ namespace RumineSimulator_2._0
             SmallEvent Event = new SmallEvent("Фейл", EventType.fail);
             Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Event, "Мде"), "Этот пользователь хотел нам что-то сказать. Но что - мы так и не узнаем...");
             Event.EventAdd3_Mods(0, 0, 0, 0);
-            Event.EventAdd4_Participants(UsersControl.UsersList[random.Next(UsersControl.UsersList.Count)], Roles_moderator[random.Next(Roles_moderator.Count)]);
+            Event.EventAdd4_Participants(UsersControl.Users[random.Next(UsersControl.Users.Count)], Roles_moderator[random.Next(Roles_moderator.Count)]);
             Event.EventAdd6_Dates(0);
             return Event;
         }

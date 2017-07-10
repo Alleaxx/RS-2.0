@@ -19,23 +19,23 @@ namespace RumineSimulator_2._0
             //Базовое представление в виде строчки
             classic_string = new GuiString(user.nick, "", true);
             classic_string.SetGUIName(GUITypes.user, user.user_id);
-            classic_string.AddColor("", user.group.ColorHTML);
+            classic_string.SetSize(16, 12);
+            classic_string.SetColor("", user.group.ColorHTML);
             try
             {
-                classic_string.AddImage(Nicks.AvaPath[user.nick].ToString());
+                classic_string.SetImage(Nicks.AvaPath[user.nick].ToString(),18,18);
             }
             catch
             {
-                classic_string.AddImage("No_ava.png");
+                classic_string.SetImage("No_ava.png",18,18);
             }
             //Даты
             Add_UserBasicProps(classic_string);
-            basic_props.Last().SetSize(18, 14);
             Add_UserBasicProps(new GuiString("Группа: ", user.group.Name, true));
-            basic_props.Last().AddColor("", "", user.group.ColorHTML);
+            basic_props.Last().SetColor("", "", user.group.ColorHTML);
             basic_props.Last().SetSize(18, 14);
             basic_props.Last().SetGUIName(GUITypes.group, user.group.id);
-            basic_props.Last().AddToolTip($"Права журналиста {user.group.Journ}" +
+            basic_props.Last().SetToolTip($"Права журналиста {user.group.Journ}" +
                 $" \nПрава модератора {user.mod}" +
                 $" \nПрава модератора бездны {user.group.Mod_bezdn}" +
                 $" \nРедкость {user.group.Respect}" +
@@ -69,7 +69,7 @@ namespace RumineSimulator_2._0
             traits.Last().SetSize(18, 14);
             foreach (Trait trait in user.traits)
             {
-                if (trait.type != TraitType.character)
+                if (trait.global_type == TraitGlobalType.fact)
                 {
                     Add_UserTraitsProps(trait.InterfaceInfo.classic_string);
                     traits.Last().SetGUIName(GUITypes.trait, trait.id_num);
@@ -81,7 +81,7 @@ namespace RumineSimulator_2._0
             traits.Last().SetSize(18, 14);
             foreach (Trait trait in user.traits)
             {
-                if (trait.type == TraitType.character)
+                if (trait.global_type == TraitGlobalType.personal)
                 {
                     Add_UserTraitsProps(trait.InterfaceInfo.classic_string);
                     traits.Last().SetGUIName(GUITypes.trait, trait.id_num);
@@ -101,40 +101,40 @@ namespace RumineSimulator_2._0
             Add_UserNumericProps(new GuiString("Сообщения: ", user.messages.ToString()));
             Add_UserNumericProps(new GuiString("Симпатии.: ", user.likes.ToString()));
             Add_UserNumericProps(new GuiString("Карма", user.karma.karma.ToString(), false, StringProfile.Header));
-            numeric_props.Last().SetSize(18, 14);
+            numeric_props.Last().SetSize(18, 18);
             Add_UserNumericProps(new GuiString("Активность: ", user.karma.kar_activity.ToString()));
             Add_UserNumericProps(new GuiString("Новости: ", user.karma.kar_news.ToString()));
             Add_UserNumericProps(new GuiString("Репутация: ", user.karma.kar_reputation.ToString()));
 
             //Прогресс-бары характера
             Add_UserCharacterProps(new GuiProgressBar("Благоразумие", user.character.adeq.Value, 0, 10));
-            character_props.Last().AddColor("", "", "#FF4B85FF");
-            character_props.Last().AddToolTip($"{user.character.adeq.Value}");
+            character_props.Last().SetColor("", "", "#FF4B85FF");
+            character_props.Last().SetToolTip($"{user.character.adeq.Value}");
             Add_UserCharacterProps(new GuiProgressBar("Раковитость", user.character.rakness.Value, 0, 10));
-            character_props.Last().AddColor("", "", "#FFFF1919");
-            character_props.Last().AddToolTip($"{user.character.rakness.Value}");
+            character_props.Last().SetColor("", "", "#FFFF1919");
+            character_props.Last().SetToolTip($"{user.character.rakness.Value}");
             Add_UserCharacterProps(new GuiProgressBar("Консервативность", user.character.conservative.Value, 0, 10));
-            character_props.Last().AddColor("", "", "#FFB98F1D");
-            character_props.Last().AddToolTip($"{user.character.conservative.Value}");
+            character_props.Last().SetColor("", "", "#FFB98F1D");
+            character_props.Last().SetToolTip($"{user.character.conservative.Value}");
             Add_UserCharacterProps(new GuiProgressBar("Толерантность", user.character.tolerance.Value, 0, 10));
-            character_props.Last().AddColor("", "", "#FF27DC15");
-            character_props.Last().AddToolTip($"{user.character.tolerance.Value}");
+            character_props.Last().SetColor("", "", "#FF27DC15");
+            character_props.Last().SetToolTip($"{user.character.tolerance.Value}");
             Add_UserCharacterProps(new GuiProgressBar("Шанс уйти", user.character.leaveChanse.Value, 0, 10));
-            character_props.Last().AddColor("", "", "#FFF7BD8C");
-            character_props.Last().AddToolTip($"{user.character.leaveChanse.Value}");
+            character_props.Last().SetColor("", "", "#FFF7BD8C");
+            character_props.Last().SetToolTip($"{user.character.leaveChanse.Value}");
             //Прогресс-бары умений
             Add_UserSkillsProps(new GuiProgressBar("Креативность", user.character.creativity.Value, 0, 10));
-            skills_props.Last().AddColor("", "", "#FF723EFF");
-            skills_props.Last().AddToolTip($"{user.character.creativity.Value}");
+            skills_props.Last().SetColor("", "", "#FF723EFF");
+            skills_props.Last().SetToolTip($"{user.character.creativity.Value}");
             Add_UserSkillsProps(new GuiProgressBar("Наука", user.character.sciense.Value, 0, 10));
-            skills_props.Last().AddColor("", "", "#FF3232F9");
-            skills_props.Last().AddToolTip($"{user.character.sciense.Value}");
+            skills_props.Last().SetColor("", "", "#FF3232F9");
+            skills_props.Last().SetToolTip($"{user.character.sciense.Value}");
             Add_UserSkillsProps(new GuiProgressBar("Гуманитаризм", user.character.humanist.Value, 0, 10));
-            skills_props.Last().AddColor("", "", "#FFF9AA38");
-            skills_props.Last().AddToolTip($"{user.character.humanist.Value}");
+            skills_props.Last().SetColor("", "", "#FFF9AA38");
+            skills_props.Last().SetToolTip($"{user.character.humanist.Value}");
             skills_props.Add(new GuiProgressBar("История", user.character.historic.Value, 0, 10));
-            skills_props.Last().AddColor("","","#FFFFE64B");
-            skills_props.Last().AddToolTip($"{user.character.historic.Value}");
+            skills_props.Last().SetColor("","","#FFFFE64B");
+            skills_props.Last().SetToolTip($"{user.character.historic.Value}");
 
 
         }

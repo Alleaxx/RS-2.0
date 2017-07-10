@@ -13,44 +13,44 @@ namespace RumineSimulator_2._0
         public static int id_total = 0;
         public static void FractionsInit()
         {
-            List<Traits> ideol = new List<Traits>();
-            List<Traits> enemy = new List<Traits>();
+            List<TraitsType> ideol = new List<TraitsType>();
+            List<TraitsType> enemy = new List<TraitsType>();
             NeutralFraction = new Fraction("Нейтралы", ideol, enemy, FractionAggression.peacefull,false, true);
 
-            ideol = new List<Traits>() {Traits.commie};
-            enemy = new List<Traits>() { Traits.fashik};
+            ideol = new List<TraitsType>() {TraitsType.commie};
+            enemy = new List<TraitsType>() { TraitsType.fashik};
             AllFractions.Add(new Fraction("Верующие коммунисты",ideol,enemy,FractionAggression.light,false));
 
-            ideol = new List<Traits>() { };
-            enemy = new List<Traits>() { Traits.rak };
+            ideol = new List<TraitsType>() { };
+            enemy = new List<TraitsType>() { TraitsType.rak };
             AllFractions.Add(new Fraction("Общество раковых гурманов", ideol, enemy, FractionAggression.aggressive, false));
 
-            ideol = new List<Traits>() { Traits.rak };
-            enemy = new List<Traits>() { Traits.inteligent };
+            ideol = new List<TraitsType>() { TraitsType.rak };
+            enemy = new List<TraitsType>() { TraitsType.inteligent };
             AllFractions.Add(new Fraction("1-е Румынские Народные Освободители", ideol, enemy, FractionAggression.aggressive, false));
 
-            ideol = new List<Traits>() { Traits.nazi };
-            enemy = new List<Traits>() { Traits.newfag};
+            ideol = new List<TraitsType>() { TraitsType.nazi };
+            enemy = new List<TraitsType>() { TraitsType.newfag};
             AllFractions.Add(new Fraction("Форумные нацисты", ideol, enemy, FractionAggression.aggressive, false));
 
-            ideol = new List<Traits>() { Traits.fashik };
-            enemy = new List<Traits>() { Traits.commie };
+            ideol = new List<TraitsType>() { TraitsType.fashik };
+            enemy = new List<TraitsType>() { TraitsType.commie };
             AllFractions.Add(new Fraction("Верующие фашисты", ideol, enemy, FractionAggression.ambigious,false));
 
-            ideol = new List<Traits>() { Traits.ded,Traits.natural };
-            enemy = new List<Traits>() { Traits.nevecherya };
+            ideol = new List<TraitsType>() { TraitsType.ded,TraitsType.natural };
+            enemy = new List<TraitsType>() { TraitsType.nevecherya };
             AllFractions.Add(new Fraction("Совет дедов-натуралов", ideol, enemy, FractionAggression.normal,true));
 
-            ideol = new List<Traits>() { Traits.programmer, Traits.arter,Traits.writer };
-            enemy = new List<Traits>() { Traits.rak };
+            ideol = new List<TraitsType>() { TraitsType.programmer, TraitsType.arter,TraitsType.writer };
+            enemy = new List<TraitsType>() { TraitsType.rak };
             AllFractions.Add(new Fraction("MicroShit", ideol, enemy, FractionAggression.light,false));
 
-            ideol = new List<Traits>() { Traits.pane};
-            enemy = new List<Traits>() {};
+            ideol = new List<TraitsType>() { TraitsType.pane};
+            enemy = new List<TraitsType>() {};
             AllFractions.Add(new Fraction("Броняши", ideol, enemy, FractionAggression.ambigious, false));
 
-            ideol = new List<Traits>() {};
-            enemy = new List<Traits>() { Traits.pane };
+            ideol = new List<TraitsType>() {};
+            enemy = new List<TraitsType>() { TraitsType.pane };
             AllFractions.Add(new Fraction("Хейтеры", ideol, enemy, FractionAggression.ambigious, false));
 
             ideol.Clear();

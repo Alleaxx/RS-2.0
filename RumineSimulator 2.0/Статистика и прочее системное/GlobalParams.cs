@@ -11,10 +11,10 @@ namespace RumineSimulator_2._0
         //Условия получения определенного отношение(нестрогое сравнение)
         public const int charFeature_cap = 10;
 
-        public const int friend_condition = 4;
+        public const int friend_condition = 5;
         public const int comrade_condition = 2;
         public const int unfriends_condition = -1;
-        public const int enemy_condition = -4;
+        public const int enemy_condition = -5;
         public const int rival_condition = 5;
 
         public static int warning_durings = 7;

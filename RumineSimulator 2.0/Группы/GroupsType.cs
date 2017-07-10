@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RumineSimulator_2._0
 {
-    enum GroupsEnum
+    enum GroupsType
     {
         Poset,
         JGP,

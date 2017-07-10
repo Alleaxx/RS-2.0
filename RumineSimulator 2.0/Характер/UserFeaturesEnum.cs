@@ -15,6 +15,8 @@ namespace RumineSimulator_2._0
         adeq,
         tolerance,
         conserv,
+        humanist,
+        historic,
         m_oldness,
 
     }

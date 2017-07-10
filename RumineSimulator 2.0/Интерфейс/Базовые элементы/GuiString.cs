@@ -32,16 +32,19 @@ namespace RumineSimulator_2._0
 
         public GuiString(string Text, string Value,bool IsHited = true,StringProfile prof = StringProfile.Usual)
         {
+            Statistic.guiString_obj++;
             text_name.Text = Text;
             text_name.FontSize = 15;
-            text_name.Margin = new Thickness(2, 2, 2, 1);
-            text_name.TextAlignment = TextAlignment.Left;
+            text_name.Margin = new Thickness(2, 2, 2, 2);
+            text_name.VerticalAlignment = VerticalAlignment.Center;
+            text_name.HorizontalAlignment = HorizontalAlignment.Center;
 
 
             text_value.Text = Value;
             text_value.FontSize = 13;
-            text_value.Margin = new Thickness(2, 3, 0, 0);
-            text_value.TextAlignment = TextAlignment.Right;
+            text_value.Margin = new Thickness(2, 2, 2, 2);
+            text_value.VerticalAlignment = VerticalAlignment.Center;
+            text_value.HorizontalAlignment = HorizontalAlignment.Center;
 
             stackpanel.Orientation = Orientation.Horizontal;
 
@@ -57,6 +60,10 @@ namespace RumineSimulator_2._0
         public GuiString(string Text, string Value) : this(Text, Value, false, StringProfile.Usual)
         {
 
+        }
+        public GuiString(string Text, string Value,int size_name,int size_value) : this(Text, Value, false, StringProfile.Usual)
+        {
+            SetSize(size_name, size_value);
         }
 
         public void SetGUIName()
@@ -88,29 +95,30 @@ namespace RumineSimulator_2._0
         }
 
         //Подсказка
-        public void AddToolTip(string tooltip)
+        public void SetToolTip(string tooltip)
         {
             item.ToolTip = tooltip;
         }
 
         //Редактирование изображения
-        public void AddImage(string Path)
+        public void SetImage(string Path, int height = 15, int weidth = 15)
         {
             if(Path != "")
             {
                 if (Path.Contains("pack://application:,,,/Resources/"))
                 {
-                    AddImage(new BitmapImage(new Uri(Path)));
+                    SetImage(new BitmapImage(new Uri(Path)));
                 }
                 else
                 {
                     Path = "pack://application:,,,/Resources/" + Path;
-                    AddImage(new BitmapImage(new Uri(Path)));
+                    SetImage(new BitmapImage(new Uri(Path)));
                 }
-
             }
+            Image.Width = weidth;
+            Image.Height = height;
         }
-        public void AddImage(ImageSource image_sourse,int height = 15,int weidth = 15)
+        public void SetImage(ImageSource image_sourse,int height = 15,int weidth = 15)
         {
             ImageSource = image_sourse;
             Image.Width = weidth;
@@ -120,7 +128,7 @@ namespace RumineSimulator_2._0
 
 
         //Добавление цвета через html-строки
-        public virtual void AddColor(string background_all,string foreground_all,string f_val = "",string f_text = "")
+        public virtual void SetColor(string background_all,string foreground_all,string f_val = "",string f_text = "")
         {
             if(background_all != "")
             {
@@ -162,7 +170,7 @@ namespace RumineSimulator_2._0
             }
 
         }
-        public virtual void AddColor(SolidColorBrush back,SolidColorBrush fore)
+        public virtual void SetColor(SolidColorBrush back,SolidColorBrush fore)
         {
             item.Background = back;
             text_name.Foreground = fore;

@@ -26,9 +26,9 @@ namespace RumineSimulator_2._0
             progressBar.Height = 15;
             progressBar.Margin = new Thickness(5, 0, 5, 0);
         }
-        public override void AddColor(string background_all, string foreground_all, string f_val = "", string f_text = "")
+        public override void SetColor(string background_all, string foreground_all, string f_val = "", string f_text = "")
         {
-            base.AddColor(background_all, foreground_all, f_val, f_text);
+            base.SetColor(background_all, foreground_all, f_val, f_text);
             progressBar.Foreground = foreground_brush_value;
         }
         public override void CreateGui()

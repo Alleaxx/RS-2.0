@@ -47,7 +47,7 @@ namespace RumineSimulator_2._0
             //Создание базовых групп
             Nicks.AvasInit();
             text_log.AppendText("\nИнициализация ников успешна...");
-            GroupsList.UserGroupsInitCreation();
+            GroupsControl.UserGroupsInitCreation();
             text_log.AppendText("\nГруппы созданы...");
             TraitsList.TraitsInit();
             text_log.AppendText("\nТрейты созданы...");
@@ -60,14 +60,13 @@ namespace RumineSimulator_2._0
             Date.InitDate(new DateTime(2011, 07, 27), new DateTime(2013, 07, 19, 12, 0, 0));
             StatusTextData.Text = Date.ReturnCurrDate();
             text_foundDate.Text = Date.found_date.ToShortDateString();
-            for (int i = 0; i < TraitsList.AllTraits.Count; i++)
+            for (int i = 0; i < TraitsList.allTraits.Count; i++)
             {
-                list_TraitsInfo.Items.Add(TraitsList.AllTraits.ElementAt(i).Value.InterfaceInfo.classic_string.Item);
+                list_TraitsInfo.Items.Add(TraitsList.allTraits[i].InterfaceInfo.classic_string.Item);
             }
-            for (int i = 0; i < GroupsList.Groups.Count; i++)
+            for (int i = 0; i < GroupsControl.groups.Count; i++)
             {
-                list_GroupsInfo.Items.Add(GroupsList.Groups.ElementAt(i).Value.InterfaceInfo.classic_string.Item);
-                list_TraitsInfo.Items.Add(TraitsList.AllTraits.ElementAt(i).Value.InterfaceInfo.classic_string.Item);
+                list_GroupsInfo.Items.Add(GroupsControl.groups[i].InterfaceInfo.classic_string.Item);
             }
 
             UserPropsEventsOn();
@@ -238,7 +237,7 @@ namespace RumineSimulator_2._0
             if (users_generated)
             {
                 Nicks.NicksInit();
-                UsersControl.UsersList.Clear();
+                UsersControl.Users.Clear();
             }
             timer_users.Start();
         }
@@ -251,7 +250,7 @@ namespace RumineSimulator_2._0
                 text_log.AppendText("\n" + timer_total_users + " юзеров сгенерировано...");
                 UsersControl.GenerateRelations();
                 text_log.AppendText("\nОтношения сгенерированы...");
-                UsersControl.ModerChoose();
+                GroupsControl.ModerChoose();
                 users_generated = true;
                 UsersControl.FractionChoose();
                 Activity.Activity_Init();
@@ -288,11 +287,21 @@ namespace RumineSimulator_2._0
             //Обновление пользователей
             if (list_UsersAlpha.Items.Count < 2)
             {
-                for (int i = 0; i < UsersControl.UsersList.Count; i++)
+                for (int i = 0; i < UsersControl.Users.Count; i++)
                 {
-                    list_UsersAlpha.Items.Add(UsersControl.UsersList[i].InterfaceInfo.classic_string.Item);
+                    list_UsersAlpha.Items.Add(UsersControl.UserListReturnSort()[i].InterfaceInfo.classic_string.Item);
                 }
             }
+            //Обновление пользователей в отношениях, задание особого события при нажатии строки
+            combo_RelationChoose.Items.Clear();
+            foreach (User user in UsersControl.UserListReturnSort())
+            {
+                GuiString user_relation = new GuiString("", "");
+                user_relation = user.InterfaceInfo.classic_string;
+                user_relation.SetGUIName(GUITypes.relation, user.user_id);
+                combo_RelationChoose.Items.Add(user_relation.Item);
+            }
+
             //Обновление фракций
             list_FractionsInfo.Items.Clear();
             foreach (Fraction fraction in FractionList.AllFractions)
@@ -404,6 +413,13 @@ namespace RumineSimulator_2._0
                     }
 
                 }
+                list_UserPropertiesRelations.Items.Clear();
+                foreach (GuiString info in sel_user.relations.InterfaceInfo.relation_props)
+                {
+                    list_UserPropertiesRelations.Items.Add(info.Item);
+                }
+
+
             }
             catch
             {
@@ -417,6 +433,61 @@ namespace RumineSimulator_2._0
             WindowReputation = new WindowReputation(Presenter.selected_user.nick);
             WindowReputation.Show();
         }
+        //Кнопка показа предупреждений
+        private void button_ViewWarns_Click(object sender, RoutedEventArgs e)
+        {
+            if (Presenter.selected_user != null)
+            {
+                WindowWarnings = new WindowWarn(Presenter.selected_user.nick);
+                WindowWarnings.Show();
+            }
+        }
+
+        //Изменение сортировки пользователей
+        private void combo_UserSort_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch (combo_UserSort.SelectedIndex)
+            {
+                case 0:
+                    Presenter.SetUserSort(SortingUserTypes.no_sort);
+                    break;
+                case 1:
+                    Presenter.SetUserSort(SortingUserTypes.registration);
+                    break;
+                case 2:
+                    Presenter.SetUserSort(SortingUserTypes.reputation);
+                    break;
+                case 3:
+                    Presenter.SetUserSort(SortingUserTypes.influence);
+                    break;
+                case 4:
+                    Presenter.SetUserSort(SortingUserTypes.moderChanse);
+                    break;
+                case 5:
+                    Presenter.SetUserSort(SortingUserTypes.groupRareness);
+                    break;
+                case 6:
+                    Presenter.SetUserSort(SortingUserTypes.adeq);
+                    break;
+                case 7:
+                    Presenter.SetUserSort(SortingUserTypes.rakness);
+                    break;
+                case 8:
+                    Presenter.SetUserSort(SortingUserTypes.messages);
+                    break;
+
+                default:
+                    Presenter.SetUserSort(SortingUserTypes.no_sort);
+                    break;
+            }
+            //Обновление списка пользователей
+            list_UsersAlpha.Items.Clear();
+            for (int i = 0; i < UsersControl.Users.Count; i++)
+            {
+                list_UsersAlpha.Items.Add(UsersControl.UserListReturnSort()[i].InterfaceInfo.classic_string.Item);
+            }
+        }
+
 
         //Изменение фракции в списке и ее обновление
         private void list_FractionsInfo_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -452,6 +523,7 @@ namespace RumineSimulator_2._0
             list_UserPropertiesNumeric.SelectionChanged -= PropertyUsersSelection;
             list_TraitsNew.SelectionChanged -= PropertyUsersSelection;
             list_UserPropertiesBasic.SelectionChanged -= PropertyUsersSelection;
+            combo_RelationChoose.SelectionChanged -= PropertyUsersSelection;
         }
         //Включение событий показа дополнительной информации в пользователях
         private void UserPropsEventsOn()
@@ -459,14 +531,27 @@ namespace RumineSimulator_2._0
             list_UserPropertiesNumeric.SelectionChanged += PropertyUsersSelection;
             list_TraitsNew.SelectionChanged += PropertyUsersSelection;
             list_UserPropertiesBasic.SelectionChanged += PropertyUsersSelection;
+            combo_RelationChoose.SelectionChanged += PropertyUsersSelection;
         }
 
         //Событие возникающее при выборе свойства пользователя, позволяющее отображать дополнительную информацию
         public void PropertyUsersSelection(object sender, RoutedEventArgs e)
         {
             list_UsersAlpha_SelectedProp.Items.Clear();
-            ListBox lb = (ListBox)sender;
-            ListBoxItem item = (ListBoxItem)lb.SelectedItem;
+
+            ListBoxItem item = new ListBoxItem();
+            //Вызов из комбобокса и листбокса
+            try
+            {
+                ListBox lb = (ListBox)sender;
+                item = (ListBoxItem)lb.SelectedItem;
+            }
+            catch
+            {
+                ComboBox cb = (ComboBox)sender;
+                item = (ListBoxItem)cb.SelectedItem;
+            }
+
             if (Presenter.InterfaceInfoReturn(item.Name) != null)
             {
                 IntView info = Presenter.InterfaceInfoReturn(item.Name);
@@ -482,17 +567,19 @@ namespace RumineSimulator_2._0
         {
             list_ViewListDetails.Items.Clear();
             ListBox lb = (ListBox)sender;
-            ListBoxItem item = (ListBoxItem)lb.SelectedItem;
-            if (Presenter.InterfaceInfoReturn(item.Name) != null)
+            if(lb.Items.Count != 0)
             {
-                IntView info = Presenter.InterfaceInfoReturn(item.Name);
-                foreach (GuiString str in info.all_properties)
+                ListBoxItem item = (ListBoxItem)lb.SelectedItem;
+                if (Presenter.InterfaceInfoReturn(item.Name) != null)
                 {
-                    list_ViewListDetails.Items.Add(str.Item);
+                    IntView info = Presenter.InterfaceInfoReturn(item.Name);
+                    foreach (GuiString str in info.all_properties)
+                    {
+                        list_ViewListDetails.Items.Add(str.Item);
+                    }
                 }
             }
+
         }
-
-
     }
 }

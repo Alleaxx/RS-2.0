@@ -8,7 +8,7 @@ namespace RumineSimulator_2._0
 {
     static class AnounceType
     {
-        static Dictionary<Traits, List<string>> Dictionary = new Dictionary<Traits, List<string>>();
+        static Dictionary<TraitsType, List<string>> Dictionary = new Dictionary<TraitsType, List<string>>();
         static List<string> notrait = new List<string>();
         static List<string> Succes = new List<string>();
         static List<string> Fail = new List<string>();
@@ -21,9 +21,9 @@ namespace RumineSimulator_2._0
             notrait.Add("Нужна революция!");
             notrait.Add("Больше групп!");
             notrait.Add("Линукс для калоедов!");
-            Dictionary.Add(Traits.notrait, notrait);
+            Dictionary.Add(TraitsType.notrait, notrait);
         }
-        public static string ReturnAnounce(Traits trait)
+        public static string ReturnAnounce(TraitsType trait)
         {
             List<string> poss = new List<string>();
             for (int i = 0; i < Dictionary.Count; i++)
@@ -35,7 +35,7 @@ namespace RumineSimulator_2._0
             {
                 for (int i = 0; i < Dictionary.Count; i++)
                 {
-                    if (Dictionary.ElementAt(i).Key == Traits.notrait)
+                    if (Dictionary.ElementAt(i).Key == TraitsType.notrait)
                         poss = Dictionary.ElementAt(i).Value;
                 }
             }

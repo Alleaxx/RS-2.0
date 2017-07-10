@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RumineSimulator_2._0
 {
-    enum Traits
+    enum TraitsType
     {
         programmer,
         arter,      
@@ -64,7 +64,7 @@ namespace RumineSimulator_2._0
         atheist,
         christ,
         krab,
-        asket,
+        buddist,
         gnomik,
         tea,
         composer,
@@ -84,20 +84,10 @@ namespace RumineSimulator_2._0
         neutral,
         imperor,
     }
-    enum TraitType
+    enum TraitGlobalType
     {
-        notype,
-
-        oldness,
-
-        proffesional,
-        chRak,
-        chAdeq,
-        chCons,
-        chTolerance,
-        holywar,
-        nation,
-        character,
+        fact,
+        personal
 
     }
 }

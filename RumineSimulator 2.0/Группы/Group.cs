@@ -12,6 +12,7 @@ namespace RumineSimulator_2._0
     {
         public int id { get; private set; }
         public string Name { get; private set; }
+        public GroupsType type { get; private set; }
 
         //Параметры группы
         public int Respect { get; private set; }
@@ -40,19 +41,14 @@ namespace RumineSimulator_2._0
         }
 
         //Инициализация группы
-        public Group(string Name,int Respect,int rareness,string ColorHTTML, GroupCondition Condition, bool Journ = false, bool Mod_bezdn = false, bool Mod = false, bool AC = false,bool Admin = false)
+        public Group(string Name,int Respect,int Rareness,string ColorHTTML,GroupsType Type)
         {
-            id = GroupsList.Groups.Count + 1;
+            id = GroupsControl.groups.Count + 1;
             this.Name = Name;
-            this.Rareness = rareness;
+            this.Rareness = Rareness;
             this.Respect = Respect;
-            this.Mod = Mod;
-            this.Journ = Journ;
-            this.Mod_bezdn = Mod_bezdn;
-            this.ColorHTML = ColorHTTML;
-            aC = AC;
-            admin = Admin;
-            condition = Condition;
+            ColorHTML = ColorHTTML;
+            type = Type;
 
             //Конвертация цвета из HTML в WPFовский цвет
             ColorTranslator.FromHtml(ColorHTTML);
@@ -60,6 +56,18 @@ namespace RumineSimulator_2._0
             System.Windows.Media.Color.FromRgb(dra_color.R, dra_color.G, dra_color.B);
             need_brush.Color = System.Windows.Media.Color.FromRgb(dra_color.R, dra_color.G, dra_color.B);
         }
+        public void SetCondition(GroupCondition condition)
+        {
+            this.condition = condition;
+        }
+        public void SetPossibilieties(bool Journ, bool Mod_bezdn, bool Mod, bool AC, bool Admin)
+        {
+            this.Mod = Mod;
+            this.Journ = Journ;
+            this.Mod_bezdn = Mod_bezdn;
 
+            aC = AC;
+            admin = Admin;
+        }
     }
 }

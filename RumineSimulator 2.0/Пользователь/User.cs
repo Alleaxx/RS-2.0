@@ -29,7 +29,7 @@ namespace RumineSimulator_2._0
         public int rnd_num { get; set; }
         public int moder_chanse { get; set; }
 
-        public int m_oldness { get; private set; }
+        public int month_oldness { get; private set; }
 
         public int news { get; set; }
         public int news_quality { get; private set; }
@@ -38,7 +38,7 @@ namespace RumineSimulator_2._0
 
         public Group group { get; set; }
         public Character character { get; private set; }
-        public RelationList relations { get; private set; }
+        public RelationControl relations { get; private set; }
         public Reputation reputation { get; }
         public Karma karma { get; }
         public Fraction main_fraction { get; set; }
@@ -106,11 +106,11 @@ namespace RumineSimulator_2._0
             traits = TraitsList.ReturnTraits(this);
 
             //На основе характера получаем стереотип и доступные группы
-            group = GroupsList.ReturnRandomGroup();
+            group = GroupsControl.ReturnUserRandomGroup();
             SetLikesRatings();
 
             //Инициализируем отношения                                             
-            relations = new RelationList();
+            relations = new RelationControl(this);
             CharacterMod();
             TraitMod();
             SetActivities();
@@ -154,20 +154,20 @@ namespace RumineSimulator_2._0
 
         private void TraitMod()
         {
-            if (traits.Contains(TraitsList.AllTraits[Traits.newslover]))
+            if (traits.Contains(TraitsList.SearchTrait(TraitsType.newslover)))
             {
                 news *= random.Next(1, 3) + 3;
                 comments = comments * random.Next(1, 3) + 5;
             }
-            if (traits.Contains(TraitsList.AllTraits[Traits.vilka]))
+            if (traits.Contains(TraitsList.SearchTrait(TraitsType.vilka)))
             {
                 comments = comments * random.Next(1, 4);
             }
-            if (traits.Contains(TraitsList.AllTraits[Traits.accurateguy]))
+            if (traits.Contains(TraitsList.SearchTrait(TraitsType.accurateguy)))
             {
                 news_quality += 10;
             }
-            if (traits.Contains(TraitsList.AllTraits[Traits.leader]))
+            if (traits.Contains(TraitsList.SearchTrait(TraitsType.leader)))
             {
                 forum_influence *= 2;
             }
@@ -183,15 +183,15 @@ namespace RumineSimulator_2._0
         {
             if (Date.current_date.Year - registration.Year > 1)
             {
-                m_oldness = (13 - registration.Month + ((Date.current_date.Year - registration.Year - 1) * 12) + Date.current_date.Month);
+                month_oldness = (13 - registration.Month + ((Date.current_date.Year - registration.Year - 1) * 12) + Date.current_date.Month);
             }
             else if (Date.current_date.Year - registration.Year == 1)
             {
-                m_oldness = (13 - registration.Month + Date.current_date.Month);
+                month_oldness = (13 - registration.Month + Date.current_date.Month);
             }
             else if (Date.current_date.Year - registration.Year == 0)
             {
-                m_oldness = Date.current_date.Month - registration.Month + 1;
+                month_oldness = Date.current_date.Month - registration.Month + 1;
             }
 
         }
@@ -236,36 +236,36 @@ namespace RumineSimulator_2._0
         {
             moder_chanse = 0;
 
-            if (traits.Contains(TraitsList.AllTraits[Traits.ded]))
+            if (traits.Contains(TraitsList.SearchTrait(TraitsType.ded)))
             {
                 moder_chanse += 10;
             }
-            else if (traits.Contains(TraitsList.AllTraits[Traits.newfag]))
+            else if (traits.Contains(TraitsList.SearchTrait(TraitsType.newfag)))
             {
                 moder_chanse -= 10;
             }
-            if (traits.Contains(TraitsList.AllTraits[Traits.accurateguy]))
+            if (traits.Contains(TraitsList.SearchTrait(TraitsType.accurateguy)))
             {
                 moder_chanse += 5;
             }
-            if (traits.Contains(TraitsList.AllTraits[Traits.rak]))
+            if (traits.Contains(TraitsList.SearchTrait(TraitsType.rak)))
             {
                 moder_chanse -= 30;
             }
-            if (traits.Contains(TraitsList.AllTraits[Traits.madguy]))
+            if (traits.Contains(TraitsList.SearchTrait(TraitsType.madguy)))
             {
                 moder_chanse -= 15;
             }
-            if (traits.Contains(TraitsList.AllTraits[Traits.Wpower]))
+            if (traits.Contains(TraitsList.SearchTrait(TraitsType.Wpower)))
             {
                 if (random.Next(2) == 0)
                     moder_chanse += 10;
             }
-            if (traits.Contains(TraitsList.AllTraits[Traits.leader]))
+            if (traits.Contains(TraitsList.SearchTrait(TraitsType.leader)))
             {
                 moder_chanse += 5;
             }
-            moder_chanse += relations.friends.Count + relations.comrades.Count - relations.enemies.Count - relations.unfriends.Count;
+            moder_chanse += relations.RelationCountUsersReturn(RelationType.friend).Count + relations.RelationCountUsersReturn(RelationType.comrade).Count - relations.RelationCountUsersReturn(RelationType.enemy).Count - relations.RelationCountUsersReturn(RelationType.unfriend).Count;
             moder_chanse *= 2;
 
         }
@@ -293,26 +293,27 @@ namespace RumineSimulator_2._0
 
         private void SetForum_influence()
         {
-            forum_influence = this.relations.friends.Count * 5 +
-                relations.comrades.Count * 2 +
+            forum_influence = relations.RelationCountUsersReturn(RelationType.friend).Count * 5 +
+                relations.RelationCountUsersReturn(RelationType.comrade).Count * 2 +
                 group.Respect * 10 +
                 (likes / 100) + 
                 (int)reputation.Base_reputation;
+            if (traits.Contains(TraitsList.SearchTrait(TraitsType.leader))) ;
+            forum_influence = forum_influence + (forum_influence / 2);
         }
         #endregion
 
         //Генерация отношений
         public void GenerateRelation()
         {
-            relations.RelationsGenerate(this);
             description = UserDescription.GetTextDescription(this);
             reputation.ReputationRelations(this);
             karma.KarmaUpdate(this);
             for (int i = 0; i < UsersControl.UserAmount; i++)
             {
-                blocked_users_rep.Add(UsersControl.UsersList[i], 0);
+                blocked_users_rep.Add(UsersControl.Users[i], 0);
             }
-            group = GroupsList.ReturnUserGroup(this);
+            group = GroupsControl.ReturnUserGroup(this);
             GroupMod();
             SetModerChanse();
             SetForum_influence();
@@ -362,11 +363,8 @@ namespace RumineSimulator_2._0
             daylog = new UserDayLog(this);
             for (int i = 0; i < UsersControl.UserAmount; i++)
             {
-                if (blocked_users_rep[UsersControl.UsersList[i]] > 0)
-                    blocked_users_rep[UsersControl.UsersList[i]]--;
-            }
-            for (int i = 0; i < relations.All.Count; i++)
-            {
+                if (blocked_users_rep[UsersControl.Users[i]] > 0)
+                    blocked_users_rep[UsersControl.Users[i]]--;
             }
         }
         public void UpdateEndDay()

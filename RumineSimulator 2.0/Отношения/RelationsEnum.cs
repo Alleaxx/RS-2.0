@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace RumineSimulator_2._0
 {
-    enum RelationsEnum
+    enum RelationType
     {
         friend,
         comrade,
         neutral,
         unfriend,
         enemy,
-        me
+        me,
     }
 }

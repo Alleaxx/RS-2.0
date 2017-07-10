@@ -92,6 +92,8 @@
       <DependentUpon>EventView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Отношения\IntView_Relation.cs" />
+    <Compile Include="Отношения\IntView_RelationControl.cs" />
+    <Compile Include="Статистика и прочее системное\EnumToString.cs" />
     <Compile Include="Статистика и прочее системное\IntView_Statistics.cs" />
     <Compile Include="Статистика и прочее системное\Statistic.cs" />
     <Compile Include="Активность\Activity.cs" />
@@ -105,7 +107,7 @@
     <Compile Include="Интерфейс\IGUI.cs" />
     <Compile Include="Интерфейс\IntView.cs" />
     <Compile Include="Интерфейс\IntView_Activity.cs" />
-    <Compile Include="Интерфейс\IntView_Ban.cs" />
+    <Compile Include="Бан\IntView_Ban.cs" />
     <Compile Include="Интерфейс\IntView_Event.cs" />
     <Compile Include="Фракции\IntView_Fraction.cs" />
     <Compile Include="Трейты\IntView_Trait.cs" />
@@ -114,7 +116,6 @@
     <Compile Include="Интерфейс\Базовые элементы\Presenter.cs" />
     <Compile Include="Интерфейс\Базовые элементы\GuiProgressBar.cs" />
     <Compile Include="Интерфейс\Базовые элементы\GuiString.cs" />
-    <Compile Include="Бан\WarningReason.cs" />
     <Compile Include="Фракции\Fraction.cs" />
     <Compile Include="Фракции\FractionList.cs" />
     <Compile Include="Статистика и прочее системное\GlobalParams.cs" />
@@ -138,17 +139,17 @@
     <Compile Include="Пользователь\UserChangeLog.cs" />
     <Compile Include="Репа-карма\Karma.cs" />
     <Compile Include="Репа-карма\Reputation.cs" />
-    <Compile Include="Группы\GroupsEnum.cs" />
+    <Compile Include="Группы\GroupsType.cs" />
     <Compile Include="Отношения\RelationsEnum.cs" />
     <Compile Include="Репа-карма\ReputationHistory.cs" />
     <Compile Include="Характер\Character.cs" />
     <Compile Include="Пользователь\UserControl.cs" />
     <Compile Include="Пользователь\Прочее\UserDescription.cs" />
-    <Compile Include="Группы\GroupsList.cs" />
+    <Compile Include="Группы\GroupsControl.cs" />
     <Compile Include="Группы\Group.cs" />
     <Compile Include="Пользователь\User.cs" />
     <Compile Include="Отношения\Relation.cs" />
-    <Compile Include="Отношения\RelationList.cs" />
+    <Compile Include="Отношения\RelationControl.cs" />
     <Compile Include="Пользователь\Прочее\Nicks.cs" />
     <Compile Include="События\AnounceType.cs" />
     <Page Include="EventView.xaml">

@@ -73,14 +73,14 @@ namespace RumineSimulator_2._0
         public void ReputationRelations(User user)
         {
             User newfag = user;
-            for (int i = 0; i < user.relations.All.Count; i++)
+            for (int i = 0; i < UsersControl.Users.Count; i++)
             {
 
-                if (user.m_oldness > user.relations.All.ElementAt(i).Key.m_oldness)
-                    newfag = user.relations.All.ElementAt(i).Key;
+                if (user.month_oldness > UsersControl.Users[i].month_oldness)
+                    newfag = UsersControl.Users[i];
 
-                string rel;
-                rel = user.relations.UsersSpace(user.relations.All.ElementAt(i).Key);
+                RelationType rel_state;
+                rel_state = user.relations.RelationStateReturn(UsersControl.Users[i]);
                 int wish_modif_pos = 0;
                 int wish_modif_otr = 0;
                 wish_modif_pos += user.group.Respect;
@@ -115,33 +115,33 @@ namespace RumineSimulator_2._0
                     wish_modif_pos += 15;
                 }
 
-                for (int a = 0; a < newfag.m_oldness; a++)
+                for (int a = 0; a < newfag.month_oldness; a++)
                 {
 
-                    switch (rel)
+                    switch (rel_state)
                     {
-                        case "friends":
+                        case RelationType.friend:
                             if (AdvRnd.PersentChanseBool(40 + wish_modif_pos))
                             {
-                                pos_reputation += user.relations.All.ElementAt(i).Key.karma.karma;
+                                pos_reputation += UsersControl.Users[i].karma.karma;
                             }
                             break;
-                        case "enemies":
+                        case RelationType.enemy:
                             if (AdvRnd.PersentChanseBool(8 + wish_modif_otr))
                             {
-                                otr_reputation += user.relations.All.ElementAt(i).Key.karma.karma;
+                                otr_reputation += UsersControl.Users[i].karma.karma;
                             }
                             break;
-                        case "unfriends":
+                        case RelationType.unfriend:
                             if (AdvRnd.PersentChanseBool(4 + wish_modif_otr))
                             {
-                                otr_reputation += user.relations.All.ElementAt(i).Key.karma.karma;
+                                otr_reputation += UsersControl.Users[i].karma.karma;
                             }
                             break;
-                        case "comrades":
+                        case RelationType.comrade:
                             if (AdvRnd.PersentChanseBool(20 + wish_modif_pos))
                             {
-                                pos_reputation += user.relations.All.ElementAt(i).Key.karma.karma;
+                                pos_reputation += UsersControl.Users[i].karma.karma;
                             }
                             break;
                     }

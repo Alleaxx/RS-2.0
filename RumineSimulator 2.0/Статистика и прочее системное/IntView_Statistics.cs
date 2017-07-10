@@ -21,15 +21,21 @@ namespace RumineSimulator_2._0
             Add_StatProperty((new GuiString("Средняя толерантность: ", $"{Statistic.aver_tolerance}", false)));
             Add_StatProperty((new GuiString("Средняя наука: ", $"{Statistic.aver_sciense}", false)));
             Add_StatProperty((new GuiString("Средняя креативность: ", $"{Statistic.aver_creativity}", false)));
+
             Add_StatProperty((new GuiString("Техническое", $"", false, StringProfile.Header)));
-            Add_StatProperty((new GuiString("Объекты отношений: ", $"{Statistic.relation_obj}", false)));
+            Add_StatProperty((new GuiString("Обращений к отношениям: ", $"{Statistic.relation_obj}", false)));
+            Add_StatProperty((new GuiString("Создано GUI-строк: ", $"{Statistic.guiString_obj}", false)));
+
+
             Add_StatProperty((new GuiString("Глобальные параметры", $"", false, StringProfile.Header)));
             Add_StatProperty((new GuiString("Условие дружбы: ", $"{GlobalParams.friend_condition}", false)));
             Add_StatProperty((new GuiString("Условие товарищечества: ", $"{GlobalParams.comrade_condition}", false)));
             Add_StatProperty((new GuiString("Условие неприязни: ", $"{GlobalParams.unfriends_condition}", false)));
             Add_StatProperty((new GuiString("Условие вражды: ", $"{GlobalParams.enemy_condition}", false)));
             Add_StatProperty((new GuiString("Условие соперничества: ", $"{GlobalParams.rival_condition}", false)));
+
             Add_StatProperty((new GuiString("Граница значений характера: ", $"{GlobalParams.charFeature_cap}", false)));
+
             Add_StatProperty((new GuiString("Длительность бана предупреждениями: ", $"{GlobalParams.warning_durings}", false)));
 
         }

@@ -10,8 +10,8 @@ namespace RumineSimulator_2._0
     {
         public int id { get; set; }
         public string name { get; private set; }
-        public List<Traits> ideology_traits = new List<Traits>();
-        public List<Traits> enemy_traits = new List<Traits>();
+        public List<TraitsType> ideology_traits = new List<TraitsType>();
+        public List<TraitsType> enemy_traits = new List<TraitsType>();
         public int Influence
         {
             get
@@ -45,7 +45,7 @@ namespace RumineSimulator_2._0
 
         public FractionAggression aggro_type = new FractionAggression();
 
-        public Fraction(string Name, List<Traits> Ideology, List<Traits> EnemyTraits, FractionAggression Type, bool HardCond, bool NoCond = false, bool active = false)
+        public Fraction(string Name, List<TraitsType> Ideology, List<TraitsType> EnemyTraits, FractionAggression Type, bool HardCond, bool NoCond = false, bool active = false)
         {
             id = FractionList.id_total++;
             name = Name;
@@ -73,7 +73,7 @@ namespace RumineSimulator_2._0
             {
                 if (fraction != this)
                 {
-                    foreach (Traits bad_trait in enemy_traits)
+                    foreach (TraitsType bad_trait in enemy_traits)
                     {
                         if (fraction.ideology_traits.Contains(bad_trait))
                         {
@@ -93,20 +93,20 @@ namespace RumineSimulator_2._0
                 return true;
             foreach (Trait trait in user.traits)
             {
-                foreach (Traits t_type in enemy_traits)
+                foreach (TraitsType t_type in enemy_traits)
                 {
-                    if (trait.id_trait == t_type)
+                    if (trait.type == t_type)
                     {
                         return false;
                     }
                 }
-                foreach (Traits t_type in ideology_traits)
+                foreach (TraitsType t_type in ideology_traits)
                 {
-                    if (!hard_cond && trait.id_trait == t_type)
+                    if (!hard_cond && trait.type == t_type)
                     {
                         return true;
                     }
-                    else if (trait.id_trait == t_type)
+                    else if (trait.type == t_type)
                     {
                         need_traits++;
                     }

@@ -16,18 +16,18 @@ namespace RumineSimulator_2._0
             classic_string.SetGUIName(GUITypes.fraction, fraction.id);
             Add_FractionProperty(classic_string);
             if (!fraction.active)
-                classic_string.AddColor("#FFDDDDDD", "#FF000000");
+                classic_string.SetColor("#FFDDDDDD", "#FF000000");
             if(fraction.leader != null)
                 Add_FractionProperty(new GuiString("Лидер: ", fraction.leader.nick, false));
             Add_FractionProperty(new GuiString("Активность: ", fraction.active.ToString(), false));
             Add_FractionProperty(new GuiString("Форумное влияние: ", fraction.Influence.ToString(), false));
             Add_FractionProperty(new GuiString("Идеология: ",$"", false, StringProfile.Header));
-            foreach (Traits trait in fraction.ideology_traits)
+            foreach (TraitsType trait in fraction.ideology_traits)
             {
                 Add_FractionProperty(new GuiString(trait.ToString(), "", false,StringProfile.Quote));
             }
             Add_FractionProperty(new GuiString("Вражеская идеология: ", $"{(fraction.enemy_traits.Count)}",false, StringProfile.Header));
-            foreach (Traits trait in fraction.enemy_traits)
+            foreach (TraitsType trait in fraction.enemy_traits)
             {
                 Add_FractionProperty(new GuiString(trait.ToString(), "", false, StringProfile.Quote));
             }
@@ -40,7 +40,7 @@ namespace RumineSimulator_2._0
             foreach (User user in fraction.members)
             {
                 Add_FractionProperty(new GuiString(user.nick, $"({user.forum_influence})", false, StringProfile.Quote));
-                fraction_properties.Last().AddColor("", user.group.ColorHTML);
+                fraction_properties.Last().SetColor("", user.group.ColorHTML);
                 fraction_properties.Last().SetSize(12, 11);
             }
         }

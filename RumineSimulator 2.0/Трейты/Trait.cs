@@ -12,12 +12,12 @@ namespace RumineSimulator_2._0
     {
         public int id_num { get; private set; }
         public int chanse { get; private set; }
-        public string short_name { get; private set; }
-        public string full_description { get; private set; }
+        public string name { get; private set; }
+        public string Tooltip { get; private set; }
         public Dictionary<UserFeaturesEnum, int> conditions = new Dictionary<UserFeaturesEnum, int>();
-        public List<Trait> blocked_traits = new List<Trait>();
-        public Traits id_trait { get; set;}
-        public TraitType type { get; private set; }
+        public List<TraitsType> blocked_types = new List<TraitsType>();
+        public TraitsType type { get; private set;}
+        public TraitGlobalType global_type { get; private set; }
 
         //Графическое представление
         public IntView_Trait InterfaceInfo
@@ -28,29 +28,43 @@ namespace RumineSimulator_2._0
             }
         }
 
-        System.Drawing.Color dra_color = new System.Drawing.Color();
         public SolidColorBrush background_brush = new SolidColorBrush();
-        System.Drawing.Color draf_color = new System.Drawing.Color();
         public SolidColorBrush foreground_brush = new SolidColorBrush();
 
-        public Trait(Traits Id,int Chanse, string s_name, string f_text,Dictionary<UserFeaturesEnum, int> Conditions,string ColorHTTMLBack = "#FFFFFF", string ColorHTTMLFore = "#000000", TraitType Type = TraitType.notype)
+        public Trait(string s_name,TraitsType Type, int chanse, TraitGlobalType Type_global = TraitGlobalType.personal)
         {
-            id_num = TraitsList.AllTraits.Count + 1;
+            id_num = TraitsList.allTraits.Count + 1;
+            name = s_name;
+            global_type = Type_global;
             type = Type;
-            id_trait = Id;
-            chanse = Chanse;
-            short_name = s_name;
-            full_description = f_text;
-            conditions = Conditions;
+            this.chanse = chanse;
+            Tooltip = name;
 
-            //Перевод цвета
-            ColorTranslator.FromHtml(ColorHTTMLBack);
-            dra_color = ColorTranslator.FromHtml(ColorHTTMLBack);
-            System.Windows.Media.Color.FromRgb(dra_color.R, dra_color.G, dra_color.B);
-            background_brush.Color = System.Windows.Media.Color.FromRgb(dra_color.R, dra_color.G, dra_color.B);
-            draf_color = ColorTranslator.FromHtml(ColorHTTMLFore);
-            System.Windows.Media.Color.FromRgb(draf_color.R, draf_color.G, draf_color.B);
-            foreground_brush.Color = System.Windows.Media.Color.FromRgb(draf_color.R, draf_color.G, draf_color.B);
+            AddConditions(UserFeaturesEnum.nothing, 0);
+            blocked_types.Add(type);
+            SetColor("#FFFFFF", "#000000");
+        }
+        public void AddTooltip(string tooltip)
+        {
+            Tooltip = tooltip;
+        }
+        public void AddConditions(UserFeaturesEnum param, int min_value)
+        {
+            conditions.Add(param, min_value);
+        }
+        public void AddBlockedTrait(TraitsType bl_type)
+        {
+            blocked_types.Add(bl_type);
+        }
+        public void SetColor(string background,string foreground)
+        {
+            System.Drawing.Color background_color = ColorTranslator.FromHtml(background);
+            System.Windows.Media.Color.FromRgb(background_color.R, background_color.G, background_color.B);
+            background_brush.Color = System.Windows.Media.Color.FromRgb(background_color.R, background_color.G, background_color.B);
+
+            System.Drawing.Color foreground_color = ColorTranslator.FromHtml(foreground);
+            System.Windows.Media.Color.FromRgb(foreground_color.R, foreground_color.G, foreground_color.B);
+            foreground_brush.Color = System.Windows.Media.Color.FromRgb(foreground_color.R, foreground_color.G, foreground_color.B);
         }
     }
 }
