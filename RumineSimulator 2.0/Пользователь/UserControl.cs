@@ -117,7 +117,7 @@ namespace RumineSimulator_2._0
                 else if (Av_fracs.Count > 1)
                 {
                     //Шанс остаться нейтральным или все-таки
-                    if (AdvRnd.PersentChanseBool(75))
+                    if (AdvRnd.PrsChanse(75))
                     {
                         int rnd_id = random.Next(Av_fracs.Count);
                         user.JoinFraction(Av_fracs[rnd_id], true);
@@ -130,7 +130,7 @@ namespace RumineSimulator_2._0
                     //Добиваем оставшиеся фракции
                     foreach (Fraction fract in Av_fracs)
                     {
-                        if (AdvRnd.PersentChanseBool(50))
+                        if (AdvRnd.PrsChanse(50))
                         {
                             user.JoinFraction(fract, false);
                         }

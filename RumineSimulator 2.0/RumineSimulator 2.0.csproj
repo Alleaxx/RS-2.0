@@ -91,6 +91,8 @@
     <Compile Include="EventView.xaml.cs">
       <DependentUpon>EventView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Мелкие события\Advertisment.cs" />
+    <Compile Include="Мелкие события\IAdvertisable.cs" />
     <Compile Include="Отношения\IntView_Relation.cs" />
     <Compile Include="Отношения\IntView_RelationControl.cs" />
     <Compile Include="События\EventStatChange.cs" />

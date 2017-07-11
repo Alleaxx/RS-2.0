@@ -16,6 +16,7 @@ namespace RumineSimulator_2._0
         public static Group selected_group;
         public static Trait selected_trait;
         public static Relation selected_relation;
+        public static bool newEvent;
         public static SortingUserTypes sorting_user = SortingUserTypes.no_sort;
 
         //Изменение выбранного объекта за счет имени выбранного элемента списка

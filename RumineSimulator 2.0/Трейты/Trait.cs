@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace RumineSimulator_2._0
 {
-    class Trait
+    class Trait : IAdvertisable
     {
         public int id_num { get; private set; }
         public int chanse { get; private set; }
@@ -66,5 +66,37 @@ namespace RumineSimulator_2._0
             System.Windows.Media.Color.FromRgb(foreground_color.R, foreground_color.G, foreground_color.B);
             foreground_brush.Color = System.Windows.Media.Color.FromRgb(foreground_color.R, foreground_color.G, foreground_color.B);
         }
+
+        #region IAdvertisable
+        public List<string> Advertisments = new List<string>();
+        private void AdvertismentInit()
+        {
+            switch (type)
+            {
+                case TraitsType.ded:
+                    AddAdvertisment("user_nick: от ньюфагов хорошего не жди");
+                    AddAdvertisment("user_nick: в былые времена было лучше, дааа");
+                    AddAdvertisment("user_nick привычно пердит");
+                    AddAdvertisment("user_nick вновь прогоняет какого-то ньюфага. Ничего нового");
+                    AddAdvertisment("user_nick: И когда этот сайт наконец умрет?");
+                    AddAdvertisment("user_nick: Я был в 2012. А вы нет!");
+                    AddAdvertisment("user_nick восставал против модеров, все как обычно");
+                    AddAdvertisment("user_nick: от ньюфагов хорошего не жди");
+                    AddAdvertisment("user_nick: меня угрожают забанить. На кого они вообще наехали, а?");
+                    break;
+                case TraitsType.memguy:
+                    AddAdvertisment("user_nick заразился вирусом Андрежа");
+                    AddAdvertisment("user_nick нюхает воду");
+                    AddAdvertisment("user_nick состоит из мочи");
+                    AddAdvertisment("user_nick: приезжайте погостить в Фарьеград!");
+                    break;
+            }
+        }
+        public void AddAdvertisment(string adv)
+        {
+            Advertisments.Add(adv);
+        }
+        #endregion
+
     }
 }

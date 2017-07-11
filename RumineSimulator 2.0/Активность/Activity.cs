@@ -15,13 +15,7 @@ namespace RumineSimulator_2._0
             get { return current_vaActivity_Clear; }
             set
             {
-                if (current_vaActivity_Clear >= 25 && current_vaActivity_Clear < 50)
-                    current_vaActivity_Clear = value - 0.5F;
-                else if (current_vaActivity_Clear >= 50 && current_vaActivity_Clear < 75)
-                    current_vaActivity_Clear = value - 0.75F;
-                else if (current_vaActivity_Clear >= 75 && current_vaActivity_Clear < 100)
-                    current_vaActivity_Clear = value - 1.25F;
-                else if (current_vaActivity_Clear > 100)
+                if (current_vaActivity_Clear > 100)
                     current_vaActivity_Clear = value - 2;
                 else
                     current_vaActivity_Clear = value;
@@ -128,6 +122,13 @@ namespace RumineSimulator_2._0
         //Проверка минутных событий
         public static void Minute_Pass()
         {
+            //Постоянное убывание активности
+            if (current_vaActivity_Clear >= 25 && current_vaActivity_Clear < 50)
+                current_vaActivity_Clear -= 0.25F;
+            else if (current_vaActivity_Clear >= 50 && current_vaActivity_Clear < 75)
+                current_vaActivity_Clear -= 0.5F;
+            else if (current_vaActivity_Clear >= 75 && current_vaActivity_Clear < 100)
+                current_vaActivity_Clear -= 0.75F;
             CheckEvents(false, false, false);
         }
 
@@ -153,52 +154,52 @@ namespace RumineSimulator_2._0
                     hour_modActivity = 0.05F;
                     break;
                 case 5:
-                    hour_modActivity = 0.05F;
+                    hour_modActivity = 0.1F;
                     break;
                 case 6:
-                    hour_modActivity = 0.1F;
+                    hour_modActivity = 0.15F;
                     break;
                 case 7:
-                    hour_modActivity = 0.1F;
+                    hour_modActivity = 0.15F;
                     break;
                 case 8:
                     hour_modActivity = 0.2F;
                     break;
                 case 9:
-                    hour_modActivity = 0.2F;
+                    hour_modActivity = 0.3F;
                     break;
                 case 10:
                     hour_modActivity = 0.3F;
                     break;
                 case 11:
-                    hour_modActivity = 0.3F;
+                    hour_modActivity = 0.35F;
                     break;
                 case 12:
-                    hour_modActivity = 0.4F;
+                    hour_modActivity = 0.5F;
                     break;
                 case 13:
-                    hour_modActivity = 0.5F;
+                    hour_modActivity = 0.55F;
                     break;
                 case 14:
-                    hour_modActivity = 0.5F;
+                    hour_modActivity = 0.6F;
                     break;
                 case 15:
-                    hour_modActivity = 0.6F;
+                    hour_modActivity = 0.65F;
                     break;
                 case 16:
-                    hour_modActivity = 0.6F;
-                    break;
-                case 17:
                     hour_modActivity = 0.7F;
                     break;
+                case 17:
+                    hour_modActivity = 0.75F;
+                    break;
                 case 18:
-                    hour_modActivity = 0.8F;
+                    hour_modActivity = 0.85F;
                     break;
                 case 19:
                     hour_modActivity = 0.9F;
                     break;
                 case 20:
-                    hour_modActivity = 0.75F;
+                    hour_modActivity = 0.8F;
                     break;
                 case 21:
                     hour_modActivity = 0.65F;
@@ -244,26 +245,26 @@ namespace RumineSimulator_2._0
 
 
             //Сообщение
-            if (AdvRnd.PersentChanseBool((int)current_valActivity_Real))
+            if (AdvRnd.PrsChanse((int)current_valActivity_Real))
             {
                 new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.message));
             }
             //Комментарий
-            if (AdvRnd.PersentChanseBool((int)current_valActivity_Real /10))
+            if (AdvRnd.PrsChanse((int)current_valActivity_Real / 10))
             {
                 new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.comment));
             }
             //Новость
-            if (AdvRnd.PersentChanseBool((int)(current_valActivity_Real/10),600))
+            if (AdvRnd.PrsChanse((int)(current_valActivity_Real / 10), 600))
             {
                 new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.news));
             }
             //Изменение репутации
-            if (AdvRnd.PersentChanseBool((int)(current_valActivity_Real / 10), 500))
+            if (AdvRnd.PrsChanse((int)(current_valActivity_Real / 10), 500))
             {
                 new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.reputation));
             }
-            if (AdvRnd.PersentChanseBool((int)(current_valActivity_Real / 10), 1000))
+            if (AdvRnd.PrsChanse((int)(current_valActivity_Real / 10), 1000))
             {
                 new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.ban));
             }
@@ -275,6 +276,8 @@ namespace RumineSimulator_2._0
                 EventsControl.AllEvents.Add(new_event);
                 Last_Event = new_event;
                 LastEvent_ModsModifier();
+                if (new_events.Count != 0)
+                    Presenter.newEvent = true;
             }
 
             HistoricEvent h_event = HistoricEvents_List.EventCheck();
@@ -302,5 +305,31 @@ namespace RumineSimulator_2._0
             today_events.Add(Last_Event);
         }
         #endregion
+
+
+        //Возвращение случайных забавных объявлений от пользователей
+        public static string ReturnRndAdvertisment()
+        {
+            int rnd_num = random.Next(0, 2);
+            User rnd_user = UsersControl.Users[random.Next(UsersControl.Users.Count)];
+            switch (rnd_num)
+            {
+                //case 0:
+                //    Trait rnd_trait = rnd_user.traits[random.Next(rnd_user.traits.Count)];
+                //    return Advertisment.GetAdvertisTrait(rnd_user, rnd_trait);
+                //case 2:
+                //    CharFeature rnd_feature = rnd_user.character.character_params[random.Next(rnd_user.character.character_params.Count())];
+                //    return Advertisment.GetAdvertisCharFeature(rnd_user, rnd_feature);
+                //case 1:
+                //    Group rnd_group = rnd_user.group;
+                //   return Advertisment.GetAdvertisGroup(rnd_user, rnd_group);
+                //default:
+                //    return "Слава Румине! Румайнкрафту слава!";
+            }
+            if (Last_Event is EventStatChange)
+                return Advertisment.GetAdvertisEventStat((EventStatChange)Last_Event);
+            else
+                return "Слава румине!";
+        }
     }
 }

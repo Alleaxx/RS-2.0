@@ -121,25 +121,25 @@ namespace RumineSimulator_2._0
                     switch (rel_state)
                     {
                         case RelationType.friend:
-                            if (AdvRnd.PersentChanseBool(40 + wish_modif_pos))
+                            if (AdvRnd.PrsChanse(40 + wish_modif_pos))
                             {
                                 pos_reputation += UsersControl.Users[i].karma.karma;
                             }
                             break;
                         case RelationType.enemy:
-                            if (AdvRnd.PersentChanseBool(8 + wish_modif_otr))
+                            if (AdvRnd.PrsChanse(8 + wish_modif_otr))
                             {
                                 otr_reputation += UsersControl.Users[i].karma.karma;
                             }
                             break;
                         case RelationType.unfriend:
-                            if (AdvRnd.PersentChanseBool(4 + wish_modif_otr))
+                            if (AdvRnd.PrsChanse(4 + wish_modif_otr))
                             {
                                 otr_reputation += UsersControl.Users[i].karma.karma;
                             }
                             break;
                         case RelationType.comrade:
-                            if (AdvRnd.PersentChanseBool(20 + wish_modif_pos))
+                            if (AdvRnd.PrsChanse(20 + wish_modif_pos))
                             {
                                 pos_reputation += UsersControl.Users[i].karma.karma;
                             }

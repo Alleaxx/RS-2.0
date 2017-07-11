@@ -486,7 +486,7 @@ namespace RumineSimulator_2._0
             for (int i = 0; i < allTraits.Count; i++)
             {
                 Trait trait = allTraits[i];
-                if (AdvRnd.PersentChanseBool((short)trait.chanse) && !ConditionCheck(user, trait, traits_user))
+                if (AdvRnd.PrsChanse((short)trait.chanse) && !ConditionCheck(user, trait, traits_user))
                 {
                     traits_user.Add(trait);
                 }

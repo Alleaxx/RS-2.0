@@ -33,9 +33,8 @@
             <Button x:Name="StatusSpeed_x3" BorderThickness="0" Content="&gt;&gt;&gt;" Margin="2,1,5,1" Padding="0" Click="StatusSpeed_x3_Click" IsEnabled="False"/>
             <Button x:Name="StatusSpeed_x4" BorderThickness="0" Content="|&gt;" Margin="0,1" Padding="0" Click="StatusSpeed_x4_Click" IsEnabled="False"/>
             <Separator/>
-            <TextBlock x:Name="StatusTextActivness" HorizontalAlignment="Center" Margin="5,1" Padding="0" Text="Активность фч" VerticalAlignment="Center" Width="125"/>
             <Separator/>
-            <TextBlock x:Name="StatusTextEvent" Text="Событие" Margin="5,1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200"/>
+            <TextBlock x:Name="status_textEvent" Text="Событие" Margin="5,1" VerticalAlignment="Center" FontSize="16"/>
         </ToolBar>
         <TabControl x:Name="tabControlMain" Margin="0" Background="White" Grid.Column="1" Grid.Row="1">
             <TabItem x:Name="TabItemMain" Header="Общее" VerticalAlignment="Top" HorizontalAlignment="Center">
@@ -83,7 +82,7 @@
                         <TextBox x:Name="textBox_Copy2" TextWrapping="Wrap" Text="Лог событий" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
                         <TextBox x:Name="text_log" Margin="5" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Stretch" FontSize="14" Text="Здесь будет располагаться лог событий" UseLayoutRounding="True" VerticalContentAlignment="Stretch" Height="225"/>
                     </StackPanel>
-                    <ListBox x:Name="list_Activity" Grid.Column="1" HorizontalAlignment="Left" Height="465" Margin="410,10,0,0" VerticalAlignment="Top" Width="468" HorizontalContentAlignment="Center" Grid.ColumnSpan="2">
+                    <ListBox x:Name="list_Activity" Grid.Column="1" HorizontalAlignment="Left" Height="465" Margin="410,10,0,0" VerticalAlignment="Top" Width="328" VerticalContentAlignment="Top">
                         <ListBoxItem Content="Информация об активности"/>
                     </ListBox>
                 </Grid>

@@ -162,6 +162,18 @@ namespace RumineSimulator_2._0
             StatusUpdate();
 
             ActivityProperiesUpdate();
+
+
+            //Переделать, объявления
+            if (Presenter.newEvent)
+            {
+                if (AdvRnd.PrsChanse(10))
+                {
+                    status_textEvent.Text = Activity.ReturnRndAdvertisment();
+                    Presenter.newEvent = false;
+                }
+            }
+
         }
 
         //Пауза и "продолжить"

@@ -74,7 +74,7 @@ namespace RumineSimulator_2._0
             available_groups.Reverse();
             foreach (Group group in available_groups)
             {
-                if (AdvRnd.PersentChanseBool(50))
+                if (AdvRnd.PrsChanse(50))
                     return group;
             }
             return available_groups[0];
@@ -129,7 +129,7 @@ namespace RumineSimulator_2._0
             #region Рандом под конец, если трейты не влияют
             foreach (Group group in available_groups)
             {
-                if (AdvRnd.PersentChanseBool(20))
+                if (AdvRnd.PrsChanse(20))
                     return group;
             }
             return available_groups[random.Next(available_groups.Count)];
@@ -195,7 +195,7 @@ namespace RumineSimulator_2._0
             //Проверять шанс пользователей пока число модераторов не достигнет рекомендуемого
             do
             {
-                if (AdvRnd.PersentChanseBool(poss_mods[i].moder_chanse))
+                if (AdvRnd.PrsChanse(poss_mods[i].moder_chanse))
                 {
                     poss_mods[i].group = GroupSearch(GroupsType.Moderator);
                     poss_mods[i].mod = true;

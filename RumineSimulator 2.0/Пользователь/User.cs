@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RumineSimulator_2._0
 {
-    class User
+    class User : IAdvertisable
     {
         #region Свойства пользователя
         public int user_id { get; private set; }
@@ -54,6 +54,7 @@ namespace RumineSimulator_2._0
         public bool activity { get; set; }
 
         public string description { get; private set; }
+        public List<string> oldAdvertisments = new List<string>();
 
         public UserDayLog daylog { get; private set; }
         public List<UserDayLog> last_thirty_Days = new List<UserDayLog>();
@@ -107,12 +108,12 @@ namespace RumineSimulator_2._0
         private void SetRegistration()
         {
             //Устанавливаем рандомную дату регистрации(2011 - 30%, 2012 - 30%, 2013 - 40%)
-            if (AdvRnd.PersentChanseBool(40))
+            if (AdvRnd.PrsChanse(40))
             {
                 registration = new DateTime(random.Next(Date.found_date.Year, Date.current_date.Year + 1), random.Next(1, 13), random.Next(1, 29));
 
             }
-            else if (AdvRnd.PersentChanseBool(50))
+            else if (AdvRnd.PrsChanse(50))
             {
                 registration = new DateTime(random.Next(Date.found_date.Year + 1, Date.current_date.Year + 1), random.Next(1, 13), random.Next(1, 29));
 
@@ -354,5 +355,13 @@ namespace RumineSimulator_2._0
                     last_thirty_Days.RemoveAt(0);
             }
         }
+
+        #region IAdvertisable
+        public List<string> Advertisments = new List<string>();
+        public void AddAdvertisment(string adv)
+        {
+            Advertisments.Add(adv);
+        }
+        #endregion
     }
 }

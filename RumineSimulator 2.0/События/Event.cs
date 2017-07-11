@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace RumineSimulator_2._0
 {
-    class Event
+    class Event : IAdvertisable
     {
         public long id;
         public ImageSource ImageSource { get; private set; }
@@ -92,6 +92,15 @@ namespace RumineSimulator_2._0
         {
             daysToDelete--;
         }
+
+
+        #region IAdvertisable
+        public List<string> Advertisments = new List<string>();
+        public void AddAdvertisment(string adv)
+        {
+            Advertisments.Add(adv);
+        }
+        #endregion
     }
 
     enum EventType

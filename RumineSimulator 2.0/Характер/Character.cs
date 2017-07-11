@@ -105,24 +105,24 @@ namespace RumineSimulator_2._0
             #endregion
 
             //Креативность
-            if (AdvRnd.PersentChanseBool(10))
+            if (AdvRnd.PrsChanse(10))
                 creativity.SetValue(random.Next(5, 11));
             else
                 creativity.SetValue(random.Next(5));
 
             //Наука
-            if (AdvRnd.PersentChanseBool(10))
+            if (AdvRnd.PrsChanse(10))
                 sciense.SetValue(random.Next(5, 11));
             else
                 sciense.SetValue(random.Next(5));
 
             //Гуманитаризм
-            if (AdvRnd.PersentChanseBool(10))
+            if (AdvRnd.PrsChanse(10))
                 humanist.SetValue(random.Next(5, 11));
             else
                 humanist.SetValue(random.Next(5));
 
-            if (AdvRnd.PersentChanseBool(10))
+            if (AdvRnd.PrsChanse(10))
                 historic.SetValue(random.Next(5, 11));
             else
                 historic.SetValue(random.Next(5));

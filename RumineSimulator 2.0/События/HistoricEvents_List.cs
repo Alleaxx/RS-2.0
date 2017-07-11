@@ -88,7 +88,7 @@ namespace RumineSimulator_2._0
                     //Комментарии на вики
                     foreach (User user in all_users)
                     {
-                        if (AdvRnd.PersentChanseBool(15) && user != wiki_creator)
+                        if (AdvRnd.PrsChanse(15) && user != wiki_creator)
                         {
                             if (wiki_creator.relations.RelationStateReturn(user) == RelationType.comrade ||
                                 wiki_creator.relations.RelationStateReturn(user) == RelationType.neutral ||
@@ -151,7 +151,7 @@ namespace RumineSimulator_2._0
                 FractionAggression.ambigious, true,false,true);
             foreach (User user in all_users)
             {
-                if (antiPane_fraction.MemberAcceptCheck(user) && AdvRnd.PersentChanseBool(15))
+                if (antiPane_fraction.MemberAcceptCheck(user) && AdvRnd.PrsChanse(15))
                 {
                     antiPane_fraction.members.Add(user);
                 }
@@ -166,12 +166,12 @@ namespace RumineSimulator_2._0
             //Комментарии на вики
             foreach (User user in pane_fraction.members)
             {
-                if (AdvRnd.PersentChanseBool(15))
+                if (AdvRnd.PrsChanse(15))
                     paneAttack.EventAdd4_Participants(user, "За пане!");
             }
             foreach (User user in antiPane_fraction.members)
             {
-                if (AdvRnd.PersentChanseBool(15))
+                if (AdvRnd.PrsChanse(15))
                     paneAttack.EventAdd4_Participants(user, "Сжечь ересь!");
             }
             //Установка прочих параметров
