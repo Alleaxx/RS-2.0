@@ -29,29 +29,29 @@ namespace RumineSimulator_2._0
         public void EventUpdate()
         {
             Text_EventName.Text = selected_event.Name;
-            if(selected_event is EventStatChange)
+            if (selected_event is EventStatChange)
             {
-                text_EventDescription.Text = AdvertisControl.GetAdvertisEvent((EventStatChange)selected_event);
+                text_EventDescription.Text = selected_event.sel_description;
 
             }
             List_EventProperties.Items.Clear();
             List_Participants.Items.Clear();
-            try
+            foreach (GuiString inter_string in selected_event.InterfaceInfo.basicEvent_props)
             {
-                IntView_Event info_event = selected_event.InterfaceInfo;
-                foreach (GuiString inter_string in info_event.basicEvent_props)
+                try
                 {
                     List_EventProperties.Items.Add(inter_string.Item);
                 }
-                foreach (GuiString inter_string in info_event.connectedEntities_props)
+                catch
                 {
-                    List_Participants.Items.Add(inter_string.Item);
+                    List_EventProperties.Items.Add("Здесь что-то потерялось");
                 }
             }
-            catch
+            foreach (GuiString inter_string in selected_event.InterfaceInfo.connectedEntities_props)
             {
-
+                List_Participants.Items.Add(inter_string.Item);
             }
+
         }
 
 

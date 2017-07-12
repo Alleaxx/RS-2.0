@@ -20,11 +20,13 @@ namespace RumineSimulator_2._0
         public DateTime date { get; set; }
         public int Duration { get; set; }
         public DateTime date_end { get; private set; }
-
+        //Информация для подробного просмотра
         public IntView_Event InterfaceInfo
         {
             get { return new IntView_Event(this); }
         }
+        //Строка для представления в списках
+        public GuiString InterfaceInfoClassicString { get; set; }
         public bool Reasonable { get; private set; }
 
         public float monthMod { get; private set; }
@@ -50,7 +52,8 @@ namespace RumineSimulator_2._0
             EventGlobalType = EventType.usual;
             date = Date.current_date;
             daysToDelete = 365;
-
+            InterfaceInfoClassicString = new GuiString($"{date.ToShortTimeString()}: {name}", "", true);
+            InterfaceInfoClassicString.SetGUIName(GUITypes.simEvent, (int)id);
         }
 
         public virtual void EventAdd1_BasicInfo(Event_Creator creator)
@@ -82,6 +85,10 @@ namespace RumineSimulator_2._0
         public void EventAdd7_Description(string adv)
         {
             descriptions.Add(adv);
+        }
+        public void EventAdd8_Color(string back = "",string fore = "")
+        {
+
         }
         public void EventEnd_DescrChoose()
         {

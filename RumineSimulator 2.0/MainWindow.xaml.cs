@@ -66,7 +66,6 @@ namespace RumineSimulator_2._0
 
             UserPropsEventsOn();
 
-            list_passedEvents.SelectionChanged += PropertyEventSelection;
             list_FractionsInfo.SelectionChanged += PropertyViewListSelection;
             list_TraitsInfo.SelectionChanged += PropertyViewListSelection;
             list_GroupsInfo.SelectionChanged += PropertyViewListSelection;
@@ -148,7 +147,11 @@ namespace RumineSimulator_2._0
         {
             MinuteLogicUpdate();
             MinuteInterfaceUpdate();
-            if (!(bool)statusRadButton_pause.IsChecked)
+            if (Date.current_date.Hour == 0 && Date.current_date.Minute == 1)
+                DayInterfaceUpdate();
+
+
+                if (!(bool)statusRadButton_pause.IsChecked)
                 timer_TimeGo.IsEnabled = true;
         }
         private void MinuteLogicUpdate()
@@ -173,7 +176,22 @@ namespace RumineSimulator_2._0
                     Presenter.newEvent = false;
                 }
             }
+            //Добавление событий
+            for (int i = list_passedEvents.Items.Count; i < EventsControl.AllEvents.Count; i++)
+            {
+                list_passedEvents.Items.Insert(0, EventsControl.AllEvents[i].InterfaceInfoClassicString.Item);
+            }
 
+
+        }
+        //Дневная чистка прошедших событий
+        private void DayInterfaceUpdate()
+        {
+            list_passedEvents.Items.Clear();
+            foreach (Event even in EventsControl.AllEvents)
+            {
+                list_passedEvents.Items.Add(even.InterfaceInfoClassicString.Item);
+            }
         }
 
         //Пауза и "продолжить"
@@ -286,18 +304,7 @@ namespace RumineSimulator_2._0
         //F5, обновление всех списков
         private void status_UpdateAll_Click(object sender, RoutedEventArgs e)
         {
-            //Обновить события
-            list_passedEvents.Items.Clear();
-            foreach (Event eve in EventsControl.AllEvents)
-            {
-                list_passedEvents.Items.Add(eve.InterfaceInfo.classic_string.Item);
-            }
-            list_EventsProperties.Items.Clear();
-            List<GuiString> IntInfo = EventsControl.GetInterfaceInfo();
-            foreach (GuiString str in IntInfo)
-            {
-                list_EventsProperties.Items.Add(str.Item);
-            }
+            UserPropsEventsOff();
             //Обновление пользователей
             if (list_UsersAlpha.Items.Count < 2)
             {
@@ -329,35 +336,7 @@ namespace RumineSimulator_2._0
                 list_Statistics.Items.Add(str.Item);
             }
 
-
-        }
-
-        //Изменение события и его обновление, показ окна
-        private void List_passedEvents_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            list_EventChar.Items.Clear();
-            list_EventParticipants.Items.Clear();
-            try
-            {
-                IntView_Event info_event = EventsControl.AllEvents[list_passedEvents.SelectedIndex].InterfaceInfo;
-                foreach (GuiString inter_string in info_event.basicEvent_props)
-                {
-                    list_EventChar.Items.Add(inter_string.Item);
-                }
-                foreach (GuiString inter_string in info_event.connectedEntities_props)
-                {
-                    list_EventParticipants.Items.Add(inter_string.Item);
-                }
-            }
-            catch
-            {
-
-            }
-        }
-        private void button_EventView_Click(object sender, RoutedEventArgs e)
-        {
-            WindowEvent = new EventView(EventsControl.AllEvents[list_passedEvents.SelectedIndex].id);
-            WindowEvent.Show();
+            UserPropsEventsOn();
         }
 
         //Изменение пользователя в списке и его обновление, показ окна репутации
@@ -548,6 +527,7 @@ namespace RumineSimulator_2._0
             list_TraitsNew.SelectionChanged -= PropertyUsersSelection;
             list_UserPropertiesBasic.SelectionChanged -= PropertyUsersSelection;
             combo_RelationChoose.SelectionChanged -= PropertyUsersSelection;
+            list_passedEvents.SelectionChanged -= PropertyEventSelection;
         }
         //Включение событий показа дополнительной информации в пользователях
         private void UserPropsEventsOn()
@@ -556,6 +536,7 @@ namespace RumineSimulator_2._0
             list_TraitsNew.SelectionChanged += PropertyUsersSelection;
             list_UserPropertiesBasic.SelectionChanged += PropertyUsersSelection;
             combo_RelationChoose.SelectionChanged += PropertyUsersSelection;
+            list_passedEvents.SelectionChanged += PropertyEventSelection;
         }
 
         //Событие возникающее при выборе свойства пользователя, позволяющее отображать дополнительную информацию
@@ -611,11 +592,13 @@ namespace RumineSimulator_2._0
             if(sender is ListBox)
             {
                 ListBoxItem item =  (ListBoxItem)list_passedEvents.SelectedItem;
-                Presenter.SelectionCheck(item.Name);
-                WindowEvent = new EventView(Presenter.selected_event.id);
-                WindowEvent.Show();
+                if(item != null && item.Name.Length != 0)
+                {
+                    Presenter.SelectionCheck(item.Name);
+                    WindowEvent = new EventView(Presenter.selected_event.id);
+                    WindowEvent.Show();
+                }
             }
-
         }
     }
 }

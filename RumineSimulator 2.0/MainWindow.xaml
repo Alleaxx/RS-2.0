@@ -48,8 +48,9 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="68*"/>
-                        <ColumnDefinition Width="31*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="314"/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid.Background>
                         <ImageBrush ImageSource="/RumineSimulator 2.0;component/Resources/fon.gif" Stretch="UniformToFill" Opacity="0.15"/>
@@ -77,18 +78,25 @@
                         <TextBox x:Name="textBox_Copy1" TextWrapping="Wrap" Text="Статистика" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
                         <Expander x:Name="expander_Stat" Header="Просмотреть статистику" HorizontalContentAlignment="Left" VerticalContentAlignment="Stretch" IsExpanded="True"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Margin="5" HorizontalAlignment="Left">
+                    <StackPanel Grid.Column="1" Margin="5,5,0,5" HorizontalAlignment="Left">
                         <Image x:Name="image" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="400" Source="/RumineSimulator 2.0;component/Resources/1459031501.png"/>
                         <TextBox x:Name="textBox_Copy2" TextWrapping="Wrap" Text="Лог событий" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
                         <TextBox x:Name="text_log" Margin="5" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Stretch" FontSize="14" Text="Здесь будет располагаться лог событий" UseLayoutRounding="True" VerticalContentAlignment="Stretch" Height="225"/>
                     </StackPanel>
-                    <ListBox x:Name="list_Activity" Grid.Column="1" HorizontalAlignment="Left" Height="465" Margin="410,10,0,0" VerticalAlignment="Top" Width="185" VerticalContentAlignment="Top">
-                        <ListBoxItem Content="Информация об активности"/>
-                    </ListBox>
-                    <StackPanel Grid.Column="2" Margin="5"/>
-                    <ListBox x:Name="list_passedEvents" VerticalAlignment="Top" SelectionChanged="List_passedEvents_SelectionChanged" Margin="0" Grid.Column="2" HorizontalAlignment="Left" Background="#FFFFEDB1">
-                        <ListBoxItem Content="События"/>
-                    </ListBox>
+                    <StackPanel Grid.Column="3" Margin="5">
+                        <TextBox x:Name="textBox_Copy3" TextWrapping="Wrap" Text="Недавние события" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
+                        <ListBox x:Name="list_passedEvents" Margin="0" Grid.Column="2" Background="White" FontSize="14">
+                            <ListBoxItem Content="События" Height="350" VerticalContentAlignment="Top"/>
+                        </ListBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="3" HorizontalAlignment="Left" Height="100" Margin="40,78,0,0" VerticalAlignment="Top" Width="100"/>
+                    <StackPanel Grid.Column="2" Margin="5">
+                        <TextBox x:Name="textBox_Copy4" TextWrapping="Wrap" Text="Информация об активности" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
+                        <ListBox x:Name="list_Activity" Margin="0" VerticalContentAlignment="Top" FontSize="14">
+                            <ListBoxItem Content="Информация об активности" Width="300"/>
+                        </ListBox>
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabItemUsersList" Header="Список пользователей">
@@ -188,26 +196,6 @@
 
 
             </TabItem>
-            <TabItem Header="События">
-                <Grid Margin="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <ListBox x:Name="list_EventChar" Margin="2,2,2,0" Grid.Column="1" VerticalAlignment="Top">
-                        <ListBoxItem Content="Свойство события"/>
-                    </ListBox>
-                    <ListBox x:Name="list_EventParticipants" Margin="2,2,2,0" Grid.Column="2" VerticalAlignment="Top">
-                        <ListBoxItem Content="Участники события"/>
-                    </ListBox>
-                    <ListBox x:Name="list_EventsProperties" Margin="2" Grid.Column="3" VerticalAlignment="Top">
-                        <ListBoxItem Content="Свойства событий"/>
-                    </ListBox>
-                </Grid>
-            </TabItem>
             <TabItem x:Name="TabItemTech" Header="Техническое">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -260,7 +248,6 @@
         </TabControl>
         <ToolBarTray x:Name="toolbarTrayLeft" HorizontalAlignment="Left" Margin="0" Orientation="Vertical" Grid.Row="1" Grid.RowSpan="2">
             <ToolBar x:Name="toolBarLeft" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Button x:Name="button_EventView" Content="Сб" FontWeight="SemiBold" Foreground="#FF176093" BorderBrush="#FF707070" Template="{DynamicResource ButtonsRumineGrayStyle}" Margin="0,2" Click="button_EventView_Click"/>
                 <Button x:Name="status_UpdateAll" Content="F5" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2" Click="status_UpdateAll_Click"/>
                 <Button x:Name="status_FastPrivateCab" Content="Кб" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2"/>
             </ToolBar>

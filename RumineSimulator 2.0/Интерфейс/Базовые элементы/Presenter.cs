@@ -22,35 +22,39 @@ namespace RumineSimulator_2._0
         //Изменение выбранного объекта за счет имени выбранного элемента списка
         public static void SelectionCheck(string name)
         {
-            string id_text = name.Substring(0, name.IndexOf('_'));
-            int id = Convert.ToInt32(name.Substring(name.IndexOf('_')+1));
-            switch (id_text)
+            if(name.Length != 0)
             {
-                case "user":
-                    selected_user = UsersControl.UserSearch(id);
-                    break;
-                case "group":
-                    selected_group = GroupsControl.GroupSearch(id);
-                    break;
-                case "ban":
-                    selected_ban = UsersControl.UserSearch(id).LastBan;
-                    break;
-                case "simEvent":
-                    selected_event = EventsControl.EventSearch(id);
-                    break;
-                case "fraction":
-                    selected_fraction = FractionList.SearchFraction(id);
-                    break;
-                case "trait":
-                    selected_trait = TraitsList.SearchTrait(id);
-                    break;
-                case "relation":
-                    break;
-                case "usualProperty":
-                    break;
-                default:
-                    break;
+                string id_text = name.Substring(0, name.IndexOf('_'));
+                int id = Convert.ToInt32(name.Substring(name.IndexOf('_') + 1));
+                switch (id_text)
+                {
+                    case "user":
+                        selected_user = UsersControl.UserSearch(id);
+                        break;
+                    case "group":
+                        selected_group = GroupsControl.GroupSearch(id);
+                        break;
+                    case "ban":
+                        selected_ban = UsersControl.UserSearch(id).LastBan;
+                        break;
+                    case "simEvent":
+                        selected_event = EventsControl.EventSearch(id);
+                        break;
+                    case "fraction":
+                        selected_fraction = FractionList.SearchFraction(id);
+                        break;
+                    case "trait":
+                        selected_trait = TraitsList.SearchTrait(id);
+                        break;
+                    case "relation":
+                        break;
+                    case "usualProperty":
+                        break;
+                    default:
+                        break;
+                }
             }
+
         }
         //Возвращение необходимой интерфейсной информации
         public static IntView InterfaceInfoReturn(GUITypes type,int id)
