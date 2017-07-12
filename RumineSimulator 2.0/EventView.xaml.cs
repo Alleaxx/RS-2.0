@@ -29,8 +29,11 @@ namespace RumineSimulator_2._0
         public void EventUpdate()
         {
             Text_EventName.Text = selected_event.Name;
-            text_EventDescription.Text = selected_event.BigDescription;
+            if(selected_event is EventStatChange)
+            {
+                text_EventDescription.Text = AdvertisControl.GetAdvertisEvent((EventStatChange)selected_event);
 
+            }
             List_EventProperties.Items.Clear();
             List_Participants.Items.Clear();
             try

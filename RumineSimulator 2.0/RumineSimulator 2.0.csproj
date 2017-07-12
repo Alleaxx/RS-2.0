@@ -91,13 +91,13 @@
     <Compile Include="EventView.xaml.cs">
       <DependentUpon>EventView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Мелкие события\AdvertisHelper.cs" />
     <Compile Include="Мелкие события\Advertisment.cs" />
     <Compile Include="Мелкие события\IAdvertisable.cs" />
     <Compile Include="Отношения\IntView_Relation.cs" />
     <Compile Include="Отношения\IntView_RelationControl.cs" />
     <Compile Include="События\EventStatChange.cs" />
     <Compile Include="События\EventStatChange_Preset.cs" />
-    <Compile Include="События\ReactionReason.cs" />
     <Compile Include="Статистика и прочее системное\EnumToString.cs" />
     <Compile Include="Статистика и прочее системное\IntView_Statistics.cs" />
     <Compile Include="Статистика и прочее системное\Statistic.cs" />
@@ -105,7 +105,6 @@
     <Compile Include="События\Event_Creator.cs" />
     <Compile Include="События\HistoricEvents_List.cs" />
     <Compile Include="События\HistoricEvent.cs" />
-    <Compile Include="События\SmallEvents_List.cs" />
     <Compile Include="События\EventsControl.cs" />
     <Compile Include="События\Event.cs" />
     <Compile Include="Интерфейс\IGUI.cs" />
@@ -155,7 +154,6 @@
     <Compile Include="Отношения\Relation.cs" />
     <Compile Include="Отношения\RelationControl.cs" />
     <Compile Include="Пользователь\Прочее\Nicks.cs" />
-    <Compile Include="События\AnounceType.cs" />
     <Page Include="EventView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

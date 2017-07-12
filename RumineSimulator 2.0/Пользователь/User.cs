@@ -358,7 +358,7 @@ namespace RumineSimulator_2._0
 
         #region IAdvertisable
         public List<string> Advertisments = new List<string>();
-        public void AddAdvertisment(string adv)
+        public void EventAdd7_Description(string adv)
         {
             Advertisments.Add(adv);
         }

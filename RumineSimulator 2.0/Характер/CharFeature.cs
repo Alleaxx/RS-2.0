@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RumineSimulator_2._0
 {
-    class CharFeature : IAdvertisable
+    class CharFeature
     {
         public string name { get; private set; }
         private int value;
@@ -33,13 +33,5 @@ namespace RumineSimulator_2._0
         {
             Value = in_value;
         }
-
-        #region IAdvertisable
-        public List<string> Advertisments = new List<string>();
-        public void AddAdvertisment(string adv)
-        {
-            Advertisments.Add(adv);
-        }
-        #endregion
     }
 }

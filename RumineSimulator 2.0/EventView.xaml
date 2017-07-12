@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RumineSimulator_2._0"
         mc:Ignorable="d"
-        Title="Новое событие!" Height="750" Width="750">
+        Title="Новое событие!" Height="750" Width="600">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -14,7 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" MinHeight="50"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <ListBox x:Name="List_Participants" Margin="5" Grid.Row="3" VerticalContentAlignment="Top">
@@ -25,20 +25,14 @@
         </ListBox>
         <StackPanel x:Name="SP_EventName" Margin="5" Grid.ColumnSpan="2">
             <TextBlock x:Name="Text_EventStatic" Margin="2" TextWrapping="Wrap" Text="На румайне произошло событие!" VerticalAlignment="Top" FontSize="22" HorizontalAlignment="Center"/>
-            <TextBlock x:Name="Text_EventName" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Сообщение от пользователя naswai" VerticalAlignment="Center" FontSize="18"/>
+            <TextBlock x:Name="Text_EventName" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Сообщение от пользователя naswai" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
         </StackPanel>
-        <StackPanel x:Name="SP_Image" Margin="5" Grid.Row="1" Orientation="Horizontal">
-            <Image x:Name="image" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Margin="20,20,20,0" Source="Resources/quest.jpg"/>
-            <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Предполагаемое фото подозреваемого" Margin="2,20" UseLayoutRounding="True" Height="100.02" Width="86"/>
-        </StackPanel>
-        <StackPanel x:Name="SP_Result" Margin="5" Grid.Row="2" Grid.ColumnSpan="2">
-            <TextBlock x:Name="Text_ResultStatic" TextWrapping="Wrap" Text="Итоги события:" FontSize="16" HorizontalAlignment="Left" FontWeight="Medium"/>
-            <TextBlock x:Name="text_Result" TextWrapping="Wrap" Text="Итогом стало увеличение активности из-за ухода столь паршивого пользователя!" FontSize="14"/>
-        </StackPanel>
-        <StackPanel x:Name="SP_Description" Grid.Column="1" Margin="5" Grid.Row="1" Grid.RowSpan="3">
+        <StackPanel x:Name="SP_Description" Grid.Column="1" Margin="5" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
             <TextBlock x:Name="Text_DescriptionStatic" TextWrapping="Wrap" Text="Описание события" FontSize="16" FontWeight="Medium"/>
-            <TextBlock x:Name="text_EventDescription" Margin="0,0,20,0" TextWrapping="Wrap" Text="Пользователь Allexx был обнаружен зверски убитым прямо во флудилке. Причиной смерти стала деградация мозга от нахождения на румине. Ждите дальнейших новостей!" FontSize="14" Height="122"/>
+            <TextBlock x:Name="text_EventDescription" Margin="0" TextWrapping="WrapWithOverflow" Text="Пользователь Allexx был обнаружен зверски убитым прямо во флудилке. Причиной смерти стала деградация мозга от нахождения на румине. Ждите дальнейших новостей! Очень очень очень длинный текст, мна надо проверять как он будет отображаться проверка проверка проверка Пользователь Allexx был обнаружен зверски убитым прямо во флудилке. Причиной смерти стала деградация мозга от нахождения на румине. Ждите дальнейших новостей! Очень очень очень длинный текст, мна надо проверять как он будет отображаться проверка проверка проверка" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" TextTrimming="WordEllipsis"/>
         </StackPanel>
+        <TextBlock x:Name="Text_EventStatic_Copy" Margin="5" TextWrapping="Wrap" Text="Итоги события" FontSize="22" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Image x:Name="image" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100" Source="Resources/quest.jpg" Margin="0" Grid.Row="1"/>
 
     </Grid>
 </Window>

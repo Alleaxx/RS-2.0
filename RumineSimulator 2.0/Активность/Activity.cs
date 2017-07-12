@@ -264,7 +264,7 @@ namespace RumineSimulator_2._0
             {
                 new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.reputation));
             }
-            if (AdvRnd.PrsChanse((int)(current_valActivity_Real / 10), 1000))
+            if (AdvRnd.PrsChanse((int)(current_valActivity_Real / 10), 5000))
             {
                 new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.ban));
             }
@@ -327,7 +327,7 @@ namespace RumineSimulator_2._0
                 //    return "Слава Румине! Румайнкрафту слава!";
             }
             if (Last_Event is EventStatChange)
-                return Advertisment.GetAdvertisEventStat((EventStatChange)Last_Event);
+                return last_Event.sel_description;
             else
                 return "Слава румине!";
         }

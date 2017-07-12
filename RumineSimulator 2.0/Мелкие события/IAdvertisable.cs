@@ -8,6 +8,6 @@ namespace RumineSimulator_2._0
 {
     public interface IAdvertisable
     {
-        void AddAdvertisment(string adv);
+        void EventAdd7_Description(string adv);
     }
 }

@@ -17,6 +17,7 @@ namespace RumineSimulator_2._0
             //Базовая информация
             classic_string = new GuiString(eve.Name,"",true);
             classic_string.SetGUIName(GUITypes.simEvent, (Int32)eve.id);
+            classic_string.SetColor("#FFFFEDB1","");
             Add_BasicEventProperty(classic_string);
             Add_BasicEventProperty(new GuiString("Дата: ", $"{eve.date.ToLongDateString()} {eve.date.ToShortTimeString()}"));
             if(eve.Duration != 0)

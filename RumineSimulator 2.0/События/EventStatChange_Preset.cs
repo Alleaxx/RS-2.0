@@ -59,22 +59,21 @@ namespace RumineSimulator_2._0
             newMessage.eventSpec_properties.Add(new GuiString("Симпатии: ", likes.ToString(), true));
 
             #region Объявления
-            newMessage.AddAdvertisment($"{newMessage.date} {rnd_User.nick} страдает херней");
-            newMessage.AddAdvertisment($"{newMessage.date} {rnd_User.nick} надеется на активность");
-            newMessage.AddAdvertisment($"{newMessage.date} {rnd_User.nick} активно флудит");
-            newMessage.AddAdvertisment($"{newMessage.date} {rnd_User.nick} шутит шутки");
-            newMessage.AddAdvertisment($"{newMessage.date} {rnd_User.nick} думает, что это сообщение никто не повторит");
-            newMessage.AddAdvertisment($"{newMessage.date} {rnd_User.nick} сидит во флудилке");
-            newMessage.AddAdvertisment($"{newMessage.date} {rnd_User.nick} счастливо общается");
-            newMessage.AddAdvertisment($"{newMessage.date} {rnd_User.nick} выглядит добрым и хорошим");
-            newMessage.AddAdvertisment($"{newMessage.date} {rnd_User.nick} хочет умереть, о чем оповещает всех");
-            newMessage.AddAdvertisment($"{newMessage.date} {rnd_User.nick} хочет попасть в топ");
-            newMessage.AddAdvertisment($"{newMessage.date} {rnd_User.nick} хороший парень и поднимает Румайн с колен");
-            newMessage.AddAdvertisment($"{newMessage.date} {rnd_User.nick} написал весьма смешную шутеечку и получил {likes} симпатий за нее!");
-            newMessage.AddAdvertisment($"{newMessage.date} {rnd_User.nick} надеется узреть хороший срач");
-            newMessage.AddAdvertisment($"{newMessage.date} {rnd_User.nick} подготавливает почву для срача");
-            newMessage.AddAdvertisment($"{newMessage.date} {rnd_User.nick} ведет активную дискуссию");
+            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} страдает херней, {Abbrev.topic} тому виной");
+            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} {Abbrev.wish} {Abbrev.diskuss}");
+            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} активно флудит про {Abbrev.topic}");
+            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} шутит шутки про {Abbrev.topic}");
+            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} {rnd_User.traits[random.Next(rnd_User.traits.Count)].name},а {rnd_UserAdd.nick}" +
+                $" {rnd_UserAdd.traits[random.Next(rnd_UserAdd.traits.Count)].name}. Война!");
+            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} сидит во флудилке и выглядит {Abbrev.state}");
+            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} оповещает всех о том, что он {Abbrev.quality}");
+            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} {Abbrev.quality} парень и поднимает Румайн с колен");
+            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} написал весьма смешную шутеечку про {Abbrev.topic} и получил {likes} симпатий за нее!");
+            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} надеется узреть {Abbrev.diskuss} про {Abbrev.topic}");
+            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} подготавливает почву для {Abbrev.diskuss}");
+            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} проводит во флудилке такой вид деятельности как {Abbrev.diskuss}");
             #endregion
+            newMessage.EventEnd_DescrChoose();
             return newMessage;
         }
         //Новый комментарий
@@ -100,16 +99,18 @@ namespace RumineSimulator_2._0
             newComment.eventSpec_properties.Add(new GuiString("Рейтинг: ", likes.ToString(), true));
 
             #region Объявления
-            newComment.AddAdvertisment($"{newComment.date} {rnd_User.nick} комментирует");
-            newComment.AddAdvertisment($"{newComment.date} {rnd_User.nick} свалил с флудилки");
-            newComment.AddAdvertisment($"{newComment.date} {rnd_User.nick} просматривает сайт");
-            newComment.AddAdvertisment($"{newComment.date} {rnd_User.nick} набивает рейтинги");
-            newComment.AddAdvertisment($"{newComment.date} {rnd_User.nick} воротит нос от мерзкой новости в бездне");
-            newComment.AddAdvertisment($"{newComment.date} {rnd_User.nick} проработал хороший комментарий, получив {likes} рейтинга!");
-            newComment.AddAdvertisment($"{newComment.date} {rnd_User.nick} участвует в сраче в комментах");
-            newComment.AddAdvertisment($"{newComment.date} {rnd_User.nick} пошел поглядеть что там в новостях");
-            newComment.AddAdvertisment($"{newComment.date} {rnd_User.nick} оценивает новости");
+            newComment.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} хочет попасть в топ");
+            newComment.EventAdd7_Description($"{newComment.date} {rnd_User.nick} комментирует");
+            newComment.EventAdd7_Description($"{newComment.date} {rnd_User.nick} свалил с флудилки");
+            newComment.EventAdd7_Description($"{newComment.date} {rnd_User.nick} просматривает сайт");
+            newComment.EventAdd7_Description($"{newComment.date} {rnd_User.nick} набивает рейтинги");
+            newComment.EventAdd7_Description($"{newComment.date} {rnd_User.nick} воротит нос от мерзкой новости в бездне");
+            newComment.EventAdd7_Description($"{newComment.date} {rnd_User.nick} проработал хороший комментарий, получив {likes} рейтинга!");
+            newComment.EventAdd7_Description($"{newComment.date} {rnd_User.nick} участвует в сраче в комментах");
+            newComment.EventAdd7_Description($"{newComment.date} {rnd_User.nick} пошел поглядеть что там в новостях");
+            newComment.EventAdd7_Description($"{newComment.date} {rnd_User.nick} оценивает новости");
             #endregion
+            newComment.EventEnd_DescrChoose();
             return newComment;
         }
         //Новость
@@ -128,16 +129,17 @@ namespace RumineSimulator_2._0
             //Информация в интерфейсе
             news.eventSpec_properties.Add(new GuiString("Качество новости: ", quality.ToString(), false));
             #region Объявления
-            news.AddAdvertisment($"{news.date} {rnd_User.nick} сделал новость! Бежим оценивать!");
-            news.AddAdvertisment($"{news.date} {rnd_User.nick} корпел над редактором");
-            news.AddAdvertisment($"{news.date} {rnd_User.nick} случайно закрыл вкладку с наполовину сделанной новостью");
-            news.AddAdvertisment($"{news.date} {rnd_User.nick} считает, что новости не нужны");
-            news.AddAdvertisment($"{news.date} {rnd_User.nick}: я новость выложил, оцените?");
-            news.AddAdvertisment($"{news.date} {rnd_User.nick} хочет получить журналиста");
-            news.AddAdvertisment($"{news.date} {rnd_User.nick} извернулся и сделал качественную на целых {quality}% новость!");
-            news.AddAdvertisment($"{news.date} {rnd_User.nick}: Поднимаем сайт вместе со мной");
-            news.AddAdvertisment($"{news.date} {rnd_User.nick} рубит кэш и наяривает рекламу в свою статейку");
+            news.EventAdd7_Description($"{news.date} {rnd_User.nick} сделал новость! Бежим оценивать!");
+            news.EventAdd7_Description($"{news.date} {rnd_User.nick} корпел над редактором");
+            news.EventAdd7_Description($"{news.date} {rnd_User.nick} случайно закрыл вкладку с наполовину сделанной новостью");
+            news.EventAdd7_Description($"{news.date} {rnd_User.nick} считает, что новости не нужны");
+            news.EventAdd7_Description($"{news.date} {rnd_User.nick}: я новость выложил, оцените?");
+            news.EventAdd7_Description($"{news.date} {rnd_User.nick} хочет получить журналиста");
+            news.EventAdd7_Description($"{news.date} {rnd_User.nick} извернулся и сделал качественную на целых {quality}% новость!");
+            news.EventAdd7_Description($"{news.date} {rnd_User.nick}: Поднимаем сайт вместе со мной");
+            news.EventAdd7_Description($"{news.date} {rnd_User.nick} рубит кэш и наяривает рекламу в свою статейку");
             #endregion
+            news.EventEnd_DescrChoose();
             return news;
         }
         //Изменение репутации
@@ -199,13 +201,14 @@ namespace RumineSimulator_2._0
             reputationChange.eventSpec_properties.Add(new GuiString("Проставленная карма: ", karma_result.ToString(), true));
 
             #region Объявления
-            reputationChange.AddAdvertisment($"{reputationChange.date} {rnd_User.nick} дал по еплу своей кармой {rnd_UserAdd.nick}");
-            reputationChange.AddAdvertisment($"{reputationChange.date} {rnd_User.nick} проняло до того, что он аж репутацию изменил!");
-            reputationChange.AddAdvertisment($"{reputationChange.date} {rnd_User.nick}: {karma_result} то что надо {rnd_UserAdd.nick}");
-            reputationChange.AddAdvertisment($"{reputationChange.date} {rnd_User.nick} отметил срач вместе с {rnd_UserAdd.nick}");
-            reputationChange.AddAdvertisment($"{reputationChange.date} {rnd_User.nick} {rnd_User.traits[random.Next(rnd_User.traits.Count)]},{rnd_UserAdd.nick} {rnd_UserAdd.traits[random.Next(rnd_UserAdd.traits.Count)]}. Война!");
-            reputationChange.AddAdvertisment($"{reputationChange.date} {rnd_User.nick} обласкал {rnd_UserAdd.nick}");
+            reputationChange.EventAdd7_Description($"{reputationChange.date} {rnd_User.nick} дал по еплу своей кармой {rnd_UserAdd.nick}");
+            reputationChange.EventAdd7_Description($"{reputationChange.date} {rnd_User.nick} проняло до того, что он аж репутацию изменил!");
+            reputationChange.EventAdd7_Description($"{reputationChange.date} {rnd_User.nick}: {karma_result} то что надо {rnd_UserAdd.nick}");
+            reputationChange.EventAdd7_Description($"{reputationChange.date} {rnd_User.nick} отметил срач вместе с {rnd_UserAdd.nick}");
+            reputationChange.EventAdd7_Description($"{reputationChange.date} {rnd_User.nick} {rnd_User.traits[random.Next(rnd_User.traits.Count)]},{rnd_UserAdd.nick} {rnd_UserAdd.traits[random.Next(rnd_UserAdd.traits.Count)]}. Война!");
+            reputationChange.EventAdd7_Description($"{reputationChange.date} {rnd_User.nick} обласкал {rnd_UserAdd.nick}");
             #endregion
+            reputationChange.EventEnd_DescrChoose();
             return reputationChange;
         }
         //Выдача предупреждений
@@ -253,14 +256,14 @@ namespace RumineSimulator_2._0
             warnsChange.eventSpec_properties.Add(new GuiString("Забанен?: ", rnd_UserAdd.LastBan.Banned.ToString(), true));
             warnsChange.eventSpec_properties.Add(new GuiString("Шанс бана: ", chanse.ToString(), true));
             #region Объявления
-            warnsChange.AddAdvertisment($"{warnsChange.date} {rnd_User.nick} грозно глядит на флудераста {rnd_UserAdd.nick}");
-            warnsChange.AddAdvertisment($"{warnsChange.date} Между {rnd_User.nick} и {rnd_UserAdd.nick} бой. Банхаммер выигрывает ");
-            warnsChange.AddAdvertisment($"{warnsChange.date} {rnd_User.nick}: {warns} предупрежденек тебе пригодятся, {rnd_UserAdd.nick}");
-            warnsChange.AddAdvertisment($"{warnsChange.date} {rnd_User.nick} отметилил {rnd_UserAdd.nick}");
-            warnsChange.AddAdvertisment($"{warnsChange.date}{rnd_User.nick} {rnd_User.traits[random.Next(rnd_User.traits.Count)]},{rnd_UserAdd.nick} {rnd_UserAdd.traits[random.Next(rnd_UserAdd.traits.Count)]}. Война!");
-            warnsChange.AddAdvertisment($"{warnsChange.date} {rnd_User.nick} считает, что такое состояние бана как {rnd_UserAdd.LastBan.Banned} для {rnd_UserAdd.nick} оправдано на все сто");
+            warnsChange.EventAdd7_Description($"{warnsChange.date} {rnd_User.nick} грозно глядит на флудераста {rnd_UserAdd.nick}");
+            warnsChange.EventAdd7_Description($"{warnsChange.date} Между {rnd_User.nick} и {rnd_UserAdd.nick} бой. Банхаммер выигрывает ");
+            warnsChange.EventAdd7_Description($"{warnsChange.date} {rnd_User.nick}: {warns} предупрежденек тебе пригодятся, {rnd_UserAdd.nick}");
+            warnsChange.EventAdd7_Description($"{warnsChange.date} {rnd_User.nick} отметилил {rnd_UserAdd.nick}");
+            warnsChange.EventAdd7_Description($"{warnsChange.date}{rnd_User.nick} {rnd_User.traits[random.Next(rnd_User.traits.Count)]},{rnd_UserAdd.nick} {rnd_UserAdd.traits[random.Next(rnd_UserAdd.traits.Count)]}. Война!");
+            warnsChange.EventAdd7_Description($"{warnsChange.date} {rnd_User.nick} считает, что такое состояние бана как {rnd_UserAdd.LastBan.Banned} для {rnd_UserAdd.nick} оправдано на все сто");
             #endregion
-
+            warnsChange.EventEnd_DescrChoose();
             return warnsChange;
         }
 

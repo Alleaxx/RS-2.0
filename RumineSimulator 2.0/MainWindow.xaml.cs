@@ -48,7 +48,6 @@ namespace RumineSimulator_2._0
             GroupsControl.UserGroupsInitCreation();
             TraitsList.TraitsInit();
             ReputationReason.ReasonsInit();
-            AnounceType.AnounceInit();
             FractionList.FractionsInit();
             text_log.AppendText($"\nДаты установлены на: ");
             Date.InitDate(new DateTime(2011, 07, 27), new DateTime(2013, 07, 19, 12, 0, 0));
@@ -67,6 +66,7 @@ namespace RumineSimulator_2._0
 
             UserPropsEventsOn();
 
+            list_passedEvents.SelectionChanged += PropertyEventSelection;
             list_FractionsInfo.SelectionChanged += PropertyViewListSelection;
             list_TraitsInfo.SelectionChanged += PropertyViewListSelection;
             list_GroupsInfo.SelectionChanged += PropertyViewListSelection;
@@ -602,6 +602,18 @@ namespace RumineSimulator_2._0
                         list_ViewListDetails.Items.Add(str.Item);
                     }
                 }
+            }
+
+        }
+        //Событие возникающее при нажатии на, как бы это ни звучало, на событие, вызывающее новое окно
+        public void PropertyEventSelection(object sender, RoutedEventArgs e)
+        {
+            if(sender is ListBox)
+            {
+                ListBoxItem item =  (ListBoxItem)list_passedEvents.SelectedItem;
+                Presenter.SelectionCheck(item.Name);
+                WindowEvent = new EventView(Presenter.selected_event.id);
+                WindowEvent.Show();
             }
 
         }

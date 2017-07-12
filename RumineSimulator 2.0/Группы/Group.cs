@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace RumineSimulator_2._0
 {
-    class Group : IAdvertisable
+    class Group
     {
         public int id { get; private set; }
         public string Name { get; private set; }
@@ -70,29 +70,5 @@ namespace RumineSimulator_2._0
             admin = Admin;
         }
 
-
-
-        #region IAdvertisable
-        public List<string> Advertisments = new List<string>();
-        private void AdvertismentInit()
-        {
-            switch (type)
-            {
-                case GroupsType.Poset:
-                    AddAdvertisment("user_nick: Мне остальные группы и даром не нужны");
-                    AddAdvertisment("user_nick: Посетитель для настоящих пацанов!");
-                    AddAdvertisment("user_nick падать некуда, разве что в гости");
-                    break;
-                case GroupsType.JGP:
-                    AddAdvertisment("user_nick: Я состою в лучшей группе сайта по мнению 354 пользователей");
-                    AddAdvertisment("user_nick: ПХЛ - трушность, проверенная временем");
-                    break;
-            }
-        }
-        public void AddAdvertisment(string adv)
-        {
-            Advertisments.Add(adv);
-        }
-        #endregion
     }
 }

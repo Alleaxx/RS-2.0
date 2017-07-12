@@ -12,7 +12,8 @@ namespace RumineSimulator_2._0
         public long id;
         public ImageSource ImageSource { get; private set; }
         public string Name { get; private set; }
-        public string BigDescription { get; private set; }
+        public string sel_description { get; private set; }
+        public List<string> descriptions = new List<string>();
         public EventType EventType { get; private set; }
         public EventType EventGlobalType { get; set; }
 
@@ -56,10 +57,6 @@ namespace RumineSimulator_2._0
         {
             Creator = creator;
         }
-        public virtual void EventAdd2_Description(string description)
-        {
-            BigDescription = description;
-        }
         public virtual void EventAdd3_Mods(int currDay_mod,float day_mod,float week_mod,float month_mod)
         {
             current_valMinute_mod = currDay_mod;
@@ -67,7 +64,6 @@ namespace RumineSimulator_2._0
             weekMod = week_mod;
             monthMod = month_mod;
         }
-
         public virtual void EventAdd4_Participants(User user,string role)
         {
             participants.Add(user, role);
@@ -82,6 +78,15 @@ namespace RumineSimulator_2._0
             date_end = date;
             date_end.AddMinutes(duration);
         }
+        //Добавление полного описания(бывшие объявления)
+        public void EventAdd7_Description(string adv)
+        {
+            descriptions.Add(adv);
+        }
+        public void EventEnd_DescrChoose()
+        {
+            sel_description = AdvertisControl.GetAdvertisEvent(this);
+        }
 
         public virtual void EventAction()
         {
@@ -92,15 +97,6 @@ namespace RumineSimulator_2._0
         {
             daysToDelete--;
         }
-
-
-        #region IAdvertisable
-        public List<string> Advertisments = new List<string>();
-        public void AddAdvertisment(string adv)
-        {
-            Advertisments.Add(adv);
-        }
-        #endregion
     }
 
     enum EventType

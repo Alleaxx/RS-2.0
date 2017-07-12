@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RumineSimulator_2._0
 {
-    class Ban :IAdvertisable
+    class Ban
     {
         public int id { get; private set; }
 
@@ -100,14 +100,5 @@ namespace RumineSimulator_2._0
                            select i;
             return sortedGr.ToList();
         }
-
-        #region IAdvertisable
-        public List<string> Advertisments = new List<string>();
-        public void AddAdvertisment(string adv)
-        {
-            Advertisments.Add(adv);
-        }
-        #endregion
-
     }
 }

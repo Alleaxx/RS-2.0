@@ -82,8 +82,12 @@
                         <TextBox x:Name="textBox_Copy2" TextWrapping="Wrap" Text="Лог событий" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
                         <TextBox x:Name="text_log" Margin="5" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Stretch" FontSize="14" Text="Здесь будет располагаться лог событий" UseLayoutRounding="True" VerticalContentAlignment="Stretch" Height="225"/>
                     </StackPanel>
-                    <ListBox x:Name="list_Activity" Grid.Column="1" HorizontalAlignment="Left" Height="465" Margin="410,10,0,0" VerticalAlignment="Top" Width="328" VerticalContentAlignment="Top">
+                    <ListBox x:Name="list_Activity" Grid.Column="1" HorizontalAlignment="Left" Height="465" Margin="410,10,0,0" VerticalAlignment="Top" Width="185" VerticalContentAlignment="Top">
                         <ListBoxItem Content="Информация об активности"/>
+                    </ListBox>
+                    <StackPanel Grid.Column="2" Margin="5"/>
+                    <ListBox x:Name="list_passedEvents" VerticalAlignment="Top" SelectionChanged="List_passedEvents_SelectionChanged" Margin="0" Grid.Column="2" HorizontalAlignment="Left" Background="#FFFFEDB1">
+                        <ListBoxItem Content="События"/>
                     </ListBox>
                 </Grid>
             </TabItem>
@@ -193,9 +197,6 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <ListBox x:Name="list_passedEvents" VerticalAlignment="Top" SelectionChanged="List_passedEvents_SelectionChanged" Margin="2,2,2,0">
-                        <ListBoxItem Content="События"/>
-                    </ListBox>
                     <ListBox x:Name="list_EventChar" Margin="2,2,2,0" Grid.Column="1" VerticalAlignment="Top">
                         <ListBoxItem Content="Свойство события"/>
                     </ListBox>
