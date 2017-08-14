@@ -15,6 +15,7 @@ namespace RumineSimulator_2._0
         Oldfag,
         JournalistOldfag,
         Moderator,
-        ModeratorBezdna
+        ModeratorBezdna,
+        Admin
     }
 }

@@ -106,7 +106,7 @@ namespace RumineSimulator_2._0
             author.VerticalAlignment = VerticalAlignment.Center;
             author.Margin = new Thickness(2, 5, 12, 5);
             author.TextAlignment = TextAlignment.Justify;
-            author.Text = history.author.ToString();
+            author.Text = history.author.nick;
 
             TextBlock Date = new TextBlock();
             Date.Width = 100;

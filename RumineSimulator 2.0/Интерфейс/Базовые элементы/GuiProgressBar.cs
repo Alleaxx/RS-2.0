@@ -22,7 +22,7 @@ namespace RumineSimulator_2._0
             progressBar.Value = value;
             progressBar.HorizontalAlignment = HorizontalAlignment.Stretch;
             progressBar.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-            progressBar.Width = 125;
+            progressBar.Width = 75;
             progressBar.Height = 15;
             progressBar.Margin = new Thickness(5, 0, 5, 0);
         }

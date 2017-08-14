@@ -8,9 +8,12 @@ namespace RumineSimulator_2._0
 {
     static class GlobalParams
     {
-        //Условия получения определенного отношение(нестрогое сравнение)
+
         public const int charFeature_cap = 10;
 
+
+        
+        //Условия получения определенного отношение(нестрогое сравнение)
         public const int friend_condition = 5;
         public const int comrade_condition = 2;
         public const int unfriends_condition = -1;

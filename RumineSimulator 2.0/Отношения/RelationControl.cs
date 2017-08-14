@@ -67,7 +67,7 @@ namespace RumineSimulator_2._0
         public List<User> RelationCountUsersReturn(RelationType type)
         {
             List<User> users = new List<User>();
-            foreach (User user in UsersControl.Users)
+            foreach (User user in UsersControl.act_users)
             {
                 if(RelationStateReturn(user) == type)
                 {

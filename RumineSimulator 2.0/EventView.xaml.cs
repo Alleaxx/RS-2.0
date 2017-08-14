@@ -29,11 +29,7 @@ namespace RumineSimulator_2._0
         public void EventUpdate()
         {
             Text_EventName.Text = selected_event.Name;
-            if (selected_event is EventStatChange)
-            {
                 text_EventDescription.Text = selected_event.sel_description;
-
-            }
             List_EventProperties.Items.Clear();
             List_Participants.Items.Clear();
             foreach (GuiString inter_string in selected_event.InterfaceInfo.basicEvent_props)
@@ -44,7 +40,8 @@ namespace RumineSimulator_2._0
                 }
                 catch
                 {
-                    List_EventProperties.Items.Add("Здесь что-то потерялось");
+                    GuiString str = new GuiString(inter_string.text_name.Text, inter_string.text_value.Text);
+                    List_EventProperties.Items.Add(str.Item);
                 }
             }
             foreach (GuiString inter_string in selected_event.InterfaceInfo.connectedEntities_props)

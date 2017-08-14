@@ -45,12 +45,60 @@ namespace RumineSimulator_2._0
         //Месячный модификатор активности, оперирует сотыми
         public static float month_modActivity { get; private set; }
 
-        public static int curr_day_messages { get; set; }
-        public static int curr_day_comments { get; set; }
-        public static int curr_day_news { get; set; }
-        public static int curr_day_repChanges { get; set; }
-        public static int curr_day_bans { get; set; }
-        public static List<Event> today_events = new List<Event>();
+
+        //Статистика активности
+        #region Статистика активности
+        public static string floodTopic_name = "Форумный чат в 3.14";
+        public static int total_pages = 0;
+        private static int mess_on_last_page = 0;
+        //Рассчет кол-ва сообщений, а так же страниц во флудилке
+        private static int hour_messages;
+        public static int Hour_messages
+        {
+            get
+            {
+                return hour_messages;
+            }
+            set
+            {
+                hour_messages = value;
+                mess_on_last_page++;
+                if (mess_on_last_page > 20)
+                {
+                    mess_on_last_page = 0;
+                    total_pages++;
+                }
+            }
+        }
+
+        public static int day_messages { get; set; }
+        public static int week_messages { get; set; }
+        public static int month_messages { get; set; }
+        public static int year_messages { get; set; }
+
+        public static int day_comments { get; set; }
+        public static int week_comments { get; set; }
+        public static int month_comments { get; set; }
+        public static int year_comments { get; set; }
+
+        public static int day_news { get; set; }
+        public static int wekk_news { get; set; }
+        public static int month_news { get; set; }
+        public static int year_news { get; set; }
+
+        public static int day_repChanges { get; set; }
+        public static int week_repChanges { get; set; }
+        public static int month_repChanges { get; set; }
+        public static int year_repChanges { get; set; }
+
+        public static int day_bans { get; set; }
+        public static int week_bans { get; set; }
+        public static int month_bans { get; set; }
+        public static int year_bans { get; set; }
+
+
+        #endregion
+        public static List<Event> day_events = new List<Event>();
 
         public static IntView_Activity InterfaceInfo
         {
@@ -78,6 +126,8 @@ namespace RumineSimulator_2._0
                     last_HistoricEvent = last_Event;
             }
         }
+
+        private static List<EventType> planned_todayEvents = new List<EventType>();
 
         private static Random random = new Random();
 
@@ -213,6 +263,9 @@ namespace RumineSimulator_2._0
             }
             CheckEvents(false, false, false);
             #endregion
+            day_messages += hour_messages;
+            hour_messages = 0;
+
         }
         public static void Day_Pass()
         {
@@ -221,14 +274,20 @@ namespace RumineSimulator_2._0
             CheckEvents(true, false, false);
             DayStatisticsUpdate();
         }
+        //Обновление статистики за день
         public static void DayStatisticsUpdate()
         {
-            curr_day_messages = 0;
-            curr_day_bans = 0;
-            curr_day_comments = 0;
-            curr_day_repChanges = 0;
-            curr_day_news = 0;
-            today_events.Clear();
+            week_messages += day_messages;
+            day_messages = 0;
+            week_bans += day_bans;
+            day_bans = 0;
+            week_comments += day_comments;
+            day_comments = 0;
+            week_repChanges += day_repChanges;
+            day_repChanges = 0;
+            wekk_news += day_news;
+            day_news = 0;
+            day_events.Clear();
         }
         public static void Week_Pass()
         {
@@ -269,6 +328,44 @@ namespace RumineSimulator_2._0
                 new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.ban));
             }
 
+            //Проверка на планируемые события
+            for (int i = 0; i < planned_todayEvents.Count; i++)
+            {
+                if (AdvRnd.PrsChanse((int)(hour_modActivity * 10), 1000))
+                {
+                    new_events.Add(EventUsualDay_Preset.returnUsualDayEvent(planned_todayEvents[i]));
+                    planned_todayEvents.RemoveAt(i);
+                    i--;
+                }
+            }
+
+            //Новый день, планировка событий, которые должны произойти в течение дня
+            if (newday)
+            {
+                new_events.Add(EventUsualDay_Preset.returnUsualDayEvent(EventType.dayEnd));
+
+
+                //Заход админов на сайт
+                if (AdvRnd.PrsChanse(25))
+                {
+                    planned_todayEvents.Add(EventType.adminCome);
+                }
+                //Крупная дискуссия
+                if (AdvRnd.PrsChanse(55))
+                {
+                    planned_todayEvents.Add(EventType.bigDiskussion);
+                }
+                //Уход и приход пользователей
+                if (AdvRnd.PrsChanse(1))
+                {
+                    planned_todayEvents.Add(EventType.userLeave);
+                }
+                if (AdvRnd.PrsChanse(1))
+                {
+                    planned_todayEvents.Add(EventType.userCome);
+                }
+
+            }
 
             //Действия с новыми событиями
             foreach (Event new_event in new_events)
@@ -289,12 +386,7 @@ namespace RumineSimulator_2._0
 
             }
 
-            //Новый день
-            if (newday)
-            {
-                Last_Event = EventsControl.DayEnd();
-                LastEvent_ModsModifier();
-            }
+
         }
         public static void LastEvent_ModsModifier()
         {
@@ -302,7 +394,7 @@ namespace RumineSimulator_2._0
             day_modActivity += Last_Event.dayMod;
             month_modActivity += Last_Event.monthMod;
             week_modActivity += Last_Event.weekMod;
-            today_events.Add(Last_Event);
+            day_events.Add(Last_Event);
         }
         #endregion
 
@@ -310,22 +402,7 @@ namespace RumineSimulator_2._0
         //Возвращение случайных забавных объявлений от пользователей
         public static string ReturnRndAdvertisment()
         {
-            int rnd_num = random.Next(0, 2);
-            User rnd_user = UsersControl.Users[random.Next(UsersControl.Users.Count)];
-            switch (rnd_num)
-            {
-                //case 0:
-                //    Trait rnd_trait = rnd_user.traits[random.Next(rnd_user.traits.Count)];
-                //    return Advertisment.GetAdvertisTrait(rnd_user, rnd_trait);
-                //case 2:
-                //    CharFeature rnd_feature = rnd_user.character.character_params[random.Next(rnd_user.character.character_params.Count())];
-                //    return Advertisment.GetAdvertisCharFeature(rnd_user, rnd_feature);
-                //case 1:
-                //    Group rnd_group = rnd_user.group;
-                //   return Advertisment.GetAdvertisGroup(rnd_user, rnd_group);
-                //default:
-                //    return "Слава Румине! Румайнкрафту слава!";
-            }
+            User rnd_user = UsersControl.act_users[random.Next(UsersControl.act_users.Count)];
             if (Last_Event is EventStatChange)
                 return last_Event.sel_description;
             else

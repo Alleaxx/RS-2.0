@@ -17,6 +17,7 @@ namespace RumineSimulator_2._0
             classic_string.SetToolTip(trait.Tooltip);
             classic_string.SetGUIName(GUITypes.trait, trait.id_num);
             classic_string.SetColor(trait.background_brush, trait.foreground_brush);
+            classic_string.SetSize(13, 12);
             //Свойства
             Add_TraitProperty(classic_string);
             Add_TraitProperty(new GuiString("ID трейта: ", trait.id_num.ToString(), false));

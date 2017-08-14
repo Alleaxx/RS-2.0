@@ -25,7 +25,7 @@ namespace RumineSimulator_2._0
         public ListBoxItem Item { get { CreateGui(); return item; } private set { item = value; } }
 
         protected StackPanel stackpanel = new StackPanel();
-        protected TextBlock text_name = new TextBlock(), text_value =  new TextBlock();
+        public TextBlock text_name = new TextBlock(), text_value =  new TextBlock();
         protected System.Windows.Controls.Image Image = null;
 
 
@@ -35,7 +35,7 @@ namespace RumineSimulator_2._0
         {
             Statistic.guiString_obj++;
             text_name.Text = Text;
-            text_name.FontSize = 15;
+            text_name.FontSize = 14;
             text_name.Margin = new Thickness(2, 2, 2, 2);
             text_name.VerticalAlignment = VerticalAlignment.Center;
             text_name.HorizontalAlignment = HorizontalAlignment.Center;
@@ -202,7 +202,7 @@ namespace RumineSimulator_2._0
                 case StringProfile.Header:
                     SetColor("#FFB2B2B2", "","","", "#FF5D5D5D");
                     item.BorderBrush =  new SolidColorBrush(Colors.DarkGray);
-                    text_name.FontSize = 16;
+                    text_name.FontSize = 15;
                     break;
                 case StringProfile.Quote:
                     text_value.TextAlignment = TextAlignment.Right;

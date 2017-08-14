@@ -91,13 +91,18 @@
     <Compile Include="EventView.xaml.cs">
       <DependentUpon>EventView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Мелкие события\AdvertisHelper.cs" />
-    <Compile Include="Мелкие события\Advertisment.cs" />
-    <Compile Include="Мелкие события\IAdvertisable.cs" />
+    <Compile Include="Абстрактные темы\AdvertisHelper.cs" />
+    <Compile Include="Абстрактные темы\Advertisment.cs" />
+    <Compile Include="Абстрактные темы\IAdvertisable.cs" />
+    <Compile Include="Абстрактные темы\Topic.cs" />
+    <Compile Include="Абстрактные темы\TopicControl.cs" />
     <Compile Include="Отношения\IntView_Relation.cs" />
     <Compile Include="Отношения\IntView_RelationControl.cs" />
+    <Compile Include="Пользователь\Opinion.cs" />
+    <Compile Include="Пользователь\OpinionControl.cs" />
     <Compile Include="События\EventStatChange.cs" />
     <Compile Include="События\EventStatChange_Preset.cs" />
+    <Compile Include="События\EventUsualDay_Preset.cs" />
     <Compile Include="Статистика и прочее системное\EnumToString.cs" />
     <Compile Include="Статистика и прочее системное\IntView_Statistics.cs" />
     <Compile Include="Статистика и прочее системное\Statistic.cs" />

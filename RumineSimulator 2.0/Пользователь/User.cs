@@ -13,6 +13,9 @@ namespace RumineSimulator_2._0
         public string nick { get; set; }
 
         public DateTime registration { get; private set; }
+        public DateTime last_activity { get; set; }
+        public bool unknown;
+        public bool activity { get; set; }
 
         public int moder_chanse { get; set; }
 
@@ -45,13 +48,16 @@ namespace RumineSimulator_2._0
         }
         public int forum_influence;
 
+        //Мнение пользователя
+        public OpinionControl Opinion { get; private set; }
+
 
         public int messages { get; set; }
         public int likes { get; set; }
 
-        public bool mod { get;set; }
+        public bool mod { get; set; }
         public bool admin { get; private set; }
-        public bool activity { get; set; }
+
 
         public string description { get; private set; }
         public List<string> oldAdvertisments = new List<string>();
@@ -72,14 +78,30 @@ namespace RumineSimulator_2._0
 
         #endregion
 
-        public User()
+        public User(bool Admin = false)
         {
             random = new Random();
             //Ник получаем из списка свободных ников
-            user_id = UsersControl.Users.Count + 1;
-            nick = Nicks.SelectFreeNick();
+            user_id = UsersControl.all_users.Count + 1;
+
+            admin = Admin;
+            if (!Admin)
+                nick = Nicks.SelectFreeNick();
+            else
+            {
+                if(UsersControl.UserSearch("MadMoss") == null)
+                {
+                    nick = "MadMoss";
+                }
+                else
+                {
+                    nick = "south_park";
+                }
+            }
+
 
             //Устанавливаем рандомную дату регистрации(2011 - 30%, 2012 - 30%, 2013 - 40%), на ее основе комменты и новости
+            activity = true;
             SetRegistration();
 
             SetNewsComments();
@@ -87,14 +109,15 @@ namespace RumineSimulator_2._0
             reputation = new Reputation(this);
             karma = new Karma(this);
 
-            activity = false;
-
             //Генерируем характер
             character = new Character(this);
             traits = TraitsList.ReturnTraits(this);
 
             //На основе характера получаем стереотип и доступные группы
-            group = GroupsControl.ReturnUserRandomGroup();
+            if (!admin)
+                group = GroupsControl.ReturnUserRandomGroup();
+            else
+                group = GroupsControl.GroupSearch(GroupsType.Admin);
             SetLikesRatings();
 
             //Инициализируем отношения                                             
@@ -102,7 +125,10 @@ namespace RumineSimulator_2._0
             CharacterMod();
             TraitMod();
             bans.Add(new Ban(this));
+            //Добавляем мнения
+            Opinion = new OpinionControl(this);
         }
+
 
         //Установка даты регистрации
         private void SetRegistration()
@@ -126,6 +152,25 @@ namespace RumineSimulator_2._0
                 registration = new DateTime(registration.Year, random.Next(Date.found_date.Month + 1, 13), registration.Day);
             if (registration.Month >= Date.current_date.Month && registration.Year == Date.current_date.Year)
                 registration = new DateTime(registration.Year, random.Next(1, Date.current_date.Month), registration.Day);
+
+            unknown = false;
+            //Неизвестный для форума пользователь
+            if (AdvRnd.PrsChanse(5) && !admin)
+            {
+                unknown = true;
+            }
+            activity = true;
+            //Неактивный пользователь
+            if (AdvRnd.PrsChanse(5) && !admin)
+            {
+                activity = false;
+            }
+
+            if (admin)
+            {
+                registration = Date.found_date;
+            }
+
             SetOldness();
 
         }
@@ -134,8 +179,8 @@ namespace RumineSimulator_2._0
         //Влияние характера на параметры
         private void CharacterMod()
         {
-            news_quality = random.Next(0,10) + character.creativity.Value * 5 + character.sciense.Value * 5;
-            if(news == 0)
+            news_quality = random.Next(0, 10) + character.creativity.Value * 5 + character.sciense.Value * 5;
+            if (news == 0)
             {
                 news_quality = 0;
             }
@@ -260,7 +305,7 @@ namespace RumineSimulator_2._0
             int max_like = min_like + (10 - character.adeq.Value) * 10;
             int min_coment = 1;
             int max_coment = character.adeq.Value / 2 + 1;
-            LikesRateCounting(min_like,max_like,min_coment,max_coment);
+            LikesRateCounting(min_like, max_like, min_coment, max_coment);
         }
         private void LikesRateCounting(int min_pers_likes, int max_pers_likes, int min_rate, int max_rate)
         {
@@ -279,7 +324,7 @@ namespace RumineSimulator_2._0
             forum_influence = relations.RelationCountUsersReturn(RelationType.friend).Count * 5 +
                 relations.RelationCountUsersReturn(RelationType.comrade).Count * 2 +
                 group.Respect * 10 +
-                (likes / 100) + 
+                (likes / 100) +
                 (int)reputation.Base_reputation;
 
         }
@@ -291,11 +336,12 @@ namespace RumineSimulator_2._0
             //Рандомизирует репутацию на основе отношений
             reputation.ReputationRelations(this);
             karma.KarmaUpdate(this);
-            for (int i = 0; i < UsersControl.Users.Count; i++)
+            for (int i = 0; i < UsersControl.act_users.Count; i++)
             {
-                blocked_users_rep.Add(UsersControl.Users[i], 0);
+                blocked_users_rep.Add(UsersControl.act_users[i], 0);
             }
-            group = GroupsControl.ReturnUserGroup(this);
+            if(!admin)
+                group = GroupsControl.ReturnUserGroup(this);
             SetModerChanse();
             SetForum_influence();
         }
@@ -326,7 +372,7 @@ namespace RumineSimulator_2._0
                 SetOldness();
                 karma.KarmaUpdate(this);
             }
-            if(LastBan.Banned && LastBan.ban_end == Date.current_date)
+            if (LastBan.Banned && LastBan.ban_end == Date.current_date)
             {
                 Ban ban = new Ban(this);
                 ban = bans[bans.Count - 1].BanEnd(this);
@@ -338,10 +384,9 @@ namespace RumineSimulator_2._0
         {
             daylog = new UserDayLog(this);
             //Уменьшение на день доступности проставки репутации заблокированным пользователям
-            for (int i = 0; i < UsersControl.Users.Count; i++)
+            for (int i = 0; i < blocked_users_rep.Count; i++)
             {
-                if (blocked_users_rep[UsersControl.Users[i]] > 0)
-                    blocked_users_rep[UsersControl.Users[i]]--;
+                blocked_users_rep[blocked_users_rep.ElementAt(i).Key]--;
             }
         }
 

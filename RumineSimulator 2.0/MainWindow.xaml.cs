@@ -47,6 +47,7 @@ namespace RumineSimulator_2._0
             Nicks.AvasInit();
             GroupsControl.UserGroupsInitCreation();
             TraitsList.TraitsInit();
+            TopicControl.TopicsInit();
             ReputationReason.ReasonsInit();
             FractionList.FractionsInit();
             text_log.AppendText($"\nДаты установлены на: ");
@@ -147,11 +148,7 @@ namespace RumineSimulator_2._0
         {
             MinuteLogicUpdate();
             MinuteInterfaceUpdate();
-            if (Date.current_date.Hour == 0 && Date.current_date.Minute == 1)
-                DayInterfaceUpdate();
-
-
-                if (!(bool)statusRadButton_pause.IsChecked)
+            if (!(bool)statusRadButton_pause.IsChecked)
                 timer_TimeGo.IsEnabled = true;
         }
         private void MinuteLogicUpdate()
@@ -166,31 +163,15 @@ namespace RumineSimulator_2._0
 
             ActivityProperiesUpdate();
 
-
-            //Переделать, объявления
-            if (Presenter.newEvent)
+            //Обновление событий, переделать
+            if (Presenter.events_update && Presenter.speed_counter == Presenter.update_Events_speed)
             {
-                if (AdvRnd.PrsChanse(10))
-                {
-                    status_textEvent.Text = Activity.ReturnRndAdvertisment();
-                    Presenter.newEvent = false;
-                }
+                Presenter.speed_counter = 0;
+                EventsListUpdate();
             }
-            //Добавление событий
-            for (int i = list_passedEvents.Items.Count; i < EventsControl.AllEvents.Count; i++)
+            else if (Presenter.events_update)
             {
-                list_passedEvents.Items.Insert(0, EventsControl.AllEvents[i].InterfaceInfoClassicString.Item);
-            }
-
-
-        }
-        //Дневная чистка прошедших событий
-        private void DayInterfaceUpdate()
-        {
-            list_passedEvents.Items.Clear();
-            foreach (Event even in EventsControl.AllEvents)
-            {
-                list_passedEvents.Items.Add(even.InterfaceInfoClassicString.Item);
+                Presenter.speed_counter++;
             }
         }
 
@@ -250,20 +231,20 @@ namespace RumineSimulator_2._0
             }
             catch
             {
-                GenerateUsersAmount = 50;
+                GenerateUsersAmount = 52;
                 text_GeneratedUsers.Text = 50.ToString();
                 text_log.AppendText("\nКол-во генерируемых пользователей установлено на 50");
             }
-            timer_total_users = GenerateUsersAmount;
+            timer_total_users = GenerateUsersAmount + 2;
             timer_generated_users = 0;
             timer_users = new DispatcherTimer();  // если надо, то в скобках указываем приоритет, например DispatcherPriority.Render
             timer_users.Tick += new EventHandler(TimerTick);
             timer_users.Interval = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(text_GenerateTick.Text));
-            text_GeneratedUsers.Text = UsersControl.Users.Count.ToString();
+            text_GeneratedUsers.Text = UsersControl.act_users.Count.ToString();
             if (users_generated)
             {
                 Nicks.NicksInit();
-                UsersControl.Users.Clear();
+                UsersControl.act_users.Clear();
             }
             //Исчезновение кнопки
             button_GenerateUsers.Margin = new Thickness(0, 0, 0, 0);
@@ -287,14 +268,17 @@ namespace RumineSimulator_2._0
                 UsersControl.FractionChoose();
                 Activity.Activity_Init();
                 HistoricEvents_List.HistoricEvents_Creation(1);
-
                 text_log.AppendText("\nПользователи сгенерированы");
             }
 
             else
             {
-                UsersControl.GenerateUsers(1);
-                text_GeneratedUsers.Text = UsersControl.Users.Count.ToString();
+                if (timer_generated_users < 2)
+                {
+                    UsersControl.GenerateUser(true);
+                }
+                UsersControl.GenerateUser(false);
+                text_GeneratedUsers.Text = UsersControl.all_users.Count.ToString();
                 timer_generated_users++;
             }
         }
@@ -306,13 +290,7 @@ namespace RumineSimulator_2._0
         {
             UserPropsEventsOff();
             //Обновление пользователей
-            if (list_UsersAlpha.Items.Count < 2)
-            {
-                for (int i = 0; i < UsersControl.Users.Count; i++)
-                {
-                    list_UsersAlpha.Items.Add(UsersControl.UserListReturnSort()[i].InterfaceInfo.classic_string.Item);
-                }
-            }
+            UsersListUpdate();
             //Обновление пользователей в отношениях, задание особого события при нажатии строки
             combo_RelationChoose.Items.Clear();
             foreach (User user in UsersControl.UserListReturnSort())
@@ -335,6 +313,9 @@ namespace RumineSimulator_2._0
             {
                 list_Statistics.Items.Add(str.Item);
             }
+
+            //Обновление событий
+            EventsListUpdate();
 
             UserPropsEventsOn();
         }
@@ -367,11 +348,23 @@ namespace RumineSimulator_2._0
                 {
                     list_TraitsNew.Items.Add(info.Item);
                 }
-                //Описание
+                //Описание и недавняя активность
                 text_Description.Text = sel_user.description;
-                if(sel_user.daylog != null)
+                list_UserLastEvents.Items.Clear();
+                List<Event> user_events = EventsControl.EventSearch(Presenter.selected_user);
+                if (user_events.Count != 0)
                 {
-                    text_UserChangeLog.Text = sel_user.daylog.text_descr;
+                    foreach (Event eve in user_events)
+                    {
+                        list_UserLastEvents.Items.Add(eve.InterfaceInfo.classic_string.Item);
+                    }
+                }
+                else
+                {
+                    ListBoxItem lb = new ListBoxItem();
+                    lb.IsHitTestVisible = false;
+                    lb.Content = "Никаких последних событий не найдено";
+                    list_UserLastEvents.Items.Add(lb);
                 }
                 //Числовые свойства
                 list_UserPropertiesNumeric.Items.Clear();
@@ -416,7 +409,7 @@ namespace RumineSimulator_2._0
             }
             catch
             {
-                text_log.AppendText("При обновлении данных произошла ошибка");
+                text_log.AppendText("\nПри обновлении данных произошла ошибка");
             }
             UserPropsEventsOn();
 
@@ -472,12 +465,21 @@ namespace RumineSimulator_2._0
                     Presenter.SetUserSort(SortingUserTypes.no_sort);
                     break;
             }
-            //Обновление списка пользователей
+            UsersListUpdate();
+        }
+        //Метод обновления списка пользователей
+        private void UsersListUpdate()
+        {
+            Presenter.UsersListUpdate();
             list_UsersAlpha.Items.Clear();
-            for (int i = 0; i < UsersControl.Users.Count; i++)
+            if (Presenter.users_sorted != null)
             {
-                list_UsersAlpha.Items.Add(UsersControl.UserListReturnSort()[i].InterfaceInfo.classic_string.Item);
+                for (int i = 0; i < Presenter.users_sorted.Count; i++)
+                {
+                    list_UsersAlpha.Items.Add(Presenter.users_sorted[i].InterfaceInfo.classic_string.Item);
+                }
             }
+
         }
 
 
@@ -518,8 +520,6 @@ namespace RumineSimulator_2._0
         }
 
 
-
-
         //Выключение событий показа дополнительной информации в пользователях
         private void UserPropsEventsOff()
         {
@@ -528,6 +528,7 @@ namespace RumineSimulator_2._0
             list_UserPropertiesBasic.SelectionChanged -= PropertyUsersSelection;
             combo_RelationChoose.SelectionChanged -= PropertyUsersSelection;
             list_passedEvents.SelectionChanged -= PropertyEventSelection;
+            list_UserLastEvents.SelectionChanged -= PropertyUserEventSelection;
         }
         //Включение событий показа дополнительной информации в пользователях
         private void UserPropsEventsOn()
@@ -537,6 +538,7 @@ namespace RumineSimulator_2._0
             list_UserPropertiesBasic.SelectionChanged += PropertyUsersSelection;
             combo_RelationChoose.SelectionChanged += PropertyUsersSelection;
             list_passedEvents.SelectionChanged += PropertyEventSelection;
+            list_UserLastEvents.SelectionChanged += PropertyUserEventSelection;
         }
 
         //Событие возникающее при выборе свойства пользователя, позволяющее отображать дополнительную информацию
@@ -572,7 +574,7 @@ namespace RumineSimulator_2._0
         {
             list_ViewListDetails.Items.Clear();
             ListBox lb = (ListBox)sender;
-            if(lb.Items.Count != 0)
+            if (lb.Items.Count != 0)
             {
                 ListBoxItem item = (ListBoxItem)lb.SelectedItem;
                 if (Presenter.InterfaceInfoReturn(item.Name) != null)
@@ -589,16 +591,126 @@ namespace RumineSimulator_2._0
         //Событие возникающее при нажатии на, как бы это ни звучало, на событие, вызывающее новое окно
         public void PropertyEventSelection(object sender, RoutedEventArgs e)
         {
-            if(sender is ListBox)
+            if (sender is ListBox)
             {
-                ListBoxItem item =  (ListBoxItem)list_passedEvents.SelectedItem;
-                if(item != null && item.Name.Length != 0)
+                ListBoxItem item = (ListBoxItem)list_passedEvents.SelectedItem;
+                if (item != null && item.Name.Length != 0)
                 {
+                    Presenter.SelectionCheck(item.Name);
+                    statusRadButton_pause.IsChecked = true;
+                    WindowEvent = new EventView(Presenter.selected_event.id);
+                    WindowEvent.Show();
+                }
+            }
+        }
+        //Событие возникающее при нажатии на, как бы это ни звучало, на событие в последней активности юзера, вызывающее новое окно
+        public void PropertyUserEventSelection(object sender, RoutedEventArgs e)
+        {
+            if (sender is ListBox)
+            {
+                ListBoxItem item = (ListBoxItem)list_UserLastEvents.SelectedItem;
+                if (item != null && item.Name.Length != 0)
+                {
+                    statusRadButton_pause.IsChecked = true;
                     Presenter.SelectionCheck(item.Name);
                     WindowEvent = new EventView(Presenter.selected_event.id);
                     WindowEvent.Show();
                 }
             }
+        }
+
+
+        //Метод обновления списка событий
+        private void EventsListUpdate()
+        {
+            Presenter.EventsListUpdate();
+            if (list_passedEvents != null)
+            {
+                list_passedEvents.Items.Clear();
+                for (int i = 0; i < Presenter.events_sorted.Count; i++)
+                {
+                    if (Presenter.events_sorted[i].InterfaceInfoClassicString != null)
+                    {
+                        list_passedEvents.Items.Add(Presenter.events_sorted[i].InterfaceInfoClassicString.Item);
+
+                    }
+                }
+            }
+
+        }
+        //Сортировка показываемых событий по тексту
+        private void text_EventSearch_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            list_passedEvents.Items.Clear();
+            Presenter.events_search_text = text_EventSearch.Text;
+            Presenter.EventsListUpdate();
+            for (int i = 0; i < Presenter.events_sorted.Count; i++)
+            {
+                list_passedEvents.Items.Add(Presenter.events_sorted[i].InterfaceInfo.classic_string.Item);
+            }
+        }
+        //Изменение галок на сортировку событий
+        private void check_EventsSlight_Click(object sender, RoutedEventArgs e)
+        {
+            Presenter.events_slight = (bool)check_EventsSlight.IsChecked;
+            EventsListUpdate();
+        }
+        private void check_EventsMedium_Click(object sender, RoutedEventArgs e)
+        {
+            Presenter.events_medium = (bool)check_EventsMedium.IsChecked;
+            EventsListUpdate();
+        }
+        private void check_EventsImportant_Click(object sender, RoutedEventArgs e)
+        {
+            Presenter.events_important = (bool)check_EventsImportant.IsChecked;
+            EventsListUpdate();
+        }
+        private void check_EventsHistoric_Click(object sender, RoutedEventArgs e)
+        {
+            Presenter.events_historic = (bool)check_EventsHistoric.IsChecked;
+            EventsListUpdate();
+        }
+        //Обновление событий, галка
+        private void check_EventsUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            Presenter.events_update = (bool)check_EventsUpdate.IsChecked;
+
+        }
+        //Дата события
+        private void date_EventsSort_CalendarClosed(object sender, RoutedEventArgs e)
+        {
+            Presenter.date_start = (DateTime)date_EventsSort.SelectedDate;
+            EventsListUpdate();
+        }
+        //Изменение количества показываемых событий
+        private void text_EventsShowed_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Presenter.showed_events = Convert.ToInt32(text_EventsShowed.Text);
+            EventsListUpdate();
+        }
+        //Изменение скорости обновления событий
+        private void text_UpdateEventsSpeed_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Presenter.speed_counter = 0;
+            Presenter.update_Events_speed = Convert.ToInt32(text_UpdateEventsSpeed.Text);
+        }
+
+        //Галки сортировки пользователей
+        private void check_UsersAll_Click(object sender, RoutedEventArgs e)
+        {
+            Presenter.all_users = (bool)check_UsersAll.IsChecked;
+            UsersListUpdate();
+        }
+        private void check_UsersActive_Click(object sender, RoutedEventArgs e)
+        {
+            Presenter.active_users = (bool)check_UsersActive.IsChecked;
+            UsersListUpdate();
+        }
+        //Поиск пользователя по нику
+        private void text_UserSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Presenter.text_userSearch = text_UserSearch.Text;
+            UsersListUpdate();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace RumineSimulator_2._0
     {
         public long id;
         public ImageSource ImageSource { get; private set; }
-        public string Name { get; private set; }
+        public string Name { get; set; }
         public string sel_description { get; private set; }
         public List<string> descriptions = new List<string>();
         public EventType EventType { get; private set; }
@@ -34,6 +34,35 @@ namespace RumineSimulator_2._0
         public float dayMod { get; private set; }
         public int current_valMinute_mod { get; private set; }
 
+        //Важность события - зависит кол-во дней, которое оно не будет удаляться
+        private EventImportance importance;
+        public EventImportance Importance
+        {
+            get
+            {
+                return importance;
+            }
+            set
+            {
+                importance = value;
+                switch (importance)
+                {
+                    case EventImportance.slight:
+                        daysToDelete = 2;
+                        break;
+                    case EventImportance.medium:
+                        daysToDelete = 30;
+                        break;
+                    case EventImportance.important:
+                        daysToDelete = 730;
+                        break;
+                    case EventImportance.historical:
+                        daysToDelete = 2500;
+                        break;
+                }
+            }
+        }
+
         public int daysToDelete { get; set; }
 
         public Event_Creator Creator { get; private set; }
@@ -51,9 +80,7 @@ namespace RumineSimulator_2._0
             EventType = type;
             EventGlobalType = EventType.usual;
             date = Date.current_date;
-            daysToDelete = 365;
-            InterfaceInfoClassicString = new GuiString($"{date.ToShortTimeString()}: {name}", "", true);
-            InterfaceInfoClassicString.SetGUIName(GUITypes.simEvent, (int)id);
+            Importance = EventImportance.medium;
         }
 
         public virtual void EventAdd1_BasicInfo(Event_Creator creator)
@@ -93,6 +120,9 @@ namespace RumineSimulator_2._0
         public void EventEnd_DescrChoose()
         {
             sel_description = AdvertisControl.GetAdvertisEvent(this);
+            InterfaceInfoClassicString = InterfaceInfo.classic_string;
+            InterfaceInfoClassicString.text_name.Text = $"{date.ToShortTimeString()}: {Name}";
+            InterfaceInfoClassicString.SetGUIName(GUITypes.simEvent, (int)id);
         }
 
         public virtual void EventAction()
@@ -110,6 +140,11 @@ namespace RumineSimulator_2._0
     {
         usual, small, historic,
         message, comment, news, reputation, ban, fail, dayEnd,
+        bigDiskussion, adminCome, userLeave,userCome,
         historicWiki,historicPaneAttack,HistorticFakeDay
+    }
+    enum EventImportance
+    {
+        slight,medium,important,historical
     }
 }

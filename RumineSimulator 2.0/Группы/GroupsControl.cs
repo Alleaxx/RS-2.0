@@ -62,6 +62,12 @@ namespace RumineSimulator_2._0
             Moderator.SetCondition(new GroupCondition(0, 0, 0, 0, 0, true));
             Moderator.SetPossibilieties(true, false, true, false, false);
             groups.Add(Moderator);
+
+            //Администратор
+            Group Admin = new Group("Администратор", 40, 25, "#FFD8131C", GroupsType.Admin);
+            Admin.SetCondition(new GroupCondition(0, 0, 0, 0, 0, true));
+            Admin.SetPossibilieties(true, true, true, true, true);
+            groups.Add(Admin);
         }
 
 
@@ -186,7 +192,7 @@ namespace RumineSimulator_2._0
         static public void ModerChoose()
         {
             //Число рекомендуемых модераторов - кол-во пользователей / 20 + рандом
-            int mod_recomend = UsersControl.Users.Count / 20;
+            int mod_recomend = UsersControl.act_users.Count / 20;
             mod_recomend += random.Next(0, 3);
             int need_amount = mod_recomend - (int)UsersControl.moderAmount;
             int i = 0;
@@ -195,7 +201,7 @@ namespace RumineSimulator_2._0
             //Проверять шанс пользователей пока число модераторов не достигнет рекомендуемого
             do
             {
-                if (AdvRnd.PrsChanse(poss_mods[i].moder_chanse))
+                if (AdvRnd.PrsChanse(poss_mods[i].moder_chanse) && poss_mods[i].admin != true)
                 {
                     poss_mods[i].group = GroupSearch(GroupsType.Moderator);
                     poss_mods[i].mod = true;

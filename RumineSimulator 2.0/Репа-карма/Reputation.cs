@@ -73,14 +73,14 @@ namespace RumineSimulator_2._0
         public void ReputationRelations(User user)
         {
             User newfag = user;
-            for (int i = 0; i < UsersControl.Users.Count; i++)
+            for (int i = 0; i < UsersControl.act_users.Count; i++)
             {
 
-                if (user.month_oldness > UsersControl.Users[i].month_oldness)
-                    newfag = UsersControl.Users[i];
+                if (user.month_oldness > UsersControl.act_users[i].month_oldness)
+                    newfag = UsersControl.act_users[i];
 
                 RelationType rel_state;
-                rel_state = user.relations.RelationStateReturn(UsersControl.Users[i]);
+                rel_state = user.relations.RelationStateReturn(UsersControl.act_users[i]);
                 int wish_modif_pos = 0;
                 int wish_modif_otr = 0;
                 wish_modif_pos += user.group.Respect;
@@ -123,25 +123,25 @@ namespace RumineSimulator_2._0
                         case RelationType.friend:
                             if (AdvRnd.PrsChanse(40 + wish_modif_pos))
                             {
-                                pos_reputation += UsersControl.Users[i].karma.karma;
+                                pos_reputation += UsersControl.act_users[i].karma.karma;
                             }
                             break;
                         case RelationType.enemy:
                             if (AdvRnd.PrsChanse(8 + wish_modif_otr))
                             {
-                                otr_reputation += UsersControl.Users[i].karma.karma;
+                                otr_reputation += UsersControl.act_users[i].karma.karma;
                             }
                             break;
                         case RelationType.unfriend:
                             if (AdvRnd.PrsChanse(4 + wish_modif_otr))
                             {
-                                otr_reputation += UsersControl.Users[i].karma.karma;
+                                otr_reputation += UsersControl.act_users[i].karma.karma;
                             }
                             break;
                         case RelationType.comrade:
                             if (AdvRnd.PrsChanse(20 + wish_modif_pos))
                             {
-                                pos_reputation += UsersControl.Users[i].karma.karma;
+                                pos_reputation += UsersControl.act_users[i].karma.karma;
                             }
                             break;
                     }
@@ -154,7 +154,7 @@ namespace RumineSimulator_2._0
 
         public bool ChangeReputation(User author, float Value, string reason)
         {
-            if (author.blocked_users_rep[owner] == 0)
+            if (author.blocked_users_rep.ContainsKey(owner) == false)
             {
                 ReputationHistory log;
                 if (Value > 0)

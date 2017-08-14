@@ -17,7 +17,24 @@ namespace RumineSimulator_2._0
             //Базовая информация
             classic_string = new GuiString(eve.Name,"",true);
             classic_string.SetGUIName(GUITypes.simEvent, (Int32)eve.id);
-            classic_string.SetColor("#FFFFEDB1","");
+
+            switch (eve.Importance)
+            {
+                case EventImportance.slight:
+                    classic_string.SetColor("", "#FF575757");
+                    break;
+                case EventImportance.medium:
+                    classic_string.SetColor("", "#FF2552E8");
+                    break;
+                case EventImportance.important:
+                    classic_string.SetColor("", "#FF472581");
+                    break;
+                case EventImportance.historical:
+                    classic_string.SetColor("", "#FFE88F25");
+                    break;
+            }
+
+   
             Add_BasicEventProperty(classic_string);
             Add_BasicEventProperty(new GuiString("Дата: ", $"{eve.date.ToLongDateString()} {eve.date.ToShortTimeString()}"));
             if(eve.Duration != 0)
@@ -27,16 +44,18 @@ namespace RumineSimulator_2._0
             }
             basicEvent_props.AddRange(eve.eventSpec_properties);
             Add_BasicEventProperty(new GuiString("Прочие параметры","",false,StringProfile.Header));
-            if (eve.Creator == null)
-                Add_BasicEventProperty(new GuiString("Неизвестно", ""));
-            else
+            if (eve.Creator != null)
                 Add_BasicEventProperty(new GuiString("Создатель: ", eve.Creator.Text));
             Add_BasicEventProperty(new GuiString("Тип: ", eve.EventType.ToString()));
+            Add_BasicEventProperty(new GuiString($"Важность: ", $"{eve.Importance}({eve.daysToDelete})"));
             Add_BasicEventProperty(new GuiString("Параметр активности: ", eve.current_valMinute_mod.ToString()));
-            Add_BasicEventProperty(new GuiString("Мод. дня: ", eve.dayMod.ToString()));
-            Add_BasicEventProperty(new GuiString("Мод. недели: ", eve.weekMod.ToString()));
-            Add_BasicEventProperty(new GuiString("Мод. месяца: ", eve.monthMod.ToString()));
-            Add_BasicEventProperty(new GuiString($"Дней до удаления: ", eve.daysToDelete.ToString()));
+            if(eve.dayMod != 0)
+                Add_BasicEventProperty(new GuiString("Мод. дня: ", eve.dayMod.ToString()));
+            if (eve.weekMod != 0)
+                Add_BasicEventProperty(new GuiString("Мод. недели: ", eve.weekMod.ToString()));
+            if (eve.monthMod != 0)
+                Add_BasicEventProperty(new GuiString("Мод. месяца: ", eve.monthMod.ToString()));
+
 
             //Участники
             Add_SpecEventConnected(new GuiString("Cписок участников: ", $"({eve.participants.Count})", false, StringProfile.Header));

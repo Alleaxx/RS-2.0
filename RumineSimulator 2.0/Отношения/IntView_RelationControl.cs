@@ -12,24 +12,24 @@ namespace RumineSimulator_2._0
 
         public IntView_RelationControl(RelationControl rel)
         {
-            classic_string = new GuiString("Связи пользователя", $"{rel.owner.nick}", false, StringProfile.Header);
-            classic_string.SetSize(16, 16);
+            classic_string = new GuiString("Связи", $"{rel.owner.nick}", false, StringProfile.Header);
+            classic_string.SetSize(15, 15);
             Add_RelationProperty(classic_string);
             Add_RelationProperty(new GuiString("Друзей: ", $"{rel.RelationCountUsersReturn(RelationType.friend).Count}", false));
             relation_props.Last().SetColor("#FF84FF8A", "");
-            relation_props.Last().SetSize(16, 17);
+            relation_props.Last().SetSize(14, 14);
             Add_RelationProperty(new GuiString("Товарищей: ", $"{rel.RelationCountUsersReturn(RelationType.comrade).Count}", false));
             relation_props.Last().SetColor("#FFB7FFAC", "");
-            relation_props.Last().SetSize(16, 17);
+            relation_props.Last().SetSize(14, 14);
             Add_RelationProperty(new GuiString("Неприятелей: ", $"{rel.RelationCountUsersReturn(RelationType.unfriend).Count}", false));
             relation_props.Last().SetColor("#FFFFB9B9", "");
-            relation_props.Last().SetSize(16, 17);
+            relation_props.Last().SetSize(14, 14);
             Add_RelationProperty(new GuiString("Врагов: ", $"{rel.RelationCountUsersReturn(RelationType.enemy).Count}", false));
             relation_props.Last().SetColor("#FFFF7F7F", "");
-            relation_props.Last().SetSize(16, 17);
+            relation_props.Last().SetSize(14, 14);
             Add_RelationProperty(new GuiString($"Остальные {rel.RelationCountUsersReturn(RelationType.neutral).Count} юзеров нейтральны", $"", false));
             relation_props.Last().SetColor("#FFEEEEEE", "");
-            relation_props.Last().SetSize(16, 17);
+            relation_props.Last().SetSize(14, 14);
 
         }
 

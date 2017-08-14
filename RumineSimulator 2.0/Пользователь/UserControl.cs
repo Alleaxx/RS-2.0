@@ -9,7 +9,10 @@ namespace RumineSimulator_2._0
     static class UsersControl
     {
         //Список пользователей в приложении и их количество
-        static public List<User> Users = new List<User>();
+        static public List<User> act_users = new List<User>();
+        static public List<User> all_users = new List<User>();
+
+        public static List<User> reserve;
 
         //Считается по статусу пользователя, не группы
         static public int moderAmount
@@ -17,7 +20,7 @@ namespace RumineSimulator_2._0
             get
             {
                 int mods = 0;
-                foreach (User user in Users)
+                foreach (User user in act_users)
                 {
                     if (user.group.Mod)
                         mods++;
@@ -33,70 +36,69 @@ namespace RumineSimulator_2._0
 
 
         #region Создание пользователей, генерация отношений
-        //Генерация пользователей в указанном количестве
-        static public void GenerateUsers(int amount)
+        //Генерация пользователя
+        static public void GenerateUser(bool admin = false)
         {
-            for (int i = 0; i < amount; i++)
-            {
-                User generated_user = new User();
-                Users.Add(generated_user);
+            User generated_user = new User(admin);
+            all_users.Add(generated_user);
 
-
-                #region Статистика(добавление параметров пользователей
-                Statistic.aver_adeq += generated_user.character.adeq.Value;
-                Statistic.aver_rakness += generated_user.character.rakness.Value;
-                Statistic.aver_conservative += generated_user.character.conservative.Value;
-                Statistic.aver_tolerance += generated_user.character.tolerance.Value;
-                Statistic.aver_creativity += generated_user.character.creativity.Value;
-                Statistic.aver_sciense += generated_user.character.sciense.Value;
-                Statistic.aver_humanist += generated_user.character.humanist.Value;
-                Statistic.aver_historic += generated_user.character.historic.Value;
-                Statistic.aver_leaveChanse += generated_user.character.leaveChanse.Value;
-                #endregion
-            }
+            #region Статистика(добавление параметров пользователей
+            Statistic.aver_adeq += generated_user.character.adeq.Value;
+            Statistic.aver_rakness += generated_user.character.rakness.Value;
+            Statistic.aver_conservative += generated_user.character.conservative.Value;
+            Statistic.aver_tolerance += generated_user.character.tolerance.Value;
+            Statistic.aver_creativity += generated_user.character.creativity.Value;
+            Statistic.aver_sciense += generated_user.character.sciense.Value;
+            Statistic.aver_humanist += generated_user.character.humanist.Value;
+            Statistic.aver_historic += generated_user.character.historic.Value;
+            Statistic.aver_leaveChanse += generated_user.character.leaveChanse.Value;
+            #endregion
         }
         //Генерация отношений для каждого пользователя из списка юзверей
         static public void GenerateRelations()
         {
             #region Статистика(деление параметров на кол-во пользователей)
-            Statistic.aver_adeq /= Users.Count;
-            Statistic.aver_rakness /= Users.Count;
-            Statistic.aver_conservative /= Users.Count;
-            Statistic.aver_tolerance /= Users.Count;
-            Statistic.aver_creativity /= Users.Count;
-            Statistic.aver_sciense /= Users.Count;
-            Statistic.aver_humanist /= Users.Count;
-            Statistic.aver_historic /= Users.Count;
-            Statistic.aver_leaveChanse /= Users.Count;
+            Statistic.aver_adeq /= act_users.Count;
+            Statistic.aver_rakness /= act_users.Count;
+            Statistic.aver_conservative /= act_users.Count;
+            Statistic.aver_tolerance /= act_users.Count;
+            Statistic.aver_creativity /= act_users.Count;
+            Statistic.aver_sciense /= act_users.Count;
+            Statistic.aver_humanist /= act_users.Count;
+            Statistic.aver_historic /= act_users.Count;
+            Statistic.aver_leaveChanse /= act_users.Count;
             #endregion
 
-            for (int i = 0; i < Users.Count; i++)
+            for (int i = 0; i < all_users.Count; i++)
             {
-                Users[i].GenerateRelation();
+                all_users[i].GenerateRelation();
             }
+            //Во всех пользователя все пользователи, в пользователях лишь активные и известные
+            act_users = UsersRet();
+            reserve = new List<User>(all_users);
         }
         #endregion
 
         //Проверка пользователей на апдейты
         static public void CheckingAllUserForUpdates()
         {
-            for (int i = 0; i < Users.Count; i++)
+            for (int i = 0; i < act_users.Count; i++)
             {
                 if (Date.current_date.Hour == 0 && Date.current_date.Minute < Date.current_date_prev.Minute)
                 {
-                    Users[i].UpdateBeginDay();
+                    act_users[i].UpdateBeginDay();
                 }
                 if (Date.current_date.Hour == 23 && Date.current_date.Minute == 59)
                 {
-                    Users[i].UpdateEndDay();
+                    act_users[i].UpdateEndDay();
                 }
-                Users[i].CheckingForUpdates();
+                act_users[i].CheckingForUpdates();
             }
         }
 
         static public void FractionChoose()
         {
-            foreach (User user in Users)
+            foreach (User user in act_users)
             {
                 //Добавляем доступные фракции
                 List<Fraction> Av_fracs = new List<Fraction>();
@@ -143,10 +145,24 @@ namespace RumineSimulator_2._0
             }
         }
 
+        //Возвращение списка пользователей по их активности и неизвестности
+        static public List<User> UsersRet(bool active = true, bool unknown = false, bool admin = false)
+        {
+            List<User> users_sort = new List<User>();
+            for (int i = 0; i < all_users.Count; i++)
+            {
+                if (all_users[i].activity == active && all_users[i].unknown == unknown && all_users[i].admin == false)
+                {
+                    users_sort.Add(all_users[i]);
+                }
+            }
+            return users_sort;
+        }
+
         #region Поиск пользователей(по нику и id)
         static public User UserSearch(string nick)
         {
-            foreach (User user in Users)
+            foreach (User user in all_users)
             {
                 if (user.nick == nick)
                     return user;
@@ -155,7 +171,7 @@ namespace RumineSimulator_2._0
         }
         static public User UserSearch(int id)
         {
-            foreach (User user in Users)
+            foreach (User user in all_users)
             {
                 if (user.user_id == id)
                     return user;
@@ -168,106 +184,127 @@ namespace RumineSimulator_2._0
         //Возвращение списка на основе заданной сортировки
         static public List<User> UserListReturnSort()
         {
+            //if (reserve != null && reserve.Count != 0)
+            //    all_users = reserve;
+            List<User> ret_list = new List<User>();
             switch (Presenter.sorting_user)
             {
+               
                 case SortingUserTypes.no_sort:
-                    return Users;
+                    ret_list = all_users;
+                    return ret_list;
                 case SortingUserTypes.groupRareness:
-                    return ReturnUsersGroupRarenesSortDesc();
+                    ret_list = ReturnUsersGroupRarenesSortDesc();
+                    return ret_list;
                 case SortingUserTypes.adeq:
-                    return ReturnUsersAdeqSortDesc();
+                    ret_list = ReturnUsersAdeqSortDesc();
+                    return ret_list;
                 case SortingUserTypes.influence:
-                    return ReturnUsersForumInfluenceDesc();
+                    ret_list = ReturnUsersForumInfluenceDesc();
+                    return ret_list;
                 case SortingUserTypes.messages:
-                    return ReturnUsersMessagesSortDesc();
+                    ret_list = ReturnUsersMessagesSortDesc();
+                    return ret_list;
                 case SortingUserTypes.moderChanse:
-                    return ReturnUsersModerChanseDesc();
+                    ret_list = ReturnUsersModerChanseDesc();
+                    return ret_list;
                 case SortingUserTypes.rakness:
-                    return ReturnUsersRakSortDesc();
+                    ret_list = ReturnUsersRakSortDesc();
+                    return ret_list;
                 case SortingUserTypes.registration:
-                    return ReturnUsersRegSortDesc();
+                    ret_list = ReturnUsersRegSortDesc();
+                    return ret_list;
                 case SortingUserTypes.reputation:
-                    return ReturnUsersRepSortDesc();
+                    ret_list = ReturnUsersRepSortDesc();
+                    return ret_list;
                 default:
-                    return Users;
+                    return act_users;
             }
         }
 
 
         static public List<User> ReturnUsersGroupRarenesSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in all_users
                            orderby i.@group.Respect descending
+                           select i;
+            return sortedGr.ToList();
+
+        }
+        static public List<User> ReturnUsersLeaveChanseSortDesc()
+        {
+            var sortedGr = from i in act_users
+                           orderby i.character.leaveChanse.Value descending
                            select i;
             return sortedGr.ToList();
 
         }
         static public List<User> ReturnUsersRegSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in all_users
                            orderby i.registration
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersMessagesSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in all_users
                            orderby i.messages descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersRepSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in all_users
                            orderby i.reputation.Base_reputation descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersAdeqSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in all_users
                            orderby i.character.adeq.Value descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersRakSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in all_users
                            orderby i.character.rakness.Value descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersCreativeSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in all_users
                            orderby i.character.creativity.Value descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersScienseSortDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in all_users
                            orderby i.character.sciense.Value descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersModerChanseDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in all_users
                            orderby i.moder_chanse descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersForumInfluenceDesc()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in all_users
                            orderby i.forum_influence descending
                            select i;
             return sortedGr.ToList();
         }
         static public List<User> ReturnUsersActiveFilter()
         {
-            var sortedGr = from i in Users
+            var sortedGr = from i in all_users
                            where i.activity == true
                            select i;
             return sortedGr.ToList();

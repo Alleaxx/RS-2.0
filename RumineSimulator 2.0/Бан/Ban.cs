@@ -84,7 +84,7 @@ namespace RumineSimulator_2._0
             if(Warn_sum == 100)
             {
                 Banned = false;
-                warnings.Add(new Warning(UsersControl.Users[0],-10, "Автоматическое снижение уровня предупреждений после блокировки",user));
+                warnings.Add(new Warning(UsersControl.act_users[0],-10, "Автоматическое снижение уровня предупреждений после блокировки",user));
             }
             else
             {

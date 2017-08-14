@@ -14,7 +14,7 @@ namespace RumineSimulator_2._0
         {
             get
             {
-                return UsersControl.Users.Count;
+                return UsersControl.act_users.Count;
             }
         }
 

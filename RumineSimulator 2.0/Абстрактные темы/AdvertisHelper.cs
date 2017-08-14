@@ -15,18 +15,18 @@ namespace RumineSimulator_2._0
         // diskuss заменяется на тип дискуссии
         // wish заменяется на желание
          
-        private static List<string> topics = new List<string>() {"линукс","игры","сайт","тлен","активность","группы",
+        public static List<string> topics = new List<string>() {"линукс","игры","сайт","тлен","активность","группы",
         "ватафаки","модераторов"};
-        private static List<string> states = new List<string>() {"херово","прекрасно","счастливо","невероятно","в ударе","отвратно",
+        public static List<string> states = new List<string>() {"херово","прекрасно","счастливо","невероятно","в ударе","отвратно",
         "уверенно","стыдливо","мерзко","восхитительно","противно","паскудно","богомерзко","погано","отчаянно","удивительно",
         "поразительно"};
-        private static List<string> diskuss = new List<string>() {"срач","спор","флуд","мем","совет","диспут"};
-        private static List<string> wishes = new List<string>() {"желает","хочет","надеется на","верит в","молится на","негодует от отсутствия",
+        public static List<string> diskuss = new List<string>() {"срач","спор","флуд","мем","совет","диспут"};
+        public static List<string> wishes = new List<string>() {"желает","хочет","надеется на","верит в","молится на","негодует от отсутствия",
         "жаждет","бредит о","рвется к","зарится на"};
-        private static List<string> qualitys = new List<string>() {"хороший","плохой","не очень","трушный","прекрасный","отличный",
+        public static List<string> qualitys = new List<string>() {"хороший","плохой","не очень","трушный","прекрасный","отличный",
         "превосходный","восхитительный","крутой","мачо"};
 
-
+        //Замена текста с учетом события
         public static string TextRandom(string t, Event eventt)
         {
             t = t.Replace("user_nick", $"{eventt.Creator.Text}");

@@ -20,28 +20,6 @@ namespace RumineSimulator_2._0
             return Events_properties;
         }
 
-
-
-
-
-
-
-
-        public static Event DayEnd()
-        {
-            Event Event = new Event("Окончание дня", EventType.dayEnd);
-            Event.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Rumine, "Румайн"));
-            Event.EventAdd3_Mods(random.Next(0), 0, 0, 0);
-            Event.InterfaceInfo.Add_EventProperty(new GuiString("Прошедший день", Date.current_date_prev.ToShortDateString(), false, StringProfile.Header));
-            Event.InterfaceInfo.Add_EventProperty(new GuiString("Кол-во событий: ", Activity.today_events.Count.ToString(), true));
-            Event.InterfaceInfo.Add_EventProperty(new GuiString("Кол-во сообщений: ", Activity.curr_day_messages.ToString(), true));
-            Event.InterfaceInfo.Add_EventProperty(new GuiString("Кол-во комментариев: ", Activity.curr_day_comments.ToString(), true));
-            Event.InterfaceInfo.Add_EventProperty(new GuiString("Кол-во новостей: ", Activity.curr_day_news.ToString(), true));
-            Event.InterfaceInfo.Add_EventProperty(new GuiString("Кол-во измененений репутации: ", Activity.curr_day_repChanges.ToString(), true));
-            Event.InterfaceInfo.Add_EventProperty(new GuiString("Кол-во попыток забанить: ", Activity.curr_day_bans.ToString(), true));
-            BasicEvents.Add(Event);
-            return Event;
-        }
         public static Event EventSearch(long id)
         {
             for (int i = 0; i < AllEvents.Count; i++)
@@ -50,6 +28,19 @@ namespace RumineSimulator_2._0
                     return AllEvents[i];
             }
             return AllEvents[0];
+        }
+        //Выдача списка событий, связанных с юзером(любая связь подойдет, даже просто участие)
+        public static List<Event> EventSearch(User author)
+        {
+            List<Event> auth_events = new List<Event>();
+            for (int i = 0; i < AllEvents.Count; i++)
+            {
+                if ((AllEvents[i].Creator.Text == author.nick || AllEvents[i].participants.ContainsKey(author))
+                    && AllEvents[i].Importance != EventImportance.slight )
+                    auth_events.Add(AllEvents[i]);
+            }
+            auth_events.Reverse();
+            return auth_events;
         }
 
         public static void CheckEventsDelete()
