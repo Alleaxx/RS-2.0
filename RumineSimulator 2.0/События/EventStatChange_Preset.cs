@@ -38,47 +38,61 @@ namespace RumineSimulator_2._0
         private static EventStatChange newMessageEvent()
         {
             //Создание события
-            EventStatChange newMessage = new EventStatChange($"Сообщение {rnd_User.nick}", EventType.message, 1);
+            EventStatChange newMessage = new EventStatChange($"Сообщение от {rnd_User.nick}", EventType.message);
             newMessage.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, rnd_User.nick));
             newMessage.participants.Add(rnd_User, "Автор");
-            newMessage.EventAdd3_Mods(random.Next(3), 0, 0, 0);
             newMessage.EventAdd6_Dates(0);
-
+            string event_descr = $"{Abbrev.date} пользователь {rnd_User.nick} написал сообщение на форуме румине. ";
+            int likes = 0, chanse = 0;
             #region Важность события
 
-            if (AdvRnd.PrsChanse(149, 150))
+            if (AdvRnd.PrsChanse(148, 150))
+            {
                 newMessage.Importance = EventImportance.slight;
+                event_descr = event_descr + $"Пост был весьма типичен и ничем не отличался от сотен таких же. ";
+                newMessage.EventAdd3_Mods(random.Next(3), 0, 0, 0);
+            }
+
             else if (AdvRnd.PrsChanse(75))
+            {
                 newMessage.Importance = EventImportance.medium;
+                event_descr = event_descr + $"Сообщение весьма отличалось от других, а потому на какое-то время сохранилось в истории Руминя. ";
+                newMessage.EventAdd3_Mods(random.Next(2, 7), 1, 0, 0);
+            }
             else
+            {
                 newMessage.Importance = EventImportance.important;
+                event_descr = event_descr + $"Этот пост стал эпохальным событием, на которые впоследствии ссылались долгие месяцы. ";
+                newMessage.EventAdd3_Mods(15, 2, 0, 0);
+            }
+
 
             #endregion
+
 
             //Воплощение события
             rnd_User.last_activity = Date.current_date;
             rnd_User.messages++;
             Activity.Hour_messages++;
-            int likes = 0, chanse = 0;
+
             chanse = rnd_User.forum_influence / 5;
             if (AdvRnd.PrsChanse(chanse))
             {
-                likes = random.Next(3);
+                likes = random.Next(1, 7);
                 rnd_User.likes += likes;
             }
-            //Информация в интерфейсе
-            newMessage.eventSpec_properties.Add(new GuiString("Симпатии: ", likes.ToString(), true));
 
-            #region Объявления
-            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} страдает херней, {TopicControl.ReturnRndTopic().text} тому виной");
-            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} активно флудит про {TopicControl.ReturnRndTopic().text}");
-            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} шутит шутки про {TopicControl.ReturnRndTopic().text}");
-            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} ведет себя как {rnd_User.traits[random.Next(rnd_User.traits.Count)].name}, а {rnd_UserAdd.nick}" +
-                $" как {rnd_UserAdd.traits[random.Next(rnd_UserAdd.traits.Count)].name}. Война!");
-            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} сидит во флудилке и выглядит {Abbrev.state}");
-            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} оповещает всех о том, что он {Abbrev.quality}");
-            newMessage.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} {Abbrev.quality} парень и поднимает Румайн с колен");
-            #endregion
+            //Рандомные добавления
+            if (AdvRnd.PrsChanse(30) || newMessage.Importance == EventImportance.medium || newMessage.Importance == EventImportance.important)
+                event_descr = event_descr + $"Тема поста - {TopicControl.ReturnRndTopic().text}. ";
+            if (AdvRnd.PrsChanse(10) || newMessage.Importance == EventImportance.medium || newMessage.Importance == EventImportance.important)
+                event_descr = event_descr + $"{rnd_UserAdd.nick} заметил необычность поста и заинтересовался продолжением. ";
+            if (AdvRnd.PrsChanse(10) || newMessage.Importance == EventImportance.medium || newMessage.Importance == EventImportance.important)
+                event_descr = event_descr + $"Такая черта автора как '{rnd_User.traits[random.Next(rnd_User.traits.Count)].name}' сильно повлияла на содержание ";
+            event_descr = event_descr + $"За него автор получил {likes} симпатий. ";
+
+
+            newMessage.EventAdd7_Description(event_descr);
             newMessage.EventEnd_DescrChoose();
             return newMessage;
         }
@@ -89,17 +103,31 @@ namespace RumineSimulator_2._0
             EventStatChange newComment = new EventStatChange($"Комментарий {rnd_User.nick}", EventType.comment, 1);
             newComment.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, rnd_User.nick));
             newComment.participants.Add(rnd_User, "Автор");
-            newComment.EventAdd3_Mods(random.Next(2), 0, 0, 0);
             newComment.EventAdd6_Dates(0);
+
+            string event_descr = $"{Abbrev.date} пользователь {rnd_User.nick} прокомментировал новость на сайте. ";
 
             #region Важность события
 
-            if (AdvRnd.PrsChanse(199, 200))
+            if (AdvRnd.PrsChanse(124, 126))
+            {
+                newComment.EventAdd3_Mods(random.Next(2), 0, 0, 0);
+                event_descr = event_descr + $"Ни новость, ни комментарий не достойны подробного описания. ";
                 newComment.Importance = EventImportance.slight;
+
+            }
             else if (AdvRnd.PrsChanse(75))
+            {
+                newComment.EventAdd3_Mods(random.Next(1, 6), 0, 0, 0);
+                event_descr = event_descr + $"Этот комментарий вызвал определенную реакцию со стороны читателей, запомнивших его автора. ";
                 newComment.Importance = EventImportance.medium;
+            }
             else
+            {
+                newComment.EventAdd3_Mods(10, 1, 0, 0);
+                event_descr = event_descr + $"Такой комментарий навсегда врезался в память пользователей и забудут его еще очень нескоро. ";
                 newComment.Importance = EventImportance.important;
+            }
 
             #endregion
 
@@ -114,17 +142,18 @@ namespace RumineSimulator_2._0
                 likes = random.Next(3);
                 rnd_User.likes += likes;
             }
-            //Информация в интерфейсе
-            newComment.eventSpec_properties.Add(new GuiString("Рейтинг: ", likes.ToString(), true));
+            //Рандомные добавления
+            if (AdvRnd.PrsChanse(10) || newComment.Importance == EventImportance.medium || newComment.Importance == EventImportance.important)
+                event_descr = event_descr + $"Тема комментируемой новости - {TopicControl.ReturnRndTopic().text}. ";
+            if (AdvRnd.PrsChanse(10) || newComment.Importance == EventImportance.medium || newComment.Importance == EventImportance.important)
+                event_descr = event_descr + $"Каждый прочитавший его чувствует себя {Abbrev.state}. ";
+            if (AdvRnd.PrsChanse(10) || newComment.Importance == EventImportance.medium || newComment.Importance == EventImportance.important)
+                event_descr = event_descr + $"Многие юзеры охарактеризовали комментарий как {Abbrev.quality}. ";
+
+            event_descr = event_descr + $"Комментарий имеет {likes} рейтинга. ";
 
             #region Объявления
-            newComment.EventAdd7_Description($"{Abbrev.date} {rnd_User.nick} хочет попасть в топ");
-            newComment.EventAdd7_Description($"{newComment.date} {rnd_User.nick} комментирует");
-            newComment.EventAdd7_Description($"{newComment.date} {rnd_User.nick} свалил с флудилки");
-            newComment.EventAdd7_Description($"{newComment.date} {rnd_User.nick} просматривает сайт");
-            newComment.EventAdd7_Description($"{newComment.date} {rnd_User.nick} набивает рейтинги");
-            newComment.EventAdd7_Description($"{newComment.date} {rnd_User.nick} воротит нос от мерзкой новости в бездне");
-            newComment.EventAdd7_Description($"{newComment.date} {rnd_User.nick} оценивает новости");
+            newComment.EventAdd7_Description(event_descr);
             #endregion
             newComment.EventEnd_DescrChoose();
             return newComment;
@@ -136,17 +165,34 @@ namespace RumineSimulator_2._0
             EventStatChange news = new EventStatChange($"Новость {rnd_User.nick}", EventType.news, 7);
             news.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, rnd_User.nick));
             news.participants.Add(rnd_User, "Автор");
-            news.EventAdd3_Mods(0, 0, 0.01F, 0);
+
             news.EventAdd6_Dates(0);
+
+            string event_descr = $"{Abbrev.date} пользователь {rnd_User.nick} создал новость. ";
 
             #region Важность события
 
-            if (AdvRnd.PrsChanse(90))
+            if (AdvRnd.PrsChanse(95))
+            {
+                event_descr = event_descr + $"Такие новости составляют основу всех публикаций сайта. ";
+                news.EventAdd3_Mods(0, 0, 0.01F, 0);
                 news.Importance = EventImportance.slight;
+            }
+
             else if (AdvRnd.PrsChanse(95))
+            {
+                event_descr = event_descr + $"Примечательное качество этой новости обеспечивает ей целую кучу комментариев и рейтинга(и не всегда положительного!). ";
                 news.Importance = EventImportance.medium;
+                news.EventAdd3_Mods(0, 0, 0.05F, 0);
+            }
+
             else
+            {
+                event_descr = event_descr + $"Настойщий шедевр новостестроения, на который очень любят ссылаться форумные завсегдаи. Под такой всегда можно найти свежий комментарий от какого-нибудь залетного юзера. ";
                 news.Importance = EventImportance.important;
+                news.EventAdd3_Mods(0, 0, 0.25F, 0);
+            }
+
 
             #endregion
 
@@ -155,15 +201,18 @@ namespace RumineSimulator_2._0
             rnd_User.news++;
             Activity.day_news++;
             int quality = random.Next(5, 15) + rnd_User.character.creativity.Value * 5 + rnd_User.character.sciense.Value * 5;
-            //Информация в интерфейсе
-            news.eventSpec_properties.Add(new GuiString("Качество новости: ", quality.ToString(), false));
+
+            //Рандомные добавления
+            if (AdvRnd.PrsChanse(10) || news.Importance == EventImportance.medium || news.Importance == EventImportance.important)
+                event_descr = event_descr + $"Тема, затрагиваемая в новости - {TopicControl.ReturnRndTopic().text}. ";
+            if (quality < 30)
+                event_descr = event_descr + $"Качество новости на редкость отвратительно, {quality}/100. ";
+            if (quality > 70)
+                event_descr = event_descr + $"С точки зрения мастерства новость является подлинным шедевром, {quality}/100. ";
+            if (quality >= 30 && quality <= 70)
+                event_descr = event_descr + $"Оформление новости выдержано в привычном, без изысков, стиле, {quality}/100. ";
             #region Объявления
-            news.EventAdd7_Description($"{news.date} {rnd_User.nick} сделал новость и ждет оценок");
-            news.EventAdd7_Description($"{news.date} {rnd_User.nick} корпел над редактором");
-            news.EventAdd7_Description($"{news.date} {rnd_User.nick} случайно закрыл вкладку с наполовину сделанной новостью");
-            news.EventAdd7_Description($"{news.date} {rnd_User.nick} считает, что новости не нужны");
-            news.EventAdd7_Description($"{news.date} {rnd_User.nick} извернулся и сделал качественную на целых {quality}% новость!");
-            news.EventAdd7_Description($"{news.date} {rnd_User.nick} рубит кэш и наяривает рекламу в свою статейку");
+            news.EventAdd7_Description(event_descr);
             #endregion
             news.EventEnd_DescrChoose();
             return news;
@@ -178,15 +227,26 @@ namespace RumineSimulator_2._0
             reputationChange.participants.Add(rnd_UserAdd, "Пострадавший");
             reputationChange.EventAdd3_Mods(0, 0, 0, 0);
             reputationChange.EventAdd6_Dates(0);
+            string event_descr = $"{Abbrev.date} пользователь {rnd_User.nick} изменил репутацию другому обитателю руминя - {rnd_UserAdd.nick}. ";
 
             #region Важность события
 
             if (AdvRnd.PrsChanse(95))
+            {
                 reputationChange.Importance = EventImportance.slight;
+                event_descr = event_descr + $"Никого кроме владельца измененной репутации это не заинтересовало. ";
+            }
             else if (AdvRnd.PrsChanse(80))
+            {
                 reputationChange.Importance = EventImportance.medium;
+                event_descr = event_descr + $"Немало людей запомнили такой поступок со стороны автора изменения. ";
+            }
             else
+            {
                 reputationChange.Importance = EventImportance.important;
+                event_descr = event_descr + $"Это чрезвычайно взбудоражило форумчан, а в ФЧ началось обсуждение этого действия. ";
+            }
+
 
             #endregion
 
@@ -203,6 +263,7 @@ namespace RumineSimulator_2._0
                 karma_result = rnd_User.karma.karma;
                 change_reason = ReputationReason.ReturnReason(false);
                 rnd_UserAdd.reputation.ChangeReputation(rnd_User, rnd_User.karma.karma, change_reason);
+                event_descr = event_descr + $"Вследствие дружеский отношений {rnd_User.nick} и {rnd_UserAdd.nick} последнему, конечно же, был поставлен плюс размером {karma_result}. ";
             }
             //Пользователи враги, ставится минус
             else if (rnd_User.relations.RelationStateReturn(rnd_UserAdd) == RelationType.unfriend ||
@@ -211,6 +272,7 @@ namespace RumineSimulator_2._0
                 karma_result = -rnd_User.karma.karma;
                 change_reason = ReputationReason.ReturnReason(true);
                 rnd_UserAdd.reputation.ChangeReputation(rnd_User, -rnd_User.karma.karma, change_reason);
+                event_descr = event_descr + $"{rnd_User.nick}, будучи врагом пользователя {rnd_UserAdd.nick} влепил ему минусец в {karma_result} ";
             }
             //Пользователи нейтралы, ставится на рандом
             else
@@ -220,6 +282,8 @@ namespace RumineSimulator_2._0
                     karma_result = rnd_User.karma.karma;
                     change_reason = ReputationReason.ReturnReason(false);
                     rnd_UserAdd.reputation.ChangeReputation(rnd_User, rnd_User.karma.karma, change_reason);
+                    event_descr = event_descr + $"{rnd_User.nick} и {rnd_UserAdd.nick} не были друзьями, но и врагами тоже, так что репутация второго юзера увеличилась на {karma_result} ";
+
 
                 }
                 else
@@ -227,24 +291,16 @@ namespace RumineSimulator_2._0
                     karma_result = -rnd_User.karma.karma;
                     change_reason = ReputationReason.ReturnReason(true);
                     rnd_UserAdd.reputation.ChangeReputation(rnd_User, -rnd_User.karma.karma, change_reason);
+                    event_descr = event_descr + $"Действие {rnd_UserAdd.nick} настолько возмутило юзера {rnd_User.nick}, что он отплатил минусом размером {karma_result} в репутацию провинившегося. ";
                 }
             }
             reputationChange.participants[rnd_User] = change_reason;
 
             #endregion
 
-            //Информация в интерфейсе
-            reputationChange.eventSpec_properties.Add(new GuiString("Кто поставил: ", rnd_User.nick, true));
-            reputationChange.eventSpec_properties.Add(new GuiString("Кому поставили: ", rnd_UserAdd.nick, true));
-            reputationChange.eventSpec_properties.Add(new GuiString("Проставленная карма: ", karma_result.ToString(), true));
-
-            #region Объявления
-            reputationChange.EventAdd7_Description($"{reputationChange.date} {rnd_User.nick} дал по еплу своей кармой {rnd_UserAdd.nick}");
-            reputationChange.EventAdd7_Description($"{reputationChange.date} {rnd_User.nick} отметил срач вместе с {rnd_UserAdd.nick}");
-            reputationChange.EventAdd7_Description($"{reputationChange.date} {rnd_User.nick} {rnd_User.traits[random.Next(rnd_User.traits.Count)].name}, {rnd_UserAdd.nick} {rnd_UserAdd.traits[random.Next(rnd_UserAdd.traits.Count)].name}. Война!");
-            reputationChange.EventAdd7_Description($"{reputationChange.date} {rnd_User.nick} обласкал {rnd_UserAdd.nick}");
-            #endregion
+            reputationChange.EventAdd7_Description(event_descr);
             reputationChange.EventEnd_DescrChoose();
+
             return reputationChange;
         }
         //Выдача предупреждений
@@ -271,15 +327,25 @@ namespace RumineSimulator_2._0
             warnsChange.participants.Add(rnd_UserAdd, "Нарушитель");
             warnsChange.EventAdd3_Mods(5, 1, 0, 0);
             warnsChange.EventAdd6_Dates(0);
+            string event_descr = $"У {rnd_User.nick} проблемы! Модератор {rnd_UserAdd.nick} углядел нечто неправомерное в его активности и теперь активно наседает на виновника! ";
 
             #region Важность события
 
             if (AdvRnd.PrsChanse(70))
+            {
                 warnsChange.Importance = EventImportance.slight;
+                event_descr = event_descr + $"Впрочем, ничем серьезным это для сайта не грозит. ";
+            }
             else if (AdvRnd.PrsChanse(85))
+            {
                 warnsChange.Importance = EventImportance.medium;
+                event_descr = event_descr + $"Вполне возможно, что данное действие еще аукнется в будущем и модератору, и его жертве. ";
+            }
             else
+            {
                 warnsChange.Importance = EventImportance.important;
+                event_descr = event_descr + $"Такое не простят и не забудут. Этот инцидент будут помнить очень долго, и кое-кто еще пожалеет о том, что он сегодня натворил. ";
+            }
 
             #endregion
 
@@ -287,23 +353,91 @@ namespace RumineSimulator_2._0
             rnd_User.last_activity = Date.current_date;
             rnd_UserAdd.last_activity = Date.current_date;
             Activity.day_bans++;
-            int chanse = BanCheck(rnd_User, rnd_UserAdd);
-            int warns = 0;
+            int chanse = -10;
+            #region Расчет шансов
+            if (rnd_UserAdd.relations.RelationStateReturn(rnd_User) == RelationType.comrade ||
+                rnd_UserAdd.relations.RelationStateReturn(rnd_User) == RelationType.friend)
+            {
+                chanse -= 20;
+                if(AdvRnd.PrsChanse(50))
+                    event_descr = event_descr + $"Тем не менее модератор и флудер являются друзьями, что снижает вероятность бана. ";
+
+            }
+            else if (rnd_UserAdd.relations.RelationStateReturn(rnd_User) == RelationType.unfriend ||
+                rnd_UserAdd.relations.RelationStateReturn(rnd_User) == RelationType.enemy)
+            {
+                chanse += 20;
+                if (AdvRnd.PrsChanse(50))
+                    event_descr = event_descr + $"К несчастью флудера, модератор являются его врагом, от чего тот довольно потирает ручонки в ожидании свежей крови. ";
+            }
+            if (rnd_User.traits.Contains(TraitsList.SearchTrait(TraitsType.rak)))
+            {
+                chanse += 75;
+                if (AdvRnd.PrsChanse(50))
+                    event_descr = event_descr + $"Жертва модератора является раком, что оправдывает бан если не на все 100, то хоть на 75%! ";
+
+            }
+            if (rnd_User.traits.Contains(TraitsList.SearchTrait(TraitsType.madguy)))
+            {
+                chanse += 40;
+                if (AdvRnd.PrsChanse(50))
+                    event_descr = event_descr + $"Данный случай не является единичным, ведь {rnd_User.nick} тот еще чокнутый паря. И на чуваков с банхаммерами ему всегда не везло. ";
+            }
+            if (rnd_User.traits.Contains(TraitsList.SearchTrait(TraitsType.accurateguy)))
+            {
+                chanse -= 10;
+                if (AdvRnd.PrsChanse(50))
+                    event_descr = event_descr + $"Жертва славится своей опрятностью, прилизанностью и примерным поведением. Может и не стоило... ";
+            }
+            if (rnd_UserAdd.traits.Contains(TraitsList.SearchTrait(TraitsType.tiran)))
+            {
+                chanse += 60;
+                if (AdvRnd.PrsChanse(50))
+                    event_descr = event_descr + $"Вот это да! А у {rnd_UserAdd.nick} ручки чешутся кого-нибудь забанить! Неприятный поворот событий. ";
+            }
+            if (rnd_User.traits.Contains(TraitsList.SearchTrait(TraitsType.ded)))
+            {
+                chanse -= 20;
+                if (AdvRnd.PrsChanse(50))
+                    event_descr = event_descr + $"Для деда {rnd_User.nick} опасное и неприемлемое поведение считается естественным, и это все понимают. ";
+            }
+            if (rnd_User.traits.Contains(TraitsList.SearchTrait(TraitsType.kindguy)))
+            {
+                chanse -= 10;
+                if (AdvRnd.PrsChanse(50))
+                    event_descr = event_descr + $"Да и разве можно забанить такую няшку как {rnd_User.nick}? В обычной ситуации он и мухи не обидел бы! ";
+            }
+            if (rnd_User.traits.Contains(TraitsList.SearchTrait(TraitsType.srednefag)))
+            {
+                chanse -= 10;
+                if (AdvRnd.PrsChanse(50))
+                    event_descr = event_descr + $"Пользователь {rnd_User.nick} уже известен среди обитателей ФЧ и имеет несколько защитников. ";
+
+            }
+            if (rnd_User.traits.Contains(TraitsList.SearchTrait(TraitsType.revolutioner)))
+            {
+                chanse += 25;
+                if (AdvRnd.PrsChanse(50))
+                    event_descr = event_descr + $"Модератору на крючок попалась опасная рыбка! Революционер! Удивительно, если он выкарабкается. ";
+            }
+            #endregion
             //Приговор
             if (AdvRnd.PrsChanse(chanse))
             {
                 rnd_UserAdd.LastBan.AddWarnings(rnd_User, 100, warnsChange.Name, rnd_UserAdd);
+                event_descr = event_descr + $"В конце концов {rnd_User.nick} оказался в бане. Что ж, мы будем скучать. ";
+            }
+            else
+            {
+                event_descr = event_descr + $"В конце концов флудера {rnd_User.nick} пронесло, и он отделался лишь легким испугом. ";
+
             }
             //Информация в интерфейсе
             warnsChange.eventSpec_properties.Add(new GuiString("Модератор: ", rnd_User.nick, true));
             warnsChange.eventSpec_properties.Add(new GuiString("Жертва: ", rnd_UserAdd.nick, true));
-            warnsChange.eventSpec_properties.Add(new GuiString("Предупреждений: ", warns.ToString(), true));
-            warnsChange.eventSpec_properties.Add(new GuiString("Забанен?: ", rnd_UserAdd.LastBan.Banned.ToString(), true));
             warnsChange.eventSpec_properties.Add(new GuiString("Шанс бана: ", chanse.ToString(), true));
             #region Объявления
-            warnsChange.EventAdd7_Description($"{warnsChange.date} {rnd_User.nick} грозно глядит на {rnd_UserAdd.nick}");
-            warnsChange.EventAdd7_Description($"{warnsChange.date} {rnd_User.nick} отметелил {rnd_UserAdd.nick}");
-            warnsChange.EventAdd7_Description($"{warnsChange.date}{rnd_User.nick} {rnd_User.traits[random.Next(rnd_User.traits.Count)].name},{rnd_UserAdd.nick} {rnd_UserAdd.traits[random.Next(rnd_UserAdd.traits.Count)].name}. Война!");
+            warnsChange.EventAdd7_Description(event_descr);
             #endregion
             warnsChange.EventEnd_DescrChoose();
             return warnsChange;
@@ -324,57 +458,6 @@ namespace RumineSimulator_2._0
             }
             while (rnd_User == rnd_UserAdd);
         }
-        //Проверка шанса бана
-        static int BanCheck(User user_init, User user_goal)
-        {
-            int chanse = -10;
-            //Расчет шансов
-            if (user_init.relations.RelationStateReturn(user_goal) == RelationType.comrade ||
-                user_init.relations.RelationStateReturn(user_goal) == RelationType.friend)
-            {
-                chanse -= 20;
-            }
-            else if (user_init.relations.RelationStateReturn(user_goal) == RelationType.unfriend ||
-                user_init.relations.RelationStateReturn(user_goal) == RelationType.enemy)
-            {
-                chanse += 20;
-            }
-            if (user_goal.traits.Contains(TraitsList.SearchTrait(TraitsType.rak)))
-            {
-                chanse += 75;
-            }
-            if (user_goal.traits.Contains(TraitsList.SearchTrait(TraitsType.madguy)))
-            {
-                chanse += 40;
-            }
-            if (user_goal.traits.Contains(TraitsList.SearchTrait(TraitsType.accurateguy)))
-            {
-                chanse -= 10;
-            }
-            if (user_init.traits.Contains(TraitsList.SearchTrait(TraitsType.tiran)))
-            {
-                chanse += 60;
-            }
-            if (user_goal.traits.Contains(TraitsList.SearchTrait(TraitsType.ded)))
-            {
-                chanse -= 20;
-            }
-            if (user_goal.traits.Contains(TraitsList.SearchTrait(TraitsType.kindguy)))
-            {
-                chanse -= 10;
-            }
-            if (user_goal.traits.Contains(TraitsList.SearchTrait(TraitsType.srednefag)))
-            {
-                chanse -= 10;
-            }
-            if (user_goal.traits.Contains(TraitsList.SearchTrait(TraitsType.revolutioner)))
-            {
-                chanse += 25;
-            }
-            return chanse;
-        }
-
-
     }
 
 

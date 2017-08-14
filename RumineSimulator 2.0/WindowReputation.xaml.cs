@@ -19,25 +19,22 @@ namespace RumineSimulator_2._0
     /// </summary>
     public partial class WindowReputation : Window
     {
-        User selected_user;
-
-        public WindowReputation(string nick)
+        public WindowReputation()
         {
             InitializeComponent();
-            selected_user = UsersControl.UserSearch(nick);
             InformationUpdate();
 
         }
 
         private void InformationUpdate()
         {
-            List<ReputationHistory> RepHistory = selected_user.reputation.ReturnRepHistorySort();
+            List<ReputationHistory> RepHistory = Presenter.selected_user.reputation.ReturnRepHistorySort();
             list_ReputationHistory.Items.Clear();
 
-            this.Title = $"Репутация пользователя {selected_user.nick}";
-            text_userReputationPos.Text = $"(+{selected_user.reputation.Pos_reputation})";
-            text_userReputationOtr.Text = $"(-{selected_user.reputation.Otr_reputation})";
-            text_userReputation.Text = $"({selected_user.reputation.Base_reputation})";
+            this.Title = $"Репутация пользователя {Presenter.selected_user.nick}";
+            text_userReputationPos.Text = $"(+{Presenter.selected_user.reputation.Pos_reputation})";
+            text_userReputationOtr.Text = $"(-{Presenter.selected_user.reputation.Otr_reputation})";
+            text_userReputation.Text = $"({Presenter.selected_user.reputation.Base_reputation})";
 
             ListBoxItem item_header = new ListBoxItem();
             item_header.Content = StackReputationHeader();

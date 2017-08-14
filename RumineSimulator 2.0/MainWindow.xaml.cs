@@ -30,7 +30,6 @@ namespace RumineSimulator_2._0
         private DispatcherTimer timer_users = null;
         private DispatcherTimer timer_TimeGo = null;
         WindowWarn WindowWarnings;
-        WindowReputation WindowReputation;
         EventView WindowEvent;
 
         private short speed = 1;
@@ -416,8 +415,16 @@ namespace RumineSimulator_2._0
         }
         private void button_ReputationBeta_Click(object sender, RoutedEventArgs e)
         {
-            WindowReputation = new WindowReputation(Presenter.selected_user.nick);
-            WindowReputation.Show();
+            WindowReputation WindowReputation = new WindowReputation();
+            try
+            {
+                WindowReputation.Show();
+            }
+            catch
+            {
+                text_log.Text = text_log.Text + "\nОшибка при выводе окна";
+            }
+
         }
         //Кнопка показа предупреждений
         private void button_ViewWarns_Click(object sender, RoutedEventArgs e)
@@ -597,9 +604,8 @@ namespace RumineSimulator_2._0
                 if (item != null && item.Name.Length != 0)
                 {
                     Presenter.SelectionCheck(item.Name);
-                    statusRadButton_pause.IsChecked = true;
-                    WindowEvent = new EventView(Presenter.selected_event.id);
-                    WindowEvent.Show();
+                    //WindowEvent = new EventView(Presenter.selected_event.id);
+                    EventInfoUpdate();
                 }
             }
         }
@@ -613,8 +619,9 @@ namespace RumineSimulator_2._0
                 {
                     statusRadButton_pause.IsChecked = true;
                     Presenter.SelectionCheck(item.Name);
-                    WindowEvent = new EventView(Presenter.selected_event.id);
-                    WindowEvent.Show();
+                    //WindowEvent = new EventView(Presenter.selected_event.id);
+                    //WindowEvent.Show();
+                    EventInfoUpdate();
                 }
             }
         }
@@ -632,9 +639,22 @@ namespace RumineSimulator_2._0
                     if (Presenter.events_sorted[i].InterfaceInfoClassicString != null)
                     {
                         list_passedEvents.Items.Add(Presenter.events_sorted[i].InterfaceInfoClassicString.Item);
-
                     }
                 }
+            }
+
+        }
+        //Метод обновления информации о выбранном событии
+        private void EventInfoUpdate()
+        {
+            text_EventName.Text = Presenter.selected_event.Name;
+            text_EventDescr.Text = Presenter.selected_event.sel_description;
+            list_EventProperties.Items.Clear();
+
+            IntView_Event info = Presenter.selected_event.InterfaceInfo;
+            foreach (GuiString str in info.all_properties)
+            {
+                list_EventProperties.Items.Add(str.Item);
             }
 
         }
@@ -676,12 +696,6 @@ namespace RumineSimulator_2._0
             Presenter.events_update = (bool)check_EventsUpdate.IsChecked;
 
         }
-        //Дата события
-        private void date_EventsSort_CalendarClosed(object sender, RoutedEventArgs e)
-        {
-            Presenter.date_start = (DateTime)date_EventsSort.SelectedDate;
-            EventsListUpdate();
-        }
         //Изменение количества показываемых событий
         private void text_EventsShowed_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -711,6 +725,11 @@ namespace RumineSimulator_2._0
         {
             Presenter.text_userSearch = text_UserSearch.Text;
             UsersListUpdate();
+        }
+
+        private void status_FastPrivateCab_Click(object sender, RoutedEventArgs e)
+        {
+            WindowEvent.Show();
         }
     }
 }

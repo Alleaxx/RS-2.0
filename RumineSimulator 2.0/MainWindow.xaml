@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RumineSimulator_2._0"
         xmlns:Properties="clr-namespace:RumineSimulator_2._0.Properties" xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="MainWindow1" x:Class="RumineSimulator_2._0.MainWindow"
         mc:Ignorable="d"
-        Title="Симулятор Румайна v2.0" Icon="icon2.ico" TextOptions.TextFormattingMode="Display" FontFamily="Nirmala UI" Height="900" Width="1398" Background="White" SizeToContent="WidthAndHeight">
+        Title="Симулятор Румайна v2.5" Icon="icon2.ico" TextOptions.TextFormattingMode="Display" FontFamily="Nirmala UI" Height="900" Width="1600" Background="White">
     <Grid x:Name="GridMainWindow" Margin="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -49,7 +49,9 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="314"/>
+                        <ColumnDefinition Width="289"/>
+                        <ColumnDefinition Width="Auto" MinWidth="352"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid.Background>
@@ -86,15 +88,19 @@
                         <TextBox x:Name="textBox_Copy1" TextWrapping="Wrap" Text="Статистика" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
                         <Expander x:Name="expander_Stat" Header="Просмотреть статистику" HorizontalContentAlignment="Left" VerticalContentAlignment="Stretch" IsExpanded="True"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Margin="5,5,0,5" HorizontalAlignment="Left" Grid.RowSpan="2">
-                        <Image x:Name="image" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="400" Source="/RumineSimulator 2.0;component/Resources/1459031501.png"/>
+                    <StackPanel Grid.Column="1" Margin="5,5,0,5" HorizontalAlignment="Left" Width="350">
+                        <Image x:Name="image" HorizontalAlignment="Left" VerticalAlignment="Top" Width="350" Source="/RumineSimulator 2.0;component/Resources/1459031501.png"/>
                         <TextBox x:Name="textBox_Copy2" TextWrapping="Wrap" Text="Лог событий" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
                         <TextBox x:Name="text_log" Margin="5" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Stretch" FontSize="14" Text="Здесь будет располагаться лог событий" UseLayoutRounding="True" VerticalContentAlignment="Stretch"/>
+                        <TextBox x:Name="textBox_Copy4" TextWrapping="Wrap" Text="Информация об активности" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
+                        <ListBox x:Name="list_Activity" Margin="0" VerticalContentAlignment="Top" FontSize="14">
+                            <ListBoxItem Content="Информация об активности" Width="275" HorizontalAlignment="Left"/>
+                        </ListBox>
                     </StackPanel>
-                    <StackPanel Grid.Column="3" Margin="5">
+                    <StackPanel Grid.Column="2" Margin="5">
                         <TextBox x:Name="textBox_Copy3" TextWrapping="Wrap" Text="Недавние события" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
                         <ListBox x:Name="list_passedEvents" Margin="0" Grid.Column="2" Background="White" FontSize="14" Height="350">
-                            <ListBoxItem Content="События" Height="350" VerticalContentAlignment="Top"/>
+                            <ListBoxItem Content="События" VerticalContentAlignment="Top"/>
                         </ListBox>
                         <TextBox x:Name="textBox_Copy5" TextWrapping="Wrap" Text="Отображение событий" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
                         <TextBox x:Name="text_EventSearch" Height="23" TextWrapping="Wrap" SelectionChanged="text_EventSearch_SelectionChanged" VerticalContentAlignment="Center" RenderTransformOrigin="0.514,0.913" FontSize="14"/>
@@ -103,14 +109,17 @@
                         <CheckBox x:Name="check_EventsMedium" Content="Обычные события" Padding="0" IsChecked="True" Margin="2" FontSize="14" Foreground="#FF2552E8" Click="check_EventsMedium_Click" FontWeight="Medium"/>
                         <CheckBox x:Name="check_EventsImportant" Content="Важные события" Padding="0" IsChecked="True" Margin="2" FontSize="14" Foreground="#FF472581" FontWeight="Medium" Click="check_EventsImportant_Click"/>
                         <CheckBox x:Name="check_EventsHistoric" Content="Исторические события" Padding="0" IsChecked="True" Margin="2" FontSize="14" Foreground="#FFE88F25" FontWeight="Medium" Click="check_EventsHistoric_Click"/>
-                        <DatePicker x:Name="date_EventsSort" CalendarClosed="date_EventsSort_CalendarClosed" DisplayDate="2013-07-19" Text="sdfsd"/>
                     </StackPanel>
 
                     <StackPanel Grid.Column="3" HorizontalAlignment="Left" Height="100" Margin="40,78,0,0" VerticalAlignment="Top" Width="100"/>
-                    <StackPanel Grid.Column="2" Margin="5">
-                        <TextBox x:Name="textBox_Copy4" TextWrapping="Wrap" Text="Информация об активности" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
-                        <ListBox x:Name="list_Activity" Margin="0" VerticalContentAlignment="Top" FontSize="14">
-                            <ListBoxItem Content="Информация об активности" Width="300"/>
+                    <StackPanel Grid.Column="2" Margin="5,5,0,5" HorizontalAlignment="Left" Width="279">
+
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" Margin="2">
+                        <TextBox x:Name="text_EventName" TextWrapping="Wrap" Text="Выбранное событие" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,0,-5,0" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
+                        <TextBox x:Name="text_EventDescr" TextWrapping="Wrap" Text="Описание события. Оно может быть очень длинным, так что этот текст создан исключительно для оценки сложности ситуации" VerticalContentAlignment="Center" Margin="0,2" MaxWidth="350" FontSize="16" HorizontalContentAlignment="Center"/>
+                        <ListBox x:Name="list_EventProperties" Margin="0,2">
+                            <ListBoxItem Content="Параметры события"/>
                         </ListBox>
                     </StackPanel>
                 </Grid>
@@ -280,7 +289,7 @@
         <ToolBarTray x:Name="toolbarTrayLeft" HorizontalAlignment="Left" Margin="0" Orientation="Vertical" Grid.Row="1" Grid.RowSpan="2">
             <ToolBar x:Name="toolBarLeft" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Button x:Name="status_UpdateAll" Content="F5" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2" Click="status_UpdateAll_Click"/>
-                <Button x:Name="status_FastPrivateCab" Content="Кб" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2"/>
+                <Button x:Name="status_FastPrivateCab" Content="Кб" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2" Click="status_FastPrivateCab_Click"/>
             </ToolBar>
         </ToolBarTray>
 
