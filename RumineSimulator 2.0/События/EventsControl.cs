@@ -36,7 +36,7 @@ namespace RumineSimulator_2._0
             for (int i = 0; i < AllEvents.Count; i++)
             {
                 if ((AllEvents[i].Creator.Text == author.nick || AllEvents[i].participants.ContainsKey(author))
-                    && AllEvents[i].Importance != EventImportance.slight )
+                    && AllEvents[i].Importance != EventImportance.usual )
                     auth_events.Add(AllEvents[i]);
             }
             auth_events.Reverse();

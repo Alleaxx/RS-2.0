@@ -24,6 +24,14 @@ namespace RumineSimulator_2._0
         "жаждет","бредит о","рвется к","зарится на"};
         public static List<string> qualitys = new List<string>() {"хороший","плохой","не очень","трушный","прекрасный","отличный",
         "превосходный","восхитительный","крутой","мачо"};
+        public static List<string> messageFeatures = new List<string>() {"Написано было в поразительно нужный момент, что и обеспечило подобный успех.",
+            "Причина популярности проста - первонаховость. Первое, что видели пользователи - этот пост, что и сделало его таким легендарным.",
+            "Юмор поста тонок, многогранен и прекрасен, читать и понимать его - сплошное удовольствие."};
+        public static List<string> commentFeatures = new List<string>() {"Успех состоит в том, что комментарий написан на очень злободневную тему и раскрывает многие подробности связанные с ней.",
+            "Содержание комментария вскрывает многие неудобные и некрасивые факты по данной теме, что, конечно же, вызвало огромную кучу эмоций у интересующихся пользователей.",
+            "Везение - штука странная. Так, автору этого комментария повезло настолько, что его комментарий был увековечен в истории. Почему? Не знает и он сам."};
+        public static List<string> newsFeatures = new List<string>() {"Новость не оставляет шанса зашедшим юзерам не оставить комментарий. Такая вот она мотивирующая получилась.",
+            "От новости веет какой-то ламповостью, которая так запала в душу многим людям. "};
 
         //Замена текста с учетом события
         public static string TextRandom(string t, Event eventt)
@@ -38,6 +46,12 @@ namespace RumineSimulator_2._0
             t = t.Replace("wish", random_wish);
             string random_qual = qualitys[AdvRnd.random.Next(qualitys.Count)];
             t = t.Replace("quality", random_qual);
+            string random_messageFeature = messageFeatures[AdvRnd.random.Next(messageFeatures.Count)];
+            t = t.Replace("messageFeature", random_messageFeature);
+            string random_commentFeature = commentFeatures[AdvRnd.random.Next(commentFeatures.Count)];
+            t = t.Replace("commentFeature", random_commentFeature);
+            string random_newsFeature = newsFeatures[AdvRnd.random.Next(newsFeatures.Count)];
+            t = t.Replace("newsFeature", random_newsFeature);
             return t;
         }
         public static string TextRandom(string t, User user)
@@ -62,6 +76,7 @@ namespace RumineSimulator_2._0
     }
     enum Abbrev
     {
-        user,date,topic,state,diskuss,wish,quality
+        user,date,topic,state,diskuss,wish,quality,
+        messageFeature, commentFeature,newsFeature
     }
 }

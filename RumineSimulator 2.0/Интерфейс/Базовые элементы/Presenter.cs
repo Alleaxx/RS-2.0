@@ -63,7 +63,7 @@ namespace RumineSimulator_2._0
 
         //по важности события
         public static bool events_slight = true, events_medium = true,
-            events_important = true, events_historic = true, events_update = true;
+            events_important = true, events_historic = true,events_unusual = true, events_update = true;
         //По дате события
         public static DateTime date_start;
         //Поиск по названию события
@@ -92,11 +92,13 @@ namespace RumineSimulator_2._0
             {
                 foreach (Event eve in EventsControl.AllEvents)
                 {
-                    if (eve.Importance == EventImportance.slight && events_slight)
+                    if (eve.Importance == EventImportance.usual && events_slight)
                         events_sorted.Add(eve);
-                    if (eve.Importance == EventImportance.medium && events_medium)
+                    if (eve.Importance == EventImportance.unusual && events_unusual)
                         events_sorted.Add(eve);
-                    if (eve.Importance == EventImportance.important && events_important)
+                    if (eve.Importance == EventImportance.rare && events_medium)
+                        events_sorted.Add(eve);
+                    if (eve.Importance == EventImportance.epic && events_important)
                         events_sorted.Add(eve);
                     if (eve.Importance == EventImportance.historical && events_historic)
                         events_sorted.Add(eve);

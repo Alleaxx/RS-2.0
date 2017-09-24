@@ -47,13 +47,16 @@ namespace RumineSimulator_2._0
                 importance = value;
                 switch (importance)
                 {
-                    case EventImportance.slight:
+                    case EventImportance.usual:
                         daysToDelete = 2;
                         break;
-                    case EventImportance.medium:
+                    case EventImportance.unusual:
                         daysToDelete = 30;
                         break;
-                    case EventImportance.important:
+                    case EventImportance.rare:
+                        daysToDelete = 180;
+                        break;
+                    case EventImportance.epic:
                         daysToDelete = 730;
                         break;
                     case EventImportance.historical:
@@ -80,7 +83,7 @@ namespace RumineSimulator_2._0
             EventType = type;
             EventGlobalType = EventType.usual;
             date = Date.current_date;
-            Importance = EventImportance.medium;
+            Importance = EventImportance.rare;
         }
 
         public virtual void EventAdd1_BasicInfo(Event_Creator creator)
@@ -145,6 +148,6 @@ namespace RumineSimulator_2._0
     }
     enum EventImportance
     {
-        slight,medium,important,historical
+        usual,unusual,rare,epic,historical
     }
 }

@@ -20,13 +20,16 @@ namespace RumineSimulator_2._0
 
             switch (eve.Importance)
             {
-                case EventImportance.slight:
+                case EventImportance.usual:
                     classic_string.SetColor("", "#FF575757");
                     break;
-                case EventImportance.medium:
+                case EventImportance.unusual:
+                    classic_string.SetColor("", "#FF2EAA28");
+                    break;
+                case EventImportance.rare:
                     classic_string.SetColor("", "#FF2552E8");
                     break;
-                case EventImportance.important:
+                case EventImportance.epic:
                     classic_string.SetColor("", "#FF472581");
                     break;
                 case EventImportance.historical:

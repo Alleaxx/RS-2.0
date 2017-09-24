@@ -61,11 +61,11 @@ namespace RumineSimulator_2._0
             #region Важность события
 
             if (AdvRnd.PrsChanse(20))
-                adminCome.Importance = EventImportance.slight;
+                adminCome.Importance = EventImportance.usual;
             else if (AdvRnd.PrsChanse(92))
-                adminCome.Importance = EventImportance.medium;
+                adminCome.Importance = EventImportance.rare;
             else
-                adminCome.Importance = EventImportance.important;
+                adminCome.Importance = EventImportance.epic;
 
             #endregion
 
@@ -139,11 +139,11 @@ namespace RumineSimulator_2._0
             #region Важность события
 
             if (AdvRnd.PrsChanse(10))
-                bigDisskusion.Importance = EventImportance.slight;
+                bigDisskusion.Importance = EventImportance.usual;
             else if (AdvRnd.PrsChanse(90))
-                bigDisskusion.Importance = EventImportance.medium;
+                bigDisskusion.Importance = EventImportance.rare;
             else
-                bigDisskusion.Importance = EventImportance.important;
+                bigDisskusion.Importance = EventImportance.epic;
 
             #endregion
 
@@ -245,11 +245,11 @@ namespace RumineSimulator_2._0
             #region Важность события
 
             if (AdvRnd.PrsChanse(10))
-                leaveUser.Importance = EventImportance.slight;
+                leaveUser.Importance = EventImportance.usual;
             else if (AdvRnd.PrsChanse(30))
-                leaveUser.Importance = EventImportance.medium;
+                leaveUser.Importance = EventImportance.rare;
             else
-                leaveUser.Importance = EventImportance.important;
+                leaveUser.Importance = EventImportance.epic;
 
             #endregion
             leaveUser.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, rnd_User.nick));
@@ -320,11 +320,11 @@ namespace RumineSimulator_2._0
             #region Важность события
 
             if (AdvRnd.PrsChanse(10))
-                leaveUser.Importance = EventImportance.slight;
+                leaveUser.Importance = EventImportance.usual;
             else if (AdvRnd.PrsChanse(30))
-                leaveUser.Importance = EventImportance.medium;
+                leaveUser.Importance = EventImportance.rare;
             else
-                leaveUser.Importance = EventImportance.important;
+                leaveUser.Importance = EventImportance.epic;
 
             #endregion
             leaveUser.EventAdd1_BasicInfo(new Event_Creator(CreatorType.User, rnd_User.nick));
@@ -378,7 +378,7 @@ namespace RumineSimulator_2._0
             Event dayEnd = new Event($"Отчет за {Date.current_date_prev.ToShortDateString()}", EventType.dayEnd);
             dayEnd.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Rumine, "Румайн"));
             dayEnd.EventAdd6_Dates(0);
-            dayEnd.Importance = EventImportance.medium;
+            dayEnd.Importance = EventImportance.rare;
             dayEnd.EventAdd3_Mods(random.Next(0), 0, 0, 0);
             dayEnd.eventSpec_properties.Add(new GuiString("Прошедший день", Date.current_date_prev.ToShortDateString(), false, StringProfile.Header));
             dayEnd.eventSpec_properties.Add(new GuiString("Кол-во событий: ", Activity.day_events.Count.ToString(), true));

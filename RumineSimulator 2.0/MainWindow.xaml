@@ -106,6 +106,7 @@
                         <TextBox x:Name="text_EventSearch" Height="23" TextWrapping="Wrap" SelectionChanged="text_EventSearch_SelectionChanged" VerticalContentAlignment="Center" RenderTransformOrigin="0.514,0.913" FontSize="14"/>
                         <CheckBox x:Name="check_EventsUpdate" Content="Обновление списка" Padding="0" IsChecked="True" Margin="2" FontSize="14" FontWeight="Medium" Click="check_EventsUpdate_Click"/>
                         <CheckBox x:Name="check_EventsSlight" Content="Незначащие события" Padding="0" IsChecked="True" Margin="2" FontSize="14" Click="check_EventsSlight_Click" Foreground="#FF575757" FontWeight="Medium"/>
+                        <CheckBox x:Name="check_EventsUnusual" Content="Необычные события" Padding="0" IsChecked="True" Margin="2" FontSize="14" Click="check_EventsUnusual_Click" Foreground="#FF2EAA28" FontWeight="Medium"/>
                         <CheckBox x:Name="check_EventsMedium" Content="Обычные события" Padding="0" IsChecked="True" Margin="2" FontSize="14" Foreground="#FF2552E8" Click="check_EventsMedium_Click" FontWeight="Medium"/>
                         <CheckBox x:Name="check_EventsImportant" Content="Важные события" Padding="0" IsChecked="True" Margin="2" FontSize="14" Foreground="#FF472581" FontWeight="Medium" Click="check_EventsImportant_Click"/>
                         <CheckBox x:Name="check_EventsHistoric" Content="Исторические события" Padding="0" IsChecked="True" Margin="2" FontSize="14" Foreground="#FFE88F25" FontWeight="Medium" Click="check_EventsHistoric_Click"/>

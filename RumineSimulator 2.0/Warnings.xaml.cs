@@ -24,11 +24,11 @@ namespace RumineSimulator_2._0
 
         User selected_user;
         Ban last_ban;
-        public WindowWarn(string nick)
+        public WindowWarn()
         {
             //Инициализация переменных      
             InitializeComponent();
-            selected_user = UsersControl.UserSearch(nick);
+            selected_user = Presenter.selected_user;
             last_ban = selected_user.bans[selected_user.bans.Count - 1];
             last_ban.warnings.Reverse();
 

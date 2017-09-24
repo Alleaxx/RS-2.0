@@ -29,7 +29,6 @@ namespace RumineSimulator_2._0
 
         private DispatcherTimer timer_users = null;
         private DispatcherTimer timer_TimeGo = null;
-        WindowWarn WindowWarnings;
         EventView WindowEvent;
 
         private short speed = 1;
@@ -431,7 +430,7 @@ namespace RumineSimulator_2._0
         {
             if (Presenter.selected_user != null)
             {
-                WindowWarnings = new WindowWarn(Presenter.selected_user.nick);
+                WindowWarn WindowWarnings = new WindowWarn();
                 WindowWarnings.Show();
             }
         }
@@ -688,6 +687,11 @@ namespace RumineSimulator_2._0
         private void check_EventsHistoric_Click(object sender, RoutedEventArgs e)
         {
             Presenter.events_historic = (bool)check_EventsHistoric.IsChecked;
+            EventsListUpdate();
+        }
+        private void check_EventsUnusual_Click(object sender, RoutedEventArgs e)
+        {
+            Presenter.events_unusual = (bool)check_EventsUnusual.IsChecked;
             EventsListUpdate();
         }
         //Обновление событий, галка
