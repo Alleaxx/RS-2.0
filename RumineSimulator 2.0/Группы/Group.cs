@@ -70,5 +70,11 @@ namespace RumineSimulator_2._0
             admin = Admin;
         }
 
+
+        public object GetGui()
+        {
+            return InterfaceInfo;
+        }
+
     }
 }

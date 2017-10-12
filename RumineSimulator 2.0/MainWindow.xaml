@@ -61,6 +61,7 @@
                         <TextBox x:Name="textBox" TextWrapping="Wrap" Text="Стартовые параметры" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
                         <Button x:Name="button_GenerateUsers" Content="Сгенерировать пользователей" VerticalAlignment="Top" Click="Button_UserGenerate_Click" ToolTip="Кнопка для генерации пользователей" Margin="2" HorizontalContentAlignment="Center" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14" />
                         <Button x:Name="button_TimeGo" Content="Запустить ход времени" VerticalAlignment="Top" Click="Button_TimeGo_Click" ToolTip="Кнопка для генерации пользователей" Margin="2" HorizontalContentAlignment="Center" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14"/>
+                        <Button x:Name="button_SessionCreate" Content="Запустить геймплей" VerticalAlignment="Top" Click="button_SessionCreate_Click" ToolTip="Начать игру" Margin="2" HorizontalContentAlignment="Center" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14"/>
                         <DockPanel x:Name="DP_GenerateTick" LastChildFill="False" Margin="2" VerticalAlignment="Top" Background="#FFDDDDDD">
                             <TextBlock x:Name="label_GenerateTick" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Время между генерацией(мс)"/>
                             <TextBox x:Name="text_GenerateTick" TextWrapping="Wrap" Text="5" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0"/>
@@ -237,26 +238,6 @@
 
 
             </TabItem>
-            <TabItem x:Name="TabItemTech" Header="Техническое">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="200"/>
-                        <ColumnDefinition Width="191"/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                </Grid>
-            </TabItem>
             <TabItem Header="Фракции">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -285,12 +266,31 @@
 
                 </Grid>
             </TabItem>
+            <TabItem Header="Геймплей">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48*"/>
+                        <ColumnDefinition Width="263*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="SP_ActionControl" Margin="0,21,27,0">
+                        <ListBox x:Name="list_PlayerActions" Height="134" HorizontalContentAlignment="Center">
+                            <ListBoxItem Content="Тест"/>
+                            <ListBoxItem Content="Тест"/>
+                        </ListBox>
+                        <ListBox x:Name="list_PlayerActionProps" Height="134" HorizontalContentAlignment="Center">
+                            <ListBoxItem Content="Тест"/>
+                            <ListBoxItem Content="Тест"/>
+                        </ListBox>
+                    </StackPanel>
+
+                </Grid>
+            </TabItem>
 
         </TabControl>
         <ToolBarTray x:Name="toolbarTrayLeft" HorizontalAlignment="Left" Margin="0" Orientation="Vertical" Grid.Row="1" Grid.RowSpan="2">
             <ToolBar x:Name="toolBarLeft" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Button x:Name="status_UpdateAll" Content="F5" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2" Click="status_UpdateAll_Click"/>
-                <Button x:Name="status_FastPrivateCab" Content="Кб" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2" Click="status_FastPrivateCab_Click"/>
+                <Button x:Name="status_FastPrivateCab" Content="Кб" Template="{DynamicResource ButtonsRumineGrayStyle}" FontWeight="SemiBold" Margin="0,2"/>
             </ToolBar>
         </ToolBarTray>
 

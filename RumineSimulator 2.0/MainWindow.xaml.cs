@@ -29,7 +29,6 @@ namespace RumineSimulator_2._0
 
         private DispatcherTimer timer_users = null;
         private DispatcherTimer timer_TimeGo = null;
-        EventView WindowEvent;
 
         private short speed = 1;
         //Информация для таймера - сколько юзеров генерировать и сколько он уже создал
@@ -47,7 +46,7 @@ namespace RumineSimulator_2._0
             TraitsList.TraitsInit();
             TopicControl.TopicsInit();
             ReputationReason.ReasonsInit();
-            FractionList.FractionsInit();
+            FractionList.FractionsList();
             text_log.AppendText($"\nДаты установлены на: ");
             Date.InitDate(new DateTime(2011, 07, 27), new DateTime(2013, 07, 19, 12, 0, 0));
             text_log.AppendText($"\nДата создания румине: {Date.found_date.ToShortDateString()}");
@@ -153,6 +152,7 @@ namespace RumineSimulator_2._0
         {
             Date.TimeGo();
             UsersControl.CheckingAllUserForUpdates();
+            ActionControl.TimeGoUpdate();
         }
 
         private void MinuteInterfaceUpdate()
@@ -170,6 +170,12 @@ namespace RumineSimulator_2._0
             else if (Presenter.events_update)
             {
                 Presenter.speed_counter++;
+            }
+
+            //Обновление списка действий игрока, если что-то произошло
+            if (Presenter.actionUpdate)
+            {
+                UpdateActionList();
             }
         }
 
@@ -535,6 +541,7 @@ namespace RumineSimulator_2._0
             combo_RelationChoose.SelectionChanged -= PropertyUsersSelection;
             list_passedEvents.SelectionChanged -= PropertyEventSelection;
             list_UserLastEvents.SelectionChanged -= PropertyUserEventSelection;
+            list_PlayerActions.SelectionChanged -= ActionSelection;
         }
         //Включение событий показа дополнительной информации в пользователях
         private void UserPropsEventsOn()
@@ -545,6 +552,7 @@ namespace RumineSimulator_2._0
             combo_RelationChoose.SelectionChanged += PropertyUsersSelection;
             list_passedEvents.SelectionChanged += PropertyEventSelection;
             list_UserLastEvents.SelectionChanged += PropertyUserEventSelection;
+            list_PlayerActions.SelectionChanged += ActionSelection;
         }
 
         //Событие возникающее при выборе свойства пользователя, позволяющее отображать дополнительную информацию
@@ -624,7 +632,6 @@ namespace RumineSimulator_2._0
                 }
             }
         }
-
 
         //Метод обновления списка событий
         private void EventsListUpdate()
@@ -731,9 +738,47 @@ namespace RumineSimulator_2._0
             UsersListUpdate();
         }
 
-        private void status_FastPrivateCab_Click(object sender, RoutedEventArgs e)
+
+        #region Геймплей
+
+        //Создание игровой сессии
+        private void button_SessionCreate_Click(object sender, RoutedEventArgs e)
         {
-            WindowEvent.Show();
+            GameSession.GameSessionInit();
+            status_textEvent.Text = UsersControl.UserSearch(GameSession.PlayerId).nick;
         }
+
+        private void UpdateActionList()
+        {
+            list_PlayerActions.Items.Clear();
+            foreach (Action act in ActionControl.ActionQue)
+            {
+                IntView view = act.GetGui();
+                list_PlayerActions.Items.Add(view.classic_string.Item);
+            }
+
+        }
+
+        //Событие возникающее при нажатии на запланированное действие пользователя
+        public void ActionSelection(object sender, RoutedEventArgs e)
+        {
+            if (sender is ListBox)
+            {
+                ListBoxItem item = (ListBoxItem)list_PlayerActions.SelectedItem;
+                if (item != null && item.Name.Length != 0)
+                {
+                    Presenter.SelectionCheck(item.Name);
+                    list_PlayerActionProps.Items.Clear();
+                    IntView view = Presenter.selectedAction.GetGui();
+                    foreach (GuiString str in view.all_properties)
+                    {
+                        if(str.Item.Parent == null)
+                            list_PlayerActionProps.Items.Add(str.Item);
+                    }
+                }
+            }
+        }
+
+        #endregion
     }
 }

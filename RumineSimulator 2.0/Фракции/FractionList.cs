@@ -8,10 +8,32 @@ namespace RumineSimulator_2._0
 {
     static class FractionList
     {
-        public static Fraction NeutralFraction;
+        private static Fraction neutralFraction;
+        public static Fraction NeutralFraction
+        {
+            get
+            {
+                return neutralFraction;
+            }
+            set
+            {
+                neutralFraction = value;
+            }
+        }
         public static List<Fraction> AllFractions = new List<Fraction>();
-        public static int id_total = 0;
-        public static void FractionsInit()
+        private static int idTotal = 0;
+        public static int IdTotal
+        {
+            get
+            {
+                return idTotal;
+            }
+            set
+            {
+                idTotal = value;
+            }
+        }
+        public static void FractionsList()
         {
             List<TraitsType> ideol = new List<TraitsType>();
             List<TraitsType> enemy = new List<TraitsType>();

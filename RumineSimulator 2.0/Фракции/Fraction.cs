@@ -47,7 +47,7 @@ namespace RumineSimulator_2._0
 
         public Fraction(string Name, List<TraitsType> Ideology, List<TraitsType> EnemyTraits, FractionAggression Type, bool HardCond, bool NoCond = false, bool active = false)
         {
-            id = FractionList.id_total++;
+            id = FractionList.IdTotal++;
             name = Name;
             ideology_traits = Ideology;
             enemy_traits = EnemyTraits;
