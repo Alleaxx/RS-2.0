@@ -10,6 +10,7 @@ namespace RumineSimulator_2._0
     {
         internal static int id_total = 0;
         public static List<Action> ActionQue = new List<Action>();
+        public static Action ended_action;
 
 
 
@@ -23,6 +24,7 @@ namespace RumineSimulator_2._0
 
                 if (ActionQue[0].Procees())
                 {
+                    ended_action = ActionQue[0];
                     ActionQue.RemoveAt(0);
                     if (ActionQue.Count > 0)
                         ActionQue[0].Begin();
@@ -55,11 +57,14 @@ namespace RumineSimulator_2._0
             Action act = null;
             for (int i = 0; i < ActionQue.Count; i++)
             {
-                if (ActionQue[0].Id == id)
-                    return ActionQue[0];
+                if (ActionQue[i].Id == id)
+                    return ActionQue[i];
             }
             return act;
         }
     }
-
+    enum ActionType
+    {
+        newMessage
+    }
 }

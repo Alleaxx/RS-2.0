@@ -176,6 +176,8 @@ namespace RumineSimulator_2._0
             if (Presenter.actionUpdate)
             {
                 UpdateActionList();
+                if(ActionControl.ended_action != null)
+                    ActionFinished();
             }
         }
 
@@ -754,7 +756,7 @@ namespace RumineSimulator_2._0
             foreach (Action act in ActionControl.ActionQue)
             {
                 IntView view = act.GetGui();
-                list_PlayerActions.Items.Add(view.classic_string.Item);
+                list_PlayerActions.Items.Add(act.GetClassicString().Item);
             }
 
         }
@@ -767,8 +769,10 @@ namespace RumineSimulator_2._0
                 ListBoxItem item = (ListBoxItem)list_PlayerActions.SelectedItem;
                 if (item != null && item.Name.Length != 0)
                 {
+                    statusRadButton_pause.IsChecked = true;
                     Presenter.SelectionCheck(item.Name);
                     list_PlayerActionProps.Items.Clear();
+                    text_ActionDescr.Text = Presenter.selectedAction.Description;
                     IntView view = Presenter.selectedAction.GetGui();
                     foreach (GuiString str in view.all_properties)
                     {
@@ -778,7 +782,10 @@ namespace RumineSimulator_2._0
                 }
             }
         }
-
+        public void ActionFinished()
+        {
+            text_ActionEndDescr.Text = ActionControl.ended_action.ActDo.result;
+        }
         #endregion
     }
 }

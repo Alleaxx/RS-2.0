@@ -36,7 +36,7 @@
             <Separator/>
             <TextBlock x:Name="status_textEvent" Text="Событие" Margin="5,1" VerticalAlignment="Center" FontSize="16"/>
         </ToolBar>
-        <TabControl x:Name="tabControlMain" Margin="0" Background="White" Grid.Column="1" Grid.Row="1">
+        <TabControl x:Name="tabControlMain" Margin="5,0,0,0" Background="White" Grid.Column="1" Grid.Row="1">
             <TabItem x:Name="TabItemMain" Header="Общее" VerticalAlignment="Top" HorizontalAlignment="Center">
                 <TabItem.Background>
                     <ImageBrush/>
@@ -269,17 +269,27 @@
             <TabItem Header="Геймплей">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="48*"/>
-                        <ColumnDefinition Width="263*"/>
+                        <ColumnDefinition Width="59*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="225*"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel x:Name="SP_ActionControl" Margin="0,21,27,0">
+                    <StackPanel x:Name="SP_ActionControl" Margin="5,0">
+                        <TextBox x:Name="textBox_Copy7" TextWrapping="Wrap" Text="Очередь действий" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
                         <ListBox x:Name="list_PlayerActions" Height="134" HorizontalContentAlignment="Center">
-                            <ListBoxItem Content="Тест"/>
-                            <ListBoxItem Content="Тест"/>
+                            <ListBoxItem Content="Запланированное действие"/>
                         </ListBox>
+                        <TextBox x:Name="textBox_Copy8" TextWrapping="Wrap" Text="Подробнее о действии" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
+                        <TextBox x:Name="text_ActionDescr" TextWrapping="Wrap" Text="Описание события. Оно может быть очень длинным, так что этот текст создан исключительно для оценки сложности ситуации" VerticalContentAlignment="Center" Margin="0,0,-0.208,0" MaxWidth="350" FontSize="16" HorizontalContentAlignment="Center"/>
                         <ListBox x:Name="list_PlayerActionProps" Height="134" HorizontalContentAlignment="Center">
-                            <ListBoxItem Content="Тест"/>
-                            <ListBoxItem Content="Тест"/>
+                            <ListBoxItem Content="Свойства выбранного действия"/>
+                        </ListBox>
+                        <TextBox x:Name="textBox_Copy10" TextWrapping="Wrap" Text="Подробнее о действии" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5,-0.208,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
+                        <TextBox x:Name="text_ActionEndDescr" TextWrapping="Wrap" Text="Описание события. Оно может быть очень длинным, так что этот текст создан исключительно для оценки сложности ситуации" VerticalContentAlignment="Center" Margin="0,0,-1.208,0" MaxWidth="350" FontSize="16" HorizontalContentAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="5,0">
+                        <TextBox x:Name="textBox_Copy9" TextWrapping="Wrap" Text="Доступные действия" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
+                        <ListBox x:Name="list_AvalActions" Height="134" HorizontalContentAlignment="Center" Margin="0">
+                            <ListBoxItem Content="Доступные действия"/>
                         </ListBox>
                     </StackPanel>
 

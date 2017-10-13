@@ -10,39 +10,64 @@ namespace RumineSimulator_2._0
     {
         private DateTime beginning;
         public bool begin { get; set; }
-        private DateTime ending;
+        public DateTime ending;
 
 
         private int durance;
         public int Durance { get { return durance; } }
+
+        private int remaining;
+        public int Remaining { get { return remaining; } }
 
         private int id;
         public int Id { get { return id; } }
 
         private string name;
         public string Name { get { return name; } }
+        private string description;
+        public string Description { get { return description; } }
+
+        public ActionDo ActDo;
 
 
-        public Action(string Name,int Durance)
+        public Action(string Name,int Durance,ActionType type)
         {
             durance = Durance;
+            remaining = durance;
             id = ActionControl.id_total + 1;
             name = Name;
+            description = "Действие без заранее заданного описания";
+            ActDo = new ActionDo(this,type);
+        }
+
+        public void SetDescr(string descr)
+        {
+            description = descr;
         }
 
         //Начало события
         public void Begin()
         {
+            begin = true;
             beginning = Date.current_date;
             ending = beginning.AddMinutes(durance);
         }
         //Процесс события
         public bool Procees()
         {
-            if (Date.current_date > ending)
+            remaining--;
+            if (Date.current_date >= ending)
+            {
+                ActDo.Ending(this);
                 return true;
+            }
             else
                 return false;
+        }
+
+        private void Ending()
+        {
+
         }
 
 
@@ -55,10 +80,21 @@ namespace RumineSimulator_2._0
 
 
             view.Add_Property(new GuiString("id", id.ToString(), true, StringProfile.Usual));
-            view.Add_Property(new GuiString("Начало",begin.ToString(),true,StringProfile.Usual));
+            view.Add_Property(new GuiString("Тип", ActDo.type.ToString(), true, StringProfile.Usual));
+            view.Add_Property(new GuiString("Начало",beginning.ToString(),true,StringProfile.Usual));
             view.Add_Property(new GuiString("Длительность", durance.ToString(), true, StringProfile.Usual));
-            view.Add_Property(new GuiString("Конец", ending.ToString(), true, StringProfile.Usual));
+            view.Add_Property(new GuiString("Подробности действия","", false, StringProfile.Header));
+            view.Add_Property(new GuiString("Завершенность действия", ActDo.succes.ToString(), true, StringProfile.Usual));
+            view.Add_Property(new GuiString("Тип длительности", ActDo.time.ToString(), true, StringProfile.Usual));
+
             return view;
+        }
+        public GuiProgressBar GetClassicString()
+        {
+            GuiProgressBar str = new GuiProgressBar($"{name} ({remaining})", remaining, 0, durance, StringProfile.Usual);
+            str.SetSize(14, 14);
+            str.SetGUIName(GUITypes.action, id);
+            return str;
         }
     }
 }
