@@ -56,7 +56,7 @@ namespace RumineSimulator_2._0
             item.IsHitTestVisible = IsHited;
             Image.Source = null;
             SetProfiles();
-            SetGUIName();
+            SetGUIName("");
         }
         public GuiString(string Text, string Value) : this(Text, Value, false, StringProfile.Usual)
         {
@@ -67,9 +67,9 @@ namespace RumineSimulator_2._0
             SetSize(size_name, size_value);
         }
 
-        public void SetGUIName()
+        public void SetGUIName(string name)
         {
-
+            item.Name = name;
         }
         public void SetGUIName(GUITypes type,int id)
         {

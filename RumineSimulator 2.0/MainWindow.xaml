@@ -35,6 +35,8 @@
             <Separator/>
             <Separator/>
             <TextBlock x:Name="status_textEvent" Text="Событие" Margin="5,1" VerticalAlignment="Center" FontSize="16"/>
+            <Separator/>
+            <TextBlock x:Name="status_textUser" Text="Пользователь" Margin="0,1" VerticalAlignment="Center" FontSize="16"/>
         </ToolBar>
         <TabControl x:Name="tabControlMain" Margin="5,0,0,0" Background="White" Grid.Column="1" Grid.Row="1">
             <TabItem x:Name="TabItemMain" Header="Общее" VerticalAlignment="Top" HorizontalAlignment="Center">
@@ -62,17 +64,13 @@
                         <Button x:Name="button_GenerateUsers" Content="Сгенерировать пользователей" VerticalAlignment="Top" Click="Button_UserGenerate_Click" ToolTip="Кнопка для генерации пользователей" Margin="2" HorizontalContentAlignment="Center" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14" />
                         <Button x:Name="button_TimeGo" Content="Запустить ход времени" VerticalAlignment="Top" Click="Button_TimeGo_Click" ToolTip="Кнопка для генерации пользователей" Margin="2" HorizontalContentAlignment="Center" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14"/>
                         <Button x:Name="button_SessionCreate" Content="Запустить геймплей" VerticalAlignment="Top" Click="button_SessionCreate_Click" ToolTip="Начать игру" Margin="2" HorizontalContentAlignment="Center" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14"/>
-                        <DockPanel x:Name="DP_GenerateTick" LastChildFill="False" Margin="2" VerticalAlignment="Top" Background="#FFDDDDDD">
-                            <TextBlock x:Name="label_GenerateTick" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Время между генерацией(мс)"/>
-                            <TextBox x:Name="text_GenerateTick" TextWrapping="Wrap" Text="5" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0"/>
-                        </DockPanel>
                         <DockPanel x:Name="DP_maxSpeed" LastChildFill="False" Margin="2" VerticalAlignment="Top" Background="#FFDDDDDD">
                             <TextBlock x:Name="label_MaxSpeed" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Максимальная скорость(мс)"/>
                             <TextBox x:Name="text_MaxSpeed" TextWrapping="Wrap" Text="15" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0"/>
                         </DockPanel>
                         <DockPanel x:Name="DP_GeneratedUsers" LastChildFill="False" Margin="2" VerticalAlignment="Top" Background="#FFDDDDDD">
                             <TextBlock x:Name="label_UsersGenerated" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Пользователей"/>
-                            <TextBox x:Name="text_GeneratedUsers" TextWrapping="Wrap" Text="50" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0"/>
+                            <TextBox x:Name="text_GeneratedUsers" TextWrapping="Wrap" Text="48" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0"/>
                         </DockPanel>
                         <DockPanel x:Name="DP__EventsShow" LastChildFill="False" Margin="2" VerticalAlignment="Top" Background="#FFDDDDDD">
                             <TextBlock x:Name="label_UsersGenerated1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Показывать событий"/>
@@ -80,14 +78,13 @@
                         </DockPanel>
                         <DockPanel x:Name="DP__UpdateEventsSpeed" LastChildFill="False" Margin="2" VerticalAlignment="Top" Background="#FFDDDDDD">
                             <TextBlock x:Name="label_UpdateEventsSpeed" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Обновлять события раз в..."/>
-                            <TextBox x:Name="text_UpdateEventsSpeed" TextWrapping="Wrap" Text="5" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0" TextChanged="text_UpdateEventsSpeed_TextChanged"/>
+                            <TextBox x:Name="text_UpdateEventsSpeed" TextWrapping="Wrap" Text="5" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0"/>
                         </DockPanel>
                         <TextBox x:Name="textBox_Copy" TextWrapping="Wrap" Text="Характеристики сайта" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
                         <GroupBox x:Name="gB_foundDate" Header="Основание сайта" VerticalAlignment="Top" BorderBrush="#FF747474" Background="#FFDDDDDD">
                             <TextBlock x:Name="text_foundDate" Margin="2" TextWrapping="Wrap" Text="значение"/>
                         </GroupBox>
                         <TextBox x:Name="textBox_Copy1" TextWrapping="Wrap" Text="Статистика" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
-                        <Expander x:Name="expander_Stat" Header="Просмотреть статистику" HorizontalContentAlignment="Left" VerticalContentAlignment="Stretch" IsExpanded="True"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Margin="5,5,0,5" HorizontalAlignment="Left" Width="350">
                         <Image x:Name="image" HorizontalAlignment="Left" VerticalAlignment="Top" Width="350" Source="/RumineSimulator 2.0;component/Resources/1459031501.png"/>
@@ -106,7 +103,7 @@
                         <TextBox x:Name="textBox_Copy5" TextWrapping="Wrap" Text="Отображение событий" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
                         <TextBox x:Name="text_EventSearch" Height="23" TextWrapping="Wrap" SelectionChanged="text_EventSearch_SelectionChanged" VerticalContentAlignment="Center" RenderTransformOrigin="0.514,0.913" FontSize="14"/>
                         <CheckBox x:Name="check_EventsUpdate" Content="Обновление списка" Padding="0" IsChecked="True" Margin="2" FontSize="14" FontWeight="Medium" Click="check_EventsUpdate_Click"/>
-                        <CheckBox x:Name="check_EventsSlight" Content="Незначащие события" Padding="0" IsChecked="True" Margin="2" FontSize="14" Click="check_EventsSlight_Click" Foreground="#FF575757" FontWeight="Medium"/>
+                        <CheckBox x:Name="check_EventsSlight" Content="Незначащие события" Padding="0" Margin="2" FontSize="14" Click="check_EventsSlight_Click" Foreground="#FF575757" FontWeight="Medium"/>
                         <CheckBox x:Name="check_EventsUnusual" Content="Необычные события" Padding="0" IsChecked="True" Margin="2" FontSize="14" Click="check_EventsUnusual_Click" Foreground="#FF2EAA28" FontWeight="Medium"/>
                         <CheckBox x:Name="check_EventsMedium" Content="Обычные события" Padding="0" IsChecked="True" Margin="2" FontSize="14" Foreground="#FF2552E8" Click="check_EventsMedium_Click" FontWeight="Medium"/>
                         <CheckBox x:Name="check_EventsImportant" Content="Важные события" Padding="0" IsChecked="True" Margin="2" FontSize="14" Foreground="#FF472581" FontWeight="Medium" Click="check_EventsImportant_Click"/>
@@ -269,28 +266,35 @@
             <TabItem Header="Геймплей">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="59*"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="225*"/>
+                        <ColumnDefinition Width="247*"/>
+                        <ColumnDefinition Width="Auto" MinWidth="183"/>
+                        <ColumnDefinition Width="1120*"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel x:Name="SP_ActionControl" Margin="5,0">
                         <TextBox x:Name="textBox_Copy7" TextWrapping="Wrap" Text="Очередь действий" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
-                        <ListBox x:Name="list_PlayerActions" Height="134" HorizontalContentAlignment="Center">
+                        <ListBox x:Name="list_PlayerActions" Height="150" HorizontalContentAlignment="Center">
                             <ListBoxItem Content="Запланированное действие"/>
                         </ListBox>
-                        <TextBox x:Name="textBox_Copy8" TextWrapping="Wrap" Text="Подробнее о действии" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
-                        <TextBox x:Name="text_ActionDescr" TextWrapping="Wrap" Text="Описание события. Оно может быть очень длинным, так что этот текст создан исключительно для оценки сложности ситуации" VerticalContentAlignment="Center" Margin="0,0,-0.208,0" MaxWidth="350" FontSize="16" HorizontalContentAlignment="Center"/>
-                        <ListBox x:Name="list_PlayerActionProps" Height="134" HorizontalContentAlignment="Center">
+                        <ListBox x:Name="list_PlayerActionProps" Height="248" HorizontalContentAlignment="Center">
                             <ListBoxItem Content="Свойства выбранного действия"/>
                         </ListBox>
-                        <TextBox x:Name="textBox_Copy10" TextWrapping="Wrap" Text="Подробнее о действии" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5,-0.208,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
-                        <TextBox x:Name="text_ActionEndDescr" TextWrapping="Wrap" Text="Описание события. Оно может быть очень длинным, так что этот текст создан исключительно для оценки сложности ситуации" VerticalContentAlignment="Center" Margin="0,0,-1.208,0" MaxWidth="350" FontSize="16" HorizontalContentAlignment="Center"/>
+                        <TextBox x:Name="text_ActionDescr" TextWrapping="Wrap" Text="Описание выбранного действия" VerticalContentAlignment="Center" Margin="0,0,-1,0" MaxWidth="350" FontSize="16" HorizontalContentAlignment="Center"/>
+                        <TextBox x:Name="textBox_Copy10" TextWrapping="Wrap" Text="Результаты" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5,-0.208,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
+                        <TextBox x:Name="text_ActionEndDescr" TextWrapping="Wrap" Text="Результат последнего действия" VerticalContentAlignment="Center" Margin="0,0,-1.208,0" MaxWidth="350" FontSize="16" HorizontalContentAlignment="Center"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Margin="5,0">
                         <TextBox x:Name="textBox_Copy9" TextWrapping="Wrap" Text="Доступные действия" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
-                        <ListBox x:Name="list_AvalActions" Height="134" HorizontalContentAlignment="Center" Margin="0">
+                        <ComboBox x:Name="combo_ActionTime">
+                            <ComboBoxItem Content="Быстро"/>
+                            <ComboBoxItem Content="Нормально"/>
+                            <ComboBoxItem Content="Долго"/>
+                        </ComboBox>
+                        <ComboBox x:Name="combo_ActionUsers">
+                        </ComboBox>
+                        <ListBox x:Name="list_AvalActions" Height="200" HorizontalContentAlignment="Center" Margin="0">
                             <ListBoxItem Content="Доступные действия"/>
                         </ListBox>
+                        <Button x:Name="button_ActionGo" Content="Поехали!" VerticalAlignment="Top" ToolTip="Кнопка для генерации пользователей" Margin="0" HorizontalContentAlignment="Center" Template="{DynamicResource ButtonsRumineGrayStyle}" FontSize="14" Click="button_ActionGo_Click" />
                     </StackPanel>
 
                 </Grid>

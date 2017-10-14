@@ -8,8 +8,6 @@ namespace RumineSimulator_2._0
 {
     static class EventUsualDay_Preset
     {
-        private static Random random = new Random();
-
         private static User rnd_User;
         private static User rnd_UserAdd;
         private static List<User> rnd_Users = new List<User>();
@@ -92,8 +90,8 @@ namespace RumineSimulator_2._0
             if (AdvRnd.PrsChanse(1, 200))
             {
                 adminCome.Importance = EventImportance.historical;
-                UsersControl.UserSearch(adminCome.Creator.Text).messages += random.Next(10);
-                UsersControl.UserSearch(adminCome.Creator.Text).likes += random.Next(30);
+                UsersControl.UserSearch(adminCome.Creator.Text).messages += AdvRnd.random.Next(10);
+                UsersControl.UserSearch(adminCome.Creator.Text).likes += AdvRnd.random.Next(30);
                 adminCome.EventAdd3_Mods(30, 10, 5, 1);
                 admin_effect = 4;
                 if (AdvRnd.PrsChanse(75))
@@ -152,7 +150,7 @@ namespace RumineSimulator_2._0
 
             Topic disk_topic = TopicControl.ReturnRndTopic();
             //Жесткость дискуссии
-            int disk_violence = random.Next(5);
+            int disk_violence = AdvRnd.random.Next(5);
             string dissk_name = "";
             switch (disk_violence)
             {
@@ -178,7 +176,7 @@ namespace RumineSimulator_2._0
             }
 
             //Количество людей и масштаб дискуссии
-            int people_amount = random.Next(0, rnd_Users.Count);
+            int people_amount = AdvRnd.random.Next(0, rnd_Users.Count);
             string dissk_bignessString = "";
             foreach (User user in rnd_Users)
             {
@@ -379,7 +377,7 @@ namespace RumineSimulator_2._0
             dayEnd.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Rumine, "Румайн"));
             dayEnd.EventAdd6_Dates(0);
             dayEnd.Importance = EventImportance.rare;
-            dayEnd.EventAdd3_Mods(random.Next(0), 0, 0, 0);
+            dayEnd.EventAdd3_Mods(AdvRnd.random.Next(0), 0, 0, 0);
             dayEnd.eventSpec_properties.Add(new GuiString("Прошедший день", Date.current_date_prev.ToShortDateString(), false, StringProfile.Header));
             dayEnd.eventSpec_properties.Add(new GuiString("Кол-во событий: ", Activity.day_events.Count.ToString(), true));
             dayEnd.eventSpec_properties.Add(new GuiString("Кол-во сообщений: ", Activity.day_messages.ToString(), true));
@@ -398,10 +396,10 @@ namespace RumineSimulator_2._0
         private static void UsersRandomisation()
         {
             rnd_Users.Clear();
-            rnd_User = UsersControl.act_users[random.Next(UsersControl.act_users.Count)];
+            rnd_User = UsersControl.act_users[AdvRnd.random.Next(UsersControl.act_users.Count)];
             do
             {
-                rnd_UserAdd = UsersControl.act_users[random.Next(UsersControl.act_users.Count)];
+                rnd_UserAdd = UsersControl.act_users[AdvRnd.random.Next(UsersControl.act_users.Count)];
                 //Список рандомных людей для событий. Не повторяют основного рандомного пользователя
                 if (rnd_User != rnd_UserAdd)
                     rnd_Users.Add(rnd_UserAdd);

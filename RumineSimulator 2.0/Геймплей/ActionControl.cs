@@ -8,43 +8,59 @@ namespace RumineSimulator_2._0
 {
     static class ActionControl
     {
+        //События на завершение действия и обновление оставшегося времени
+        public static event EventHandler<ActionEventArgs> ActionEnded;
+        public static event EventHandler<ActionEventArgs> ActionDurChanged;
+
         internal static int id_total = 0;
         public static List<Action> ActionQue = new List<Action>();
         public static Action ended_action;
+        public static List<ActionType> action_presets = new List<ActionType>();
 
 
+        public static void ActionsInit()
+        {
+            action_presets.Add(ActionType.newMessage);
+        }
 
+
+        //Вызывается при прохождении одной минуты
         public static void TimeGoUpdate()
         {
             if (ActionQue.Count > 0)
             {
-                if (!ActionQue[0].begin)
-                    ActionQue[0].Begin();
-
-
-                if (ActionQue[0].Procees())
-                {
-                    ended_action = ActionQue[0];
-                    ActionQue.RemoveAt(0);
-                    if (ActionQue.Count > 0)
-                        ActionQue[0].Begin();
-                    Presenter.actionUpdate = true;
-                }
-                else
-                {
-                    Presenter.actionUpdate = true;
-                }
+                if (!ActionQue[0].Procees())
+                    ActionDurChanged(ActionQue[0],new ActionEventArgs("Изменение длительности"));
             }
-            else
-            {
-                Presenter.actionUpdate = false;
-            }
+        }
+
+        //Вызывается при завершении действия
+        public static void ActionEndUpdate(object act_obj,ActionEventArgs args)
+        {
+            Action act = (Action)act_obj;
+
+            if (!ActionQue[0].begin)
+                ActionQue[0].Begin();
+
+            ended_action = act;
+            ActionQue.RemoveAt(0);
+            if (ActionQue.Count > 0)
+                ActionQue[0].Begin();
+            Presenter.actionUpdate = true;
+
+            ActionEnded(ended_action,new ActionEventArgs("Завершение действия в контроллере"));
         }
 
         static public void AddAction(Action add)
         {
+            add.ShowEnd += ActionEndUpdate;
             ActionQue.Add(add);
             id_total++;
+        }
+
+        static public void AddAction(ActionType act_type)
+        {
+
         }
         static public void RemoveAction(int id)
         {

@@ -8,6 +8,9 @@ namespace RumineSimulator_2._0
 {
     static class Activity
     {
+        public static event EventHandler<ActivityEventArgs> ActivityInfoChanged;
+        public static event EventHandler<ActivityEventArgs> NewEventAdded;
+
         //Чистая активность на которую действуют модификаторы
         private static float current_vaActivity_Clear;
         public static float Current_valActivity_Clear
@@ -98,6 +101,8 @@ namespace RumineSimulator_2._0
 
 
         #endregion
+
+
         public static List<Event> day_events = new List<Event>();
 
         public static IntView_Activity InterfaceInfo
@@ -129,8 +134,6 @@ namespace RumineSimulator_2._0
 
         private static List<EventType> planned_todayEvents = new List<EventType>();
 
-        private static Random random = new Random();
-
         public static void Activity_Init()
         {
             Current_valActivity_Clear = 50;
@@ -141,7 +144,7 @@ namespace RumineSimulator_2._0
         }
 
         #region Определение прошедшего времени и операции с ним. Генерация модификаторов событий
-        //Определение прошедшего времени
+        //Определение прошедшего времени, событие на изменение интерфейса
         public static void Time_Pass()
         {
             //Прошла минута
@@ -168,6 +171,7 @@ namespace RumineSimulator_2._0
                 Day_Pass();
                 Month_Pass();
             }
+            ActivityInfoChanged(Current_valActivity_Clear, new ActivityEventArgs("Активность изменилась"));
         }
         //Проверка минутных событий
         public static void Minute_Pass()
@@ -179,7 +183,9 @@ namespace RumineSimulator_2._0
                 current_vaActivity_Clear -= 0.5F;
             else if (current_vaActivity_Clear >= 75 && current_vaActivity_Clear < 100)
                 current_vaActivity_Clear -= 0.75F;
+
             CheckEvents(false, false, false);
+            ActivityInfoChanged(Current_valActivity_Clear, new ActivityEventArgs("Убывание активности"));
         }
 
         //Проверка часовых событий и модификатор дневной активности
@@ -298,6 +304,8 @@ namespace RumineSimulator_2._0
             month_modActivity = 1;
         }
 
+
+        //Событие на добавление нового события в интерфейс
         public static void CheckEvents(bool newday, bool newweek, bool newmonth)
         {
             List<Event> new_events = new List<Event>();
@@ -373,8 +381,7 @@ namespace RumineSimulator_2._0
                 EventsControl.AllEvents.Add(new_event);
                 Last_Event = new_event;
                 LastEvent_ModsModifier();
-                if (new_events.Count != 0)
-                    Presenter.newEvent = true;
+                NewEventAdded(new_event,new ActivityEventArgs("Новое событие"));
             }
 
             HistoricEvent h_event = HistoricEvents_List.EventCheck();
@@ -383,11 +390,11 @@ namespace RumineSimulator_2._0
                 Last_Event = h_event;
                 EventsControl.AllEvents.Add(Last_Event);
                 LastEvent_ModsModifier();
-
             }
 
 
         }
+        //Событие на изменение параметров активности в интерфейсе
         public static void LastEvent_ModsModifier()
         {
             Current_valActivity_Clear += Last_Event.current_valMinute_mod;
@@ -397,16 +404,5 @@ namespace RumineSimulator_2._0
             day_events.Add(Last_Event);
         }
         #endregion
-
-
-        //Возвращение случайных забавных объявлений от пользователей
-        public static string ReturnRndAdvertisment()
-        {
-            User rnd_user = UsersControl.act_users[random.Next(UsersControl.act_users.Count)];
-            if (Last_Event is EventStatChange)
-                return last_Event.sel_description;
-            else
-                return "Слава румине!";
-        }
     }
 }

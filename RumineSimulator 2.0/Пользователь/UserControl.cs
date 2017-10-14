@@ -31,10 +31,6 @@ namespace RumineSimulator_2._0
 
         static public List<string> UpdatesUserLog = new List<string>();
 
-        static Random random = new Random();
-
-
-
         #region Создание пользователей, генерация отношений
         //Генерация пользователя
         static public void GenerateUser(bool admin = false)
@@ -121,7 +117,7 @@ namespace RumineSimulator_2._0
                     //Шанс остаться нейтральным или все-таки
                     if (AdvRnd.PrsChanse(75))
                     {
-                        int rnd_id = random.Next(Av_fracs.Count);
+                        int rnd_id = AdvRnd.random.Next(Av_fracs.Count);
                         user.JoinFraction(Av_fracs[rnd_id], true);
                         Av_fracs.RemoveAt(rnd_id);
                     }

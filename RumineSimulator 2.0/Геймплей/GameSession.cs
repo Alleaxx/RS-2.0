@@ -11,12 +11,11 @@ namespace RumineSimulator_2._0
         public static bool enabled = false;
         private static int playerId;
         public static int PlayerId { get { return playerId; } }
-        static Random random = new Random();
 
         public static void GameSessionInit()
         {
             enabled = true;
-            playerId = random.Next(1,UsersControl.all_users.Count);
+            playerId = AdvRnd.random.Next(1,UsersControl.all_users.Count);
             ActionControl.AddAction(new Action("Тест", 60,ActionType.newMessage));
             ActionControl.AddAction(new Action("Тест намбер ту", 60,ActionType.newMessage));
             ActionControl.ActionQue.Last().SetDescr("Проверка описания");

@@ -102,8 +102,6 @@ namespace RumineSimulator_2._0
 
         static public Dictionary<string, ImageSource> AvaPath = new Dictionary<string, ImageSource>();
 
-        static Random random = new Random();
-
         //Добавление аватарок пользователям
         public static void NicksInit()
         {
@@ -290,7 +288,7 @@ namespace RumineSimulator_2._0
             //Рандомный выбор ника из хранилища, удаление его из списка, отправление значения обратно
             if (nicks.Count != 0)
             {
-                int id = random.Next(nicks.Count);
+                int id = AdvRnd.random.Next(nicks.Count);
                 string nick = nicks[id];
                 nicks.RemoveAt(id);
                 return nick;

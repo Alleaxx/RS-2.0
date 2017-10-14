@@ -11,9 +11,7 @@ namespace RumineSimulator_2._0
         static public DateTime current_date { get; private set; }
         static public DateTime current_date_prev { get; private set; }
         static public DateTime found_date { get; private set; }
-        static Random random = new Random();
         static public int speed;
-        static public int max_minutes_pass = 1;
 
         public static void InitDate(DateTime Found_date, DateTime Curr_Date)
         {
@@ -25,27 +23,12 @@ namespace RumineSimulator_2._0
         {
             current_date_prev = new DateTime();
             current_date_prev = current_date;
-            current_date = current_date.AddMinutes(max_minutes_pass);
+            current_date = current_date.AddMinutes(1);
 
         }
         public static void SetTimeGoSpeed(int Speed)
         {
             speed = Speed;
-            switch (speed)
-            {
-                case 1:
-                    max_minutes_pass = 1;
-                    break;
-                case 2:
-                    max_minutes_pass = 1;
-                    break;
-                case 3:
-                    max_minutes_pass = 1;
-                    break;
-                case 4:
-                    max_minutes_pass = 1;
-                    break;
-            }
         }
 
         public static bool LastDay()

@@ -47,7 +47,6 @@ namespace RumineSimulator_2._0
         }
 
         public List<ReputationHistory> history = new List<ReputationHistory>();
-        Random random = new Random();
 
         public Reputation(User user)
         {
@@ -55,16 +54,16 @@ namespace RumineSimulator_2._0
             switch (Date.current_date.Year - user.registration.Year + 1)
             {
                 case 1:
-                    base_reputation = random.Next(0, 51);
+                    base_reputation = AdvRnd.random.Next(0, 51);
                     break;
                 case 2:
-                    base_reputation = random.Next(51, 101);
+                    base_reputation = AdvRnd.random.Next(51, 101);
                     break;
                 case 3:
-                    base_reputation = random.Next(101, 201);
+                    base_reputation = AdvRnd.random.Next(101, 201);
                     break;
                 default:
-                    base_reputation = random.Next(0, 101);
+                    base_reputation = AdvRnd.random.Next(0, 101);
                     break;
             }
             pos_reputation += base_reputation;

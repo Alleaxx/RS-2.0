@@ -18,6 +18,5 @@ namespace RumineSimulator_2._0
         humanist,
         historic,
         m_oldness,
-
     }
 }

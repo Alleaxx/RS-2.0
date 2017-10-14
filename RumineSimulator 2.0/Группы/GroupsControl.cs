@@ -11,8 +11,6 @@ namespace RumineSimulator_2._0
         //Список уже добавленных групп
         static public List<Group> groups = new List<Group>();
 
-        static Random random = new Random();
-
         static public void UserGroupsInitCreation()
         {
             //Посетители
@@ -138,7 +136,7 @@ namespace RumineSimulator_2._0
                 if (AdvRnd.PrsChanse(20))
                     return group;
             }
-            return available_groups[random.Next(available_groups.Count)];
+            return available_groups[AdvRnd.random.Next(available_groups.Count)];
             #endregion
 
         }
@@ -193,7 +191,7 @@ namespace RumineSimulator_2._0
         {
             //Число рекомендуемых модераторов - кол-во пользователей / 20 + рандом
             int mod_recomend = UsersControl.act_users.Count / 20;
-            mod_recomend += random.Next(0, 3);
+            mod_recomend += AdvRnd.random.Next(0, 3);
             int need_amount = mod_recomend - (int)UsersControl.moderAmount;
             int i = 0;
             //Предполагаемые модератор - список с наибольшим шансом модератора наверху

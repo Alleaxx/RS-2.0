@@ -8,8 +8,6 @@ namespace RumineSimulator_2._0
 {
     static class EventStatChange_Preset
     {
-        private static Random random = new Random();
-
         private static User rnd_User;
         private static User rnd_UserAdd;
 
@@ -50,39 +48,39 @@ namespace RumineSimulator_2._0
             {
                 newMessage.Importance = EventImportance.usual;
                 event_descr = event_descr + $"Оно весьма типично и ничем не отличается от сотен таких же. ";
-                newMessage.EventAdd3_Mods(random.Next(3), 0, 0, 0);
+                newMessage.EventAdd3_Mods(AdvRnd.random.Next(3), 0, 0, 0);
                 if (AdvRnd.PrsChanse(chanse))
                 {
-                    likes = random.Next(1, 4);
+                    likes = AdvRnd.random.Next(1, 4);
                 }
             }
             else if (AdvRnd.PrsChanse(85))
             {
                 newMessage.Importance = EventImportance.unusual;
                 event_descr = event_descr + $"Содержание его было запоминающимся, а потому оно на какое-то время сохранилось в истории. ";
-                newMessage.EventAdd3_Mods(random.Next(2, 7), 1, 0, 0);
-                likes = random.Next(1, 1+rnd_User.forum_influence / 50);
+                newMessage.EventAdd3_Mods(AdvRnd.random.Next(2, 7), 1, 0, 0);
+                likes = AdvRnd.random.Next(1, 1+rnd_User.forum_influence / 50);
             }
             else if (AdvRnd.PrsChanse(75))
             {
                 newMessage.Importance = EventImportance.rare;
                 event_descr = event_descr + $"Является на удивление годным постом, который будут цитировать и через много месяцев. ";
-                newMessage.EventAdd3_Mods(random.Next(2, 7), 1, 0, 0);
-                likes = random.Next(2, 2+rnd_User.forum_influence / 20);
+                newMessage.EventAdd3_Mods(AdvRnd.random.Next(2, 7), 1, 0, 0);
+                likes = AdvRnd.random.Next(2, 2+rnd_User.forum_influence / 20);
             }
             else if (AdvRnd.PrsChanse(75))
             {
                 newMessage.Importance = EventImportance.epic;
                 event_descr = event_descr + $"Этот пост стал эпохальным событием, на которые впоследствии ссылались целые годы! ";
                 newMessage.EventAdd3_Mods(15, 2, 0, 0);
-                likes = random.Next(5, 2+rnd_User.forum_influence / 10);
+                likes = AdvRnd.random.Next(5, 2+rnd_User.forum_influence / 10);
             }
             else
             {
                 newMessage.Importance = EventImportance.historical;
                 event_descr = event_descr + $"Этот пост стал эпохальным событием, на которые впоследствии ссылались целые годы! ";
                 newMessage.EventAdd3_Mods(30, 10, 2, 1);
-                likes = random.Next(10, 2 + rnd_User.forum_influence / 5);
+                likes = AdvRnd.random.Next(10, 2 + rnd_User.forum_influence / 5);
             }
             //Статистика и факты
             rnd_User.last_activity = Date.current_date;
@@ -94,7 +92,7 @@ namespace RumineSimulator_2._0
             if (newMessage.Importance == EventImportance.unusual || newMessage.Importance == EventImportance.rare || newMessage.Importance == EventImportance.epic || newMessage.Importance == EventImportance.historical)
                 event_descr = event_descr + $"Тема поста - {TopicControl.ReturnRndTopic().text}. ";
             if (newMessage.Importance == EventImportance.rare || newMessage.Importance == EventImportance.epic || newMessage.Importance == EventImportance.historical)
-                event_descr = event_descr + $"Такая черта автора как '{rnd_User.traits[random.Next(rnd_User.traits.Count)].name}' сильно повлияла на содержание ";
+                event_descr = event_descr + $"Такая черта автора как '{rnd_User.traits[AdvRnd.random.Next(rnd_User.traits.Count)].name}' сильно повлияла на содержание ";
             if (newMessage.Importance == EventImportance.epic || newMessage.Importance == EventImportance.historical)
                 event_descr = event_descr + $"Многие юзеры охарактеризовали пост как {Abbrev.quality}. ";
             if (newMessage.Importance == EventImportance.historical)
@@ -122,35 +120,35 @@ namespace RumineSimulator_2._0
             //Важность события
             if (AdvRnd.PrsChanse(99))
             {
-                newComment.EventAdd3_Mods(random.Next(2), 0, 0, 0);
+                newComment.EventAdd3_Mods(AdvRnd.random.Next(2), 0, 0, 0);
                 event_descr = event_descr + $"Ни новость, ни комментарий не достойны подробного описания. ";
                 newComment.Importance = EventImportance.usual;
                 if (AdvRnd.PrsChanse(chanse))
                 {
-                    likes = random.Next(1,4);
+                    likes = AdvRnd.random.Next(1,4);
                 }
 
             }
             else if (AdvRnd.PrsChanse(75))
             {
-                newComment.EventAdd3_Mods(random.Next(2, 6), 1, 0, 0);
+                newComment.EventAdd3_Mods(AdvRnd.random.Next(2, 6), 1, 0, 0);
                 event_descr = event_descr + $"Этот комментарий вызвал определенную реакцию со стороны читателей, запомнивших его автора. ";
                 newComment.Importance = EventImportance.unusual;
-                likes = random.Next(1, 1 + rnd_User.forum_influence / 50);
+                likes = AdvRnd.random.Next(1, 1 + rnd_User.forum_influence / 50);
             }
             else if (AdvRnd.PrsChanse(85))
             {
-                newComment.EventAdd3_Mods(random.Next(3, 8), 3, 0, 0);
+                newComment.EventAdd3_Mods(AdvRnd.random.Next(3, 8), 3, 0, 0);
                 event_descr = event_descr + $"Такой комментарий навсегда врезался в память пользователей и забудут его еще очень нескоро. ";
                 newComment.Importance = EventImportance.rare;
-                likes = random.Next(2, 2 + rnd_User.forum_influence / 20);
+                likes = AdvRnd.random.Next(2, 2 + rnd_User.forum_influence / 20);
             }
             else
             {
                 newComment.EventAdd3_Mods(20, 5, 2, 0);
                 event_descr = event_descr + $"Эпичное содержание комментария, кажется, будут помнить и через 10 лет, если, румине конечно выживет. ";
                 newComment.Importance = EventImportance.epic;
-                likes = random.Next(5, 2 + rnd_User.forum_influence / 10);
+                likes = AdvRnd.random.Next(5, 2 + rnd_User.forum_influence / 10);
             }
 
             //Статистика и факты
@@ -187,7 +185,7 @@ namespace RumineSimulator_2._0
             news.EventAdd6_Dates(0);
 
             string event_descr = $"{Abbrev.date} пользователь {rnd_User.nick} создал новость. ";
-            int quality = random.Next(5, 15) + rnd_User.character.creativity.Value * 5 + rnd_User.character.sciense.Value * 5;
+            int quality = AdvRnd.random.Next(5, 15) + rnd_User.character.creativity.Value * 5 + rnd_User.character.sciense.Value * 5;
 
             //Редкость события
             if (AdvRnd.PrsChanse(50))
@@ -232,9 +230,9 @@ namespace RumineSimulator_2._0
             if (news.Importance == EventImportance.unusual || news.Importance == EventImportance.rare || news.Importance == EventImportance.epic || news.Importance == EventImportance.historical)
                 event_descr = event_descr + $"Тема, затрагиваемая в новости - {TopicControl.ReturnRndTopic().text}. ";
             if (news.Importance == EventImportance.rare || news.Importance == EventImportance.epic || news.Importance == EventImportance.historical)
-                event_descr = event_descr + $"Количество комментариев на данный момент составляет {random.Next(10, 50)} штук. ";
+                event_descr = event_descr + $"Количество комментариев на данный момент составляет {AdvRnd.random.Next(10, 50)} штук. ";
             if (news.Importance == EventImportance.epic || news.Importance == EventImportance.historical)
-                event_descr = event_descr + $"Новость попала в топ рейтинга, и на данный момент находится на {random.Next(1,50)} месте! ";
+                event_descr = event_descr + $"Новость попала в топ рейтинга, и на данный момент находится на {AdvRnd.random.Next(1,50)} месте! ";
             if (news.Importance == EventImportance.historical)
                 event_descr = event_descr + $"{Abbrev.newsFeature}";
 
@@ -340,10 +338,10 @@ namespace RumineSimulator_2._0
                 if (moder.mod)
                     moders.Add(moder);
             }
-            rnd_User = moders[random.Next(moders.Count)];
+            rnd_User = moders[AdvRnd.random.Next(moders.Count)];
             do
             {
-                rnd_UserAdd = UsersControl.act_users[random.Next(UsersControl.act_users.Count)];
+                rnd_UserAdd = UsersControl.act_users[AdvRnd.random.Next(UsersControl.act_users.Count)];
             }
             while (rnd_User == rnd_UserAdd);
 
@@ -478,10 +476,10 @@ namespace RumineSimulator_2._0
         //Рандомизация пользователей для событий
         private static void UsersRandomisation()
         {
-            rnd_User = UsersControl.act_users[random.Next(UsersControl.act_users.Count)];
+            rnd_User = UsersControl.act_users[AdvRnd.random.Next(UsersControl.act_users.Count)];
             do
             {
-                rnd_UserAdd = UsersControl.act_users[random.Next(UsersControl.act_users.Count)];
+                rnd_UserAdd = UsersControl.act_users[AdvRnd.random.Next(UsersControl.act_users.Count)];
             }
             while (rnd_User == rnd_UserAdd);
         }

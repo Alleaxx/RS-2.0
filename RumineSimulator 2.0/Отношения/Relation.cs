@@ -23,7 +23,6 @@ namespace RumineSimulator_2._0
                 return new IntView_Relation(this);
             }
         }
-        Random random = new Random();
 
         public Relation(User init, User goal)
         {

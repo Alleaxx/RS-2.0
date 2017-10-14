@@ -8,8 +8,6 @@ namespace RumineSimulator_2._0
 {
     static class ReputationReason
     {
-        static Random random = new Random();
-
         static List<string> PlusReasons = new List<string>();
         static List<string> MinusReasons = new List<string>();
         public static void ReasonsInit()
@@ -122,9 +120,9 @@ namespace RumineSimulator_2._0
         public static string ReturnReason(bool minus)
         {
             if (minus)
-                return MinusReasons[random.Next(MinusReasons.Count)];
+                return MinusReasons[AdvRnd.random.Next(MinusReasons.Count)];
             else
-                return PlusReasons[random.Next(PlusReasons.Count)];
+                return PlusReasons[AdvRnd.random.Next(PlusReasons.Count)];
         }
     }
 }

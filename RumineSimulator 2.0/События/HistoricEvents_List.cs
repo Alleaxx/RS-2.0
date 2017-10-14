@@ -9,7 +9,6 @@ namespace RumineSimulator_2._0
 {
     static class HistoricEvents_List
     {
-        static Random random = new Random();
         public static List<HistoricEvent> future_HistoricEvents = new List<HistoricEvent>();
         public static List<HistoricEvent> passed_HistoricEvents = new List<HistoricEvent>();
 
@@ -135,7 +134,7 @@ namespace RumineSimulator_2._0
 
             //#endregion
             #region Нашествие пане
-            DateTime paneAttack_pre_date = new DateTime(2013, 7, 20, random.Next(9, 24), random.Next(60), 0);
+            DateTime paneAttack_pre_date = new DateTime(2013, 7, 20, AdvRnd.random.Next(9, 24), AdvRnd.random.Next(60), 0);
 
             //Выбор создателя вики
             User paneAttack_creator = UsersControl.act_users[0];
@@ -161,7 +160,7 @@ namespace RumineSimulator_2._0
             FractionList.AllFractions.Add(antiPane_fraction);
 
             paneAttack.EventAdd1_BasicInfo(new Event_Creator(CreatorType.Rumine, "Война фракций"));
-            paneAttack.EventAdd7_Description($"{intros_good[random.Next(intros_good.Length)]} Было официально объявлено нашествие брони на румине! Все поклонники сериала MLP({pane_fraction.members.Count} юзеров) объединились и вовсю продвигают свою идеологию! Не всем это нравится, и на румине появляется сопротивление. Что же из этого выйдет? {endings[random.Next(endings.Length)]}");
+            paneAttack.EventAdd7_Description($"{intros_good[AdvRnd.random.Next(intros_good.Length)]} Было официально объявлено нашествие брони на румине! Все поклонники сериала MLP({pane_fraction.members.Count} юзеров) объединились и вовсю продвигают свою идеологию! Не всем это нравится, и на румине появляется сопротивление. Что же из этого выйдет? {endings[AdvRnd.random.Next(endings.Length)]}");
             paneAttack.EventAdd3_Mods(15, 15, 5, 0);
             //Комментарии на вики
             foreach (User user in pane_fraction.members)

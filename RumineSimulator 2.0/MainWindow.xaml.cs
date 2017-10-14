@@ -20,27 +20,19 @@ namespace RumineSimulator_2._0
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
+    /// 
+
+
     public partial class MainWindow : Window
     {
-        #region Инициализация
-
-
-        Random random = new Random();
-
-        private DispatcherTimer timer_users = null;
+        #region Начальные параметры, инициализация
         private DispatcherTimer timer_TimeGo = null;
 
         private short speed = 1;
-        //Информация для таймера - сколько юзеров генерировать и сколько он уже создал
-        int timer_generated_users;
-        int timer_total_users;
-
-        bool users_generated = false;
-
+        //Инициализация базовых объектов
         public MainWindow()
         {
             InitializeComponent();
-            //Инициализация базовых объектов
             Nicks.AvasInit();
             GroupsControl.UserGroupsInitCreation();
             TraitsList.TraitsInit();
@@ -67,11 +59,7 @@ namespace RumineSimulator_2._0
             list_FractionsInfo.SelectionChanged += PropertyViewListSelection;
             list_TraitsInfo.SelectionChanged += PropertyViewListSelection;
             list_GroupsInfo.SelectionChanged += PropertyViewListSelection;
-
         }
-
-
-
 
         #endregion
 
@@ -133,7 +121,7 @@ namespace RumineSimulator_2._0
 
         }
 
-        //Главный тик таймера
+        //Главный тик таймера c обновлением логики, интерфейса и тд
         private void TimeGoTick(object sender, EventArgs e)
         {
             timer_TimeGo.IsEnabled = false;
@@ -158,36 +146,17 @@ namespace RumineSimulator_2._0
         private void MinuteInterfaceUpdate()
         {
             StatusUpdate();
-
-            ActivityProperiesUpdate();
-
-            //Обновление событий, переделать
-            if (Presenter.events_update && Presenter.speed_counter == Presenter.update_Events_speed)
-            {
-                Presenter.speed_counter = 0;
-                EventsListUpdate();
-            }
-            else if (Presenter.events_update)
-            {
-                Presenter.speed_counter++;
-            }
-
-            //Обновление списка действий игрока, если что-то произошло
-            if (Presenter.actionUpdate)
-            {
-                UpdateActionList();
-                if(ActionControl.ended_action != null)
-                    ActionFinished();
-            }
         }
+
+
+
+        #region Скорость
 
         //Пауза и "продолжить"
         private void StatusRadButton_cont_Checked(object sender, RoutedEventArgs e)
         {
             timer_TimeGo.IsEnabled = true;
         }
-
-        #region Скорость
         //Минута в 500 миллисекунд
         private void StatusSpeed_x1_Click(object sender, RoutedEventArgs e)
         {
@@ -220,16 +189,13 @@ namespace RumineSimulator_2._0
             timer_TimeGo.Interval = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(text_MaxSpeed.Text));
             StatusTextSpeed.Text = "x4";
         }
-        #endregion
 
         #endregion
 
-        #region Таймер и генерация пользователей
-
+        #endregion
         //Кнопка генерации пользователей
         private void Button_UserGenerate_Click(object sender, RoutedEventArgs e)
         {
-            text_log.AppendText("\nГенерируются юзеры...");
             int GenerateUsersAmount;
             try
             {
@@ -237,21 +203,18 @@ namespace RumineSimulator_2._0
             }
             catch
             {
-                GenerateUsersAmount = 52;
+                GenerateUsersAmount = 48;
                 text_GeneratedUsers.Text = 50.ToString();
                 text_log.AppendText("\nКол-во генерируемых пользователей установлено на 50");
             }
-            timer_total_users = GenerateUsersAmount + 2;
-            timer_generated_users = 0;
-            timer_users = new DispatcherTimer();  // если надо, то в скобках указываем приоритет, например DispatcherPriority.Render
-            timer_users.Tick += new EventHandler(TimerTick);
-            timer_users.Interval = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(text_GenerateTick.Text));
-            text_GeneratedUsers.Text = UsersControl.act_users.Count.ToString();
-            if (users_generated)
+            //Собственно, генерация
+            UsersControl.GenerateUser(true);
+            UsersControl.GenerateUser(true);
+            for (int i = 2; i < GenerateUsersAmount; i++)
             {
-                Nicks.NicksInit();
-                UsersControl.act_users.Clear();
+                UsersControl.GenerateUser();
             }
+
             //Исчезновение кнопки
             button_GenerateUsers.Margin = new Thickness(0, 0, 0, 0);
             button_GenerateUsers.IsEnabled = false;
@@ -259,37 +222,41 @@ namespace RumineSimulator_2._0
             button_GenerateUsers.Width = 0;
             button_GenerateUsers.Height = 0;
 
+            //Инициализация после создания пользователей
+            UsersControl.GenerateRelations();
+            GroupsControl.ModerChoose();
+            UsersControl.FractionChoose();
+            Activity.Activity_Init();
+            Activity.NewEventAdded += Presenter.EventNewCheck;
+            Presenter.EventsListUpdated += Presenter_EventsListUpdated;
+            Activity.ActivityInfoChanged += Activity_ActivityInfoChanged;
 
-            timer_users.Start();
+            HistoricEvents_List.HistoricEvents_Creation(1);
+            text_log.AppendText("\nПользователи сгенерированы");
         }
-        //Окончание генерации пользователей, инициализация событий и отношений
-        private void TimerTick(object sender, EventArgs e)
+
+        //Изменение списка показываемых событий
+        private void Presenter_EventsListUpdated(object sender, ActivityEventArgs e)
         {
-            if (timer_total_users == timer_generated_users)
+            list_passedEvents.Items.Clear();
+            List<Event> ev_list = (List<Event>)sender;
+            foreach (Event eve in ev_list)
             {
-                timer_users.Stop();
-                UsersControl.GenerateRelations();
-                GroupsControl.ModerChoose();
-                users_generated = true;
-                UsersControl.FractionChoose();
-                Activity.Activity_Init();
-                HistoricEvents_List.HistoricEvents_Creation(1);
-                text_log.AppendText("\nПользователи сгенерированы");
-            }
-
-            else
-            {
-                if (timer_generated_users < 2)
-                {
-                    UsersControl.GenerateUser(true);
-                }
-                UsersControl.GenerateUser(false);
-                text_GeneratedUsers.Text = UsersControl.all_users.Count.ToString();
-                timer_generated_users++;
+                if(eve.InterfaceInfoClassicString.Item != null)
+                    list_passedEvents.Items.Add(eve.InterfaceInfoClassicString.Item);
             }
         }
 
-        #endregion
+        //Обработчики событий из активности
+        private void Activity_ActivityInfoChanged(object sender, ActivityEventArgs e)
+        {
+            list_Activity.Items.Clear();
+            foreach (GuiString str in Activity.InterfaceInfo.activity_props)
+            {
+                list_Activity.Items.Add(str.Item);
+            }
+        }
+
 
         //F5, обновление всех списков
         private void status_UpdateAll_Click(object sender, RoutedEventArgs e)
@@ -321,7 +288,6 @@ namespace RumineSimulator_2._0
             }
 
             //Обновление событий
-            EventsListUpdate();
 
             UserPropsEventsOn();
         }
@@ -497,15 +463,7 @@ namespace RumineSimulator_2._0
         }
 
 
-        //Активность и ее обновление
-        private void ActivityProperiesUpdate()
-        {
-            list_Activity.Items.Clear();
-            foreach (GuiString str in Activity.InterfaceInfo.activity_props)
-            {
-                list_Activity.Items.Add(str.Item);
-            }
-        }
+
 
 
         //Изменение фракции в списке и ее обновление
@@ -635,23 +593,24 @@ namespace RumineSimulator_2._0
             }
         }
 
-        //Метод обновления списка событий
-        private void EventsListUpdate()
-        {
-            Presenter.EventsListUpdate();
-            if (list_passedEvents != null)
-            {
-                list_passedEvents.Items.Clear();
-                for (int i = 0; i < Presenter.events_sorted.Count; i++)
-                {
-                    if (Presenter.events_sorted[i].InterfaceInfoClassicString != null)
-                    {
-                        list_passedEvents.Items.Add(Presenter.events_sorted[i].InterfaceInfoClassicString.Item);
-                    }
-                }
-            }
+        ////Метод обновления списка событий
+        //private void EventsListUpdate()
+        //{
+        //    Presenter.EventsListUpdate();
+        //    if (list_passedEvents != null)
+        //    {
+        //        list_passedEvents.Items.Clear();
+        //        for (int i = 0; i < Presenter.events_sorted.Count; i++)
+        //        {
+        //            if (Presenter.events_sorted[i].InterfaceInfoClassicString != null)
+        //            {
+        //                list_passedEvents.Items.Add(Presenter.events_sorted[i].InterfaceInfoClassicString.Item);
+        //            }
+        //        }
+        //    }
+        //}
 
-        }
+
         //Метод обновления информации о выбранном событии
         private void EventInfoUpdate()
         {
@@ -681,27 +640,22 @@ namespace RumineSimulator_2._0
         private void check_EventsSlight_Click(object sender, RoutedEventArgs e)
         {
             Presenter.events_slight = (bool)check_EventsSlight.IsChecked;
-            EventsListUpdate();
         }
         private void check_EventsMedium_Click(object sender, RoutedEventArgs e)
         {
             Presenter.events_medium = (bool)check_EventsMedium.IsChecked;
-            EventsListUpdate();
         }
         private void check_EventsImportant_Click(object sender, RoutedEventArgs e)
         {
             Presenter.events_important = (bool)check_EventsImportant.IsChecked;
-            EventsListUpdate();
         }
         private void check_EventsHistoric_Click(object sender, RoutedEventArgs e)
         {
             Presenter.events_historic = (bool)check_EventsHistoric.IsChecked;
-            EventsListUpdate();
         }
         private void check_EventsUnusual_Click(object sender, RoutedEventArgs e)
         {
             Presenter.events_unusual = (bool)check_EventsUnusual.IsChecked;
-            EventsListUpdate();
         }
         //Обновление событий, галка
         private void check_EventsUpdate_Click(object sender, RoutedEventArgs e)
@@ -712,16 +666,8 @@ namespace RumineSimulator_2._0
         //Изменение количества показываемых событий
         private void text_EventsShowed_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Presenter.showed_events = Convert.ToInt32(text_EventsShowed.Text);
-            EventsListUpdate();
+            Presenter.ShowedEventsCount = Convert.ToInt32(text_EventsShowed.Text);
         }
-        //Изменение скорости обновления событий
-        private void text_UpdateEventsSpeed_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            Presenter.speed_counter = 0;
-            Presenter.update_Events_speed = Convert.ToInt32(text_UpdateEventsSpeed.Text);
-        }
-
         //Галки сортировки пользователей
         private void check_UsersAll_Click(object sender, RoutedEventArgs e)
         {
@@ -743,13 +689,29 @@ namespace RumineSimulator_2._0
 
         #region Геймплей
 
-        //Создание игровой сессии
+        //Кнопка создания игровой сессии
         private void button_SessionCreate_Click(object sender, RoutedEventArgs e)
         {
+            //Исчезновение кнопки
+            button_SessionCreate.Margin = new Thickness(0, 0, 0, 0);
+            button_SessionCreate.IsEnabled = false;
+            button_SessionCreate.Visibility = Visibility.Hidden;
+            button_SessionCreate.Width = 0;
+            button_SessionCreate.Height = 0;
+
             GameSession.GameSessionInit();
-            status_textEvent.Text = UsersControl.UserSearch(GameSession.PlayerId).nick;
+            //Добавление доступных на данный момент действий
+            status_textUser.Text = UsersControl.UserSearch(GameSession.PlayerId).nick;
+
+            ActionControl.ActionEnded += ActionFinished;
+
+            ActionControl.ActionDurChanged += ActionControl_ActionDurUpdated;
+
+            UpdateActionList();
         }
 
+
+        //Полное обновление списка
         private void UpdateActionList()
         {
             list_PlayerActions.Items.Clear();
@@ -758,10 +720,24 @@ namespace RumineSimulator_2._0
                 IntView view = act.GetGui();
                 list_PlayerActions.Items.Add(act.GetClassicString().Item);
             }
-
         }
 
-        //Событие возникающее при нажатии на запланированное действие пользователя
+        //Завершение действие, обновление интерфейса
+        private void ActionFinished(object Act, ActionEventArgs e)
+        {
+            Action act = (Action)Act;
+            text_ActionEndDescr.Text = act.ActDo.result;
+            list_PlayerActions.Items.RemoveAt(0);
+        }
+        //Изменение длительности действия, обновление интерфейса
+        private void ActionControl_ActionDurUpdated(object Dur_action, ActionEventArgs e)
+        {
+            Action dur_action = (Action)Dur_action;
+            list_PlayerActions.Items[0] = dur_action.GetClassicString().Item; 
+        }
+
+
+        //Выбор элемента списка запланированных событий
         public void ActionSelection(object sender, RoutedEventArgs e)
         {
             if (sender is ListBox)
@@ -769,7 +745,6 @@ namespace RumineSimulator_2._0
                 ListBoxItem item = (ListBoxItem)list_PlayerActions.SelectedItem;
                 if (item != null && item.Name.Length != 0)
                 {
-                    statusRadButton_pause.IsChecked = true;
                     Presenter.SelectionCheck(item.Name);
                     list_PlayerActionProps.Items.Clear();
                     text_ActionDescr.Text = Presenter.selectedAction.Description;
@@ -782,10 +757,18 @@ namespace RumineSimulator_2._0
                 }
             }
         }
-        public void ActionFinished()
+        //Нажатие на кнопку, добавление нового типа события
+        private void button_ActionGo_Click(object sender, RoutedEventArgs e)
         {
-            text_ActionEndDescr.Text = ActionControl.ended_action.ActDo.result;
+            if (list_AvalActions.SelectedItem != null)
+            {
+            }
         }
+
         #endregion
+
+
+
+
     }
 }

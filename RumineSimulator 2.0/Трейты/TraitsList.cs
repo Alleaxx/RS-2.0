@@ -8,7 +8,6 @@ namespace RumineSimulator_2._0
 {
     static class TraitsList
     {
-        static Random random = new Random();
         static public List<Trait> allTraits = new List<Trait>();
         public static void TraitsInit()
         {
@@ -166,7 +165,7 @@ namespace RumineSimulator_2._0
             #region Навыки-умения (фактические)
 
             #region Художник
-            Trait arter = new Trait("Художник", TraitsType.arter, random.Next(10, 30), TraitGlobalType.fact);
+            Trait arter = new Trait("Художник", TraitsType.arter, AdvRnd.random.Next(10, 30), TraitGlobalType.fact);
             arter.AddConditions(UserFeaturesEnum.creativity, 5);
             arter.AddConditions(UserFeaturesEnum.sciense, 3);
             arter.AddTooltip("Весьма творческий юзверь, пилящий арты");
@@ -175,7 +174,7 @@ namespace RumineSimulator_2._0
             #endregion
 
             #region Программист
-            Trait programmer = new Trait("Программист", TraitsType.programmer, random.Next(10, 40), TraitGlobalType.fact);
+            Trait programmer = new Trait("Программист", TraitsType.programmer, AdvRnd.random.Next(10, 40), TraitGlobalType.fact);
             programmer.AddConditions(UserFeaturesEnum.sciense, 6);
             programmer.AddTooltip("Этот парень дельно(а может и не очень) кодит. Никогда не доделывает свои проекты");
             programmer.SetColor("#B6CDF7", "#000000");
@@ -183,7 +182,7 @@ namespace RumineSimulator_2._0
             #endregion
 
             #region Игродел
-            Trait gameMaker = new Trait("Игродел", TraitsType.gaymmaker, random.Next(5, 20), TraitGlobalType.fact);
+            Trait gameMaker = new Trait("Игродел", TraitsType.gaymmaker, AdvRnd.random.Next(5, 20), TraitGlobalType.fact);
             gameMaker.AddConditions(UserFeaturesEnum.sciense, 5);
             gameMaker.AddConditions(UserFeaturesEnum.creativity, 5);
             gameMaker.AddConditions(UserFeaturesEnum.humanist, 5);
@@ -193,7 +192,7 @@ namespace RumineSimulator_2._0
             #endregion
 
             #region Композитор
-            Trait composer = new Trait("Композитор", TraitsType.composer, random.Next(5, 20), TraitGlobalType.fact);
+            Trait composer = new Trait("Композитор", TraitsType.composer, AdvRnd.random.Next(5, 20), TraitGlobalType.fact);
             composer.AddConditions(UserFeaturesEnum.sciense, 5);
             composer.AddConditions(UserFeaturesEnum.creativity, 5);
             composer.AddTooltip("Редкий подвид пользователей, у которых руки растут не из 5й точки. Пилит крутой саунд и музло");
@@ -202,7 +201,7 @@ namespace RumineSimulator_2._0
             #endregion
 
             #region Писатель
-            Trait writer = new Trait("Писатель", TraitsType.writer, random.Next(10, 30), TraitGlobalType.fact);
+            Trait writer = new Trait("Писатель", TraitsType.writer, AdvRnd.random.Next(10, 30), TraitGlobalType.fact);
             writer.AddConditions(UserFeaturesEnum.humanist, 5);
             writer.AddConditions(UserFeaturesEnum.creativity, 3);
             writer.AddTooltip("Пишет разные рассказики, а может и книги(которые все равно никто не читает)");
@@ -211,7 +210,7 @@ namespace RumineSimulator_2._0
             #endregion
 
             #region Летсплеер
-            Trait lets = new Trait("Летсплеер", TraitsType.letsplayer, random.Next(5, 10), TraitGlobalType.fact);
+            Trait lets = new Trait("Летсплеер", TraitsType.letsplayer, AdvRnd.random.Next(5, 10), TraitGlobalType.fact);
             lets.AddConditions(UserFeaturesEnum.sciense, 3);
             lets.AddConditions(UserFeaturesEnum.creativity, 3);
             lets.AddTooltip("Господи помилуй");
@@ -220,7 +219,7 @@ namespace RumineSimulator_2._0
             #endregion
 
             #region Пупер
-            Trait poopMaker = new Trait("Пупер", TraitsType.pooper, random.Next(10, 20), TraitGlobalType.fact);
+            Trait poopMaker = new Trait("Пупер", TraitsType.pooper, AdvRnd.random.Next(10, 20), TraitGlobalType.fact);
             poopMaker.AddConditions(UserFeaturesEnum.sciense, 4);
             poopMaker.AddConditions(UserFeaturesEnum.creativity, 6);
             poopMaker.AddTooltip("Пользуется пони-вегасом для создания смищных мемных ритпе");
@@ -232,7 +231,7 @@ namespace RumineSimulator_2._0
 
             #region Холивары (персональные)
             #region Линуксоид
-            Trait linux = new Trait("Линуксоид", TraitsType.linuxoid, random.Next(10, 20));
+            Trait linux = new Trait("Линуксоид", TraitsType.linuxoid, AdvRnd.random.Next(10, 20));
             linux.AddConditions(UserFeaturesEnum.sciense, 4);
             linux.AddTooltip("Неординарная личность, обожает линух и открытый код, терпеть не может виндавс");
             linux.SetColor("#FFFFFF", "#000000");
@@ -240,7 +239,7 @@ namespace RumineSimulator_2._0
             allTraits.Add(linux);
             #endregion
             #region Виндузятник
-            Trait windows = new Trait("Виндузятник", TraitsType.windusiatnik, random.Next(10, 30));
+            Trait windows = new Trait("Виндузятник", TraitsType.windusiatnik, AdvRnd.random.Next(10, 30));
             windows.AddConditions(UserFeaturesEnum.sciense, 3);
             windows.AddTooltip("Обожает Windows и Microsoft");
             windows.SetColor("#FFFFFF", "#09749E");
@@ -270,44 +269,44 @@ namespace RumineSimulator_2._0
             allTraits.Add(natural);
             #endregion
             #region Геймер
-            Trait gamer = new Trait("Геймер", TraitsType.gaymer, random.Next(20, 70));
+            Trait gamer = new Trait("Геймер", TraitsType.gaymer, AdvRnd.random.Next(20, 70));
             gamer.AddTooltip("Любит играть в gayms");
             gamer.SetColor("#44413C", "#EFBF39");
             allTraits.Add(gamer);
             #endregion
             #region Пират
-            Trait pirate = new Trait("Пират", TraitsType.pirate, random.Next(10, 30));
+            Trait pirate = new Trait("Пират", TraitsType.pirate, AdvRnd.random.Next(10, 30));
             pirate.AddTooltip("Йохохо и репак с торрента!");
             pirate.SetColor("#2C2C2C", "#DFDFDF");
             allTraits.Add(pirate);
             #endregion
             #region Властный
-            Trait wants_power = new Trait("Властный", TraitsType.Wpower, random.Next(10, 20));
+            Trait wants_power = new Trait("Властный", TraitsType.Wpower, AdvRnd.random.Next(10, 20));
             wants_power.AddTooltip("Такому лишь бы покомандовать. И да - он ХОЧЕТ стать модератором, ГРом или еще кем похуже!");
             wants_power.SetColor("#FFFFFF", "#450086");
             allTraits.Add(wants_power);
             #endregion
             #region Мажор
-            Trait major = new Trait("Мажор", TraitsType.major, random.Next(10, 20));
+            Trait major = new Trait("Мажор", TraitsType.major, AdvRnd.random.Next(10, 20));
             major.AddTooltip("У него интернет 100 мбит, компьютер за 80к и игры лицензионные");
             major.SetColor("#A1009F", "#F1F100");
             allTraits.Add(major);
             #endregion
             #region Анимешник
-            Trait anime = new Trait("Анимешник", TraitsType.animeshnik, random.Next(10, 20));
+            Trait anime = new Trait("Анимешник", TraitsType.animeshnik, AdvRnd.random.Next(10, 20));
             anime.AddTooltip("Этот юзер балуется визжащими японскими школьницами, опасно!");
             anime.SetColor("#FFFFFF", "#1A8400");
             anime.AddBlockedTrait(TraitsType.natural);
             allTraits.Add(anime);
             #endregion
             #region Любитель новостей
-            Trait newslover = new Trait("Любитель новостей", TraitsType.newslover, random.Next(5, 20));
+            Trait newslover = new Trait("Любитель новостей", TraitsType.newslover, AdvRnd.random.Next(5, 20));
             newslover.AddTooltip("Очень любит пилить НОВОСТИ. Желательно с курсивным комик сансом!");
             newslover.SetColor("#FFFFFF", "#006900");
             allTraits.Add(newslover);
             #endregion
             #region Невечеря
-            Trait pitar = new Trait("Невечеря", TraitsType.nevecherya, random.Next(5, 20));
+            Trait pitar = new Trait("Невечеря", TraitsType.nevecherya, AdvRnd.random.Next(5, 20));
             pitar.AddConditions(UserFeaturesEnum.adeq, -6);
             pitar.AddConditions(UserFeaturesEnum.rakness, 3);
             pitar.AddTooltip("Не натурал - и этим все сказано");
@@ -316,7 +315,7 @@ namespace RumineSimulator_2._0
             allTraits.Add(pitar);
             #endregion
             #region Бидла
-            Trait bidla = new Trait("Бидла", TraitsType.bidla, random.Next(5, 30));
+            Trait bidla = new Trait("Бидла", TraitsType.bidla, AdvRnd.random.Next(5, 30));
             bidla.AddConditions(UserFeaturesEnum.rakness, 3);
             bidla.AddTooltip("Родился в трениках и кульком семок в руках. Папаня турник");
             bidla.SetColor("#000000", "#FFFFFF");
@@ -324,7 +323,7 @@ namespace RumineSimulator_2._0
             allTraits.Add(bidla);
             #endregion
             #region Мемная харя
-            Trait mem = new Trait("Мемный паря", TraitsType.memguy, random.Next(5, 40));
+            Trait mem = new Trait("Мемный паря", TraitsType.memguy, AdvRnd.random.Next(5, 40));
             mem.AddConditions(UserFeaturesEnum.creativity, 3);
             mem.AddTooltip("Каждое сообщение - мем");
             mem.SetColor("#FFFFFF", "#52541D");
@@ -333,7 +332,7 @@ namespace RumineSimulator_2._0
 
 
             #region Фуррифаг
-            Trait furry = new Trait("Фуррифаг", TraitsType.furry, random.Next(5, 15));
+            Trait furry = new Trait("Фуррифаг", TraitsType.furry, AdvRnd.random.Next(5, 15));
             furry.AddConditions(UserFeaturesEnum.rakness, 3);
             furry.AddConditions(UserFeaturesEnum.adeq, -7);
             furry.AddTooltip("Больной пользователь, представляющий себя антропоморфным животным");
@@ -342,63 +341,63 @@ namespace RumineSimulator_2._0
             allTraits.Add(furry);
             #endregion
             #region Пане
-            Trait pane = new Trait("Пане", TraitsType.pane, random.Next(5, 25));
+            Trait pane = new Trait("Пане", TraitsType.pane, AdvRnd.random.Next(5, 25));
             pane.AddTooltip("Дружба это магия!");
             pane.SetColor("#EC3C95", "#FFFFFF");
             allTraits.Add(pane);
             #endregion
             #region Sadboi
-            Trait sadboi = new Trait("Сэдboi", TraitsType.sadboi, random.Next(5, 10));
+            Trait sadboi = new Trait("Сэдboi", TraitsType.sadboi, AdvRnd.random.Next(5, 10));
             sadboi.AddTooltip("Любит 'уходить' с руминя и хорошенечко поныть о жизни");
             sadboi.SetColor("#0A005F", "#9BD9FF");
             sadboi.AddBlockedTrait(TraitsType.natural);
             allTraits.Add(sadboi);
             #endregion
             #region Катлета
-            Trait katleta = new Trait("Катлета", TraitsType.katleta, random.Next(5, 10));
+            Trait katleta = new Trait("Катлета", TraitsType.katleta, AdvRnd.random.Next(5, 10));
             katleta.AddTooltip("Катлетный питар. Или питар из катлет. Или катлета из питара. Черт его разберет");
             katleta.SetColor("#FFFFFF", "#663A1D");
             allTraits.Add(katleta);
             #endregion
             #region Ром
-            Trait rom = new Trait("Ром", TraitsType.rom, random.Next(5, 10));
+            Trait rom = new Trait("Ром", TraitsType.rom, AdvRnd.random.Next(5, 10));
             rom.AddTooltip("Ром в каждый дом!");
             rom.SetColor("#D8ADB2", "#732B03");
             allTraits.Add(rom);
             #endregion
             #region Бомж
-            Trait bomj = new Trait("Бомж", TraitsType.bomj, random.Next(5, 10));
+            Trait bomj = new Trait("Бомж", TraitsType.bomj, AdvRnd.random.Next(5, 10));
             bomj.AddTooltip("Живет на задворках форума или и того хуже - в бездне");
             bomj.SetColor("#A67A6F", "#0F0F1B");
             allTraits.Add(bomj);
             #endregion
             #region Алкаш
-            Trait alkash = new Trait("Алкаш", TraitsType.alkash, random.Next(5, 10));
+            Trait alkash = new Trait("Алкаш", TraitsType.alkash, AdvRnd.random.Next(5, 10));
             alkash.AddConditions(UserFeaturesEnum.adeq, -6);
             alkash.AddTooltip("Пользователь, находящийся на румине по большей части в нетрезвом состоянии");
             alkash.SetColor("#FAFAFA", "#00549A");
             allTraits.Add(alkash);
             #endregion
             #region Коммунист
-            Trait commie = new Trait("Коммунист", TraitsType.commie, random.Next(5, 30));
+            Trait commie = new Trait("Коммунист", TraitsType.commie, AdvRnd.random.Next(5, 30));
             commie.AddTooltip("Союз нерушимых республик свободных...");
             commie.SetColor("#CC0000", "#FFD700");
             allTraits.Add(commie);
             #endregion
             #region Лидер
-            Trait leader = new Trait("Лидер", TraitsType.leader, random.Next(5, 15));
+            Trait leader = new Trait("Лидер", TraitsType.leader, AdvRnd.random.Next(5, 15));
             leader.AddTooltip("Именно он основывает братвы, возглавляет вастания и ведет народ за собой");
             leader.SetColor("#9C0000", "#DDDAF2");
             allTraits.Add(leader);
             #endregion
             #region Перфекционист
-            Trait perfectionist = new Trait("Перфекционист", TraitsType.accurateguy, random.Next(5, 20));
+            Trait perfectionist = new Trait("Перфекционист", TraitsType.accurateguy, AdvRnd.random.Next(5, 20));
             perfectionist.AddTooltip("Сделать что-то не на идеальном уровне - сущий кошмар для этого пользователя");
             perfectionist.SetColor("#0600BF", "#FFFFFF");
             allTraits.Add(perfectionist);
             #endregion
             #region Ремувер кебаба
-            Trait kebab = new Trait("Ремувер кебаба", TraitsType.kebabremover, random.Next(5, 10));
+            Trait kebab = new Trait("Ремувер кебаба", TraitsType.kebabremover, AdvRnd.random.Next(5, 10));
             kebab.AddTooltip("Remove kebab");
             kebab.SetColor("#E1AD7B", "#170805");
             allTraits.Add(kebab);
@@ -406,64 +405,64 @@ namespace RumineSimulator_2._0
 
 
             #region Тиран
-            Trait tiran = new Trait("Тиран", TraitsType.tiran, random.Next(5, 10));
+            Trait tiran = new Trait("Тиран", TraitsType.tiran, AdvRnd.random.Next(5, 10));
             tiran.AddTooltip("Беспощаден к недругам");
             tiran.SetColor("#FFFFFF", "#000000");
             allTraits.Add(tiran);
             #endregion
             #region Верун
-            Trait christ = new Trait("Верун", TraitsType.christ, random.Next(5, 15));
+            Trait christ = new Trait("Верун", TraitsType.christ, AdvRnd.random.Next(5, 15));
             christ.AddTooltip("Боженька спаси меня от этих грешников!");
             christ.SetColor("#FFFFFF", "#8A7C00");
             christ.AddBlockedTrait(TraitsType.atheist);
             allTraits.Add(christ);
             #endregion
             #region Аметист
-            Trait ametist = new Trait("Аметист", TraitsType.atheist, random.Next(5, 30));
+            Trait ametist = new Trait("Аметист", TraitsType.atheist, AdvRnd.random.Next(5, 30));
             ametist.AddTooltip("Глупые веруны! Это все из-за них Россиюшка в бездну катится");
             ametist.SetColor("#FFFFFF", "#52541D");
             ametist.AddBlockedTrait(TraitsType.christ);
             allTraits.Add(ametist);
             #endregion
             #region Краб
-            Trait krab = new Trait("Краб", TraitsType.krab, random.Next(5, 10));
+            Trait krab = new Trait("Краб", TraitsType.krab, AdvRnd.random.Next(5, 10));
             krab.AddTooltip("Как Путин");
             krab.SetColor("#BEF5FF", "#AA4630");
             allTraits.Add(krab);
             #endregion
             #region Буддист
-            Trait buddist = new Trait("Буддист", TraitsType.buddist, random.Next(5));
+            Trait buddist = new Trait("Буддист", TraitsType.buddist, AdvRnd.random.Next(5));
             buddist.AddTooltip("Группы, симпатии, рейтинг - все это отвлекает от познания истинной сущности бытия");
             buddist.SetColor("#BFBFBF", "#000000");
             allTraits.Add(buddist);
             #endregion
             #region Гномик
-            Trait gnomik = new Trait("Гномик", TraitsType.gnomik, random.Next(5, 20));
+            Trait gnomik = new Trait("Гномик", TraitsType.gnomik, AdvRnd.random.Next(5, 20));
             gnomik.AddTooltip("*Г(*К(*Н)). Ну вы поняли, это была joek!");
             gnomik.SetColor("#FFFFFF", "#667500");
             allTraits.Add(gnomik);
             #endregion
             #region Чай
-            Trait tea = new Trait("Чяй", TraitsType.tea, random.Next(5, 10));
+            Trait tea = new Trait("Чяй", TraitsType.tea, AdvRnd.random.Next(5, 10));
             tea.AddTooltip("Tea Corporation");
             tea.SetColor("#863C00", "#FFFFFF");
             allTraits.Add(tea);
             #endregion
             #region Рэпер
-            Trait rap = new Trait("Рэпер", TraitsType.reper, random.Next(5, 10));
+            Trait rap = new Trait("Рэпер", TraitsType.reper, AdvRnd.random.Next(5, 10));
             rap.AddTooltip("Рэпчик наше все! еее бейби!");
             rap.SetColor("#FFFFFF", "#000000");
             allTraits.Add(rap);
             #endregion
             #region Фашист
-            Trait fashik = new Trait("Фашист", TraitsType.fashik, random.Next(5, 15));
+            Trait fashik = new Trait("Фашист", TraitsType.fashik, AdvRnd.random.Next(5, 15));
             fashik.AddConditions(UserFeaturesEnum.tolerance, -3);
             fashik.AddTooltip("На аватарке Гитлер, в подписи цитаты из майнкампфа, в сообщениях heil");
             fashik.SetColor("#DD0000", "#000000");
             allTraits.Add(fashik);
             #endregion
             #region Нигга
-            Trait nigga = new Trait("Нигга", TraitsType.nigga, random.Next(5, 10));
+            Trait nigga = new Trait("Нигга", TraitsType.nigga, AdvRnd.random.Next(5, 10));
             nigga.AddTooltip("Обожает KFC, рэпчег и своих братюнь на Грув-Румине-Хоум. Йоу!");
             nigga.SetColor("#54372F", "#FFFFFF");
             allTraits.Add(nigga);

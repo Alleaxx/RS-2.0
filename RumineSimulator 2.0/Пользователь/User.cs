@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RumineSimulator_2._0
 {
-    class User : IAdvertisable
+    class User
     {
         #region Свойства пользователя
         public int user_id { get; private set; }
@@ -74,13 +74,11 @@ namespace RumineSimulator_2._0
             }
         }
 
-        Random random;
-
         #endregion
 
         public User(bool Admin = false)
         {
-            random = new Random();
+
             //Ник получаем из списка свободных ников
             user_id = UsersControl.all_users.Count + 1;
 
@@ -136,22 +134,22 @@ namespace RumineSimulator_2._0
             //Устанавливаем рандомную дату регистрации(2011 - 30%, 2012 - 30%, 2013 - 40%)
             if (AdvRnd.PrsChanse(40))
             {
-                registration = new DateTime(random.Next(Date.found_date.Year, Date.current_date.Year + 1), random.Next(1, 13), random.Next(1, 29));
+                registration = new DateTime(AdvRnd.random.Next(Date.found_date.Year, Date.current_date.Year + 1), AdvRnd.random.Next(1, 13), AdvRnd.random.Next(1, 29));
 
             }
             else if (AdvRnd.PrsChanse(50))
             {
-                registration = new DateTime(random.Next(Date.found_date.Year + 1, Date.current_date.Year + 1), random.Next(1, 13), random.Next(1, 29));
+                registration = new DateTime(AdvRnd.random.Next(Date.found_date.Year + 1, Date.current_date.Year + 1), AdvRnd.random.Next(1, 13), AdvRnd.random.Next(1, 29));
 
             }
             else
             {
-                registration = new DateTime(random.Next(Date.found_date.Year + 2, Date.current_date.Year + 1), random.Next(1, 13), random.Next(1, 29));
+                registration = new DateTime(AdvRnd.random.Next(Date.found_date.Year + 2, Date.current_date.Year + 1), AdvRnd.random.Next(1, 13), AdvRnd.random.Next(1, 29));
             }
             if (registration.Month <= Date.found_date.Month && registration.Year == Date.found_date.Year)
-                registration = new DateTime(registration.Year, random.Next(Date.found_date.Month + 1, 13), registration.Day);
+                registration = new DateTime(registration.Year, AdvRnd.random.Next(Date.found_date.Month + 1, 13), registration.Day);
             if (registration.Month >= Date.current_date.Month && registration.Year == Date.current_date.Year)
-                registration = new DateTime(registration.Year, random.Next(1, Date.current_date.Month), registration.Day);
+                registration = new DateTime(registration.Year, AdvRnd.random.Next(1, Date.current_date.Month), registration.Day);
 
             unknown = false;
             //Неизвестный для форума пользователь
@@ -179,7 +177,7 @@ namespace RumineSimulator_2._0
         //Влияние характера на параметры
         private void CharacterMod()
         {
-            news_quality = random.Next(0, 10) + character.creativity.Value * 5 + character.sciense.Value * 5;
+            news_quality = AdvRnd.random.Next(0, 10) + character.creativity.Value * 5 + character.sciense.Value * 5;
             if (news == 0)
             {
                 news_quality = 0;
@@ -195,8 +193,8 @@ namespace RumineSimulator_2._0
             }
             if (traits.Contains(TraitsList.SearchTrait(TraitsType.newslover)))
             {
-                news *= random.Next(1, 3) + 3;
-                comments = comments * random.Next(1, 3) + 5;
+                news *= AdvRnd.random.Next(1, 3) + 3;
+                comments = comments * AdvRnd.random.Next(1, 3) + 5;
             }
             if (traits.Contains(TraitsList.SearchTrait(TraitsType.leader)))
             {
@@ -228,13 +226,13 @@ namespace RumineSimulator_2._0
             switch (Date.current_date.Year - registration.Year + 1)
             {
                 case 1:
-                    messages = 1 * random.Next(10, 150);
+                    messages = 1 * AdvRnd.random.Next(10, 150);
                     break;
                 case 2:
-                    messages = 2 * random.Next(100, 900) + 50;
+                    messages = 2 * AdvRnd.random.Next(100, 900) + 50;
                     break;
                 case 3:
-                    messages = 3 * random.Next(300, 2000) + 200;
+                    messages = 3 * AdvRnd.random.Next(300, 2000) + 200;
                     break;
             }
         }
@@ -245,16 +243,16 @@ namespace RumineSimulator_2._0
             switch (Date.current_date.Year - registration.Year + 1)
             {
                 case 1:
-                    news = random.Next(20);
-                    comments = random.Next(1, 75);
+                    news = AdvRnd.random.Next(20);
+                    comments = AdvRnd.random.Next(1, 75);
                     break;
                 case 2:
-                    news = 2 * random.Next(15);
-                    comments = 4 * random.Next(1, 50) + 25;
+                    news = 2 * AdvRnd.random.Next(15);
+                    comments = 4 * AdvRnd.random.Next(1, 50) + 25;
                     break;
                 case 3:
-                    news = 2 * random.Next(10);
-                    comments = 8 * random.Next(1, 50) + 75;
+                    news = 2 * AdvRnd.random.Next(10);
+                    comments = 8 * AdvRnd.random.Next(1, 50) + 75;
                     break;
             }
 
@@ -285,7 +283,7 @@ namespace RumineSimulator_2._0
             }
             if (traits.Contains(TraitsList.SearchTrait(TraitsType.Wpower)))
             {
-                if (random.Next(2) == 0)
+                if (AdvRnd.random.Next(2) == 0)
                     moder_chanse += 10;
             }
             if (traits.Contains(TraitsList.SearchTrait(TraitsType.leader)))
@@ -312,10 +310,10 @@ namespace RumineSimulator_2._0
             //У половины комментариев есть шанс получения определенного количества лойсов
             for (int i = 0; i < comments / 2; i++)
             {
-                comments_rate += random.Next(min_rate, max_rate);
+                comments_rate += AdvRnd.random.Next(min_rate, max_rate);
             }
             //Процент от сообщений
-            likes = (int)(Convert.ToDouble(messages) * (Convert.ToDouble(random.Next(min_pers_likes, max_pers_likes))) / 100);
+            likes = (int)(Convert.ToDouble(messages) * (Convert.ToDouble(AdvRnd.random.Next(min_pers_likes, max_pers_likes))) / 100);
         }
 
         //Устанавливает форумное влияние

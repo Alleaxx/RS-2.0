@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace RumineSimulator_2._0
 {
-    public interface IAdvertisable
+    class ConservativeCharFeature : CharFeature
     {
-        void EventAdd7_Description(string adv);
+        public ConservativeCharFeature()
+        {
+            name = "Консевативность";
+
+        }
     }
 }

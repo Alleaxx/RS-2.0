@@ -123,7 +123,7 @@ namespace RumineSimulator_2._0
             Add_UserCharacterProps(new GuiProgressBar("Толерантность", user.character.tolerance.Value, 0, 10));
             character_props.Last().SetColor("", "", "#FF27DC15");
             character_props.Last().SetToolTip($"{user.character.tolerance.Value}");
-            Add_UserCharacterProps(new GuiProgressBar("Шанс уйти", user.character.leaveChanse.Value, 0, 10));
+            Add_UserCharacterProps(new GuiProgressBar("Шанс уйти", user.character.leaveChanse.Value, 0, 100));
             character_props.Last().SetColor("", "", "#FFF7BD8C");
             character_props.Last().SetToolTip($"{user.character.leaveChanse.Value}");
             //Прогресс-бары умений

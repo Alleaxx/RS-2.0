@@ -8,7 +8,8 @@ namespace RumineSimulator_2._0
 {
     class CharFeature
     {
-        public string name { get; private set; }
+        //Имя и значение
+        public string name { get; set; }
         private int value;
         public int Value
         {
@@ -19,15 +20,24 @@ namespace RumineSimulator_2._0
             set
             {
                 this.value = value;
-                if (this.value > GlobalParams.charFeature_cap)
-                    this.value = GlobalParams.charFeature_cap;
-                if (this.value < 0)
-                    this.value = 0;
+                if (value > max)
+                    value = max;
+                else if (value < min)
+                    value = min;
             }
         }
+        //Максимальные и минимальные параметры
+        protected int min;
+        protected int max;
+
         public CharFeature(string Name)
         {
             name = Name;
+        }
+        public CharFeature()
+        {
+            min = 0;
+            max = 10;
         }
         public void SetValue(int in_value)
         {

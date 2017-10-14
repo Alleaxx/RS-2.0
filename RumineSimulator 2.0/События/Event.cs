@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace RumineSimulator_2._0
 {
-    class Event : IAdvertisable
+    class Event
     {
         public long id;
         public ImageSource ImageSource { get; private set; }

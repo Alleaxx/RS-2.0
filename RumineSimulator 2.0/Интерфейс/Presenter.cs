@@ -8,6 +8,8 @@ namespace RumineSimulator_2._0
 {
     static class Presenter
     {
+        public static event EventHandler<ActivityEventArgs> EventsListUpdated;
+
         //Выбранные в интерфейсе объекты
         public static User selected_user;
         public static Fraction selected_fraction;
@@ -71,11 +73,10 @@ namespace RumineSimulator_2._0
         //Поиск по названию события
         public static string events_search_text = "";
         //Количество показываемых событий
-        public static int showed_events = 15;
+        public static int ShowedEventsCount = 15;
         public static List<Event> events_sorted = new List<Event>();
         //Частота обновлений событий
-        public static int update_Events_speed = 5;
-        public static int speed_counter = 0;
+
         //Сортировка показываемых списков
         public static void EventsListUpdate()
         {
@@ -118,8 +119,16 @@ namespace RumineSimulator_2._0
 
             events_sorted.Reverse();
 
-            if (events_sorted.Count > showed_events)
-                events_sorted = events_sorted.GetRange(0, showed_events);
+            if (events_sorted.Count > ShowedEventsCount)
+                events_sorted = events_sorted.GetRange(0, ShowedEventsCount);
+
+            EventsListUpdated(events_sorted, new ActivityEventArgs());
+        }
+
+        //Реакция на событие появления нового события
+        public static void EventNewCheck(object sender, ActivityEventArgs e)
+        {
+            EventsListUpdate();
         }
 
         #endregion
