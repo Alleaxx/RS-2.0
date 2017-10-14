@@ -76,10 +76,7 @@
                             <TextBlock x:Name="label_UsersGenerated1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Показывать событий"/>
                             <TextBox x:Name="text_EventsShowed" TextWrapping="Wrap" Text="15" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0" TextChanged="text_EventsShowed_TextChanged"/>
                         </DockPanel>
-                        <DockPanel x:Name="DP__UpdateEventsSpeed" LastChildFill="False" Margin="2" VerticalAlignment="Top" Background="#FFDDDDDD">
-                            <TextBlock x:Name="label_UpdateEventsSpeed" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" Foreground="Black" FontSize="13" FontWeight="Medium" Style="{DynamicResource TextParamsStyle}" Text="Обновлять события раз в..."/>
-                            <TextBox x:Name="text_UpdateEventsSpeed" TextWrapping="Wrap" Text="5" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40,2,2,2" Style="{DynamicResource TextParamsStyle}" Padding="10,0,0,0"/>
-                        </DockPanel>
+                        <CheckBox x:Name="checkAccurateInfo" Content="Точная информация" FontSize="13" FontWeight="Medium" Margin="2" VerticalContentAlignment="Center" Padding="5,0,0,0" IsChecked="True" Click="checkAccurateInfo_Click"/>
                         <TextBox x:Name="textBox_Copy" TextWrapping="Wrap" Text="Характеристики сайта" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0,5" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
                         <GroupBox x:Name="gB_foundDate" Header="Основание сайта" VerticalAlignment="Top" BorderBrush="#FF747474" Background="#FFDDDDDD">
                             <TextBlock x:Name="text_foundDate" Margin="2" TextWrapping="Wrap" Text="значение"/>
@@ -97,7 +94,7 @@
                     </StackPanel>
                     <StackPanel Grid.Column="2" Margin="5">
                         <TextBox x:Name="textBox_Copy3" TextWrapping="Wrap" Text="Недавние события" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>
-                        <ListBox x:Name="list_passedEvents" Margin="0" Grid.Column="2" Background="White" FontSize="14" Height="350">
+                        <ListBox x:Name="list_passedEvents" Margin="0" Grid.Column="2" Background="White" FontSize="14" Height="350" SelectionChanged="PropertyEventSelection">
                             <ListBoxItem Content="События" VerticalContentAlignment="Top"/>
                         </ListBox>
                         <TextBox x:Name="textBox_Copy5" TextWrapping="Wrap" Text="Отображение событий" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Margin="0" BorderBrush="#FF5D5D5D" Background="#FFB2B2B2" Focusable="False"/>

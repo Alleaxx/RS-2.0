@@ -139,4 +139,17 @@ namespace RumineSimulator_2._0
 
         }
     }
+    enum UserFeaturesEnum
+    {
+        nothing,
+        creativity,
+        sciense,
+        rakness,
+        adeq,
+        tolerance,
+        conserv,
+        humanist,
+        historic,
+        m_oldness,
+    }
 }

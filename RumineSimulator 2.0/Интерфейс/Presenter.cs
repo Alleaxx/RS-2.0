@@ -21,6 +21,7 @@ namespace RumineSimulator_2._0
         public static Action selectedAction;
         public static bool newEvent;
         public static bool actionUpdate = true;
+        public static bool accurateInfo = true;
         public static SortingUserTypes sorting_user = SortingUserTypes.no_sort;
 
 
@@ -50,7 +51,7 @@ namespace RumineSimulator_2._0
 
             }
 
-            if(text_userSearch != "")
+            if (text_userSearch != "")
             {
                 foreach (User user in UsersControl.reserve)
                 {
@@ -66,10 +67,8 @@ namespace RumineSimulator_2._0
         #region Отображение событий
 
         //по важности события
-        public static bool events_slight = true, events_medium = true,
-            events_important = true, events_historic = true,events_unusual = true, events_update = true;
-        //По дате события
-        public static DateTime date_start;
+        public static bool events_slight = false, events_medium = true,
+            events_important = true, events_historic = true, events_unusual = true, events_update = true;
         //Поиск по названию события
         public static string events_search_text = "";
         //Количество показываемых событий
@@ -80,6 +79,9 @@ namespace RumineSimulator_2._0
         //Сортировка показываемых списков
         public static void EventsListUpdate()
         {
+            List<Event> eventsSortedPrev = new List<Event>();
+            eventsSortedPrev = events_sorted;
+
             events_sorted.Clear();
             //Сортировка по поиску
             if (events_search_text != "")
@@ -95,34 +97,24 @@ namespace RumineSimulator_2._0
             {
                 foreach (Event eve in EventsControl.AllEvents)
                 {
-                    if (eve.Importance == EventImportance.usual && events_slight)
+                    if (eve.Rareness == EventImportance.usual && events_slight)
                         events_sorted.Add(eve);
-                    if (eve.Importance == EventImportance.unusual && events_unusual)
+                    if (eve.Rareness == EventImportance.unusual && events_unusual)
                         events_sorted.Add(eve);
-                    if (eve.Importance == EventImportance.rare && events_medium)
+                    if (eve.Rareness == EventImportance.rare && events_medium)
                         events_sorted.Add(eve);
-                    if (eve.Importance == EventImportance.epic && events_important)
+                    if (eve.Rareness == EventImportance.epic && events_important)
                         events_sorted.Add(eve);
-                    if (eve.Importance == EventImportance.historical && events_historic)
+                    if (eve.Rareness == EventImportance.historical && events_historic)
                         events_sorted.Add(eve);
                 }
             }
-            //Сортировка по дате
-            if (events_search_text == "")
-            {
-                for (int i = 0; i < EventsControl.AllEvents.Count; i++)
-                {
-                    if (EventsControl.AllEvents[i].date.ToShortDateString() == date_start.ToShortDateString())
-                        events_sorted.Add(EventsControl.AllEvents[i]);
-                }
-            }
-
             events_sorted.Reverse();
 
             if (events_sorted.Count > ShowedEventsCount)
                 events_sorted = events_sorted.GetRange(0, ShowedEventsCount);
-
             EventsListUpdated(events_sorted, new ActivityEventArgs());
+
         }
 
         //Реакция на событие появления нового события
@@ -210,7 +202,7 @@ namespace RumineSimulator_2._0
                     case "ban":
                         return UsersControl.UserSearch(id).LastBan.InterfaceInfo;
                     case "simEvent":
-                        return EventsControl.EventSearch(id).InterfaceInfo;
+                        return EventsControl.EventSearch(id).GetGui();
                     case "fraction":
                         return FractionList.SearchFraction(id).Interface_Info;
                     case "trait":
@@ -240,7 +232,7 @@ namespace RumineSimulator_2._0
 
     enum GUITypes
     {
-        user, group, ban, simEvent, fraction, trait, relation,action
+        user, group, ban, simEvent, fraction, trait, relation, action
     }
     enum SortingUserTypes
     {

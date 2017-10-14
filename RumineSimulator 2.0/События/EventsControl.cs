@@ -8,10 +8,13 @@ namespace RumineSimulator_2._0
 {
     static class EventsControl
     {
-        static public long id = 0;
+        static public int id = 0;
         static public List<Event> AllEvents = new List<Event>();
         static public List<Event> BasicEvents = new List<Event>();
         static public List<GuiString> Events_properties = new List<GuiString>();
+
+        public static User rnd_User;
+        public static User rnd_UserAdd;
 
         public static List<GuiString> GetInterfaceInfo()
         {
@@ -23,7 +26,7 @@ namespace RumineSimulator_2._0
         {
             for (int i = 0; i < AllEvents.Count; i++)
             {
-                if (AllEvents[i].id == id)
+                if (AllEvents[i].ID == id)
                     return AllEvents[i];
             }
             return AllEvents[0];
@@ -34,8 +37,8 @@ namespace RumineSimulator_2._0
             List<Event> auth_events = new List<Event>();
             for (int i = 0; i < AllEvents.Count; i++)
             {
-                if ((AllEvents[i].Creator.Text == author.nick || AllEvents[i].participants.ContainsKey(author))
-                    && AllEvents[i].Importance != EventImportance.usual )
+                if ((AllEvents[i].Creator.nick == author.nick || AllEvents[i].participants.ContainsKey(author))
+                    && AllEvents[i].Rareness != EventImportance.usual )
                     auth_events.Add(AllEvents[i]);
             }
             auth_events.Reverse();
@@ -57,6 +60,16 @@ namespace RumineSimulator_2._0
                 }
 
             }
+        }
+        //Рандомизация пользователей для событий
+        public static void UsersRandomisation()
+        {
+            rnd_User = UsersControl.act_users[AdvRnd.random.Next(UsersControl.act_users.Count)];
+            do
+            {
+                rnd_UserAdd = UsersControl.act_users[AdvRnd.random.Next(UsersControl.act_users.Count)];
+            }
+            while (rnd_User == rnd_UserAdd);
         }
     }
 }

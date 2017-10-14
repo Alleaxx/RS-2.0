@@ -11,7 +11,7 @@ using System.Windows.Controls;
 
 namespace RumineSimulator_2._0
 {
-    class GuiString: IGUI
+    class GuiString
     {
         public ImageSource ImageSource { get; private set; }
         //Цвета

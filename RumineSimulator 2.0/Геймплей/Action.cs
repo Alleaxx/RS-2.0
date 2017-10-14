@@ -11,7 +11,6 @@ namespace RumineSimulator_2._0
         //Событие завершения действия
         public event EventHandler<ActionEventArgs> ShowEnd;
 
-
         //Временные свойства
         private DateTime beginning;
         public bool begin { get; set; }
@@ -24,33 +23,40 @@ namespace RumineSimulator_2._0
         }
         private int durance;
         public int Durance { get { return durance; } }
-
         private int remaining;
         public int Remaining { get { return remaining; } }
+        public bool ended { get; set; }
 
+        //id, имя, описание, результат
         private int id;
         public int Id { get { return id; } }
         private string name;
         public string Name { get { return name; } }
         private string description;
-        public string Description { get { return description; } }
+        public string Description { get { return description; } set { description = value; } }
 
-        public ActionDo ActDo;
+        public string result { get; set; }
+
+        //Выбранная игроком конфигурация действия
+        ActionInfo Information = new ActionInfo();
 
 
-        public Action(string Name,int Durance,ActionType type)
+        //Конструкторы
+        public Action(string Name,int Durance)
         {
             durance = Durance;
             remaining = durance;
             id = ActionControl.id_total + 1;
             name = Name;
             description = "Действие без заранее заданного описания";
-            ActDo = new ActionDo(this,type);
         }
-
-        public void SetDescr(string descr)
+        public Action() : this("", 10)
         {
-            description = descr;
+
+        }
+        public Action(ActionInfo information) : this("", 10)
+        {
+            Information = information;
         }
 
         //Начало события
@@ -66,12 +72,17 @@ namespace RumineSimulator_2._0
             remaining--;
             if (remaining == 0)
             {
-                ActDo.Ending(this);
+                Ending();
                 ShowEnd(this, new ActionEventArgs(this));
                 return true;
             }
             else
                 return false;
+        }
+        public virtual void Ending()
+        {
+            ended = true;
+            result = $"{ending.ToShortTimeString()}: Эффекта от действия нет. Тем не менее оно завершилось и вы его больше не увидите";
         }
 
         //GUI
@@ -84,15 +95,14 @@ namespace RumineSimulator_2._0
             //Главные параметры
             view.Add_Property(new GuiString(name, "", false, StringProfile.Header));
             view.Add_Property(new GuiString("id: ", id.ToString(), true, StringProfile.Usual));
-            view.Add_Property(new GuiString("Тип: ", ActDo.type.ToString(), true, StringProfile.Usual));
+            view.Add_Property(new GuiString("Тип: ", this.ToString(), true, StringProfile.Usual));
             if(begin)
                 view.Add_Property(new GuiString("Начало", beginning.ToShortTimeString(), true, StringProfile.Usual));
             view.Add_Property(new GuiString("Длится в минутах: ", durance.ToString(), true, StringProfile.Usual));
             //Дополнительно
             view.Add_Property(new GuiString("Дополнительно","", false, StringProfile.Header));
-            if (ActDo.succes)
+            if (ended)
                 view.Add_Property(new GuiString("Завершено","", true, StringProfile.Usual));
-            view.Add_Property(new GuiString("Тип длительности", ActDo.time.ToString(), true, StringProfile.Usual));
 
             return view;
         }

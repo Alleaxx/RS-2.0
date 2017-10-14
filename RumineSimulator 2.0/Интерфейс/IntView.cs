@@ -22,7 +22,6 @@ namespace RumineSimulator_2._0
 
         public virtual void Add_Property(List<GuiString> list, GuiString property)
         {
-            all_properties.Add(property);
             list.Add(property);
         }
 

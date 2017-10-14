@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace RumineSimulator_2._0
 {
-    static class AdvertisControl
+    class SlightEvent : Event
     {
+        public SlightEvent() : base()
+        {
+            daysToDelete = 2;
+        }
     }
 }

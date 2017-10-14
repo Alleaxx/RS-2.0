@@ -8,6 +8,8 @@ namespace RumineSimulator_2._0
 {
     static class Date
     {
+        public static event EventHandler DateChanged;
+
         static public DateTime current_date { get; private set; }
         static public DateTime current_date_prev { get; private set; }
         static public DateTime found_date { get; private set; }
@@ -24,6 +26,7 @@ namespace RumineSimulator_2._0
             current_date_prev = new DateTime();
             current_date_prev = current_date;
             current_date = current_date.AddMinutes(1);
+            DateChanged(current_date, new EventArgs());
 
         }
         public static void SetTimeGoSpeed(int Speed)

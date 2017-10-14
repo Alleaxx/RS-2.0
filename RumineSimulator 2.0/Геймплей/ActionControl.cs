@@ -83,4 +83,8 @@ namespace RumineSimulator_2._0
     {
         newMessage
     }
+    enum ActionTime
+    {
+        Short, medium, Long
+    }
 }

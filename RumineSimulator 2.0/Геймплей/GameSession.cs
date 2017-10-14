@@ -16,9 +16,9 @@ namespace RumineSimulator_2._0
         {
             enabled = true;
             playerId = AdvRnd.random.Next(1,UsersControl.all_users.Count);
-            ActionControl.AddAction(new Action("Тест", 60,ActionType.newMessage));
-            ActionControl.AddAction(new Action("Тест намбер ту", 60,ActionType.newMessage));
-            ActionControl.ActionQue.Last().SetDescr("Проверка описания");
+            ActionControl.AddAction(new Action("Тест", 60));
+            ActionControl.AddAction(new Action("Тест намбер ту", 60));
+            ActionControl.ActionQue.Last().Description = "Проверка описания";
         }
     }
 }

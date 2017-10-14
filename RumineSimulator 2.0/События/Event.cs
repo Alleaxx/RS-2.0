@@ -7,26 +7,20 @@ using System.Windows.Media;
 
 namespace RumineSimulator_2._0
 {
-    class Event
+    abstract class Event
     {
-        public long id;
-        public ImageSource ImageSource { get; private set; }
+        //id и изображение
+        private int id;
+        public int ID { get { return id; } }
+
+        private ImageSource imageSource;
+
+        //Имя, описание
         public string Name { get; set; }
-        public string sel_description { get; private set; }
-        public List<string> descriptions = new List<string>();
-        public EventType EventType { get; private set; }
-        public EventType EventGlobalType { get; set; }
+        public string description { get; set; }
 
         public DateTime date { get; set; }
-        public int Duration { get; set; }
-        public DateTime date_end { get; private set; }
-        //Информация для подробного просмотра
-        public IntView_Event InterfaceInfo
-        {
-            get { return new IntView_Event(this); }
-        }
         //Строка для представления в списках
-        public GuiString InterfaceInfoClassicString { get; set; }
         public bool Reasonable { get; private set; }
 
         public float monthMod { get; private set; }
@@ -34,18 +28,18 @@ namespace RumineSimulator_2._0
         public float dayMod { get; private set; }
         public int current_valMinute_mod { get; private set; }
 
-        //Важность события - зависит кол-во дней, которое оно не будет удаляться
-        private EventImportance importance;
-        public EventImportance Importance
+        //Редкость события
+        private EventImportance rareness;
+        public EventImportance Rareness
         {
             get
             {
-                return importance;
+                return rareness;
             }
             set
             {
-                importance = value;
-                switch (importance)
+                rareness = value;
+                switch (rareness)
                 {
                     case EventImportance.usual:
                         daysToDelete = 2;
@@ -68,75 +62,103 @@ namespace RumineSimulator_2._0
 
         public int daysToDelete { get; set; }
 
-        public Event_Creator Creator { get; private set; }
+        //Участники и создатель
         public Dictionary<User, string> participants = new Dictionary<User, string>();
-        public List<Event> connected_events = new List<Event>();
-
+        public User Creator { get; set; }
 
         public List<GuiString> eventSpec_properties = new List<GuiString>();
 
-        public Event(string name,EventType type)
+        public Event()
         {
+            EventsControl.UsersRandomisation();
             id = EventsControl.id + 1;
             EventsControl.id++;
-            Name = name;
-            EventType = type;
-            EventGlobalType = EventType.usual;
+            Name = "Новое событие";
             date = Date.current_date;
-            Importance = EventImportance.rare;
+            Rareness = EventImportance.rare;
         }
 
-        public virtual void EventAdd1_BasicInfo(Event_Creator creator)
-        {
-            Creator = creator;
-        }
-        public virtual void EventAdd3_Mods(int currDay_mod,float day_mod,float week_mod,float month_mod)
+        //Модификаторы события
+        public void AddMods(int currDay_mod,float day_mod,float week_mod,float month_mod)
         {
             current_valMinute_mod = currDay_mod;
             dayMod = day_mod;
             weekMod = week_mod;
             monthMod = month_mod;
         }
-        public virtual void EventAdd4_Participants(User user,string role)
+        //Участники события
+        public void AddParticipant(User user,string role)
         {
             participants.Add(user, role);
-        }
-        public virtual void EventAdd5_ImageSource(ImageSource source)
-        {
-            ImageSource = source;
-        }
-        public virtual void EventAdd6_Dates(int duration)
-        {
-            Duration = duration;
-            date_end = date;
-            date_end.AddMinutes(duration);
-        }
-        //Добавление полного описания(бывшие объявления)
-        public void EventAdd7_Description(string adv)
-        {
-            descriptions.Add(adv);
-        }
-        public void EventAdd8_Color(string back = "",string fore = "")
-        {
-
-        }
-        public void EventEnd_DescrChoose()
-        {
-            sel_description = AdvertisControl.GetAdvertisEvent(this);
-            InterfaceInfoClassicString = InterfaceInfo.classic_string;
-            InterfaceInfoClassicString.text_name.Text = $"{date.ToShortTimeString()}: {Name}";
-            InterfaceInfoClassicString.SetGUIName(GUITypes.simEvent, (int)id);
         }
 
         public virtual void EventAction()
         {
-            EventsControl.AllEvents.Add(this);
+            Creator = participants.ElementAt(0).Key;
         }
-
-        public virtual void DayPass()
+        public void DayPass()
         {
             daysToDelete--;
         }
+
+        public IntView GetGui()
+        {
+            IntView view = new IntView();
+            //Базовая информация
+            view.classic_string = new GuiString(Name, "", true);
+            view.classic_string.SetGUIName(GUITypes.simEvent, (Int32)id);
+
+            switch (Rareness)
+            {
+                case EventImportance.usual:
+                    view.classic_string.Item.IsHitTestVisible = false;
+                    view.classic_string.SetColor("", "#FF575757");
+                    break;
+                case EventImportance.unusual:
+                    view.classic_string.SetColor("", "#FF2EAA28");
+                    break;
+                case EventImportance.rare:
+                    view.classic_string.SetColor("", "#FF2552E8");
+                    break;
+                case EventImportance.epic:
+                    view.classic_string.SetColor("", "#FF472581");
+                    break;
+                case EventImportance.historical:
+                    view.classic_string.SetColor("", "#FFE88F25");
+                    break;
+            }
+
+            view.Add_Property(new GuiString("Дата: ", $"{date.ToLongDateString()} {date.ToShortTimeString()}"));
+            view.all_properties.AddRange(eventSpec_properties);
+            view.Add_Property(new GuiString("Прочие параметры", "", false, StringProfile.Header));
+            if (Creator != null)
+                view.Add_Property(new GuiString("Создатель: ", Creator.nick));
+            view.Add_Property(new GuiString("Тип: ", ToString()));
+            view.Add_Property(new GuiString($"Важность: ", $"{Rareness}({daysToDelete})"));
+            view.Add_Property(new GuiString("Параметр активности: ", current_valMinute_mod.ToString()));
+            if (dayMod != 0)
+                view.Add_Property(new GuiString("Мод. дня: ", dayMod.ToString()));
+            if (weekMod != 0)
+                view.Add_Property(new GuiString("Мод. недели: ", weekMod.ToString()));
+            if (monthMod != 0)
+                view.Add_Property(new GuiString("Мод. месяца: ", monthMod.ToString()));
+
+
+            //Участники
+            view.Add_Property(new GuiString("Cписок участников: ", $"({participants.Count})", false, StringProfile.Header));
+            for (int i = 0; i < participants.Count; i++)
+            {
+                GuiString user_reaction = new GuiString(participants.ElementAt(i).Key.nick, "", false, StringProfile.Usual);
+                user_reaction.SetColor("", participants.ElementAt(i).Key.group.ColorHTML);
+                view.Add_Property(user_reaction);
+                view.Add_Property(new GuiString(participants.ElementAt(i).Value, ""));
+            }
+
+
+            return view;
+        }
+
+
     }
 
     enum EventType

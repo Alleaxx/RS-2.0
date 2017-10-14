@@ -37,8 +37,6 @@ namespace RumineSimulator_2._0
             Add_StatProperty((new GuiString("Условие вражды: ", $"{GlobalParams.enemy_condition}", false)));
             Add_StatProperty((new GuiString("Условие соперничества: ", $"{GlobalParams.rival_condition}", false)));
 
-            Add_StatProperty((new GuiString("Граница значений характера: ", $"{GlobalParams.charFeature_cap}", false)));
-
             Add_StatProperty((new GuiString("Длительность бана предупреждениями: ", $"{GlobalParams.warning_durings}", false)));
 
         }

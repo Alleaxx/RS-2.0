@@ -114,30 +114,27 @@
     <Compile Include="Активность\ActivityEventArgs.cs" />
     <Compile Include="Геймплей\Action.cs" />
     <Compile Include="Геймплей\ActionControl.cs" />
-    <Compile Include="Геймплей\ActionDo.cs" />
     <Compile Include="Геймплей\ActionEventArgs.cs" />
+    <Compile Include="Геймплей\ActionInfo.cs" />
     <Compile Include="Геймплей\GameSession.cs" />
+    <Compile Include="Геймплей\Типы действий\MessageAction.cs" />
     <Compile Include="Отношения\IntView_Relation.cs" />
     <Compile Include="Отношения\IntView_RelationControl.cs" />
     <Compile Include="Пользователь\Opinion.cs" />
     <Compile Include="Пользователь\OpinionControl.cs" />
-    <Compile Include="События\EventStatChange.cs" />
-    <Compile Include="События\EventStatChange_Preset.cs" />
+    <Compile Include="События\Серые события\EventStatChange.cs" />
+    <Compile Include="События\Серые события\EventStatChange_Preset.cs" />
     <Compile Include="События\EventUsualDay_Preset.cs" />
+    <Compile Include="События\Серые события\CommentEventSc.cs" />
     <Compile Include="Статистика и прочее системное\EnumToString.cs" />
     <Compile Include="Статистика и прочее системное\IntView_Statistics.cs" />
     <Compile Include="Статистика и прочее системное\Statistic.cs" />
     <Compile Include="Активность\Activity.cs" />
-    <Compile Include="События\Event_Creator.cs" />
-    <Compile Include="События\HistoricEvents_List.cs" />
-    <Compile Include="События\HistoricEvent.cs" />
     <Compile Include="События\EventsControl.cs" />
     <Compile Include="События\Event.cs" />
-    <Compile Include="Интерфейс\IGUI.cs" />
     <Compile Include="Интерфейс\IntView.cs" />
     <Compile Include="Активность\IntView_Activity.cs" />
     <Compile Include="Бан\IntView_Ban.cs" />
-    <Compile Include="События\IntView_Event.cs" />
     <Compile Include="Фракции\IntView_Fraction.cs" />
     <Compile Include="Трейты\IntView_Trait.cs" />
     <Compile Include="Группы\IntView_Group.cs" />
@@ -165,7 +162,6 @@
     <Compile Include="Трейты\TraitsEnum.cs" />
     <Compile Include="Трейты\Trait.cs" />
     <Compile Include="Трейты\TraitsList.cs" />
-    <Compile Include="Характер\UserFeaturesEnum.cs" />
     <Compile Include="Warnings.xaml.cs">
       <DependentUpon>Warnings.xaml</DependentUpon>
     </Compile>

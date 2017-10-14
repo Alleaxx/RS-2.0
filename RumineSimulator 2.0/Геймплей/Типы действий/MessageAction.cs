@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace RumineSimulator_2._0
 {
-    class EventStatChange : Event
+    class MessageAction : Action
     {
-        public EventStatChange(string name,EventType type, int days_delete = 2) : base(name,type)
+        public override void Ending()
         {
-            daysToDelete = days_delete;
+            base.Ending();
+            //код
         }
     }
 }

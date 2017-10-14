@@ -125,10 +125,10 @@ namespace RumineSimulator_2._0
             private set
             {
                 last_Event = value;
-                if (last_Event.EventGlobalType == EventType.small)
-                    last_SmallEvent = last_Event;
-                if (last_Event.EventGlobalType == EventType.historic)
-                    last_HistoricEvent = last_Event;
+                //if (last_Event.EventGlobalType == EventType.small)
+                //    last_SmallEvent = last_Event;
+                //if (last_Event.EventGlobalType == EventType.historic)
+                //    last_HistoricEvent = last_Event;
             }
         }
 
@@ -314,66 +314,66 @@ namespace RumineSimulator_2._0
             //Сообщение
             if (AdvRnd.PrsChanse((int)current_valActivity_Real))
             {
-                new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.message));
+                new_events.Add(new MessageEventSl());
             }
             //Комментарий
             if (AdvRnd.PrsChanse((int)current_valActivity_Real / 10))
             {
-                new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.comment));
+                new_events.Add(new CommentEventSl());
             }
-            //Новость
-            if (AdvRnd.PrsChanse((int)(current_valActivity_Real / 10), 600))
-            {
-                new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.news));
-            }
-            //Изменение репутации
-            if (AdvRnd.PrsChanse((int)(current_valActivity_Real / 10), 500))
-            {
-                new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.reputation));
-            }
-            if (AdvRnd.PrsChanse((int)(current_valActivity_Real / 10), 5000))
-            {
-                new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.ban));
-            }
+            ////Новость
+            //if (AdvRnd.PrsChanse((int)(current_valActivity_Real / 10), 600))
+            //{
+            //    new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.news));
+            //}
+            ////Изменение репутации
+            //if (AdvRnd.PrsChanse((int)(current_valActivity_Real / 10), 500))
+            //{
+            //    new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.reputation));
+            //}
+            //if (AdvRnd.PrsChanse((int)(current_valActivity_Real / 10), 5000))
+            //{
+            //    new_events.Add(EventStatChange_Preset.returnStatChangeEvent(EventType.ban));
+            //}
 
-            //Проверка на планируемые события
-            for (int i = 0; i < planned_todayEvents.Count; i++)
-            {
-                if (AdvRnd.PrsChanse((int)(hour_modActivity * 10), 1000))
-                {
-                    new_events.Add(EventUsualDay_Preset.returnUsualDayEvent(planned_todayEvents[i]));
-                    planned_todayEvents.RemoveAt(i);
-                    i--;
-                }
-            }
+            ////Проверка на планируемые события
+            //for (int i = 0; i < planned_todayEvents.Count; i++)
+            //{
+            //    if (AdvRnd.PrsChanse((int)(hour_modActivity * 10), 1000))
+            //    {
+            //        new_events.Add(EventUsualDay_Preset.returnUsualDayEvent(planned_todayEvents[i]));
+            //        planned_todayEvents.RemoveAt(i);
+            //        i--;
+            //    }
+            //}
 
-            //Новый день, планировка событий, которые должны произойти в течение дня
-            if (newday)
-            {
-                new_events.Add(EventUsualDay_Preset.returnUsualDayEvent(EventType.dayEnd));
+            ////Новый день, планировка событий, которые должны произойти в течение дня
+            //if (newday)
+            //{
+            //    new_events.Add(EventUsualDay_Preset.returnUsualDayEvent(EventType.dayEnd));
 
 
-                //Заход админов на сайт
-                if (AdvRnd.PrsChanse(25))
-                {
-                    planned_todayEvents.Add(EventType.adminCome);
-                }
-                //Крупная дискуссия
-                if (AdvRnd.PrsChanse(55))
-                {
-                    planned_todayEvents.Add(EventType.bigDiskussion);
-                }
-                //Уход и приход пользователей
-                if (AdvRnd.PrsChanse(1))
-                {
-                    planned_todayEvents.Add(EventType.userLeave);
-                }
-                if (AdvRnd.PrsChanse(1))
-                {
-                    planned_todayEvents.Add(EventType.userCome);
-                }
+            //    //Заход админов на сайт
+            //    if (AdvRnd.PrsChanse(25))
+            //    {
+            //        planned_todayEvents.Add(EventType.adminCome);
+            //    }
+            //    //Крупная дискуссия
+            //    if (AdvRnd.PrsChanse(55))
+            //    {
+            //        planned_todayEvents.Add(EventType.bigDiskussion);
+            //    }
+            //    //Уход и приход пользователей
+            //    if (AdvRnd.PrsChanse(1))
+            //    {
+            //        planned_todayEvents.Add(EventType.userLeave);
+            //    }
+            //    if (AdvRnd.PrsChanse(1))
+            //    {
+            //        planned_todayEvents.Add(EventType.userCome);
+            //    }
 
-            }
+            //}
 
             //Действия с новыми событиями
             foreach (Event new_event in new_events)
@@ -383,16 +383,6 @@ namespace RumineSimulator_2._0
                 LastEvent_ModsModifier();
                 NewEventAdded(new_event,new ActivityEventArgs("Новое событие"));
             }
-
-            HistoricEvent h_event = HistoricEvents_List.EventCheck();
-            if (h_event != null)
-            {
-                Last_Event = h_event;
-                EventsControl.AllEvents.Add(Last_Event);
-                LastEvent_ModsModifier();
-            }
-
-
         }
         //Событие на изменение параметров активности в интерфейсе
         public static void LastEvent_ModsModifier()

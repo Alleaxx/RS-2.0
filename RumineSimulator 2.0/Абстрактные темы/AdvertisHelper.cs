@@ -36,7 +36,7 @@ namespace RumineSimulator_2._0
         //Замена текста с учетом события
         public static string TextRandom(string t, Event eventt)
         {
-            t = t.Replace("user_nick", $"{eventt.Creator.Text}");
+            t = t.Replace("user_nick", $"{eventt.Creator.nick}");
             t = t.Replace("date", $"{eventt.date.ToLongDateString()} в {eventt.date.ToShortTimeString()}");
             string random_state = states[AdvRnd.random.Next(states.Count)];
             t = t.Replace("state", random_state);
