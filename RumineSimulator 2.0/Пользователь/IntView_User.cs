@@ -46,19 +46,6 @@ namespace RumineSimulator_2._0
             Add_UserBasicProps(new GuiString("Посещение: ", user.last_activity.ToLongDateString()));
             Add_UserBasicProps(new GuiString("Активность: ", $"{user.activity}"));
             Add_UserBasicProps(new GuiString("Неизвестен?: ", $"{user.unknown}"));
-            if (user.main_fraction != null)
-            {
-                Add_UserBasicProps(new GuiString("Фракции", "", false, StringProfile.Header));
-                Add_UserBasicProps(new GuiString("Главная: ", user.main_fraction.name, true));
-                basic_props.Last().SetGUIName(GUITypes.fraction, user.main_fraction.id);
-                basic_props.Last().SetSize(14, 10);
-                foreach (Fraction fraction in user.other_fractions)
-                {
-                    Add_UserBasicProps(new GuiString("Дополнительная: ", fraction.name, true));
-                    basic_props.Last().SetGUIName(GUITypes.fraction, fraction.id);
-                    basic_props.Last().SetSize(14, 10);
-                }
-            }
             Add_UserBasicProps(new GuiString("Дополнительно", "", false, StringProfile.Header));
             basic_props.Last().SetSize(18, 14);
             Add_UserBasicProps(new GuiString("Предупреждения: ", user.LastBan.Warn_sum.ToString(), true));

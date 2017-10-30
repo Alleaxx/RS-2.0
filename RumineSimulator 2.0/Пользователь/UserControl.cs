@@ -37,34 +37,10 @@ namespace RumineSimulator_2._0
         {
             User generated_user = new User(admin);
             all_users.Add(generated_user);
-
-            #region Статистика(добавление параметров пользователей
-            Statistic.aver_adeq += generated_user.character.adeq.Value;
-            Statistic.aver_rakness += generated_user.character.rakness.Value;
-            Statistic.aver_conservative += generated_user.character.conservative.Value;
-            Statistic.aver_tolerance += generated_user.character.tolerance.Value;
-            Statistic.aver_creativity += generated_user.character.creativity.Value;
-            Statistic.aver_sciense += generated_user.character.sciense.Value;
-            Statistic.aver_humanist += generated_user.character.humanist.Value;
-            Statistic.aver_historic += generated_user.character.historic.Value;
-            Statistic.aver_leaveChanse += generated_user.character.leaveChanse.Value;
-            #endregion
         }
         //Генерация отношений для каждого пользователя из списка юзверей
         static public void GenerateRelations()
         {
-            #region Статистика(деление параметров на кол-во пользователей)
-            Statistic.aver_adeq /= act_users.Count;
-            Statistic.aver_rakness /= act_users.Count;
-            Statistic.aver_conservative /= act_users.Count;
-            Statistic.aver_tolerance /= act_users.Count;
-            Statistic.aver_creativity /= act_users.Count;
-            Statistic.aver_sciense /= act_users.Count;
-            Statistic.aver_humanist /= act_users.Count;
-            Statistic.aver_historic /= act_users.Count;
-            Statistic.aver_leaveChanse /= act_users.Count;
-            #endregion
-
             for (int i = 0; i < all_users.Count; i++)
             {
                 all_users[i].GenerateRelation();
@@ -91,56 +67,6 @@ namespace RumineSimulator_2._0
                 act_users[i].CheckingForUpdates();
             }
         }
-
-        static public void FractionChoose()
-        {
-            foreach (User user in act_users)
-            {
-                //Добавляем доступные фракции
-                List<Fraction> Av_fracs = new List<Fraction>();
-                foreach (Fraction fraction in FractionList.AllFractions)
-                {
-                    if (fraction.MemberAcceptCheck(user))
-                        Av_fracs.Add(fraction);
-                }
-                //Распределяем доступные фракции
-                if (Av_fracs.Count == 0)
-                {
-                    user.JoinFraction(FractionList.NeutralFraction, true);
-                }
-                else if (Av_fracs.Count == 1)
-                {
-                    user.JoinFraction(Av_fracs[0], true);
-                }
-                else if (Av_fracs.Count > 1)
-                {
-                    //Шанс остаться нейтральным или все-таки
-                    if (AdvRnd.PrsChanse(75))
-                    {
-                        int rnd_id = AdvRnd.random.Next(Av_fracs.Count);
-                        user.JoinFraction(Av_fracs[rnd_id], true);
-                        Av_fracs.RemoveAt(rnd_id);
-                    }
-                    else
-                    {
-                        user.JoinFraction(FractionList.NeutralFraction, true);
-                    }
-                    //Добиваем оставшиеся фракции
-                    foreach (Fraction fract in Av_fracs)
-                    {
-                        if (AdvRnd.PrsChanse(50))
-                        {
-                            user.JoinFraction(fract, false);
-                        }
-                    }
-                }
-            }
-            foreach (Fraction fr in FractionList.AllFractions)
-            {
-                fr.FractionCreationEnd();
-            }
-        }
-
         //Возвращение списка пользователей по их активности и неизвестности
         static public List<User> UsersRet(bool active = true, bool unknown = false, bool admin = false)
         {
@@ -318,7 +244,7 @@ namespace RumineSimulator_2._0
                     sort = true;
                     foreach (TraitsType t_type in req_traits)
                     {
-                        if (!user.traits.Contains(TraitsList.SearchTrait(t_type)))
+                        if (!user.traits.Contains(Trait.SearchTrait(t_type)))
                             sort = false;
                     }
                 }
@@ -326,7 +252,7 @@ namespace RumineSimulator_2._0
                 {
                     foreach (TraitsType t_type in req_traits)
                     {
-                        if (user.traits.Contains((TraitsList.SearchTrait(t_type))))
+                        if (user.traits.Contains((Trait.SearchTrait(t_type))))
                             sort = true;
                     }
                 }

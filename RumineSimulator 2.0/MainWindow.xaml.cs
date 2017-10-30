@@ -35,24 +35,23 @@ namespace RumineSimulator_2._0
         {
             InitializeComponent();
             Nicks.AvasInit();
-            GroupsControl.UserGroupsInitCreation();
-            TraitsList.TraitsInit();
+            Group.GroupsCreation();
+            Trait.TraitsInit();
             TopicControl.TopicsInit();
             ReputationReason.ReasonsInit();
-            FractionList.FractionsList();
             text_log.AppendText($"\nДаты установлены на: ");
             Date.InitDate(new DateTime(2011, 07, 27), new DateTime(2013, 07, 19, 12, 0, 0));
             text_log.AppendText($"\nДата создания румине: {Date.found_date.ToShortDateString()}");
             text_log.AppendText($"\nНынешняя дата: {Date.ReturnCurrDate()}");
             StatusTextData.Text = Date.ReturnCurrDate();
             text_foundDate.Text = Date.found_date.ToShortDateString();
-            for (int i = 0; i < TraitsList.allTraits.Count; i++)
+            for (int i = 0; i < Trait.allTraits.Count; i++)
             {
-                list_TraitsInfo.Items.Add(TraitsList.allTraits[i].InterfaceInfo.classic_string.Item);
+                list_TraitsInfo.Items.Add(Trait.allTraits[i].InterfaceInfo.classic_string.Item);
             }
-            for (int i = 0; i < GroupsControl.groups.Count; i++)
+            for (int i = 0; i < Group.groups.Count; i++)
             {
-                list_GroupsInfo.Items.Add(GroupsControl.groups[i].InterfaceInfo.classic_string.Item);
+                list_GroupsInfo.Items.Add(Group.groups[i].InterfaceInfo.classic_string.Item);
             }
 
             UserPropsEventsOn();
@@ -300,8 +299,7 @@ namespace RumineSimulator_2._0
 
             //Инициализация после создания пользователей
             UsersControl.GenerateRelations();
-            GroupsControl.ModerChoose();
-            UsersControl.FractionChoose();
+            Group.ModerChoose();
             Activity.Activity_Init();
             Activity.NewEventAdded += Presenter.EventNewCheck;
             Presenter.EventsListUpdated += Presenter_EventsListUpdated;
@@ -552,26 +550,9 @@ namespace RumineSimulator_2._0
         //Изменение фракции в списке и ее обновление
         private void list_FractionsInfo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            InfoFractionsUpdate_Alpha();
         }
         private void InfoFractionsUpdate_Alpha()
         {
-            list_ViewListDetails.Items.Clear();
-            try
-            {
-                ListBoxItem item = (ListBoxItem)list_FractionsInfo.SelectedItem;
-                Presenter.SelectionCheck(item.Name);
-                Fraction sel_fraction = Presenter.selected_fraction;
-                foreach (GuiString str in sel_fraction.Interface_Info.fraction_properties)
-                {
-                    list_ViewListDetails.Items.Add(str.Item);
-                }
-
-            }
-            catch
-            {
-
-            }
         }
         #endregion
 
@@ -596,13 +577,6 @@ namespace RumineSimulator_2._0
                 user_relation = user.InterfaceInfo.classic_string;
                 user_relation.SetGUIName(GUITypes.relation, user.user_id);
                 combo_RelationChoose.Items.Add(user_relation.Item);
-            }
-
-            //Обновление фракций
-            list_FractionsInfo.Items.Clear();
-            foreach (Fraction fraction in FractionList.AllFractions)
-            {
-                list_FractionsInfo.Items.Add(fraction.Interface_Info.classic_string.Item);
             }
             //Обновление статистики
             list_Statistics.Items.Clear();

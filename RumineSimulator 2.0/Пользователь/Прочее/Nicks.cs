@@ -279,6 +279,8 @@ namespace RumineSimulator_2._0
             AvaPath.Add("CrashBoy01", new BitmapImage(new Uri("pack://application:,,,/Resources/crash.gif")));
             AvaPath.Add("Allexx", new BitmapImage(new Uri("pack://application:,,,/Resources/allexx.png")));
             AvaPath.Add("naswai", new BitmapImage(new Uri("pack://application:,,,/Resources/naswai.gif")));
+            AvaPath.Add("MadMoss", new BitmapImage(new Uri("pack://application:,,,/Resources/Madmoss.jpg")));
+            AvaPath.Add("south_park", new BitmapImage(new Uri("pack://application:,,,/Resources/south.gif")));
 
         }
 

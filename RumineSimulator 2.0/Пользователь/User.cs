@@ -31,8 +31,6 @@ namespace RumineSimulator_2._0
         public RelationControl relations { get; private set; }
         public Reputation reputation { get; }
         public Karma karma { get; }
-        public Fraction main_fraction { get; set; }
-        public List<Fraction> other_fractions = new List<Fraction>();
         public List<Trait> traits = new List<Trait>();
         public List<Ban> bans = new List<Ban>();
         public Ban LastBan
@@ -109,13 +107,13 @@ namespace RumineSimulator_2._0
 
             //Генерируем характер
             character = new Character(this);
-            traits = TraitsList.ReturnTraits(this);
+            traits = Trait.ReturnTraits(this);
 
             //На основе характера получаем стереотип и доступные группы
             if (!admin)
-                group = GroupsControl.ReturnUserRandomGroup();
+                group = Group.ReturnRndGroup();
             else
-                group = GroupsControl.GroupSearch(GroupsType.Admin);
+                group = Group.GroupSearch(GroupsType.Admin);
             SetLikesRatings();
 
             //Инициализируем отношения                                             
@@ -187,16 +185,16 @@ namespace RumineSimulator_2._0
         //Влияние трейтов на все параметры
         private void TraitMod()
         {
-            if (traits.Contains(TraitsList.SearchTrait(TraitsType.accurateguy)))
+            if (traits.Contains(Trait.SearchTrait(TraitsType.accurateguy)))
             {
                 news_quality += 10;
             }
-            if (traits.Contains(TraitsList.SearchTrait(TraitsType.newslover)))
+            if (traits.Contains(Trait.SearchTrait(TraitsType.newslover)))
             {
                 news *= AdvRnd.random.Next(1, 3) + 3;
                 comments = comments * AdvRnd.random.Next(1, 3) + 5;
             }
-            if (traits.Contains(TraitsList.SearchTrait(TraitsType.leader)))
+            if (traits.Contains(Trait.SearchTrait(TraitsType.leader)))
             {
                 forum_influence *= 2;
             }
@@ -261,32 +259,32 @@ namespace RumineSimulator_2._0
         {
             moder_chanse = 0;
 
-            if (traits.Contains(TraitsList.SearchTrait(TraitsType.ded)))
+            if (traits.Contains(Trait.SearchTrait(TraitsType.ded)))
             {
                 moder_chanse += 10;
             }
-            else if (traits.Contains(TraitsList.SearchTrait(TraitsType.newfag)))
+            else if (traits.Contains(Trait.SearchTrait(TraitsType.newfag)))
             {
                 moder_chanse -= 10;
             }
-            if (traits.Contains(TraitsList.SearchTrait(TraitsType.accurateguy)))
+            if (traits.Contains(Trait.SearchTrait(TraitsType.accurateguy)))
             {
                 moder_chanse += 5;
             }
-            if (traits.Contains(TraitsList.SearchTrait(TraitsType.rak)))
+            if (traits.Contains(Trait.SearchTrait(TraitsType.rak)))
             {
                 moder_chanse -= 30;
             }
-            if (traits.Contains(TraitsList.SearchTrait(TraitsType.madguy)))
+            if (traits.Contains(Trait.SearchTrait(TraitsType.madguy)))
             {
                 moder_chanse -= 15;
             }
-            if (traits.Contains(TraitsList.SearchTrait(TraitsType.Wpower)))
+            if (traits.Contains(Trait.SearchTrait(TraitsType.Wpower)))
             {
                 if (AdvRnd.random.Next(2) == 0)
                     moder_chanse += 10;
             }
-            if (traits.Contains(TraitsList.SearchTrait(TraitsType.leader)))
+            if (traits.Contains(Trait.SearchTrait(TraitsType.leader)))
             {
                 moder_chanse += 5;
             }
@@ -339,27 +337,9 @@ namespace RumineSimulator_2._0
                 blocked_users_rep.Add(UsersControl.act_users[i], 0);
             }
             if(!admin)
-                group = GroupsControl.ReturnUserGroup(this);
+                group = Group.ReturnUserGroup(this);
             SetModerChanse();
             SetForum_influence();
-        }
-
-        //Присоединение юзера к фракции
-        public void JoinFraction(Fraction Fraction, bool main)
-        {
-            if (main)
-            {
-                if (Fraction.MemberAcceptCheck(this))
-                {
-                    main_fraction = Fraction;
-                    Fraction.members.Add(this);
-                }
-            }
-            else
-            {
-                other_fractions.Add(Fraction);
-                Fraction.members.Add(this);
-            }
         }
 
         //Обновление юзера, бан и карма

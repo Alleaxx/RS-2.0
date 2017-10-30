@@ -12,7 +12,6 @@ namespace RumineSimulator_2._0
 
         //Выбранные в интерфейсе объекты
         public static User selected_user;
-        public static Fraction selected_fraction;
         public static Ban selected_ban;
         public static Event selected_event;
         public static Group selected_group;
@@ -139,7 +138,7 @@ namespace RumineSimulator_2._0
                         selected_user = UsersControl.UserSearch(id);
                         break;
                     case "group":
-                        selected_group = GroupsControl.GroupSearch(id);
+                        selected_group = Group.GroupSearch(id);
                         break;
                     case "ban":
                         selected_ban = UsersControl.UserSearch(id).LastBan;
@@ -147,11 +146,8 @@ namespace RumineSimulator_2._0
                     case "simEvent":
                         selected_event = EventsControl.EventSearch(id);
                         break;
-                    case "fraction":
-                        selected_fraction = FractionList.SearchFraction(id);
-                        break;
                     case "trait":
-                        selected_trait = TraitsList.SearchTrait(id);
+                        selected_trait = Trait.SearchTrait(id);
                         break;
                     case "relation":
                         break;
@@ -198,15 +194,13 @@ namespace RumineSimulator_2._0
                     case "user":
                         return UsersControl.UserSearch(id).InterfaceInfo;
                     case "group":
-                        return GroupsControl.GroupSearch(id).InterfaceInfo;
+                        return Group.GroupSearch(id).InterfaceInfo;
                     case "ban":
                         return UsersControl.UserSearch(id).LastBan.InterfaceInfo;
                     case "simEvent":
                         return EventsControl.EventSearch(id).GetGui();
-                    case "fraction":
-                        return FractionList.SearchFraction(id).Interface_Info;
                     case "trait":
-                        return TraitsList.SearchTrait(id).InterfaceInfo;
+                        return Trait.SearchTrait(id).InterfaceInfo;
                     case "relation":
                         return selected_user.relations.RelationReturn(UsersControl.UserSearch(id)).InterfaceInfo;
                     case "action":

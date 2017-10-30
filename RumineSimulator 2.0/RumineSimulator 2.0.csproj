@@ -128,6 +128,7 @@
     <Compile Include="События\Серые события\CommentEventSc.cs" />
     <Compile Include="Статистика и прочее системное\EnumToString.cs" />
     <Compile Include="Статистика и прочее системное\IntView_Statistics.cs" />
+    <Compile Include="Статистика и прочее системное\RsEventArgs.cs" />
     <Compile Include="Статистика и прочее системное\Statistic.cs" />
     <Compile Include="Активность\Activity.cs" />
     <Compile Include="События\EventsControl.cs" />
@@ -135,15 +136,12 @@
     <Compile Include="Интерфейс\IntView.cs" />
     <Compile Include="Активность\IntView_Activity.cs" />
     <Compile Include="Бан\IntView_Ban.cs" />
-    <Compile Include="Фракции\IntView_Fraction.cs" />
     <Compile Include="Трейты\IntView_Trait.cs" />
     <Compile Include="Группы\IntView_Group.cs" />
     <Compile Include="Пользователь\IntView_User.cs" />
     <Compile Include="Интерфейс\Presenter.cs" />
     <Compile Include="Интерфейс\Базовые элементы\GuiProgressBar.cs" />
     <Compile Include="Интерфейс\Базовые элементы\GuiString.cs" />
-    <Compile Include="Фракции\Fraction.cs" />
-    <Compile Include="Фракции\FractionList.cs" />
     <Compile Include="Статистика и прочее системное\GlobalParams.cs" />
     <Compile Include="Бан\Ban.cs" />
     <Compile Include="Бан\Warning.cs" />
@@ -159,9 +157,7 @@
     <Compile Include="Характер\Список черт\RakCharFeature.cs" />
     <Compile Include="Характер\Список черт\AdeqCharFeature.cs" />
     <Compile Include="Характер\CharFeature.cs" />
-    <Compile Include="Трейты\TraitsEnum.cs" />
     <Compile Include="Трейты\Trait.cs" />
-    <Compile Include="Трейты\TraitsList.cs" />
     <Compile Include="Warnings.xaml.cs">
       <DependentUpon>Warnings.xaml</DependentUpon>
     </Compile>
@@ -179,7 +175,6 @@
     <Compile Include="Характер\Character.cs" />
     <Compile Include="Пользователь\UserControl.cs" />
     <Compile Include="Пользователь\Прочее\UserDescription.cs" />
-    <Compile Include="Группы\GroupsControl.cs" />
     <Compile Include="Группы\Group.cs" />
     <Compile Include="Пользователь\User.cs" />
     <Compile Include="Отношения\Relation.cs" />
@@ -562,6 +557,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Madmoss.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\south.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
