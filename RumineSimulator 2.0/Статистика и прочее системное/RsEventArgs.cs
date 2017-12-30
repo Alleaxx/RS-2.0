@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace RumineSimulator_2._0
 {
+    //Параметры реакции на событие, отправлющееся в View и пользователей
     class RsEventArgs : EventArgs
     {
         public string Name { get; }
@@ -28,6 +29,7 @@ namespace RumineSimulator_2._0
             Rel = EventRel.neutral;
         }
     }
+
     //Характеристика события 
     enum RsEventArg
     {

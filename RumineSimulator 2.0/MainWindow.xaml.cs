@@ -578,12 +578,6 @@ namespace RumineSimulator_2._0
                 user_relation.SetGUIName(GUITypes.relation, user.user_id);
                 combo_RelationChoose.Items.Add(user_relation.Item);
             }
-            //Обновление статистики
-            list_Statistics.Items.Clear();
-            foreach (GuiString str in Statistic.InterfaceInfo.statistics)
-            {
-                list_Statistics.Items.Add(str.Item);
-            }
 
             //Обновление событий
 

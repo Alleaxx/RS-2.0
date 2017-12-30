@@ -45,11 +45,6 @@ namespace RumineSimulator_2._0
             }
         }
         public int forum_influence;
-
-        //Мнение пользователя
-        public OpinionControl Opinion { get; private set; }
-
-
         public int messages { get; set; }
         public int likes { get; set; }
 
@@ -121,8 +116,6 @@ namespace RumineSimulator_2._0
             CharacterMod();
             TraitMod();
             bans.Add(new Ban(this));
-            //Добавляем мнения
-            Opinion = new OpinionControl(this);
         }
 
 
@@ -377,6 +370,12 @@ namespace RumineSimulator_2._0
                 if (last_thirty_Days.Count > 30)
                     last_thirty_Days.RemoveAt(0);
             }
+        }
+
+
+        public void EventEndedReaction(Event sender, RsEventArgs e)
+        {
+
         }
 
         #region IAdvertisable

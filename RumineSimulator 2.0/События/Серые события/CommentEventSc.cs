@@ -14,10 +14,10 @@ namespace RumineSimulator_2._0
         public MessageEventSl() : base()
         {
             Author = EventsControl.rnd_User;
-            Name = $"Сообщение от {EventsControl.rnd_User.nick}";
+            Name = $"Сообщение от {Author}";
             Rareness = EventImportance.usual;
-            participants.Add(EventsControl.rnd_User, "Автор");
-            string event_descr = $"{Abbrev.date} пользователь {EventsControl.rnd_User.nick} написал обычное сообщение на форуме румине. ";
+            participants.Add(Author, "Автор");
+            string event_descr = $"{Abbrev.date} пользователь {Author.nick} написал обычное сообщение на форуме румине. ";
             event_descr = event_descr + $"За него автор получил {likes} симпатий. ";
             description = event_descr;
             EventAction();
@@ -27,9 +27,9 @@ namespace RumineSimulator_2._0
         {
             Author = userMessage;
             //Создание события
-            Name = $"Сообщение от {userMessage}";
+            Name = $"Сообщение от {Author}";
             Rareness = rareness;
-            participants.Add(userMessage, "Автор");
+            participants.Add(Author, "Автор");
             description = descr;
             EventAction();
         }
@@ -38,10 +38,11 @@ namespace RumineSimulator_2._0
         //Действие события
         public override void EventAction()
         {
-            EventsControl.rnd_User.last_activity = Date.current_date;
-            EventsControl.rnd_User.messages++;
+            Author.last_activity = Date.current_date;
+            Author.messages++;
             Activity.Hour_messages++;
-            EventsControl.rnd_User.likes += likes;
+            Author.likes += likes;
+
             base.EventAction();
         }
     }
@@ -76,10 +77,11 @@ namespace RumineSimulator_2._0
         //Действие события
         public override void EventAction()
         {
-            EventsControl.rnd_User.last_activity = Date.current_date;
-            EventsControl.rnd_User.comments++;
-            EventsControl.rnd_User.likes += Rating;
+            Author.last_activity = Date.current_date;
+            Author.comments++;
+            Author.likes += Rating;
             Activity.day_comments++;
+            Author.EventEndedReaction(this, new RsEventArgs());
             base.EventAction();
         }
     }

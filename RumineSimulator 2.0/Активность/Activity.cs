@@ -321,6 +321,7 @@ namespace RumineSimulator_2._0
             {
                 new_events.Add(new CommentEventSl());
             }
+
             ////Новость
             //if (AdvRnd.PrsChanse((int)(current_valActivity_Real / 10), 600))
             //{

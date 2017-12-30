@@ -28,7 +28,6 @@ namespace RumineSimulator_2._0
         //Возвращает состояние отношений с заданным пользователем
         public RelationType RelationStateReturn(User user_rel)
         {
-            Statistic.relation_obj++;
             Relation relation = new Relation(owner, user_rel);
             //Друзья
             if(user_rel == owner)

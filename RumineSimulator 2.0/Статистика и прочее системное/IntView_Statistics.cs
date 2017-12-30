@@ -12,11 +12,6 @@ namespace RumineSimulator_2._0
 
         public IntView_Statistics()
         {
-            Add_StatProperty((new GuiString("Техническое", $"", false, StringProfile.Header)));
-            Add_StatProperty((new GuiString("Обращений к отношениям: ", $"{Statistic.relation_obj}", false)));
-            Add_StatProperty((new GuiString("Создано GUI-строк: ", $"{Statistic.guiString_obj}", false)));
-
-
             Add_StatProperty((new GuiString("Глобальные параметры", $"", false, StringProfile.Header)));
             Add_StatProperty((new GuiString("Условие дружбы: ", $"{GlobalParams.friend_condition}", false)));
             Add_StatProperty((new GuiString("Условие товарищечества: ", $"{GlobalParams.comrade_condition}", false)));
