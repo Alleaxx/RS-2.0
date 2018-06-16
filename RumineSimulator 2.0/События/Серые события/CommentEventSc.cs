@@ -8,13 +8,15 @@ namespace RumineSimulator_2._0
 {
     class MessageEventSl : SlightEvent
     {
+        //Свойства события ------------------------------------
         public int likes { get; }
         public User Author { get; }
-        //Рандомное сообщение
+
+        //Рандомное сообщение ------------------------------------
         public MessageEventSl() : base()
         {
             Author = EventsControl.rnd_User;
-            Name = $"Сообщение от {Author}";
+            Name = $"Сообщение от {Author.nick}";
             Rareness = EventImportance.usual;
             participants.Add(Author, "Автор");
             string event_descr = $"{Abbrev.date} пользователь {Author.nick} написал обычное сообщение на форуме румине. ";
@@ -27,7 +29,7 @@ namespace RumineSimulator_2._0
         {
             Author = userMessage;
             //Создание события
-            Name = $"Сообщение от {Author}";
+            Name = $"Сообщение от {Author.nick}";
             Rareness = rareness;
             participants.Add(Author, "Автор");
             description = descr;
@@ -35,7 +37,7 @@ namespace RumineSimulator_2._0
         }
 
 
-        //Действие события
+        //Действие события ------------------------------------
         public override void EventAction()
         {
             Author.last_activity = Date.current_date;
@@ -49,9 +51,11 @@ namespace RumineSimulator_2._0
 
     class CommentEventSl : SlightEvent
     {
+        //Свойства события ------------------------------------
         public int Rating { get; }
         public User Author { get; }
-        //Случайный комментарий
+
+        //Случайный комментарий ------------------------------------
         public CommentEventSl() : base()
         {
             Author = EventsControl.rnd_User;
@@ -74,7 +78,8 @@ namespace RumineSimulator_2._0
             Rating = rating;
             EventAction();
         }
-        //Действие события
+
+        //Действие события ------------------------------------
         public override void EventAction()
         {
             Author.last_activity = Date.current_date;

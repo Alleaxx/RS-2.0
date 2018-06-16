@@ -33,7 +33,6 @@ namespace RumineSimulator_2._0
 
         public GuiString(string Text, string Value,bool IsHited = true,StringProfile prof = StringProfile.Usual)
         {
-            Statistic.guiString_obj++;
             text_name.Text = Text;
             text_name.FontSize = 14;
             text_name.Margin = new Thickness(2, 2, 2, 2);
