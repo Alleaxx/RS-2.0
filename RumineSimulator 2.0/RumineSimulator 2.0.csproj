@@ -517,7 +517,6 @@
     <Resource Include="Resources\alokey.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="README.md" />
     <None Include="Resources\laps.jpg" />
   </ItemGroup>
   <ItemGroup>
